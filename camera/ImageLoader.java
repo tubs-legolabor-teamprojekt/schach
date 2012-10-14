@@ -12,6 +12,7 @@ public class ImageLoader {
 	
 	private int width, height;
 	private Vector<Integer> r1,r2,g1,g2,b1,b2;
+	private Vector<Integer> diffR, diffG, diffB;
 	
 	public ImageLoader() {	
 		r1 = new Vector<Integer>();
@@ -21,17 +22,42 @@ public class ImageLoader {
 		r2 = new Vector<Integer>();
 		g2 = new Vector<Integer>();
 		b2 = new Vector<Integer>();
+		
+		diffR = new Vector<Integer>();
+		diffG = new Vector<Integer>();
+		diffB = new Vector<Integer>();
 		}
+	
+	public void difference() {
+		for(int i=0; i<width*height; i++) {
+			diffR.add(Math.abs(r1.get(i)-r2.get(i)));
+			diffG.add(Math.abs(g1.get(i)-g2.get(i)));
+			diffB.add(Math.abs(b1.get(i)-b2.get(i)));
+		}
+	}
 	
 	/*
 	 * Testausgabe der RGB Werte des 1. Fotos...
 	 */
-	public void ausgabe() {
+	public void print() {
 		for(int i=0; i< width*height; i++) {
 			if(i%(width) == 0) {
 				System.out.println();	
 			}
-			System.out.printf("%03d/%03d/%03d  ",r1.get(i),g1.get(i),b1.get(i));
+			System.out.printf("%03d/%03d/%03d  ",diffR.get(i),diffG.get(i),diffB.get(i));
+		}	
+	}
+	
+	public void printDiffTable() {
+		for(int i=0; i< width*height; i++) {
+			if(i%(width) == 0) {
+				System.out.println();	
+			}
+			if(diffR.get(i)>10)
+				System.out.print("1 ");
+			else
+				System.out.print("0 ");
+			//System.out.printf("%03d/%03d/%03d  ",diffR.get(i),diffG.get(i),diffB.get(i));
 		}	
 	}
 	
@@ -67,8 +93,8 @@ public class ImageLoader {
 		this.height = bu.getHeight();
 		this.width = bu.getWidth();
 		
-		for(int x=0; x<width; x++) {
-			for(int y=0; y<height; y++) {
+		for(int y=0; y<height; y++) {
+			for(int x=0; x<width; x++) {
 				r.add((int)(((Math.pow(256,3)+bu.getRGB(x,y))/65536)));			//Umwandlung der ausgelesenen Werte...
 				g.add((int)(((Math.pow(256,3)+bu.getRGB(x,y))/256)%256));		//...in RGB Werte
 		        b.add((int)((Math.pow(256,3)+bu.getRGB(x,y))%256));
@@ -108,7 +134,10 @@ public class ImageLoader {
 	public static void main(String[] args) {
 		ImageLoader im = new ImageLoader();
 		im.takePhoto1(new File("test.jpg"));
-		im.ausgabe();
+		im.takePhoto2(new File("test2.jpg"));
+		im.difference();
+		im.print();
+		im.printDiffTable();
 
 	}
 
