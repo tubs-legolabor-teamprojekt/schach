@@ -11,16 +11,12 @@ Feld
 
 Konstanten
 ----------
-
-0: Leeres Feld
-1: black
-2: white
-3: rook (Turm)
-4: pawn (Bauer)
-5: knight (Springer/Pferd/Hottehü)
-6: bishop (Läufer)
-7: queen
-8: king
+1: rook (Turm)
+2: pawn (Bauer)
+3: knight (Springer/Pferd/Hottehü)
+4: bishop (Läufer)
+5: queen
+6: king
 
 
 Format zur Datenübertragung
@@ -31,5 +27,5 @@ Von den 16 Bits werden nur 10 Bits genutzt.
 - Bits  0-2: Y-Position
 - Bits  3-5: X-Position
 - Bits  6-8: Figur
-- Bit     9: Farbe
+- Bit     9: Farbe (1: Schwarz, 0: Weiß)
 - Bit 10-15: ungenutzt
