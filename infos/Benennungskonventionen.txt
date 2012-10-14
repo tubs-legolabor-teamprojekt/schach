@@ -1,0 +1,10 @@
+Komponenten
+-----------
+
+- game-coordinator
+- artificial intelligence
+- rules
+- motion-and-technic
+- communication
+- camera
+- gui
