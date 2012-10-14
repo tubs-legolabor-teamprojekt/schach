@@ -1,6 +1,8 @@
-#######################
-## coding guidelines ##
-#######################
+Allgemeine Informationen
+========================
+
+coding guidelines
+-----------------
 
 - Spaces statt Tabs
 - Funktionsnamen klein
@@ -12,4 +14,7 @@
 	- bei if, while etc.: gleiche Zeile
 
 
-ToDo List and so on in this File...
+
+Todo
+----
+coming soon...
