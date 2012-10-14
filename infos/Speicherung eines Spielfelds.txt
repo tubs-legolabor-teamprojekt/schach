@@ -5,10 +5,8 @@
 Feld
 ----
 
-- 1-dimensionales Byte-Array (0 - 63)
-- 0 - 63 entspricht den Schachfeldern
-- Byte-Zahl bestimmt Farbe und Figur an Position des Schachfelds.
-	- Position: Index des Byte-Arrays
+- 1-dimensionales Short-Array (0 - 63)
+- Die Größe des Arrays entspricht der Anzahl der im Spiel befindlichen Figuren. Der Wert des Feldes entspricht der Figur, seiner Farbe und der Position in binärer Kodierung als Short gespeichert (siehe unten). Somit werden leere Felder nicht unnötig mit übertragen, sondern nur die wichtigen Informationen.
 
 
 Konstanten
@@ -23,3 +21,15 @@ Konstanten
 6: bishop (Läufer)
 7: queen
 8: king
+
+
+Format zur Datenübertragung
+Short (16 bit)
+---------------------------
+
+Von den 16 Bits werden nur 10 Bits genutzt.
+- Bits  0-2: Y-Position
+- Bits  3-5: X-Position
+- Bits  6-8: Figur
+- Bit     9: Farbe
+- Bit 10-15: ungenutzt
