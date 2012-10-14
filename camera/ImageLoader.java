@@ -48,17 +48,57 @@ public class ImageLoader {
 		}	
 	}
 	
+	/*
+	 * Testausgabe der zu erkennenden markanten Unterschiede zwischen 2 Bildern unter
+	 * Berücksichtigung verschiedener Helligkeitsstufen der Bilder
+	 */
 	public void printDiffTable() {
+		int tolerance = sampleAverage();
+		int stDev = standardDeviation(tolerance);
+		
+		System.out.println("\n Differenzen mit Mittelwert "+tolerance+" und Standardabweichung "+stDev+" ermittelt");
 		for(int i=0; i< width*height; i++) {
 			if(i%(width) == 0) {
 				System.out.println();	
 			}
-			if(diffR.get(i)>10)
+			if( (int)((diffR.get(i) + diffG.get(i) + diffB.get(i))/3)>(tolerance+stDev))
 				System.out.print("1 ");
+				//System.out.print((int)((diffR.get(i) + diffG.get(i) + diffB.get(i))/3));
 			else
 				System.out.print("0 ");
 			//System.out.printf("%03d/%03d/%03d  ",diffR.get(i),diffG.get(i),diffB.get(i));
 		}	
+	}
+	
+	/*
+	 * Ermittelt den durchschnittlichen Toleranzdifferenzwert der beiden Bilder
+	 * Z.B. unterschiedliche Lichtverhältnisse erfordern andere Toleranzen...
+	 * (Mittelwert)
+	 * @return mittlere Differenz der beiden Bilder Pixel pro Pixel
+	 */
+	private int sampleAverage() {
+		int tolerance = 0;
+		for(int i=0; i< width*height; i++) {
+			tolerance += diffR.get(i)+diffG.get(i)+diffB.get(i);
+		}	
+		return (int) (tolerance/3) / (width*height);
+	}
+	
+	/*
+	 * Einfache Standardabweichung von der durchschnittlichen Toleranzdifferenz
+	 * @param average Mittelwert
+	 * @return mittlere Abweichung vom Mittelwert
+	 */
+	private int standardDeviation(int average) {
+		//nach Formel Var(x) = E(X^2)-E(X)^2 und sqrt(Var(X)) = Standardabweichung
+		int t = 0;
+		int av2 = (int) Math.pow(average, 2);
+		for(int i=0; i< width*height; i++) {
+			t += (int) Math.pow( (diffR.get(i)+diffG.get(i)+diffB.get(i))/3, 2);
+		}	
+		t = t/(width*height);
+		return (int) Math.sqrt(t-av2);
+		
 	}
 	
 	/*
@@ -133,12 +173,11 @@ public class ImageLoader {
 	
 	public static void main(String[] args) {
 		ImageLoader im = new ImageLoader();
-		im.takePhoto1(new File("test.jpg"));
-		im.takePhoto2(new File("test2.jpg"));
+		im.takePhoto1(new File("toleranz1.jpg"));
+		im.takePhoto2(new File("toleranz2.jpg"));
 		im.difference();
 		im.print();
 		im.printDiffTable();
-
 	}
 
 }
