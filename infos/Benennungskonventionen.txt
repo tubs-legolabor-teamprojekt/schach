@@ -1,5 +1,6 @@
-Komponenten
------------
+#################
+## Komponenten ##
+#################
 
 - game-coordinator
 - artificial intelligence
