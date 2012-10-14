@@ -1,0 +1,25 @@
+################################
+## Speicherung des Spielfelds ##
+################################
+
+Feld
+----
+
+- 1-dimensionales Byte-Array (0 - 63)
+- 0 - 63 entspricht den Schachfeldern
+- Byte-Zahl bestimmt Farbe und Figur an Position des Schachfelds.
+	- Position: Index des Byte-Arrays
+
+
+Konstanten
+----------
+
+0: Leeres Feld
+1: black
+2: white
+3: rook (Turm)
+4: pawn (Bauer)
+5: knight (Springer/Pferd/Hottehü)
+6: bishop (Läufer)
+7: queen
+8: king
