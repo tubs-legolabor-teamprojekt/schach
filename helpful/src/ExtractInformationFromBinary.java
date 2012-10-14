@@ -1,5 +1,5 @@
 /**
- * Diese Klasse bietet die Möglichkeit aus einem gegebenen Short-Wert
+ * Diese Klasse bietet die Moeglichkeit aus einem gegebenen Short-Wert
  * die beinhaltenden Informationen zu extrahieren.
  * 
  * @author Florian Franke
@@ -8,9 +8,9 @@
 public class ExtractInformationFromBinary {
 
 	/**
-	 * Wandelt den übergebenen Short-Wert in Binär um.
+	 * Wandelt den uebergebenen Short-Wert in Binaer um.
 	 * @param sh Short-Wert
-	 * @return String der Binär-Zahl des Short-Werts
+	 * @return String der Binaer-Zahl des Short-Werts
 	 */
 	public static String shortToBinary(short sh)
 	{
@@ -18,7 +18,7 @@ public class ExtractInformationFromBinary {
 	}
 	
 	/**
-	 * Wandelt den gegebenen Binär-Wert per BitShifting in Binärschreibweise um.
+	 * Wandelt den gegebenen Binaer-Wert per BitShifting in Binaerschreibweise um.
 	 * Dient hier nur als Beispielmethode um Zeit zu sparen,
 	 * falls es mal im eigenen Code gebraucht wird.
 	 * Mit (1 << i) wird ein 1er-Bit um i-Schritte nach links verschoben.
@@ -28,7 +28,7 @@ public class ExtractInformationFromBinary {
 	 *   1000  = 8 (^=(1 << 3))
 	 * & 1101  = 13
 	 * ------
-	 *    100  = 8 => Also eine 1 an der 3. Binärstelle
+	 *    100  = 8 => Also eine 1 an der 3. Binaerstelle
 	 * 
 	 * @param sh Short-Wert
 	 */

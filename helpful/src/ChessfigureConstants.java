@@ -28,7 +28,7 @@ public final class ChessfigureConstants {
 	
 	
 	/**
-	 * Gibt den Namen der Figur des Ÿbergebenen byte-Werts zurŸck.
+	 * Gibt den Namen der Figur des uebergebenen byte-Werts zurŸck.
 	 * @param figureValue byte-Wert der Figur
 	 * @return Name der Figur
 	 */

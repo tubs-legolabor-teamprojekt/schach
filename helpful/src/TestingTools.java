@@ -2,13 +2,13 @@
 public class TestingTools {
 
 	/**
-	 * Testet das extrahieren von Informationen aus einem Short-Wert
+	 * Testet das Extrahieren von Informationen aus einem Short-Wert
 	 */
 	public static void main(String[] args) {
-		// Schwarzer Kšnig auf C5 (3/5)
+		// Schwarzer Koenig auf C5 (3/5)
 		// 1110011101, zusammengesetzt aus:
 		//   1   - schwarz
-		//   110 - Kšnig (6)
+		//   110 - Koenig (6)
 		//   011 - X-Position (3/C)
 		//   101 - Y-Position (5)
 		short sh = 925;
