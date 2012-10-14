@@ -48,7 +48,7 @@ public final class ChessfigureConstants {
 			break;
 			
 		case BISHOP:
-			figure = "Läufer";
+			figure = "Laeufer";
 			break;
 			
 		case QUEEN:
@@ -56,11 +56,11 @@ public final class ChessfigureConstants {
 			break;
 			
 		case KING:
-			figure = "König";
+			figure = "Koenig";
 			break;
 			
 		default:
-			figure = "Ungültig!";
+			figure = "Ungueltig!";
 			break;
 		}
 		
@@ -74,7 +74,7 @@ public final class ChessfigureConstants {
 	 */
 	public static String getFigureColor(byte figureColor)
 	{
-		return ( (figureColor==0) ? "Weiß" : "Schwarz");
+		return ( (figureColor==0) ? "Weiss" : "Schwarz");
 	}
 	
 	/**
