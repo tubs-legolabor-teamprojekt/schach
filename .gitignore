@@ -1,7 +1,6 @@
-
 .DS_Store
 
 .project
-
+.db
 helpful/.classpath
 helpful/bin
