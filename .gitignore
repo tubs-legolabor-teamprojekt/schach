@@ -2,5 +2,7 @@
 
 .project
 .db
+camera/Thumbs.db
+camera/img/Thumbs.db
 helpful/.classpath
 helpful/bin
