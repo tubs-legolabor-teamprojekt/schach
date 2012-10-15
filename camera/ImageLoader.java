@@ -2,17 +2,14 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Vector;
-
 import javax.imageio.ImageIO;
-
-
-
 
 public class ImageLoader {
 	
 	private int width, height;
 	private Vector<Integer> r1,r2,g1,g2,b1,b2;
 	private Vector<Integer> diffR, diffG, diffB;
+	public int offsetX1,offsetX2,offsetY1,offsetY2;
 	
 	public ImageLoader() {	
 		r1 = new Vector<Integer>();
@@ -28,6 +25,42 @@ public class ImageLoader {
 		diffB = new Vector<Integer>();
 		}
 	
+	/*
+	 * berechnet den Offset, der um das Schachbrett als Rand bleibt.
+	 * Dieser wird dann bei späterer Berechnung abgeschnitten
+	 * Offset: linke obere Ecke, rechte untere Ecke.
+	 */
+	public void calcOffset() {
+		OffsetGUI offsetGUI = new OffsetGUI(getImage(new File("Lego.jpg")));
+		while(offsetGUI.getStatus() != 'n') {
+			System.out.println(offsetGUI.getStatus());
+		}
+		setOffset(offsetGUI.getOffsetX1(), offsetGUI.getOffsetY1(), offsetGUI.getOffsetX2(), offsetGUI.getOffsetY2());
+	}
+	
+	/*
+	 * Offset eintragen
+	 */
+	public void setOffset(int offsetX1, int offsetY1, int offsetX2, int offsetY2) {
+		this.offsetX1 = offsetX1;
+		this.offsetX2 = offsetX2;
+		this.offsetY1 = offsetY1;
+		this.offsetY2 = offsetY2;
+	}
+	
+	/*
+	 * Bild im entsprechenden Pfad wird geladen
+	 * @param file Pfad
+	 * @return Bild als BufferedImage
+	 */
+	public BufferedImage getImage(File file) {
+		BufferedImage bu = readImage(file);
+		return bu;
+	}
+	
+	/*
+	 * Differenz der beiden Bilder als Absolutwert in jeweils RGB wird berechnet
+	 */
 	public void difference() {
 		for(int i=0; i<width*height; i++) {
 			diffR.add(Math.abs(r1.get(i)-r2.get(i)));
@@ -178,6 +211,7 @@ public class ImageLoader {
 		im.difference();
 		im.print();
 		im.printDiffTable();
+		im.calcOffset();
 	}
 
 }
