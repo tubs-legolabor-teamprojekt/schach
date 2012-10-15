@@ -1,6 +1,10 @@
 Allgemeine Informationen
 ========================
 
+github guidelines
+-----------------
+- Nur sources committen, keine binaries
+
 coding guidelines
 -----------------
 
