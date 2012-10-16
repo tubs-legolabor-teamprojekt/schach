@@ -14,14 +14,23 @@ public class OffsetGUI extends JFrame implements MouseListener {
 	public OffsetGUI(BufferedImage bu, ImageLoader im) {
 		this.im = im;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(bu.getHeight(),bu.getWidth()); 			//einmal bereitsstellen, später die Bounds nochmal anpassen
+		//setSize(bu.getHeight(),bu.getWidth()); 			//einmal bereitsstellen, später die Bounds nochmal anpassen
+		
+		setSize(100,100);
 		panel = new PaintImage(bu);
 		panel.addMouseListener(this);
 		getContentPane().add(panel);
 		setVisible(true);
 		
-		int sizeHeight = bu.getHeight() + (bu.getHeight() - (int) getContentPane().getBounds().getHeight());
-		int sizeWidth = bu.getWidth() + (bu.getWidth() - (int) getContentPane().getBounds().getWidth());
+		//int sizeHeight = bu.getHeight() + (int) getContentPane().getBounds().getHeight();
+		//int sizeWidth = bu.getWidth() + (int) getContentPane().getBounds().getWidth();
+		/*
+		 * noch dynamisch anpassen... hat bislang nicht geklappt!
+		 */
+		
+		int sizeHeight = bu.getHeight()+37;
+		int sizeWidth = bu.getWidth()+15;
+		
 		
 		setSize(sizeWidth,sizeHeight); 					//richtige Größe setzen
 

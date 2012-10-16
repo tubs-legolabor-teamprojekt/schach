@@ -11,7 +11,9 @@ public class ImageLoader {
 	private Vector<Integer> diffR, diffG, diffB;
 	public int offsetX1,offsetX2,offsetY1,offsetY2;
 	
-	public ImageLoader() {	
+	
+	
+	public ImageLoader() {
 		r1 = new Vector<Integer>();
 		g1 = new Vector<Integer>();
 		b1 = new Vector<Integer>();
@@ -31,7 +33,9 @@ public class ImageLoader {
 	 * Offset: linke obere Ecke, rechte untere Ecke.
 	 */
 	public void calcOffset() {
-		new OffsetGUI(getImage(new File("img/LEGO.jpg")), this);
+		Webcam w = new Webcam();
+		new OffsetGUI(w.getImage(), this);
+		//new OffsetGUI(getImage(new File("img/LEGO.jpg")), this);
 	}
 	
 	/*
@@ -209,6 +213,7 @@ public class ImageLoader {
 		im.print();
 		im.printDiffTable();
 		im.calcOffset();
+
 	}
 
 }
