@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="camera"/>
-	<classpathentry kind="src" path="helpful/src"/>
 	<classpathentry kind="src" path="gui"/>
+	<classpathentry kind="src" path="util"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -1,4 +1,4 @@
-package util;
+package src;
 /**
  * Diese Klasse bietet die Moeglichkeit aus einem gegebenen Short-Wert
  * die beinhaltenden Informationen zu extrahieren.
@@ -27,9 +27,9 @@ public class ExtractInformationFromBinary {
 	 * Anschlie§end wird der gegebene Short-Wert (sh) mit dem (1 << i)
 	 * logisch verUNDed:
 	 *   1000  = 8 (^=(1 << 3))
-	 * & 1101  = 13
+	 * & 1101  = 13 (als Beispielwert fŸr den Short)
 	 * ------
-	 *    100  = 8 => Also eine 1 an der 3. Binaerstelle
+	 *   1000  = 8 => Also eine 1 an der 3. Binaerstelle
 	 * 
 	 * @param sh Short-Wert
 	 */
@@ -73,7 +73,7 @@ public class ExtractInformationFromBinary {
 			if ((sh & (1 << i)) != 0) {
 				// bit ist gesetzt, Wert ermitteln
 				int currentBit = (sh & (1 << i));
-				// ermittelte Wert befindet sich bei 2^6 bis 2^8
+				// ermittelte Wert befindet sich bei 2^3 bis 2^5
 				// shift auf 2^0 bis 2^2
 				value += (currentBit >> 3);
 			}
@@ -92,10 +92,9 @@ public class ExtractInformationFromBinary {
 		byte value = 0;
 		for (int i=0; i<3; i++) {
 			if ((sh & (1 << i)) != 0) {
-				// bit ist gesetzt, Wert ermitteln
+				// bit ist also gesetzt, Wert ermitteln
 				int currentBit = (sh & (1 << i));
-				// ermittelte Wert befindet sich bei 2^6 bis 2^8
-				// shift auf 2^0 bis 2^2
+				// addieren den Wert des Bits hinzu (z.B. 2^2=4)
 				value += currentBit;
 			}
 		}
@@ -110,8 +109,10 @@ public class ExtractInformationFromBinary {
 	public static byte getColor(short sh)
 	{
 		// Hole die ersten Drei und addiere sie
-		byte currentBit = (byte)(sh & (1 << 9));
-		return currentBit;
+		int currentBit = sh & (1 << 9);
+		byte value = (byte)(currentBit >> 9);
+		
+		return value;
 	}
 
 }
