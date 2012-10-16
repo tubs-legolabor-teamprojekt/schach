@@ -30,7 +30,7 @@ public class ImageLoader
 
     /*
      * berechnet den Offset, der um das Schachbrett als Rand bleibt. Dieser wird
-     * dann bei späterer Berechnung abgeschnitten Offset: linke obere Ecke,
+     * dann bei spaeterer Berechnung abgeschnitten Offset: linke obere Ecke,
      * rechte untere Ecke.
      */
     public void calcOffset()
@@ -94,7 +94,7 @@ public class ImageLoader
 
     /*
      * Testausgabe der zu erkennenden markanten Unterschiede zwischen 2 Bildern
-     * unter Berücksichtigung verschiedener Helligkeitsstufen der Bilder
+     * unter Beruecksichtigung verschiedener Helligkeitsstufen der Bilder
      */
     public void printDiffTable()
     {
@@ -119,7 +119,7 @@ public class ImageLoader
 
     /*
      * Ermittelt den durchschnittlichen Toleranzdifferenzwert der beiden Bilder
-     * Z.B. unterschiedliche Lichtverhältnisse erfordern andere Toleranzen...
+     * Z.B. unterschiedliche Lichtverhaeltnisse erfordern andere Toleranzen...
      * (Mittelwert)
      * 
      * @return mittlere Differenz der beiden Bilder Pixel pro Pixel
@@ -178,11 +178,11 @@ public class ImageLoader
     }
 
     /*
-     * Läd die RGB Werte eines Biles in die Vectoren r1,g1,b1 bzw. r2,g2,b2
+     * Laed die RGB Werte eines Biles in die Vectoren r1,g1,b1 bzw. r2,g2,b2
      * 
      * @param file Pfad des Biles
      * 
-     * @param toggle true für das erste Foto, false für das zweite Foto
+     * @param toggle true fuer das erste Foto, false fuer das zweite Foto
      */
     private void loadPhoto(File file, boolean toggle)
     {
