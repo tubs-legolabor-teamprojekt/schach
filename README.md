@@ -17,7 +17,7 @@ coding guidelines
 	- bei Klassen/Methoden: neue Zeile
 	- bei if, while etc.: gleiche Zeile
 
-Anleitung Webcamzugriff
+Anleitung Webcamzugriff (Ordner camera)
 -------------------
 Java Programm nur unter WIndows lauffähig, ist ein Krampf passende Webcam Libraries zu finden, die auch noch aktualisiert werden!
 
