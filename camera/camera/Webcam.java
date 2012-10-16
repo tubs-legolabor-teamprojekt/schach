@@ -1,3 +1,4 @@
+package camera;
 import java.awt.image.BufferedImage;
 import de.humatic.dsj.DSCapture;
 import de.humatic.dsj.DSFilterInfo;

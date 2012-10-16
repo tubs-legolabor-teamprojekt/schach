@@ -1,3 +1,5 @@
+package helpful;
+
 /**
  * Definiert alle Konstanten zur Kodierung der Figuren.
  * Jede Figur hat einen Integer-Wert zugewiesen bekommen (siehe docs)
