@@ -17,13 +17,13 @@ public final class ChessfigureConstants {
 	// Springer
 	public static final int KNIGHT = 3;
 	
-	// LŠufer
+	// Laeufer
 	public static final int BISHOP = 4;
 	
 	// Dame
 	public static final int QUEEN = 5;
 	
-	// Kšnig
+	// Koenig
 	public static final int KING = 6;
 	
 	
