@@ -54,8 +54,8 @@ public class OffsetGUI extends JFrame implements MouseListener
         case '2':
             offsetX2 = e.getX();
             offsetY2 = e.getY();
-            state = 'n';
             im.setOffset(offsetX1, offsetY1, offsetX2, offsetY2);
+            state = 'n';
             setVisible(false);
             dispose();
             break;

@@ -9,12 +9,14 @@ import javax.imageio.ImageIO;
 public class ImageLoader
 {
 
-    private int width, height;
+    private int width, height;                          //gibt die größe des Schachbretts und nicht die des Bildes an.
     private Vector<Integer> r1, r2, g1, g2, b1, b2;
     private Vector<Integer> diffR, diffG, diffB;
     public int offsetX1, offsetX2, offsetY1, offsetY2;
+    Webcam w;
 
     public ImageLoader() {
+        w = new Webcam();
         r1 = new Vector<Integer>();
         g1 = new Vector<Integer>();
         b1 = new Vector<Integer>();
@@ -35,9 +37,15 @@ public class ImageLoader
      */
     public void calcOffset()
     {
-        Webcam w = new Webcam();
-        new OffsetGUI(w.getImage(), this);
-        // new OffsetGUI(getImage(new File("img/LEGO.jpg")), this);
+        //OffsetGUI offsetGUI = new OffsetGUI(w.getImage(), this);
+        OffsetGUI offsetGUI = new OffsetGUI(getImage(new File("camera/img/schachbrett.jpg")), this);
+        
+        while(offsetGUI.getStatus() != 'n')
+            System.out.println("");
+        
+        this.width = offsetX2-offsetX1;
+        this.height = offsetY2-offsetY1;
+        System.out.println("breite:"+this.width+" hoehe "+this.height);
     }
 
     /*
@@ -191,11 +199,9 @@ public class ImageLoader
         Vector<Integer> b = new Vector<Integer>();
 
         BufferedImage bu = readImage(file);
-        this.height = bu.getHeight();
-        this.width = bu.getWidth();
 
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
+        for (int y = offsetY1; y < offsetY2; y++) {
+            for (int x = offsetX1; x < offsetX2; x++) {
                 r.add((int) (((Math.pow(256, 3) + bu.getRGB(x, y)) / 65536))); // Umwandlung
                                                                                // der
                                                                                // ausgelesenen
@@ -238,12 +244,12 @@ public class ImageLoader
     public static void main(String[] args)
     {
         ImageLoader im = new ImageLoader();
-        im.takePhoto1(new File("camera/img/toleranz1.jpg"));
-        im.takePhoto2(new File("camera/img/toleranz2.jpg"));
+        im.calcOffset();
+        im.takePhoto1(new File("camera/img/schachbrett.jpg"));
+        im.takePhoto2(new File("camera/img/schachbrett2.jpg"));
         im.difference();
         im.print();
         im.printDiffTable();
-        im.calcOffset();
 
     }
 
