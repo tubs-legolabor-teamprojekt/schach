@@ -31,11 +31,7 @@ public class ImageLoader {
 	 * Offset: linke obere Ecke, rechte untere Ecke.
 	 */
 	public void calcOffset() {
-		OffsetGUI offsetGUI = new OffsetGUI(getImage(new File("img/LEGO.jpg")));
-		while(offsetGUI.getStatus() != 'n') {
-			System.out.println(offsetGUI.getStatus());
-		}
-		setOffset(offsetGUI.getOffsetX1(), offsetGUI.getOffsetY1(), offsetGUI.getOffsetX2(), offsetGUI.getOffsetY2());
+		new OffsetGUI(getImage(new File("img/LEGO.jpg")), this);
 	}
 	
 	/*
@@ -46,6 +42,7 @@ public class ImageLoader {
 		this.offsetX2 = offsetX2;
 		this.offsetY1 = offsetY1;
 		this.offsetY2 = offsetY2;
+		System.out.println(offsetX1+" "+offsetY1+" "+offsetX2+" "+offsetY2);
 	}
 	
 	/*
