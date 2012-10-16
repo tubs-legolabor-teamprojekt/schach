@@ -1,4 +1,4 @@
-package helpful;
+package util;
 
 /**
  * Definiert alle Konstanten zur Kodierung der Figuren.

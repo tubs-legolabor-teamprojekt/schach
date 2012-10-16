@@ -1,4 +1,4 @@
-package helpful;
+package util;
 /**
  * Diese Klasse bietet die Moeglichkeit aus einem gegebenen Short-Wert
  * die beinhaltenden Informationen zu extrahieren.
