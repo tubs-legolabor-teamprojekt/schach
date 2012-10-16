@@ -4,5 +4,6 @@
 	<classpathentry kind="src" path="gui"/>
 	<classpathentry kind="src" path="util"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="camera/lib/dsj.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

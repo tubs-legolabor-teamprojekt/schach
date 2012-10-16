@@ -208,8 +208,8 @@ public class ImageLoader {
 	
 	public static void main(String[] args) {
 		ImageLoader im = new ImageLoader();
-		im.takePhoto1(new File("img/toleranz1.jpg"));
-		im.takePhoto2(new File("img/toleranz2.jpg"));
+		im.takePhoto1(new File("camera/img/toleranz1.jpg"));
+		im.takePhoto2(new File("camera/img/toleranz2.jpg"));
 		im.difference();
 		im.print();
 		im.printDiffTable();

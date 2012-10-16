@@ -26,7 +26,4 @@ public class Webcam {
     public BufferedImage getImage() {
     	return bu;
     }
-    public static void main(String[] args) {
-        new Webcam();
-    }
 }
