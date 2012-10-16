@@ -6,7 +6,8 @@ package src;
  * @author Florian Franke
  *
  */
-public class ExtractInformationFromBinary {
+public class ExtractInformationFromBinary
+{
 
 	/**
 	 * Wandelt den uebergebenen Short-Wert in Binaer um.
@@ -24,10 +25,10 @@ public class ExtractInformationFromBinary {
 	 * falls es mal im eigenen Code gebraucht wird.
 	 * Mit (1 << i) wird ein 1er-Bit um i-Schritte nach links verschoben.
 	 * Also bei i=3 ergibt es 8 (1000)
-	 * Anschlie§end wird der gegebene Short-Wert (sh) mit dem (1 << i)
+	 * Anschliessend wird der gegebene Short-Wert (sh) mit dem (1 << i)
 	 * logisch verUNDed:
 	 *   1000  = 8 (^=(1 << 3))
-	 * & 1101  = 13 (als Beispielwert fŸr den Short)
+	 * & 1101  = 13 (als Beispielwert fuer den Short)
 	 * ------
 	 *   1000  = 8 => Also eine 1 an der 3. Binaerstelle
 	 * 
@@ -46,18 +47,22 @@ public class ExtractInformationFromBinary {
 	 */
 	public static byte getFigure(short sh)
 	{
-		// Hole die ersten Drei und addiere sie
-		byte value = 0;
-		for (int i=6; i<9; i++) {
-			if ((sh & (1 << i)) != 0) {
-				// bit ist gesetzt, Wert ermitteln
-				int currentBit = (sh & (1 << i));
-				// ermittelte Wert befindet sich bei 2^6 bis 2^8
-				// shift auf 2^0 bis 2^2
-				value += (currentBit >> 6);
+		if (sh > 0) {
+			// Hole die ersten Drei und addiere sie
+			byte value = 0;
+			for (int i=6; i<9; i++) {
+				if ((sh & (1 << i)) != 0) {
+					// bit ist gesetzt, Wert ermitteln
+					int currentBit = (sh & (1 << i));
+					// ermittelte Wert befindet sich bei 2^6 bis 2^8
+					// shift auf 2^0 bis 2^2
+					value += (currentBit >> 6);
+				}
 			}
+			return value;
+		} else {
+			return -1;
 		}
-		return value;
 	}
 	
 	/**
@@ -67,18 +72,22 @@ public class ExtractInformationFromBinary {
 	 */
 	public static byte getXPosition(short sh)
 	{
-		// Hole die ersten Drei und addiere sie
-		byte value = 0;
-		for (int i=3; i<6; i++) {
-			if ((sh & (1 << i)) != 0) {
-				// bit ist gesetzt, Wert ermitteln
-				int currentBit = (sh & (1 << i));
-				// ermittelte Wert befindet sich bei 2^3 bis 2^5
-				// shift auf 2^0 bis 2^2
-				value += (currentBit >> 3);
+		if (sh > 0) {
+			// Hole die ersten Drei und addiere sie
+			byte value = 0;
+			for (int i=3; i<6; i++) {
+				if ((sh & (1 << i)) != 0) {
+					// bit ist gesetzt, Wert ermitteln
+					int currentBit = (sh & (1 << i));
+					// ermittelte Wert befindet sich bei 2^3 bis 2^5
+					// shift auf 2^0 bis 2^2
+					value += (currentBit >> 3);
+				}
 			}
+			return value;
+		} else {
+			return -1;
 		}
-		return value;
 	}
 	
 	/**
@@ -88,17 +97,21 @@ public class ExtractInformationFromBinary {
 	 */
 	public static byte getYPosition(short sh)
 	{
-		// Hole die ersten Drei und addiere sie
-		byte value = 0;
-		for (int i=0; i<3; i++) {
-			if ((sh & (1 << i)) != 0) {
-				// bit ist also gesetzt, Wert ermitteln
-				int currentBit = (sh & (1 << i));
-				// addieren den Wert des Bits hinzu (z.B. 2^2=4)
-				value += currentBit;
+		if (sh > 0) {
+			// Hole die ersten Drei und addiere sie
+			byte value = 0;
+			for (int i=0; i<3; i++) {
+				if ((sh & (1 << i)) != 0) {
+					// bit ist also gesetzt, Wert ermitteln
+					int currentBit = (sh & (1 << i));
+					// addieren den Wert des Bits hinzu (z.B. 2^2=4)
+					value += currentBit;
+				}
 			}
+			return value;
+		} else {
+			return -1;
 		}
-		return value;
 	}
 	
 	/**
@@ -108,11 +121,15 @@ public class ExtractInformationFromBinary {
 	 */
 	public static byte getColor(short sh)
 	{
-		// Hole die ersten Drei und addiere sie
-		int currentBit = sh & (1 << 9);
-		byte value = (byte)(currentBit >> 9);
-		
-		return value;
+		if (sh > 0) {
+			// Hole die ersten Drei und addiere sie
+			int currentBit = sh & (1 << 9);
+			byte value = (byte)(currentBit >> 9);
+			
+			return value;
+		} else {
+			return -1;
+		}
 	}
 
 }
