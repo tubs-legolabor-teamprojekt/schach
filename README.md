@@ -19,12 +19,12 @@ coding guidelines
 
 coding guidelines bei eclipse einstellen
 -----------------------------------------
--window->preferences->java->code style->edit
--auf nachfrage neuen style anlegen
--indentation: tab policy->spaces only
--braces: class or interface decl.->next line; method declaration->next line; rest->same line
+- window->preferences->java->code style->edit
+- auf nachfrage neuen style anlegen
+- indentation: tab policy->spaces only
+- braces: class or interface decl.->next line; method declaration->next line; rest->same line
 
-automatisch einrücken (unter windows): strg+shift+f
+- automatisch einrücken (unter windows): strg+shift+f
 (achtung, kann probleme bei kommentaren geben ...
 
 Anleitung Webcamzugriff (Ordner camera)
