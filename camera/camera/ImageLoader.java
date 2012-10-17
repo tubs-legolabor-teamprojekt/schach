@@ -9,10 +9,12 @@ import javax.imageio.ImageIO;
 public class ImageLoader
 {
 
-    private int width, height;                          //gibt die größe des Schachbretts und nicht die des Bildes an.
+    private int width, height; // gibt die größe des Schachbretts und nicht die
+                               // des Bildes an.
     private Vector<Integer> r1, r2, g1, g2, b1, b2;
     private Vector<Integer> diffR, diffG, diffB;
     public int offsetX1, offsetX2, offsetY1, offsetY2;
+
     Webcam w;
 
     public ImageLoader() {
@@ -31,21 +33,49 @@ public class ImageLoader
     }
 
     /*
+     * Mittelwert eines Feldes
+     */
+    public int getPositionAverage(int position)
+    {
+        int unitWidth = (int) width / 8;
+        int unitHeight = (int) height / 8;
+        int unitX1 = position % 8;
+        int unitY1 = (int) position / 8;
+        int unitX2 = unitX1 + 1;
+        int unitY2 = unitY1 + 1;
+
+        int startX = unitX1 * unitWidth;
+        int startY = unitY1 * unitHeight;
+        int endX = unitX2 * unitWidth;
+        int endY = unitY2 * unitHeight;
+
+        int value = 0;
+        for (int y = startY; y < endY; y++) {
+            for (int x = startX; x < endX; x++) {
+                value = value + r1.get(y * width + x) + g1.get(y * width + x) + b1.get(y * width + x);
+            }
+        }
+        return (int)(value/3)/(unitWidth*unitHeight);
+
+    }
+
+    /*
      * berechnet den Offset, der um das Schachbrett als Rand bleibt. Dieser wird
      * dann bei spaeterer Berechnung abgeschnitten Offset: linke obere Ecke,
      * rechte untere Ecke.
      */
     public void calcOffset()
     {
-        //OffsetGUI offsetGUI = new OffsetGUI(w.getImage(), this);
-        OffsetGUI offsetGUI = new OffsetGUI(getImage(new File("camera/img/schachbrett.jpg")), this);
-        
-        while(offsetGUI.getStatus() != 'n')
+        // OffsetGUI offsetGUI = new OffsetGUI(w.getImage(), this);
+        OffsetGUI offsetGUI = new OffsetGUI(getImage(new File(
+                "camera/img/schachbrett.jpg")), this);
+
+        while (offsetGUI.getStatus() != 'n')
             System.out.println("");
-        
-        this.width = offsetX2-offsetX1;
-        this.height = offsetY2-offsetY1;
-        System.out.println("breite:"+this.width+" hoehe "+this.height);
+
+        this.width = offsetX2 - offsetX1;
+        this.height = offsetY2 - offsetY1;
+        System.out.println("breite:" + this.width + " hoehe " + this.height);
     }
 
     /*
@@ -248,8 +278,9 @@ public class ImageLoader
         im.takePhoto1(new File("camera/img/schachbrett.jpg"));
         im.takePhoto2(new File("camera/img/schachbrett2.jpg"));
         im.difference();
-        im.print();
-        im.printDiffTable();
+        System.out.println(im.getPositionAverage(5));
+        //im.print();
+        //im.printDiffTable();
 
     }
 
