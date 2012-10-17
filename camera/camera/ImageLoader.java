@@ -9,11 +9,13 @@ import javax.imageio.ImageIO;
 public class ImageLoader
 {
 
-    private int width, height; // gibt die größe des Schachbretts und nicht die
+    private int width, height; // gibt die groesse des Schachbretts und nicht
+                               // die
                                // des Bildes an.
     private Vector<Integer> r1, r2, g1, g2, b1, b2;
     private Vector<Integer> diffR, diffG, diffB;
     public int offsetX1, offsetX2, offsetY1, offsetY2;
+    private int[] rgbFieldDiff = new int[64];
 
     Webcam w;
 
@@ -33,9 +35,42 @@ public class ImageLoader
     }
 
     /*
-     * Mittelwert eines Feldes
+     * Vergleicht die 2 Schachbilder miteinander und erkennt, ob eine Figur
+     * bewegt wurde anmerkung: funktioniert schon, return aber noch nicht fertig
+     * 
+     * @return Array mit geaenderten Feldern
      */
-    public int getPositionAverage(int position)
+    public int[] compareFields()
+    {
+        int tolerance = sampleAverage();
+        int stDev = standardDeviation(tolerance);
+
+        int result[] = new int[2];
+
+        for (int i = 0; i < 64; i++) {
+
+            rgbFieldDiff[i] = (int) Math.abs(getPositionAverage(i, 1)
+                    - getPositionAverage(i, 2));
+            if (i % 8 == 0) {
+                System.out.println();
+            }
+            System.out.print("\t" + rgbFieldDiff[i]);
+        }
+
+        return result;
+    }
+
+    /*
+     * Mittelwert der RGB-Werte eines der 64 Schachfelder wird berechnet
+     * 
+     * @param position Position des Schachfeldes (oben links 0, unten rechts 63)
+     * 
+     * @param image aus welchem Bild der RGB Wert genommen werden soll (1 oder
+     * 2)
+     * 
+     * @return durchschnittswert rgb
+     */
+    private int getPositionAverage(int position, int image)
     {
         int unitWidth = (int) width / 8;
         int unitHeight = (int) height / 8;
@@ -52,10 +87,20 @@ public class ImageLoader
         int value = 0;
         for (int y = startY; y < endY; y++) {
             for (int x = startX; x < endX; x++) {
-                value = value + r1.get(y * width + x) + g1.get(y * width + x) + b1.get(y * width + x);
+                if (image == 1)
+                    value = value + r1.get(y * width + x)
+                            + g1.get(y * width + x) + b1.get(y * width + x);
+                else if (image == 2)
+                    value = value + r2.get(y * width + x)
+                            + g2.get(y * width + x) + b2.get(y * width + x);
+                else
+                    value = value + diffR.get(y * width + x)
+                            + diffG.get(y * width + x)
+                            + diffB.get(y * width + x);
+
             }
         }
-        return (int)(value/3)/(unitWidth*unitHeight);
+        return (int) (value / 3) / (unitWidth * unitHeight);
 
     }
 
@@ -79,7 +124,16 @@ public class ImageLoader
     }
 
     /*
-     * Offset eintragen
+     * Offset eintragen, also Abstand vom Rand des Bildes bis zum eigentlichen
+     * Schachfeld
+     * 
+     * @param offsetX1 xWert links oben
+     * 
+     * @param offsetY1 yWert links oben
+     * 
+     * @param offsetX2 xWert rechts unten
+     * 
+     * @param iffsetY2 yWert rechts unten
      */
     public void setOffset(int offsetX1, int offsetY1, int offsetX2, int offsetY2)
     {
@@ -278,9 +332,10 @@ public class ImageLoader
         im.takePhoto1(new File("camera/img/schachbrett.jpg"));
         im.takePhoto2(new File("camera/img/schachbrett2.jpg"));
         im.difference();
-        System.out.println(im.getPositionAverage(5));
-        //im.print();
-        //im.printDiffTable();
+        // System.out.println(im.getPositionAverage(12));
+        im.compareFields();
+        // im.print();
+        // im.printDiffTable();
 
     }
 
