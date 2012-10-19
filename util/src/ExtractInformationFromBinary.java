@@ -50,10 +50,11 @@ public class ExtractInformationFromBinary
 		if (sh > 0) {
 			// Hole die ersten Drei und addiere sie
 			byte value = 0;
+			int currentBit = 0;
 			for (int i=6; i<9; i++) {
 				if ((sh & (1 << i)) != 0) {
 					// bit ist gesetzt, Wert ermitteln
-					int currentBit = (sh & (1 << i));
+					currentBit = (sh & (1 << i));
 					// ermittelte Wert befindet sich bei 2^6 bis 2^8
 					// shift auf 2^0 bis 2^2
 					value += (currentBit >> 6);
@@ -75,10 +76,11 @@ public class ExtractInformationFromBinary
 		if (sh > 0) {
 			// Hole die ersten Drei und addiere sie
 			byte value = 0;
+			int currentBit = 0;
 			for (int i=3; i<6; i++) {
 				if ((sh & (1 << i)) != 0) {
 					// bit ist gesetzt, Wert ermitteln
-					int currentBit = (sh & (1 << i));
+					currentBit = (sh & (1 << i));
 					// ermittelte Wert befindet sich bei 2^3 bis 2^5
 					// shift auf 2^0 bis 2^2
 					value += (currentBit >> 3);
@@ -100,10 +102,11 @@ public class ExtractInformationFromBinary
 		if (sh > 0) {
 			// Hole die ersten Drei und addiere sie
 			byte value = 0;
+			int currentBit = 0;
 			for (int i=0; i<3; i++) {
 				if ((sh & (1 << i)) != 0) {
 					// bit ist also gesetzt, Wert ermitteln
-					int currentBit = (sh & (1 << i));
+					currentBit = (sh & (1 << i));
 					// addieren den Wert des Bits hinzu (z.B. 2^2=4)
 					value += currentBit;
 				}
