@@ -123,6 +123,8 @@ public class Gui extends JFrame
 			col.setPreferredWidth(30);
 		}
 		
+		System.out.println("hallo");
+		
 		this.table_left.setBackground(null);
 		this.table_left.setShowHorizontalLines(false);
 		this.table_left.setShowVerticalLines(false);
