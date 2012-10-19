@@ -11,8 +11,8 @@ Feld
 
 Konstanten
 ----------
-1: rook (Turm)
-2: pawn (Bauer)
+1: pawn (Bauer)
+2: rook (Turm)
 3: knight (Springer/Pferd/Hottehü)
 4: bishop (Läufer)
 5: queen

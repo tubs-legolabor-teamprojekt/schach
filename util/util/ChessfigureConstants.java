@@ -10,23 +10,45 @@ package util;
  */
 public final class ChessfigureConstants {
 
-	// Bauer
+	/**
+	 * Byte-Wert des Bauern
+	 */
 	public static final int PAWN = 1;
 	
-	// Turm
+	/**
+	 * Byte-Wert des Turms
+	 */
 	public static final int ROOK = 2;
 	
-	// Springer
+	/**
+	 * Byte-Wert des Springers
+	 */
 	public static final int KNIGHT = 3;
 	
-	// Laeufer
+	/**
+	 * Byte-Wert des Laeufers
+	 */
 	public static final int BISHOP = 4;
 	
-	// Dame
+	/**
+	 * Byte-Wert der Dame
+	 */
 	public static final int QUEEN = 5;
 	
-	// Koenig
+	/**
+	 * Byte-Wert des Koenigs
+	 */
 	public static final int KING = 6;
+	
+	/**
+	 * Farbe: Schwarz
+	 */
+	public static final byte BLACK = 1;
+	
+	/**
+	 * Farbe: Weiss
+	 */
+	public static final byte WHITE = 0;
 	
 	
 	/**
