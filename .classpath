@@ -5,6 +5,9 @@
 	<classpathentry kind="src" path="util"/>
 	<classpathentry kind="src" path="EngineControl"/>
 	<classpathentry kind="lib" path="camera/lib/dsj.jar"/>
-	<classpathentry kind="lib" path="C:/lejos_nxj/lib/classes.jar"/>
+	<classpathentry kind="lib" path="/Users/tobi/Documents/Eclipse/lejos_nxj/lib/classes.jar"/>
+	<classpathentry kind="lib" path="/Users/tobi/Documents/Eclipse/lejos_nxj/lib/jtools.jar"/>
+	<classpathentry kind="lib" path="/Users/tobi/Documents/Eclipse/lejos_nxj/lib/pccomm.jar"/>
+	<classpathentry kind="lib" path="/Users/tobi/Documents/Eclipse/lejos_nxj/lib/pctools.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
