@@ -1,5 +1,7 @@
 package components;
 
+import javax.swing.ImageIcon;
+
 /**
  * Abstrakte Klasse für eine Schachfigur. Es darf keine Instanz dieser Klasse gebildet werden,
  * da eine Figur immer von einem Typ (König, Dame...) sein muss.
@@ -12,13 +14,16 @@ public abstract class Figure
 	/**
 	 * Farbe der Figur
 	 */
-	private byte color = util.ChessfigureConstants.BLACK;
+	protected byte color = util.ChessfigureConstants.BLACK;
+	
+	protected ImageIcon icon = null;
 
 	/**
 	 * Erstellt eine Figur
 	 * @param color Farbe der Figur
 	 */
-	public Figure(byte color) {
+	public Figure(byte color)
+	{
 		this.setColor(color);
 	}
 	
@@ -26,7 +31,8 @@ public abstract class Figure
 	 * Gibt die Farbe der Figur zurueck
 	 * @return Farbe der Figur
 	 */
-	public byte getColor() {
+	public byte getColor()
+	{
 		return color;
 	}
 
@@ -34,7 +40,8 @@ public abstract class Figure
 	 * Setzt die Farbe der Figur
 	 * @param color
 	 */
-	public void setColor(byte color) {
+	public void setColor(byte color)
+	{
 		try {
 			if (color == 1 || color == 0)
 				this.color = color;
@@ -45,9 +52,24 @@ public abstract class Figure
 			System.out.println(e.getMessage());
 		}
 	}
-
+	
+	/**
+	 * Je nach Farbe und Figur wird mit dieser Methode das Icon gesetzt.
+	 */
+	protected abstract void setIcon();
+	
+	/**
+	 * Gibt das Icon der entsprechenden Figur zurück
+	 * @return Icon
+	 */
+	public ImageIcon getIcon()
+	{
+		return this.icon;
+	}
+	
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "Figure [color=" + color + ", toString()=" + super.toString()
 				+ "]";
 	}

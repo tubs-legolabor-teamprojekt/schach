@@ -6,7 +6,7 @@ Feld
 ----
 
 - 1-dimensionales Short-Array (0 - 63)
-- Die Größe des Arrays entspricht der Anzahl der im Spiel befindlichen Figuren. Der Wert des Feldes entspricht der Figur, seiner Farbe und der Position in binärer Kodierung als Short gespeichert (siehe unten). Somit werden leere Felder nicht unnötig mit übertragen, sondern nur die wichtigen Informationen.
+- Die Groessee des Arrays entspricht der Anzahl der im Spiel befindlichen Figuren. Der Wert des Feldes entspricht der Figur, seiner Farbe und der Position in binärer Kodierung als Short gespeichert (siehe unten). Somit werden leere Felder nicht unnötig mit übertragen, sondern nur die wichtigen Informationen.
 
 
 Konstanten

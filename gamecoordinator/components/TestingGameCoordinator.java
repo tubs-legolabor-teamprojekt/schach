@@ -2,7 +2,16 @@ package components;
 
 public class TestingGameCoordinator
 {
+	private Figure[] figures = new Figure[32];
+	
 	public static void main(String[] args) {
+		TestingGameCoordinator test = new TestingGameCoordinator();
+		test.createFigures();
+		test.writeFigures();
+	}
+	
+	public void createFigures()
+	{
 		// Schwarze figuren erstellen
 		byte color = util.ChessfigureConstants.BLACK;
 		
@@ -55,12 +64,44 @@ public class TestingGameCoordinator
 		FigurePawn wp8 = new FigurePawn(color);
 		
 		// Figuren einem Array hinzufuegen
-		Figure[] figures = {bk, bq, bb1, bb2, bk1, bk2, br1, br2, bp1, bp2, bp3, bp4, bp5, bp6, bp7, bp8,
-				wk, wq, wb1, wb2, wk1, wk2, wr1, wr2, wp1, wp2, wp3, wp4, wp5, wp6, wp7, wp8
-		};
-		
+		this.figures[0] = bk;
+		this.figures[1] = bq;
+		this.figures[2] = bb1;
+		this.figures[3] = bb2;
+		this.figures[4] = bk1;
+		this.figures[5] = bk2;
+		this.figures[6] = br1;
+		this.figures[7] = br2;
+		this.figures[8] = bp1;
+		this.figures[9] = bp2;
+		this.figures[10] = bp3;
+		this.figures[11] = bp4;
+		this.figures[12] = bp5;
+		this.figures[13] = bp6;
+		this.figures[14] = bp7;
+		this.figures[15] = bp8;
+		this.figures[16] = wk;
+		this.figures[17] = wq;
+		this.figures[18] = wb1;
+		this.figures[19] = wb2;
+		this.figures[20] = wk1;
+		this.figures[21] = wk2;
+		this.figures[22] = wr1;
+		this.figures[23] = wr2;
+		this.figures[24] = wp1;
+		this.figures[25] = wp2;
+		this.figures[26] = wp3;
+		this.figures[27] = wp4;
+		this.figures[28] = wp5;
+		this.figures[29] = wp6;
+		this.figures[30] = wp7;
+		this.figures[31] = wp8;
+	}
+	
+	public void writeFigures()
+	{
 		// Alle Figuren ausgeben
-		for (Figure f : figures) {
+		for (Figure f : this.figures) {
 			System.out.println(f);
 		}
 	}
