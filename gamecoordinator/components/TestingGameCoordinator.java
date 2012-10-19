@@ -59,6 +59,7 @@ public class TestingGameCoordinator
 				wk, wq, wb1, wb2, wk1, wk2, wr1, wr2, wp1, wp2, wp3, wp4, wp5, wp6, wp7, wp8
 		};
 		
+		// Alle Figuren ausgeben
 		for (Figure f : figures) {
 			System.out.println(f);
 		}
