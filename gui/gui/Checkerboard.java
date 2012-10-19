@@ -31,7 +31,7 @@ public class Checkerboard extends JPanel
 		
 		int columnIndex = 8;
 		TableColumn col = null;
-		for (int i = 0; i < 8; i++) {
+		for (int i = 0; i < columnIndex; i++) {
 			col = this.grid.getColumnModel().getColumn(i);
 			col.setPreferredWidth(75);		
 			// jede Spalte enthält einen CellRenderer
