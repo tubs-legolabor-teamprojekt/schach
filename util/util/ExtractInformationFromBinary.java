@@ -60,6 +60,7 @@ public class ExtractInformationFromBinary
 					value += (currentBit >> 6);
 				}
 			}
+			value++;
 			return value;
 		} else {
 			return -1;
@@ -86,6 +87,7 @@ public class ExtractInformationFromBinary
 					value += (currentBit >> 3);
 				}
 			}
+			value++;
 			return value;
 		} else {
 			return -1;
@@ -111,6 +113,7 @@ public class ExtractInformationFromBinary
 					value += currentBit;
 				}
 			}
+			value++;
 			return value;
 		} else {
 			return -1;

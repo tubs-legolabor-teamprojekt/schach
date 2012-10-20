@@ -4,10 +4,39 @@ public class TestingGameCoordinator
 {
 	private Figure[] figures = new Figure[32];
 	
+	private Field field = new Field();
+	
 	public static void main(String[] args) {
 		TestingGameCoordinator test = new TestingGameCoordinator();
-		test.createFigures();
-		test.writeFigures();
+		// nur zu Testzwecken, ist momentan sehr langsam
+//		test.createFigures();
+//		test.writeFigures();
+//		test.putFiguresOnField();
+		
+		for (int field=0; field <= 63; field++) {
+			System.out.println((field+1) + ": " + Field.getFieldName(field));
+		}
+	}
+	
+	public void putFiguresOnField()
+	{
+		for (int i = 0; i < 32; i++) {
+			if (i < 16) {
+				// weisse figuren
+				if (!this.field.putFigureAt(i+1, this.figures[i]))
+					System.out.println("Konnte nicht setzen auf: " + i);
+//				System.out.println("Pos: " + (i+1) + "-----" + this.figures[i].toString());
+			} else {
+				int newFieldNumber = 33  +i;
+				// schwarze figuren
+				if (!this.field.putFigureAt(newFieldNumber, this.figures[i])) {
+					System.out.println("Konnte nicht setzen auf: " + newFieldNumber);
+				}
+				
+//				System.out.println("Pos: " + (33+i) + "-----" + this.figures[i].toString());
+			}
+		}
+		System.out.println(this.field.toString());
 	}
 	
 	public void createFigures()
@@ -64,38 +93,39 @@ public class TestingGameCoordinator
 		FigurePawn wp8 = new FigurePawn(color);
 		
 		// Figuren einem Array hinzufuegen
-		this.figures[0] = bk;
-		this.figures[1] = bq;
-		this.figures[2] = bb1;
-		this.figures[3] = bb2;
-		this.figures[4] = bk1;
-		this.figures[5] = bk2;
-		this.figures[6] = br1;
-		this.figures[7] = br2;
-		this.figures[8] = bp1;
-		this.figures[9] = bp2;
-		this.figures[10] = bp3;
-		this.figures[11] = bp4;
-		this.figures[12] = bp5;
-		this.figures[13] = bp6;
-		this.figures[14] = bp7;
-		this.figures[15] = bp8;
-		this.figures[16] = wk;
-		this.figures[17] = wq;
-		this.figures[18] = wb1;
-		this.figures[19] = wb2;
-		this.figures[20] = wk1;
-		this.figures[21] = wk2;
-		this.figures[22] = wr1;
-		this.figures[23] = wr2;
-		this.figures[24] = wp1;
-		this.figures[25] = wp2;
-		this.figures[26] = wp3;
-		this.figures[27] = wp4;
-		this.figures[28] = wp5;
-		this.figures[29] = wp6;
-		this.figures[30] = wp7;
-		this.figures[31] = wp8;
+		this.figures[0] = wr1;
+		this.figures[1] = wk1;
+		this.figures[2] = wb1;
+		this.figures[3] = wq;
+		this.figures[4] = wk;
+		this.figures[5] = wb2;
+		this.figures[6] = wk2;
+		this.figures[7] = wr2;
+		this.figures[8] = wp1;
+		this.figures[9] = wp2;
+		this.figures[10] = wp3;
+		this.figures[11] = wp4;
+		this.figures[12] = wp5;
+		this.figures[13] = wp6;
+		this.figures[14] = wp7;
+		this.figures[15] = wp8;
+		
+		this.figures[16] = bp1;
+		this.figures[17] = bp2;
+		this.figures[18] = bp3;
+		this.figures[19] = bp4;
+		this.figures[20] = bp5;
+		this.figures[21] = bp6;
+		this.figures[22] = bp7;
+		this.figures[23] = bp8;
+		this.figures[24] = br1;
+		this.figures[25] = bk1;
+		this.figures[26] = bb1;
+		this.figures[27] = bk;
+		this.figures[28] = bq;
+		this.figures[29] = bb2;
+		this.figures[30] = bk2;
+		this.figures[31] = br2;
 	}
 	
 	public void writeFigures()
