@@ -14,6 +14,8 @@ public class TestingTools {
 		//   101 - Y-Position (6)
 		short sh = 925;
 		
+		System.out.println(ChessfigureConstants.makeFigureShort(1, ChessfigureConstants.KING, 4, 6));
+		
 		// Binaerstring vom Short
 		System.out.println(ExtractInformationFromBinary.shortToBinary(sh));
 		

@@ -147,5 +147,43 @@ public final class ChessfigureConstants {
 		
 		return xPosChar;
 	}
+	
+	/**
+	 * Erstellt den Short-Wert fŸr eine Figur.
+	 * @param color Farbe der Figur (0 oder 1)
+	 * @param figureType Figurtyp
+	 * @param positionX X-Position auf dem Feld
+	 * @param positionY Y-Position auf dem Feld
+	 * @return short-Wert der erzeugten Figur.
+	 * TODO Fehlerhafte Eingaben abfangen
+	 */
+	public static short makeFigureShort(int color, int figureType, int positionX, int positionY)
+	{
+		short s = 0;
+		
+		// Schwarz => 1 an Bit 10 (2^9)
+		if (color == BLACK)
+			s += Math.pow(2, 9);
+		
+		// Figurtyp
+		if (	figureType == PAWN ||
+				figureType == ROOK ||
+				figureType == KNIGHT ||
+				figureType == BISHOP ||
+				figureType == QUEEN ||
+				figureType == KING
+				)
+			s += (figureType << 6);
+		
+		// X-Position
+		if (positionX > 0 && positionX <= 8)
+			s += ((positionX-1) << 3);
+		
+		// Y-Position
+		if (positionY > 0 && positionY <= 8)
+			s += positionY-1;
+		
+		return s;
+	}
 
 }
