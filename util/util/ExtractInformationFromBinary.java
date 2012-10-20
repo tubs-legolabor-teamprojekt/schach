@@ -60,7 +60,6 @@ public class ExtractInformationFromBinary
 					value += (currentBit >> 6);
 				}
 			}
-			value++;
 			return value;
 		} else {
 			return -1;

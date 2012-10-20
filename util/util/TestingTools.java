@@ -10,8 +10,8 @@ public class TestingTools {
 		// 1110011101, zusammengesetzt aus:
 		//   1   - schwarz
 		//   110 - Koenig (6)
-		//   011 - X-Position (3/C)
-		//   101 - Y-Position (5)
+		//   011 - X-Position (4/D)
+		//   101 - Y-Position (6)
 		short sh = 925;
 		
 		// Binaerstring vom Short
