@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
+import util.ChessfigureConstants;
+
 /**
  * Repraesentiert das Spielfeld und enthaelt eine HashMap mit allen Figuren und ihrer aktuellen Position.
  * @author Florian Franke
@@ -78,15 +80,104 @@ public class Field
 	}
 	
 	/**
-	 * Ermittelt die Position der Figur in der Form A7/C3 etc.
-	 * @param field Nummer des Feldes (von 1 bis 64)
-	 * @return Der Name des Feldes (z.B. A8)
+	 * Exportiert alle Figuren, die sich aktuell auf dem Spielfeld befinden,
+	 * in ein Short-Array
+	 * @return Das Short-Array mit allen Short-Werten der Figuren
 	 */
-	public static String getFieldName(int field)
+	public short[] exportToShortArray()
 	{
-		int		y = ((int) Math.floor(field/8.0)) + 1;
-		char	x = util.ChessfigureConstants.getXPosition((byte)(field - (8*(y-1)) + 1));
-		String str = "" + x + "" + y;
+		// short-array anlegen. die groesse entspricht der anzahl der figuren
+		short[] shortArray = new short[this.figures.size()];
+		
+		// Iterator erstellen, der ueber alle Figuren iteriert
+		Iterator<Entry<Integer, Figure>> it = this.figures.entrySet().iterator();
+		// Zaehler, der bei jeder Figur inkrementiert,
+		// um die aktuelle Position im ShortArray zu bestimmen.
+		int arrayPosition = 0;
+		// iteriere ueber alle Figuren
+		while (it.hasNext()) {
+			// Position der Figur steht im Key
+			Integer i = (Integer) it.next().getKey();
+			// value-Objekt in ein Figure-Objekt casten
+			Figure f = (Figure) it.next().getValue();
+			
+			// Farbe, Figurtyp, X/Y-Position der aktuellen Figur ermitteln
+			byte color		= f.getColor();
+			byte figureType	= f.getFigureType();
+			byte positionX	= getXPositionFromFieldnumber(i);
+			byte positionY	= getYPositionFromFieldnumber(i);
+			
+			// Short-Wert mit ermittelten Werten berechnen
+			short s = ChessfigureConstants.makeFigureShort(color, figureType, positionX, positionY);
+			
+			// neuen Short-Wert dem ShortArray hinzufuegen
+			shortArray[arrayPosition] = s;
+			
+			// zaehler erhoehen
+			arrayPosition++;
+		}
+		
+		return shortArray;
+	}
+	
+	/**
+	 * Berechnet aus der gegebenen Feldnummer die X-Position
+	 * @param fieldNumber Nummer des Feldes (1-64)
+	 * @return Nummer der X-Position (1-8)
+	 */
+	public static byte getXPositionFromFieldnumber(int fieldNumber)
+	{
+		byte by = -1;
+		try {
+			if (fieldNumber < 1 || fieldNumber > 64)
+				throw new FieldException("Gegebene Feldwert ausserhalb des Feldes (1-64)!");
+			else {
+				// y-Wert ermitteln
+				byte y = getYPositionFromFieldnumber(fieldNumber);
+				// x-Wert berechnen
+				by = (byte)(fieldNumber - (8*(y-1)));
+			}
+		} catch (FieldException e)
+		{
+			System.out.println(e.getMessage());
+		}
+		return by;
+	}
+	
+	/**
+	 * Berechnet aus der gegebenen Feldnummer (1-64) die Y-Position (1-8)
+	 * @param fieldNumber Nummer des Feldes (1-64)
+	 * @return Nummer der Y-Position (1-8)
+	 */
+	public static byte getYPositionFromFieldnumber(int fieldNumber)
+	{
+		byte by = -1;
+		try {
+			if (fieldNumber < 1 || fieldNumber > 64)
+				throw new FieldException("Gegebene Feldwert ausserhalb des Feldes (1-64)!");
+			else {
+				// Von (1-64) auf (0-63) aendern
+				fieldNumber--;
+				// Feldnummer von 1-8 berechnen
+				by = (byte) (Math.floor(fieldNumber/8.0)+1);
+			}
+		} catch (FieldException e)
+		{
+			System.out.println(e.getMessage());
+		}
+		return by;
+	}
+	
+	/**
+	 * Ermittelt die Position der Figur in der Form A7/C3 etc.
+	 * @param fieldNumber Nummer des Feldes (von 1 bis 64)
+	 * @return Name des Feldes (z.B. A8)
+	 */
+	public static String getFieldName(int fieldNumber)
+	{
+		byte	y = getYPositionFromFieldnumber(fieldNumber);
+		char	x = ChessfigureConstants.getXPosition(getXPositionFromFieldnumber(fieldNumber));
+		String str = x + "" + y;
 		return str;
 	}
 
