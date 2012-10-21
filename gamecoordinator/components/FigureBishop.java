@@ -18,6 +18,7 @@ public class FigureBishop extends Figure
 	public FigureBishop(byte color) {
 		super(color);
 		this.setIcon();
+		this.figureLetter = 'B';
 	}
 
 	@Override

@@ -18,6 +18,7 @@ public class FigureKing extends Figure
 	public FigureKing(byte color) {
 		super(color);
 		this.setIcon();
+		this.figureLetter = 'K';
 	}
 
 	@Override

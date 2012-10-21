@@ -18,6 +18,7 @@ public class FigureKnight extends Figure
 	public FigureKnight(byte color) {
 		super(color);
 		this.setIcon();
+		this.figureLetter = 'N';
 	}
 	
 	@Override

@@ -27,6 +27,11 @@ public abstract class Figure
 	 * Figurtyp (Koenig, Dame...)
 	 */
 	protected byte figureType;
+	
+	/**
+	 * Buchstabe der Figur fuer die Ausgabe in Schachnotation.
+	 */
+	protected char figureLetter;
 
 	/**
 	 * Erstellt eine Figur
@@ -100,6 +105,15 @@ public abstract class Figure
 	public byte getFigureType()
 	{
 		return this.figureType;
+	}
+	
+	/**
+	 * Gibt den Figur-Buchstaben fuer die algebraische Notation aus.
+	 * @return Buchstabe der Figur
+	 */
+	public char getFigureLetter()
+	{
+		return this.figureLetter; 
 	}
 	
 	@Override

@@ -18,6 +18,7 @@ public class FigureQueen extends Figure
 	public FigureQueen(byte color) {
 		super(color);
 		this.setIcon();
+		this.figureLetter = 'Q';
 	}
 	
 	@Override

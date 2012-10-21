@@ -18,6 +18,7 @@ public class FigureRook extends Figure
 	public FigureRook(byte color) {
 		super(color);
 		this.setIcon();
+		this.figureLetter = 'R';
 	}
 	
 	@Override
