@@ -23,9 +23,19 @@ public final class ChessfigureConstants {
 	public static final byte ROOK = 2;
 	
 	/**
+	 * Turm-Kuerzel
+	 */
+	public static final char ROOK_LETTER = 'R';
+	
+	/**
 	 * Byte-Wert des Springers
 	 */
 	public static final byte KNIGHT = 3;
+	
+	/**
+	 * Springer-Kuerzel
+	 */
+	public static final char KNIGHT_LETTER = 'N';
 	
 	/**
 	 * Byte-Wert des Laeufers
@@ -33,14 +43,29 @@ public final class ChessfigureConstants {
 	public static final byte BISHOP = 4;
 	
 	/**
+	 * Laeufer-Kuerzel
+	 */
+	public static final char BISHOP_LETTER = 'B';
+	
+	/**
 	 * Byte-Wert der Dame
 	 */
 	public static final byte QUEEN = 5;
 	
 	/**
+	 * Dame-Kuerzel
+	 */
+	public static final char QUEEN_LETTER = 'Q';
+	
+	/**
 	 * Byte-Wert des Koenigs
 	 */
 	public static final byte KING = 6;
+	
+	/**
+	 * Koenig-Kuerzel
+	 */
+	public static final char KING_LETTER = 'K';
 	
 	/**
 	 * Farbe: Schwarz
@@ -64,6 +89,7 @@ public final class ChessfigureConstants {
 		switch(figureValue) {
 		case PAWN:
 			figure = "Bauer";
+			break;
 			
 		case ROOK:
 			figure = "Turm";
@@ -94,6 +120,31 @@ public final class ChessfigureConstants {
 	}
 	
 	/**
+	 * Ermittelt als dem Kuerzel der Figur den Byte-Wert
+	 * @param c Kuerzel der Figur
+	 * @return Byte-Wert der Figur
+	 */
+	public static byte getFigureTypeFromLetter(char c)
+	{
+		byte by = -1;
+		
+		if (c == ' ')
+			by = PAWN;
+		else if (c == ROOK_LETTER)
+			by = ROOK;
+		else if (c == KNIGHT_LETTER)
+			by = KNIGHT;
+		else if (c == BISHOP_LETTER)
+			by = BISHOP;
+		else if (c == QUEEN_LETTER)
+			by = QUEEN;
+		else if (c == KING_LETTER)
+			by = KING;
+		
+		return by;
+	}
+	
+	/**
 	 * Gibt die Farbe der Figur zurŸck
 	 * @param figureColor Wert der Farbe als byte
 	 * @return Farbe der Figur
@@ -101,53 +152,6 @@ public final class ChessfigureConstants {
 	public static String getFigureColor(byte figureColor)
 	{
 		return ( (figureColor==0) ? "Weiss" : "Schwarz");
-	}
-	
-	/**
-	 * Gibt die X-Position als Buchstabe aus
-	 * @param xPos 
-	 * @return
-	 */
-	public static char getXPosition(byte xPos)
-	{
-		char xPosChar = 'x';
-		switch(xPos) {
-		case 1:
-			xPosChar = 'a';
-			break;
-			
-		case 2:
-			xPosChar = 'b';
-			break;
-			
-		case 3:
-			xPosChar = 'c';
-			break;
-			
-		case 4:
-			xPosChar = 'd';
-			break;
-			
-		case 5:
-			xPosChar = 'e';
-			break;
-			
-		case 6:
-			xPosChar = 'f';
-			break;
-			
-		case 7:
-			xPosChar = 'g';
-			break;
-			
-		case 8:
-			xPosChar = 'h';
-			break;
-		default:
-			break;
-		}
-		
-		return xPosChar;
 	}
 	
 	/**
@@ -250,53 +254,6 @@ public final class ChessfigureConstants {
 	}
 	
 	/**
-	 * Ueberprueft ob der gegebenen byte-Wert eine gueltige X-Position ist
-	 * @param xPosition X-Position
-	 * @return True: Gueltige Position; False: Ungueltige Position
-	 */
-	public static boolean isValidXPosition(byte xPosition)
-	{
-		return (xPosition > 0 && xPosition <= 8);
-	}
-	
-	/**
-	 * Ueberprueft ob der gegebenen char-Wert eine gueltige X-Position ist
-	 * @param xPosition X-Position als Char (a-h)
-	 * @return True: Gueltige Position; False: Ungueltige Position
-	 */
-	public static boolean isValidXPosition(char xPosition)
-	{
-		return (	xPosition == 'a' ||
-					xPosition == 'b' ||
-					xPosition == 'c' ||
-					xPosition == 'd' ||
-					xPosition == 'e' ||
-					xPosition == 'f' ||
-					xPosition == 'g' ||
-					xPosition == 'h');
-	}
-	
-	/**
-	 * Ueberprueft ob der gegebenen byte-Wert eine gueltige Y-Position ist
-	 * @param xPosition X-Position
-	 * @return True: Gueltige Position; False: Ungueltige Position
-	 */
-	public static boolean isValidYPosition(byte yPosition)
-	{
-		return (yPosition > 0 && yPosition <= 8);
-	}
-	
-	/**
-	 * Prueft ob die uebergebene Feldnummer korrekt ist.
-	 * @param fieldNumber Feldnummer
-	 * @return True: Gehoert zum Schachfeld; False: Gehoert nicht zum Schachfeld
-	 */
-	public static boolean isValidFieldnumber(int fieldNumber)
-	{
-		return (fieldNumber > 0 && fieldNumber <= 64);
-	}
-	
-	/**
 	 * Ueberprueft ob die uebergebene Farbe gueltig ist.
 	 * @param color Zu pruefende Farbe
 	 * @return True: gueltig; False: Farbe ungueltig
@@ -304,5 +261,29 @@ public final class ChessfigureConstants {
 	public static boolean isValidColor(byte color)
 	{
 		return (color == WHITE || color == BLACK);
+	}
+	
+	/**
+	 * Ueberprueft, ob ein char-Wert einem Figuren-Kuerzel entspricht
+	 * @param letter Zu pruefendes Kuerzel
+	 * @return True: Kuerzel gueltig; False: Nicht
+	 */
+	public static boolean isValidFigureLetter(char letter)
+	{
+		return (letter == KING_LETTER ||
+				isValidPawnPromotionFigure(letter));
+	}
+	
+	/**
+	 * Ueberprueft, ob ein char-Wert einer regelkonformen Bauer-Umwandlung entspricht
+	 * @param letter Zu pruefendes Kuerzel
+	 * @return True: Kuerzel gueltig; False: Nicht
+	 */
+	public static boolean isValidPawnPromotionFigure(char letter)
+	{
+		return (letter == QUEEN_LETTER ||
+				letter == KNIGHT_LETTER ||
+				letter == BISHOP_LETTER ||
+				letter == ROOK_LETTER);
 	}
 }

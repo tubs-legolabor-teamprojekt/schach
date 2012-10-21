@@ -1,5 +1,6 @@
 package util;
 
+import components.Field;
 import components.FigureException;
 
 /**
@@ -98,7 +99,7 @@ public class ExtractInformationFromBinary
 					}
 				}
 				value++;
-				if (!ChessfigureConstants.isValidXPosition(value))
+				if (!Field.isValidXPosition(value))
 					throw new FigureException("Ungueltige X-Position aus Short-Wert gelesen!");
 			} catch (FigureException e)
 			{
@@ -131,7 +132,7 @@ public class ExtractInformationFromBinary
 					}
 				}
 				value++;
-				if (!ChessfigureConstants.isValidYPosition(value))
+				if (!Field.isValidYPosition(value))
 					throw new FigureException("Ungueltige Y-Position aus Short-Wert gelesen!");
 			} catch (FigureException e)
 			{

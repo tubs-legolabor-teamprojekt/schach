@@ -3,6 +3,7 @@ package components;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
+import java.util.regex.Pattern;
 
 import util.ChessfigureConstants;
 
@@ -169,16 +170,172 @@ public class Field
 	}
 	
 	/**
-	 * Ermittelt die Position der Figur in der Form A7/C3 etc.
+	 * Ermittelt anhand der Zeile (a-h) die entsprechende Nummer (1-8)
+	 * @param c Char-Wert der Zeile
+	 * @return Zeilennummer
+	 */
+	public static int getColumnnumberByChar(char c)
+	{
+		int i = -1;
+		
+		if (isValidXPosition(c)) {
+			if (c == 'a')
+				i = 1;
+			else if (c == 'b')
+				i = 2;
+			else if (c == 'c')
+				i = 3;
+			else if (c == 'd')
+				i = 4;
+			else if (c == 'e')
+				i = 5;
+			else if (c == 'f')
+				i = 6;
+			else if (c == 'g')
+				i = 7;
+			else if (c == 'h')
+				i = 8;
+		}
+		
+		return i;
+	}
+	
+	/**
+	 * Ermittelt die Position anhand der Feldnummer in der Form A7/C3 etc.
 	 * @param fieldNumber Nummer des Feldes (von 1 bis 64)
 	 * @return Name des Feldes (z.B. A8)
 	 */
 	public static String getFieldName(int fieldNumber)
 	{
 		byte	y = getYPositionFromFieldnumber(fieldNumber);
-		char	x = ChessfigureConstants.getXPosition(getXPositionFromFieldnumber(fieldNumber));
+		char	x = getXPosition(getXPositionFromFieldnumber(fieldNumber));
 		String str = x + "" + y;
 		return str;
+	}
+	
+	/**
+	 * Ermittelt aus dem uebergebenen Feldnamen (a-h1-8) die Feldnummer (1-64)
+	 * @param fieldName
+	 * @return
+	 */
+	public static int getFieldNumber(String fieldName)
+	{
+		int fieldNumber = -1;
+		
+		String pattern = "[a-h]{1}[1-8]{1}";
+		
+		try {
+			if (!Pattern.matches(pattern, fieldName))
+				throw new FieldException("Die Eingabe (" + fieldName + ") entspricht nicht einer gueltigen Feldbezeichnung!");
+			else {
+				// Gueltige Feldbezeichnung, Zeile und Spalte "ausschneiden"
+				int column = getColumnnumberByChar(fieldName.substring(0, 1).charAt(0));
+				int row = Integer.parseInt(fieldName.substring(1, 2));
+				
+				// Feldnummer berechnen
+				fieldNumber = ((row-1)*8) + column;
+			}
+		} catch (FieldException e)
+		{
+			System.out.println(e.getMessage());
+		}
+		
+		return fieldNumber;
+	}
+	
+	
+	/**
+	 * Ueberprueft ob der gegebenen byte-Wert eine gueltige X-Position ist
+	 * @param xPosition X-Position
+	 * @return True: Gueltige Position; False: Ungueltige Position
+	 */
+	public static boolean isValidXPosition(byte xPosition)
+	{
+		return (xPosition > 0 && xPosition <= 8);
+	}
+	
+	/**
+	 * Ueberprueft ob der gegebenen char-Wert eine gueltige X-Position ist
+	 * @param xPosition X-Position als Char (a-h)
+	 * @return True: Gueltige Position; False: Ungueltige Position
+	 */
+	public static boolean isValidXPosition(char xPosition)
+	{
+		return (	xPosition == 'a' ||
+					xPosition == 'b' ||
+					xPosition == 'c' ||
+					xPosition == 'd' ||
+					xPosition == 'e' ||
+					xPosition == 'f' ||
+					xPosition == 'g' ||
+					xPosition == 'h');
+	}
+	
+	/**
+	 * Ueberprueft ob der gegebenen byte-Wert eine gueltige Y-Position ist
+	 * @param xPosition X-Position
+	 * @return True: Gueltige Position; False: Ungueltige Position
+	 */
+	public static boolean isValidYPosition(byte yPosition)
+	{
+		return (yPosition > 0 && yPosition <= 8);
+	}
+	
+	/**
+	 * Prueft ob die uebergebene Feldnummer korrekt ist.
+	 * @param fieldNumber Feldnummer
+	 * @return True: Gehoert zum Schachfeld; False: Gehoert nicht zum Schachfeld
+	 */
+	public static boolean isValidFieldnumber(int fieldNumber)
+	{
+		return (fieldNumber > 0 && fieldNumber <= 64);
+	}
+	
+	/**
+	 * Gibt die X-Position als Buchstabe aus
+	 * @param xPos 
+	 * @return
+	 */
+	public static char getXPosition(byte xPos)
+	{
+		char xPosChar = 'x';
+		switch(xPos) {
+		case 1:
+			xPosChar = 'a';
+			break;
+			
+		case 2:
+			xPosChar = 'b';
+			break;
+			
+		case 3:
+			xPosChar = 'c';
+			break;
+			
+		case 4:
+			xPosChar = 'd';
+			break;
+			
+		case 5:
+			xPosChar = 'e';
+			break;
+			
+		case 6:
+			xPosChar = 'f';
+			break;
+			
+		case 7:
+			xPosChar = 'g';
+			break;
+			
+		case 8:
+			xPosChar = 'h';
+			break;
+		default:
+			break;
+		}
+		
+		return xPosChar;
 	}
 
 	@Override
