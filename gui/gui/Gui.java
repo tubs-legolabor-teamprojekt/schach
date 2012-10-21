@@ -25,10 +25,10 @@ public class Gui extends JFrame
 					right = new JPanel();
 	private Checkerboard checkerboard = new Checkerboard();
 	
-	private String[] columnNames_1 = {"a", "b", "c", "d", "e", "f", "g", "h"},
-			columnNames_2 = {"8"};
-	private String[][] rowData_1 = {{"a", "b", "c", "d", "e", "f", "g", "h"}},
-			rowData_2 = {{"8"}, {"7"}, {"6"}, {"5"}, {"4"}, {"3"}, {"2"}, {"1"}};
+	private String[] 	columnNames_1 = {"a", "b", "c", "d", "e", "f", "g", "h"},
+						columnNames_2 = {"8"};
+	private String[][] 	rowData_1 = {{"a", "b", "c", "d", "e", "f", "g", "h"}},
+						rowData_2 = {{"8"}, {"7"}, {"6"}, {"5"}, {"4"}, {"3"}, {"2"}, {"1"}};
 	private JTable 	table_bottom = new JTable(rowData_1, columnNames_1),
 					table_left = new JTable(rowData_2, columnNames_2);
 	
@@ -39,6 +39,7 @@ public class Gui extends JFrame
 	 */
 	public Gui(String title)
 	{
+		super(title);
 		this.startWindow();
 		this.makeLayout();
 	}
@@ -85,8 +86,7 @@ public class Gui extends JFrame
 	public void makeTable_bottomLayout() 
 	{
 		
-		this.table_bottom.getTableHeader().setFont(new Font("Courier", Font.BOLD, 50));
-		System.out.println(this.table_bottom.getTableHeader().getFont());
+//		this.table_bottom.getTableHeader().setFont(new Font("Courier", Font.BOLD, 50));
 		
 		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
 		centerRenderer.setHorizontalAlignment(JLabel.CENTER);
@@ -104,8 +104,7 @@ public class Gui extends JFrame
 	public void makeTable_leftLayout() 
 	{
 		
-		this.table_left.getTableHeader().setFont(new Font("Courier", Font.BOLD, 50));
-		System.out.println(this.table_left.getTableHeader().getFont());
+//		this.table_left.getTableHeader().setFont(new Font("Courier", Font.BOLD, 50));
 		
 		
 		DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
@@ -122,8 +121,6 @@ public class Gui extends JFrame
 			col = this.table_left.getColumnModel().getColumn(i);
 			col.setPreferredWidth(30);
 		}
-		
-		System.out.println("hallo");
 		
 		this.table_left.setBackground(null);
 		this.table_left.setShowHorizontalLines(false);

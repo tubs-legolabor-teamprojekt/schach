@@ -46,8 +46,6 @@ public class Checkerboard extends JPanel
 			);
 		}
 		
-		System.out.println("Hallihallo");
-		
 		CheckerboardPanel cb = new CheckerboardPanel();
 		
 		// in jeder Tabellenzelle wird ein JPanel eingefügt
@@ -84,6 +82,19 @@ public class Checkerboard extends JPanel
 		// Tabelle hinzufügen und Wände fett machen
 		this.add(grid);
 //		this.grid.setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, Color.BLACK));
+	}
+	
+	public void fieldNumberConverter(int fieldNumber) 
+	{
+		// Nummerierung des Feldes: unten links - 0
+		//							oben rechts - 63
+		// bei mir: oben rechts - 0/0
+		
+		// Spalte = fieldNumber mod 8
+		// Zeile = 
+		
+		int column = fieldNumber%8;
+		int row = 0;
 	}
 	
 }
