@@ -13,8 +13,8 @@ public class TestingGameCoordinator
 //		test.writeFigures();
 //		test.putFiguresOnField();
 		
-		for (int field=0; field <= 63; field++) {
-			System.out.println((field+1) + ": " + Field.getFieldName(field));
+		for (int field=1; field <= 64; field++) {
+			System.out.println("Feld " + (field) + ": " + Field.getFieldName(field));
 		}
 	}
 	
