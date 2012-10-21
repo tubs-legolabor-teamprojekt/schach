@@ -15,32 +15,32 @@ public final class ChessfigureConstants {
 	/**
 	 * Byte-Wert des Bauern
 	 */
-	public static final int PAWN = 1;
+	public static final byte PAWN = 1;
 	
 	/**
 	 * Byte-Wert des Turms
 	 */
-	public static final int ROOK = 2;
+	public static final byte ROOK = 2;
 	
 	/**
 	 * Byte-Wert des Springers
 	 */
-	public static final int KNIGHT = 3;
+	public static final byte KNIGHT = 3;
 	
 	/**
 	 * Byte-Wert des Laeufers
 	 */
-	public static final int BISHOP = 4;
+	public static final byte BISHOP = 4;
 	
 	/**
 	 * Byte-Wert der Dame
 	 */
-	public static final int QUEEN = 5;
+	public static final byte QUEEN = 5;
 	
 	/**
 	 * Byte-Wert des Koenigs
 	 */
-	public static final int KING = 6;
+	public static final byte KING = 6;
 	
 	/**
 	 * Farbe: Schwarz
@@ -159,7 +159,7 @@ public final class ChessfigureConstants {
 	 * @return short-Wert der erzeugten Figur.
 	 * TODO Fehlerhafte Eingaben abfangen
 	 */
-	public static short makeFigureShort(int color, int figureType, int positionX, int positionY)
+	public static short makeFigureShort(int color, byte figureType, int positionX, int positionY)
 	{
 		short s = 0;
 		try {
@@ -171,13 +171,7 @@ public final class ChessfigureConstants {
 				s += Math.pow(2, 9);
 			
 			// Figurtyp
-			if (	figureType == PAWN ||
-					figureType == ROOK ||
-					figureType == KNIGHT ||
-					figureType == BISHOP ||
-					figureType == QUEEN ||
-					figureType == KING
-					)
+			if (isValidFigureType((byte) figureType))
 				s += (figureType << 6);
 			else
 				throw new FigureException("Ungueltiger Figurtyp angegeben!");
@@ -200,6 +194,21 @@ public final class ChessfigureConstants {
 		}
 		
 		return s;
+	}
+	
+	/**
+	 * Ueberprueft ob der uebergebene byte-Wert ein gueltiger Figurtyp ist.
+	 * @param figureType Zu pruefender byte-Wert
+	 * @return True: Gueltiger Figurtyp; False: Ungueltiger Figurtyp
+	 */
+	public static boolean isValidFigureType(byte figureType)
+	{
+		return (	figureType == PAWN ||
+				figureType == ROOK ||
+				figureType == KNIGHT ||
+				figureType == BISHOP ||
+				figureType == QUEEN ||
+				figureType == KING);
 	}
 
 }
