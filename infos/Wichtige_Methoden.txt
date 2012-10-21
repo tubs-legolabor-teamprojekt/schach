@@ -22,12 +22,29 @@ Klasse: Field
 [DONE] getFieldName
     Position in der Form A3/C7...
 
+[DONE] getXPosition
+    Gibt die X-Position als Buchstabe aus (3 => c)
+
 [DONE] getXPositionFromFieldnumber
     Aus 47 (ausgehend von 1-64) wird 7 ("Spalte 7")
 
 [DONE] getYPositionFromFieldnumber
     Aus 47 (ausgehend von 1-64) wird 6 ("Zeile 6")
 
+[DONE] getColumnnumberByChar
+    Ermittelt anhand der Zeile (a-h) die entsprechende Nummer (1-8)
+
+[DONE] getFieldNumber
+    Ermittelt aus dem uebergebenen Feldnamen (a-h1-8) die Feldnummer (1-64)
+
+[DONE] isValidFieldnumber
+    Prueft ob die uebergebene Feldnummer korrekt ist.
+
+[DONE] isValidXPosition
+    Prueft ob die X-Position gueltig ist (1-8) oder (a-h)
+
+[DONE] isValidYPosition
+    Prueft ob die Y-Position gueltig ist (1-8)
 
 
 
@@ -39,9 +56,6 @@ Klasse: ChessFigureConstants
 
 [DONE] getFigureName
     Gibt den Namen (Koenig, Dame...) der Figur zurueck
-
-[DONE] getXPosition
-    Ermittelt aus dem uebergebenen byte-Wert den zugehoerigen Buchstaben (3 => c)
 
 [DONE] makeFigureShort
     Erstellt aus den noetigen Informationen (Farbe, Figurtyp, X-Position, Y-Position) den passenden Short-Wert
@@ -55,11 +69,18 @@ Klasse: ChessFigureConstants
 [DONE] isValidColor
     Prueft ob die Farbe gueltig ist
 
-[DONE] isValidXPosition
-    Prueft ob die X-Position gueltig ist (1-8) oder (a-h)
+[DONE] getFigureTypeFromLetter
+    Ermittelt als dem Kuerzel der Figur den Byte-Wert
 
-[DONE] isValidYPosition
-    Prueft ob die Y-Position gueltig ist (1-8)
+[DONE] isValidFigureLetter
+    Ueberprueft, ob ein char-Wert einem Figuren-Kuerzel entspricht
+
+[DONE] isValidPawnPromotionFigure
+    Ueberprueft, ob ein char-Wert einem Figuren-Kuerzel entspricht
+
+[DONE] 
+
+
 
 
 
