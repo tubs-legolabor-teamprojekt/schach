@@ -1,0 +1,40 @@
+###########################################################
+## Erklaerung: Ausfuehrliche algebraische Schachnotation ##
+###########################################################
+
+Allgemeines
+-----------
+Pro Zeile der ausfuehrlichen algebraischen Schachnotation werden die Zuege beider Spieler,
+mit Leerzeichen getrennt, aufgefuehrt. Der linke Spieler hat die weissen und der rechte
+Spieler die schwarzen Figuren.
+Dabei setzt sich der Zug eines Spielers zusammen aus:
+    - Bewegte Figur
+    - Besondere Aktion (Geschmissen, Schach, Bauer umgewandelt)
+
+Bezeichnung
+ der Figuren
+-----------------------
+Koenig/King:        K
+Dame/Queen:         Q
+Turm/Rook:          R
+Laeufer/Bishop:     B
+Springer/Knight:    K
+
+Der Bauer/Pawn bekommt keine Bezeichnung!
+
+
+Bezeichnungen fuer Aktionen
+---------------------------
+Geschmissen:        x
+Umwandlung Bauer:   Figurenbezeichnung an das Ende des Zuges (ohne Leerzeichen)
+Schach:             + ans Ende des Zuges
+Schachmatt:         # ans Ende des Zuges
+
+
+Ende des Spiels
+---------------
+Das Ende des Spiels wird mit
+    - "1-0" wenn weiss gewinnt,
+    - "0-1" wenn schwarz gewinnt oder
+    - "0.5-0.5" wenn unentschieden ist
+gekennzeichnet.
