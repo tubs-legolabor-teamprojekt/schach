@@ -2,6 +2,8 @@ package components;
 
 import javax.swing.ImageIcon;
 
+import util.ChessfigureConstants;
+
 /**
  * Abstrakte Klasse für eine Schachfigur. Es darf keine Instanz dieser Klasse gebildet werden,
  * da eine Figur immer von einem Typ (König, Dame...) sein muss.
@@ -16,7 +18,15 @@ public abstract class Figure
 	 */
 	protected byte color = util.ChessfigureConstants.BLACK;
 	
+	/**
+	 * Icon der Figur
+	 */
 	protected ImageIcon icon = null;
+	
+	/**
+	 * Figurtyp (Koenig, Dame...)
+	 */
+	protected byte figureType;
 
 	/**
 	 * Erstellt eine Figur
@@ -65,6 +75,31 @@ public abstract class Figure
 	public ImageIcon getIcon()
 	{
 		return this.icon;
+	}
+	
+	/**
+	 * Legt den Figurtyp fest.
+	 * @param figureType Der neue Figurtyp
+	 */
+	public void setFigureType(byte figureType)
+	{
+		try {
+			if (ChessfigureConstants.isValidFigureType(figureType))
+				this.figureType = figureType;
+			else
+				throw new FigureException("Ungueltiger Figurtyp!");
+		} catch (FigureException e)
+		{
+			System.out.println(e.getMessage());
+		}
+	}
+	/**
+	 * Gibt den Byte-Wert der Figur zurueck
+	 * @return
+	 */
+	public byte getFigureType()
+	{
+		return this.figureType;
 	}
 	
 	@Override
