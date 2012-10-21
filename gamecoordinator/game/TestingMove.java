@@ -17,7 +17,7 @@ public class TestingMove
 		Figure bauer = new FigurePawn(colorWhite);
 		
 		// Zug erstellen
-		Move move = new Move(18, 27, bauer, true, true, false, false, ' ');
+		Move move = new Move(Field.getFieldNumber("b3"), Field.getFieldNumber("c4"), bauer, true, true, false, false, ' ');
 		
 		System.out.println(move.getAlgebraicNotation());
 		System.out.println(move.getMoveAsText());
@@ -31,7 +31,7 @@ public class TestingMove
 		// und sich in eine Dame wandeln
 		
 		// Zug erstellen
-		Move move2 = new Move(51, 60, bauer, true, true, false, true, 'Q');
+		Move move2 = new Move(Field.getFieldNumber("c7"), Field.getFieldNumber("d8"), bauer, true, true, false, true, 'Q');
 		System.out.println(move2.getAlgebraicNotation());
 		System.out.println(move2.getMoveAsText());
 		
@@ -42,7 +42,7 @@ public class TestingMove
 		// Schwarzer Koenig geht von Feld h8 (62) nach g7 (55)
 		byte colorBlack = 1;
 		Figure koenig = new FigureKing(colorBlack);
-		Move move3 = new Move(62, 55, koenig);
+		Move move3 = new Move(Field.getFieldNumber("h8"), Field.getFieldNumber("g7"), koenig);
 		System.out.println(move3.getAlgebraicNotation());
 		System.out.println(move3.getMoveAsText());
 	}

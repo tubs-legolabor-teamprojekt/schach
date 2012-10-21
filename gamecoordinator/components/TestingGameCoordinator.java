@@ -7,7 +7,7 @@ public class TestingGameCoordinator
 	private Field field = new Field();
 	
 	public static void main(String[] args) {
-		TestingGameCoordinator test = new TestingGameCoordinator();
+//		TestingGameCoordinator test = new TestingGameCoordinator();
 		// nur zu Testzwecken, ist momentan sehr langsam
 //		test.createFigures();
 //		test.writeFigures();
