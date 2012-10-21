@@ -1,5 +1,7 @@
 package util;
 
+import components.Field;
+
 public class TestingTools {
 
 	/**
@@ -25,7 +27,7 @@ public class TestingTools {
 		
 		// Position der Figur
 		byte xPos = ExtractInformationFromBinary.getXPosition(sh);
-		System.out.println(ChessfigureConstants.getXPosition(xPos));
+		System.out.println(Field.getXPosition(xPos));
 		byte yPos = ExtractInformationFromBinary.getYPosition(sh);
 		System.out.println(yPos);
 		
