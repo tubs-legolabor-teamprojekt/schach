@@ -287,6 +287,16 @@ public final class ChessfigureConstants {
 	}
 	
 	/**
+	 * Prueft ob die uebergebene Feldnummer korrekt ist.
+	 * @param fieldNumber Feldnummer
+	 * @return True: Gehoert zum Schachfeld; False: Gehoert nicht zum Schachfeld
+	 */
+	public static boolean isValidFieldnumber(int fieldNumber)
+	{
+		return (fieldNumber > 0 && fieldNumber <= 64);
+	}
+	
+	/**
 	 * Ueberprueft ob die uebergebene Farbe gueltig ist.
 	 * @param color Zu pruefende Farbe
 	 * @return True: gueltig; False: Farbe ungueltig
@@ -295,5 +305,4 @@ public final class ChessfigureConstants {
 	{
 		return (color == WHITE || color == BLACK);
 	}
-
 }
