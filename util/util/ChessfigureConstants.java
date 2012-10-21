@@ -1,5 +1,7 @@
 package util;
 
+import components.FigureException;
+
 /**
  * Definiert alle Konstanten zur Kodierung der Figuren.
  * Jede Figur hat einen Integer-Wert zugewiesen bekommen (siehe docs)
@@ -160,28 +162,42 @@ public final class ChessfigureConstants {
 	public static short makeFigureShort(int color, int figureType, int positionX, int positionY)
 	{
 		short s = 0;
-		
-		// Schwarz => 1 an Bit 10 (2^9)
-		if (color == BLACK)
-			s += Math.pow(2, 9);
-		
-		// Figurtyp
-		if (	figureType == PAWN ||
-				figureType == ROOK ||
-				figureType == KNIGHT ||
-				figureType == BISHOP ||
-				figureType == QUEEN ||
-				figureType == KING
-				)
-			s += (figureType << 6);
-		
-		// X-Position
-		if (positionX > 0 && positionX <= 8)
-			s += ((positionX-1) << 3);
-		
-		// Y-Position
-		if (positionY > 0 && positionY <= 8)
-			s += positionY-1;
+		try {
+			if (!(color == BLACK || color == WHITE))
+				throw new FigureException("Farbe der Figur ist ungueltig!");
+			
+			// Schwarz => 1 an Bit 10 (2^9)
+			if (color == BLACK)
+				s += Math.pow(2, 9);
+			
+			// Figurtyp
+			if (	figureType == PAWN ||
+					figureType == ROOK ||
+					figureType == KNIGHT ||
+					figureType == BISHOP ||
+					figureType == QUEEN ||
+					figureType == KING
+					)
+				s += (figureType << 6);
+			else
+				throw new FigureException("Ungueltiger Figurtyp angegeben!");
+			
+			// X-Position
+			if (positionX > 0 && positionX <= 8)
+				s += ((positionX-1) << 3);
+			else
+				throw new FigureException("Ungueltige X-Position!\nMuss zwischen 1 und 8 liegen.");
+			
+			// Y-Position
+			if (positionY > 0 && positionY <= 8)
+				s += positionY-1;
+			else
+				throw new FigureException("Ungueltige Y-Position!\nMuss zwischen 1 und 8 liegen.");
+			
+		} catch (FigureException e)
+		{
+			System.out.println(e.getMessage());
+		}
 		
 		return s;
 	}
