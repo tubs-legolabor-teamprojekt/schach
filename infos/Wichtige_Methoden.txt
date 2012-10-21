@@ -1,0 +1,75 @@
+#######################
+## Wichtige Methoden ##
+#######################
+
+Infos zur Datei
+---------------
+Diese Datei soll alle Methoden auflisten, die wichtige Werte berechnen
+oder Informationen zurueckgeben, die fuer andere interessant sein koennten.
+Somit sollten die hier angebenen Methoden statisch sein.
+Falls bestimmte Informationen benoetigt werden, die nicht von der eigenen Klasse
+berechnet werden sollte, kann diese hier hinzugefuegt werden.
+    Z.B. soll die Klasse "Move" nicht die Position einer Figur berechnen,
+    also hinzufuegen mit Praefix [TODO]. Die zustaendige Person der Klasse
+    sollte die geforderte Methode dann programmieren.
+
+
+
+
+
+Klasse: Field
+-------------
+[DONE] getFieldName
+    Position in der Form A3/C7...
+
+[DONE] getXPositionFromFieldnumber
+    Aus 47 (ausgehend von 1-64) wird 7 ("Spalte 7")
+
+[DONE] getYPositionFromFieldnumber
+    Aus 47 (ausgehend von 1-64) wird 6 ("Zeile 6")
+
+
+
+
+
+Klasse: ChessFigureConstants
+-----------------------------
+[DONE] getFigureColor
+    Gibt die Farbe (schwarz/weiss) aus dem uebergebenen byte-Wert zurueck
+
+[DONE] getFigureName
+    Gibt den Namen (Koenig, Dame...) der Figur zurueck
+
+[DONE] getXPosition
+    Ermittelt aus dem uebergebenen byte-Wert den zugehoerigen Buchstaben (3 => c)
+
+[DONE] isValidFigureType
+    Ueberprueft ob der gegebene byte-Wert eine gueltige Figur darstellt.
+
+[DONE] makeFigureShort
+    Erstellt aus den noetigen Informationen (Farbe, Figurtyp, X-Position, Y-Position) den passenden Short-Wert
+
+
+
+
+
+
+Klasse: ExtractInformationFromBinary
+------------------------------------
+[DONE] getBinaryByBitShifting
+    Nur eine Beispielmethode mit kurzer Erklaerung zum Bitshifting
+
+[DONE] getColor
+    Berechnet die Farbe aus dem gegebenen Short-Wert
+
+[DONE] getFigure
+    Berechnet den Figurtyp aus dem gegebenen Short-Wert
+
+[DONE] getXPosition
+    Berechnet die X-Position aus dem gegebenen Short-Wert
+
+[DONE] getYPosition
+    Berechnet die Y-Position aus dem gegebenen Short-Wert
+
+[DONE] shortToBinary
+    Gibt den Binaer-Wert des Shorts zurueck
