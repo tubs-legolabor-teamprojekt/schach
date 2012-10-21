@@ -248,5 +248,52 @@ public final class ChessfigureConstants {
 			return null;
 		}
 	}
+	
+	/**
+	 * Ueberprueft ob der gegebenen byte-Wert eine gueltige X-Position ist
+	 * @param xPosition X-Position
+	 * @return True: Gueltige Position; False: Ungueltige Position
+	 */
+	public static boolean isValidXPosition(byte xPosition)
+	{
+		return (xPosition > 0 && xPosition <= 8);
+	}
+	
+	/**
+	 * Ueberprueft ob der gegebenen char-Wert eine gueltige X-Position ist
+	 * @param xPosition X-Position als Char (a-h)
+	 * @return True: Gueltige Position; False: Ungueltige Position
+	 */
+	public static boolean isValidXPosition(char xPosition)
+	{
+		return (	xPosition == 'a' ||
+					xPosition == 'b' ||
+					xPosition == 'c' ||
+					xPosition == 'd' ||
+					xPosition == 'e' ||
+					xPosition == 'f' ||
+					xPosition == 'g' ||
+					xPosition == 'h');
+	}
+	
+	/**
+	 * Ueberprueft ob der gegebenen byte-Wert eine gueltige Y-Position ist
+	 * @param xPosition X-Position
+	 * @return True: Gueltige Position; False: Ungueltige Position
+	 */
+	public static boolean isValidYPosition(byte yPosition)
+	{
+		return (yPosition > 0 && yPosition <= 8);
+	}
+	
+	/**
+	 * Ueberprueft ob die uebergebene Farbe gueltig ist.
+	 * @param color Zu pruefende Farbe
+	 * @return True: gueltig; False: Farbe ungueltig
+	 */
+	public static boolean isValidColor(byte color)
+	{
+		return (color == WHITE || color == BLACK);
+	}
 
 }
