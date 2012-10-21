@@ -2,6 +2,8 @@ package components;
 
 import javax.swing.ImageIcon;
 
+import util.ChessfigureConstants;
+
 /**
  * Stellt einen Turm dar.
  * 
@@ -18,7 +20,8 @@ public class FigureRook extends Figure
 	public FigureRook(byte color) {
 		super(color);
 		this.setIcon();
-		this.figureLetter = 'R';
+		this.setFigureType(ChessfigureConstants.ROOK);
+		this.figureLetter = ChessfigureConstants.ROOK_LETTER;
 	}
 	
 	@Override

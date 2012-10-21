@@ -2,6 +2,8 @@ package components;
 
 import javax.swing.ImageIcon;
 
+import util.ChessfigureConstants;
+
 /**
  * Stellt einen Bauern dar.
  * 
@@ -18,6 +20,7 @@ public class FigurePawn extends Figure
 	public FigurePawn(byte color) {
 		super(color);
 		this.setIcon();
+		this.setFigureType(ChessfigureConstants.PAWN);
 	}
 	
 	@Override

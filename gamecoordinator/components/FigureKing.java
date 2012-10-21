@@ -2,6 +2,8 @@ package components;
 
 import javax.swing.ImageIcon;
 
+import util.ChessfigureConstants;
+
 /**
  * Stellt einen Koenig dar.
  * 
@@ -18,7 +20,8 @@ public class FigureKing extends Figure
 	public FigureKing(byte color) {
 		super(color);
 		this.setIcon();
-		this.figureLetter = 'K';
+		this.setFigureType(ChessfigureConstants.KING);
+		this.figureLetter = ChessfigureConstants.KING_LETTER;
 	}
 
 	@Override

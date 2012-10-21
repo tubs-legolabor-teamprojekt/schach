@@ -2,6 +2,8 @@ package components;
 
 import javax.swing.ImageIcon;
 
+import util.ChessfigureConstants;
+
 /**
  * Stellt eine Dame dar.
  * 
@@ -18,7 +20,8 @@ public class FigureQueen extends Figure
 	public FigureQueen(byte color) {
 		super(color);
 		this.setIcon();
-		this.figureLetter = 'Q';
+		this.setFigureType(ChessfigureConstants.QUEEN);
+		this.figureLetter = ChessfigureConstants.QUEEN_LETTER;
 	}
 	
 	@Override

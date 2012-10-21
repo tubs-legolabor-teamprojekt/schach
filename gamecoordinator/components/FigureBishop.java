@@ -2,6 +2,8 @@ package components;
 
 import javax.swing.ImageIcon;
 
+import util.ChessfigureConstants;
+
 /**
  * Stellt einen Laeufer dar.
  * 
@@ -18,7 +20,8 @@ public class FigureBishop extends Figure
 	public FigureBishop(byte color) {
 		super(color);
 		this.setIcon();
-		this.figureLetter = 'B';
+		this.setFigureType(ChessfigureConstants.BISHOP);
+		this.figureLetter = ChessfigureConstants.BISHOP_LETTER;
 	}
 
 	@Override
