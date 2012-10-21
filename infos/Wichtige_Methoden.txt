@@ -43,12 +43,23 @@ Klasse: ChessFigureConstants
 [DONE] getXPosition
     Ermittelt aus dem uebergebenen byte-Wert den zugehoerigen Buchstaben (3 => c)
 
-[DONE] isValidFigureType
-    Ueberprueft ob der gegebene byte-Wert eine gueltige Figur darstellt.
-
 [DONE] makeFigureShort
     Erstellt aus den noetigen Informationen (Farbe, Figurtyp, X-Position, Y-Position) den passenden Short-Wert
 
+[DONE] makeFigureFromShort
+    Erstellt ein Figure-Objekt (FigureShort, FigureQueen...) aus einem Short-Wert.
+
+[DONE] isValidFigureType
+    Ueberprueft ob der gegebene byte-Wert eine gueltige Figur darstellt.
+
+[DONE] isValidColor
+    Prueft ob die Farbe gueltig ist
+
+[DONE] isValidXPosition
+    Prueft ob die X-Position gueltig ist (1-8) oder (a-h)
+
+[DONE] isValidYPosition
+    Prueft ob die Y-Position gueltig ist (1-8)
 
 
 
