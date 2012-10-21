@@ -1,6 +1,6 @@
 package util;
 
-import components.FigureException;
+import components.*;
 
 /**
  * Definiert alle Konstanten zur Kodierung der Figuren.
@@ -209,6 +209,44 @@ public final class ChessfigureConstants {
 				figureType == BISHOP ||
 				figureType == QUEEN ||
 				figureType == KING);
+	}
+	
+	/**
+	 * Erstellt aus einem Short-Wert die dazugehoerige Figur.
+	 * Da in der Figur nicht die Position gespeichert wird,
+	 * werden die Positionsinformationen des Short-Werts ignoriert.
+	 * @param sh Short-Wert, der die zu erstellende Figur enthaelt
+	 * @return Ein Objekt der entsprechenden Subklasse von Figure
+	 * (FigureKing, FigureQueen...)
+	 */
+	public static Figure makeFigureFromShort(short sh)
+	{
+		// Figurtyp ermitteln
+		byte figureType = ExtractInformationFromBinary.getFigure(sh);
+		
+		// Farbe der Figur ermitteln
+		byte figureColor = ExtractInformationFromBinary.getColor(sh);
+		
+		// Figurtyp steht fest.
+		// Nun wird ein Objekt der entsprechenden Klasse erstellt
+		switch (figureType) {
+		case PAWN:
+			return new FigurePawn(figureColor);
+		case ROOK:
+			return new FigureRook(figureColor);
+		case KNIGHT:
+			return new FigureKnight(figureColor);
+		case BISHOP:
+			return new FigureBishop(figureColor);
+		case QUEEN:
+			return new FigureQueen(figureColor);
+		case KING:
+			return new FigureKing(figureColor);
+		default :
+			// duerfte nie der Fall sein, da in ExtractInformationFromBinary.getFigure
+			// geprueft wird, ob es eine gueltige Figur ist.
+			return null;
+		}
 	}
 
 }
