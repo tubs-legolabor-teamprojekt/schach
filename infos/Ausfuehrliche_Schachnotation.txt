@@ -11,8 +11,7 @@ Dabei setzt sich der Zug eines Spielers zusammen aus:
     - Bewegte Figur
     - Besondere Aktion (Geschmissen, Schach, Bauer umgewandelt)
 
-Bezeichnung
- der Figuren
+Bezeichnung der Figuren
 -----------------------
 Koenig/King:        K
 Dame/Queen:         Q
@@ -25,8 +24,8 @@ Der Bauer/Pawn bekommt keine Bezeichnung!
 
 Bezeichnungen fuer Aktionen
 ---------------------------
-Geschmissen:        x
-Umwandlung Bauer:   Figurenbezeichnung an das Ende des Zuges (ohne Leerzeichen)
+Geschmissen:        x, zwischen Figur und Feld
+Umwandlung Bauer:   "=[Figurenbezeichnung]" an das Ende des Zuges (ohne Leerzeichen)
 Schach:             + ans Ende des Zuges
 Schachmatt:         # ans Ende des Zuges
 
@@ -38,3 +37,8 @@ Das Ende des Spiels wird mit
     - "0-1" wenn schwarz gewinnt oder
     - "0.5-0.5" wenn unentschieden ist
 gekennzeichnet.
+
+
+Aufbau eines Zuges
+------------------
+(Figurkuerzel[ausser Bauer])[Geschmissen](Zielfeld)[Schach/Schachmatt][=Figurenbezeichnung]
