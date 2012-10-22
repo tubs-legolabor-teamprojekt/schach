@@ -205,7 +205,7 @@ public class Gui extends JFrame
 	public static void main(String[] args)
 	{
 		Gui g = new Gui("Schach");
-		System.out.println("Hallo");
+		
 		/*Checkerboard cb = new Checkerboard();
 		
 		for (int i = 0; i < 64; i++) {
