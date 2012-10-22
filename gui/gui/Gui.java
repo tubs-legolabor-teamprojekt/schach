@@ -1,10 +1,7 @@
 package gui;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
 import java.awt.Container;
-import java.awt.Font;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -15,14 +12,21 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 
+/**
+ * Klasse, die das Hauptfenster darstellt.
+ * @author Tabea
+ *
+ */
 public class Gui extends JFrame
 {
 
 	private Container c;
+	
 	private JPanel 	top = new JPanel(),
 					bottom = new JPanel(),
 					left = new JPanel(),
 					right = new JPanel();
+	
 	private Checkerboard checkerboard = new Checkerboard();
 	
 	private String[] 	columnNames_1 = {"a", "b", "c", "d", "e", "f", "g", "h"},
@@ -32,9 +36,15 @@ public class Gui extends JFrame
 	private JTable 	table_bottom = new JTable(rowData_1, columnNames_1),
 					table_left = new JTable(rowData_2, columnNames_2);
 	
+	private boolean pawnPromotion = false,
+					queen = false, 
+					bishop = false,
+					knight = false,
+					rook = false;
+	
 	/**
 	 * Konstruktor, der ein neues Fenster erstellt und 
-	 * Setting und Layout festlegt.
+	 * Einstellungen und Layout festlegt.
 	 * @param title
 	 */
 	public Gui(String title)
@@ -45,7 +55,7 @@ public class Gui extends JFrame
 	}
 	
 	/**
-	 * Settings 
+	 * Methde, die die Fenstereinstellungen anlegt.
 	 */
 	public void startWindow()
 	{
@@ -55,8 +65,14 @@ public class Gui extends JFrame
 		this.setResizable(false);
 		this.setVisible(true);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		
+		// nur zu Testzwecken
+		this.pawnPromotionGUI();
 	}
 	
+	/**
+	 * Methode, die das Layout des Fensters erstellt.
+	 */
 	public void makeLayout() 
 	{
 		this.makeTable_bottomLayout();
@@ -83,9 +99,12 @@ public class Gui extends JFrame
 		this.checkerboard.setBorder(new EmptyBorder(-4, 0, 0, 0));
 	}
 	
+	/**
+	 * Methode, die das Layout für die Schachbrettbeschriftung am 
+	 * unteren Rand des Feldes erzeugt.
+	 */
 	public void makeTable_bottomLayout() 
 	{
-		
 //		this.table_bottom.getTableHeader().setFont(new Font("Courier", Font.BOLD, 50));
 		
 		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
@@ -101,11 +120,13 @@ public class Gui extends JFrame
 		this.table_bottom.setShowVerticalLines(false);
 	}
 	
+	/**
+	 * Methode, die das Layout für die Schachbretbeschriftung am 
+	 * linken Rand des Feldes erzeugt.
+	 */
 	public void makeTable_leftLayout() 
-	{
-		
+	{		
 //		this.table_left.getTableHeader().setFont(new Font("Courier", Font.BOLD, 50));
-		
 		
 		DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
 		rightRenderer.setHorizontalAlignment(JLabel.RIGHT);
@@ -127,9 +148,67 @@ public class Gui extends JFrame
 		this.table_left.setShowVerticalLines(false);
 	}
 	
+	/**
+	 * Methode, die die Informationen über das aktuelle Schachfeld und 
+	 * eventuelle Sonderfälle einholt.
+	 */
+	/*public void getCheckerboardInformation(Move move) 
+	{
+		// wer zieht wohin, geschmissen?, Sonderfall: PawnPromotion, Schach?, Schachmatt? 
+		this.pawnPromotion = pawnPromotion
+		if (this.pawnPromotion) {
+			this.pawnPromotionGUI();
+		}
+	}*/
+	
+	/**
+	 * Methode, die ein neues Objekt der Klasse PawnPromotionGUI erzeugt.
+	 */
+	public void pawnPromotionGUI() {
+		PawnPromotionGUI pp = new PawnPromotionGUI("Bauernumwandlung", this);
+	}
+	
+	/**
+	 * Methode, die die Informationen über die getroffene Spielfigurenwahl
+	 * des Spielers enthält.
+	 * @param queen
+	 * @param bishop
+	 * @param knight
+	 * @param rook
+	 */
+	public void pawnPromotionInformation(boolean queen, boolean bishop, 
+			boolean knight, boolean rook) 
+	{
+		this.queen = queen;
+		this.bishop = bishop;
+		this.knight = knight;
+		this.rook = rook;
+		
+//		System.out.println("queen: " + this.queen + " bishop: " + this.bishop
+//				+ " knight: " + this.knight + " rook: " + this.rook);
+	}
+	
+	/**
+	 * Getter für die boolean-Variable pawnPromotion, die angibt, ob
+	 * ein solcher Sonderfall vorliegt.
+	 * @return
+	 */
+	public boolean isPawnPromotion() 
+	{
+		return this.pawnPromotion;
+	}
+
+	/**
+	 * Main-Methode
+	 * @param args
+	 */
 	public static void main(String[] args)
 	{
 		Gui g = new Gui("Schach");
-	}
-
+		/*Checkerboard cb = new Checkerboard();
+		
+		for (int i = 0; i < 64; i++) {
+			cb.fieldNumberConverter(i);
+		}*/
+	}	
 }

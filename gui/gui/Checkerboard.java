@@ -9,16 +9,27 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 
+/**
+ * Klasse, die das Schachbrett darstellt. 
+ * @author Tabea
+ *
+ */
 public class Checkerboard extends JPanel
 {
 
 	private JTable grid = null;
 	
+	/**
+	 * Konstruktor, der ein neues Objekt der Klasse erstellt.
+	 */
 	public Checkerboard() 
 	{
 		this.makeTable();
 	}
 	
+	/**
+	 * Methode, die eine Tabelle erzeugt, die das Schachbrett darstellt.
+	 */
 	public void makeTable()
 	{
 		
@@ -49,6 +60,7 @@ public class Checkerboard extends JPanel
 		CheckerboardPanel cb = new CheckerboardPanel();
 		
 		// in jeder Tabellenzelle wird ein JPanel eingefügt
+		// Schachbrettmuster wird angelegt
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
 				this.grid.setValueAt(new CheckerboardPanel(), i, j);
@@ -84,17 +96,24 @@ public class Checkerboard extends JPanel
 //		this.grid.setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, Color.BLACK));
 	}
 	
+	/**
+	 * Methode, die die übergebene Feldnummer an die Zählweise der JTable anpasst. 
+	 * @param fieldNumber
+	 */
 	public void fieldNumberConverter(int fieldNumber) 
 	{
-		// Nummerierung des Feldes: unten links - 0
-		//							oben rechts - 63
-		// bei mir: oben rechts - 0/0
-		
-		// Spalte = fieldNumber mod 8
-		// Zeile = 
+		/* 
+		 * Nummerierung des Feldes: unten links - 0
+		 * 							oben rechts - 63
+		 * bei mir: oben rechts - 0/0
+		 * 
+		 * Spalte = fieldNumber mod 8
+		 * Zeile = 63-fieldNumber / 8 --> abrunden
+		 */							
 		
 		int column = fieldNumber%8;
-		int row = 0;
+		int row = (int)Math.floor((63-fieldNumber)/8);
+		
+		//System.out.println("FieldNumber: " + fieldNumber + " ,column: " + column + " ,row: " + row);	
 	}
-	
 }
