@@ -10,7 +10,7 @@ public class TestingMove
 		 */
 		// Bauer soll von Feld b3 (17) nach Feld c4 (27) gehen,
 		// die dortige Figur schmeissen,
-		// und den Gegner Schach setzen.
+		// und den Gegner Schach setzen
 		
 		// Weissen Bauer erstellen
 		byte colorWhite = 0;
