@@ -6,7 +6,7 @@ package gameTree;
  * @author tobi
  *
  */
-public class validMove {
+public class ValidMove {
 
 	
 	
