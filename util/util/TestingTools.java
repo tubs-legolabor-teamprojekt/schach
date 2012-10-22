@@ -5,7 +5,7 @@ import components.Field;
 public class TestingTools {
 
 	/**
-	 * Testet das Extrahieren von Informationen aus einem Short-Wert
+	 * Testet das Extrahieren von Informationen aus einem Short-Wert.
 	 */
 	public static void main(String[] args) {
 		// Schwarzer Koenig auf C5 (3/5)
