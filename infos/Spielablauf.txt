@@ -1,0 +1,61 @@
+#########################
+## Ablauf eines Spiels ##
+#########################
+
+Ein Spielablauf in Pseudocode.
+Fügt doch bitte eure entsprechenden Verbesserungen hinzu.
+Wenn Methoden fehlen (Roboter soll Figur bewegen), diese Einfügen, sollten sie schon existieren oder der zukünftige Name bekannt sein.
+
+---------------------
+
+// Spiel starten
+GameCoordinator.startGame();
+
+// Grafische Abfrage nach "Spieler gegen Spieler" oder "Spieler gegen Computer"
+GameCoordinator.setPlayers (
+    gui.playerPopup();
+);
+
+// Schleife, bis das Spiel endet
+while(GameCoordinator.endOfGame()) {
+
+    // Zug entgegennehmen (Spieler oder Computer)
+    GameCoordinator.receiveMove(Move move);
+    
+    // Zug pruefen
+    if (Rules.checkMove(move) == false) {
+        
+        // Ungueltiger Zug
+        // Warnung anzeigen
+        // gui: TODO
+        
+    } else {
+        
+        // Gueltiger Zug
+        // Wurde eine Figur geschmissen?
+        if (move.isCaptured) {
+            // Figur vom virtuellen Spielfeld entfernen
+            Field.removeFigureAt(move.getFieldTo());
+            
+            // Roboter soll Figur entfernen
+            // motion-and-technic: TODO
+        }
+        
+        // Figur verschieben //Zwischenspeichern, entfernen, auf Zielfeld setzen
+        Figur movingFigure = Field.getFigureAt(move.getFieldFrom());
+        Field.removeFigureAt(move.getFieldFrom());
+        Field.putFigureAt(move.getFieldTo());
+        
+        // Roboter soll Figur bewegen
+        // motion-and-technic: TODO
+        
+    }
+}
+
+// Grafische Abfrage, ob
+//  - das Spiel exportiert werden soll
+//  - der Spielverlauf angezeigt werden soll
+//  - das Spiel neugestartet werden soll
+// gui: TODO
+
+// Soll der Roboter das Feld auf Anfang bringen oder wir per Hand?
