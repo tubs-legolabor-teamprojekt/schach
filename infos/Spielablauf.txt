@@ -26,12 +26,14 @@ while(GameCoordinator.endOfGame()) {
     if (Rules.checkMove(move) == false) {
         
         // Ungueltiger Zug
+        
         // Warnung anzeigen
         // gui: TODO
         
     } else {
         
         // Gueltiger Zug
+        
         // Wurde eine Figur geschmissen?
         if (move.isCaptured) {
             // Figur vom virtuellen Spielfeld entfernen
@@ -41,10 +43,8 @@ while(GameCoordinator.endOfGame()) {
             // motion-and-technic: TODO
         }
         
-        // Figur verschieben //Zwischenspeichern, entfernen, auf Zielfeld setzen
-        Figur movingFigure = Field.getFigureAt(move.getFieldFrom());
-        Field.removeFigureAt(move.getFieldFrom());
-        Field.putFigureAt(move.getFieldTo());
+        // Figur verschieben
+        Field.moveFigure(move.getFieldFrom(), move.getFieldTo());
         
         // Roboter soll Figur bewegen
         // motion-and-technic: TODO
