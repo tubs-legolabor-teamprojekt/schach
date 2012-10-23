@@ -1,7 +1,11 @@
 package components;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
@@ -14,10 +18,113 @@ import util.ChessfigureConstants;
  */
 public class Field
 {
+	
 	/**
 	 * HashMap, die alle im Spiel befindlichen Figuren enthaelt.
 	 */
 	private HashMap<Integer, Figure> figures = new HashMap<Integer, Figure>();
+	
+	/**
+	 * Private Variable, in der die Instanz dieser Klasse gespeichert ist.
+	 */
+	private static Field instance = null;
+	
+	/**
+	 * Privater Konstruktor, damit nur eine Field-Instanz moeglich ist.
+	 * Erstellt alle noetigen Figuren und positioniert sie auf dem Spielfeld.
+	 */
+	private Field()
+	{
+		// Figuren aufs (virtuelle) Feld stellen
+		this.equipField();
+	}
+	
+	/**
+	 * Gibt die Field-Instanz zurueck
+	 * @return Field-Instanz
+	 */
+	public static Field getInstance()
+	{
+		if (instance == null)
+			instance = new Field();
+		
+		return instance;
+	}
+	
+	/**
+	 * Stattet das Schachfeld mit den Figuren aus.
+	 */
+	private void equipField()
+	{
+		// Feld sicherheitshalber leern
+		this.figures.clear();
+		
+		// Reihe 1 und 8 setzen (Koenig, Dame, Springer, Laeufer, Turm)
+		for (int i = 1; i <= 2; i++) {
+			
+			int rowCount = 0;
+			byte color = ChessfigureConstants.WHITE;
+			
+			if (i == 2) {
+				rowCount = 56;
+				color = ChessfigureConstants.BLACK;
+			}
+			
+			int position = rowCount;
+			// Turm
+			FigureRook fr1 = new FigureRook(color);
+			this.putFigureAt(++position, fr1);
+			
+			// Springer
+			FigureKnight fk1 = new FigureKnight(color);
+			this.putFigureAt(++position, fk1);
+			
+			// Laeufer
+			FigureBishop fb1 = new FigureBishop(color);
+			this.putFigureAt(++position, fb1);
+			
+			// Dame
+			FigureQueen fq = new FigureQueen(color);
+			this.putFigureAt(++position, fq);
+			
+			// Koenig
+			FigureKing fk = new FigureKing(color);
+			this.putFigureAt(++position, fk);
+			
+			// Laeufer
+			FigureBishop fb2 = new FigureBishop(color);
+			this.putFigureAt(++position, fb2);
+			
+			// Springer
+			FigureKnight fk2 = new FigureKnight(color);
+			this.putFigureAt(++position, fk2);
+			
+			// Turm
+			FigureRook fr2 = new FigureRook(color);
+			this.putFigureAt(++position, fr2);
+		}
+		
+		// Bauern setzen
+		for (int j = 1; j <= 16; j++) {
+			if (j <= 8) {
+				// Position in Reihe 2 bestimmen
+				Integer position = 8 + j;
+				
+				// weissen Bauern aufs Spielfeld setzen
+				this.putFigureAt(position, new FigurePawn(ChessfigureConstants.WHITE));
+
+			} else {
+				// Erstelle schwarze Bauern
+				FigurePawn pawn = new FigurePawn(ChessfigureConstants.BLACK);
+				
+				// Position in Reihe 7 bestimmen
+				int position = 40 + j;
+				
+				// schwarzen Bauern aufs Spielfeld setzen
+				this.figures.put(position, pawn);
+			}
+		}
+	}
 	
 	/**
 	 * Holt die Figur an der gegebenen Position, sofern dort eine Figur vorhanden ist.
@@ -63,6 +170,48 @@ public class Field
 	}
 	
 	/**
+	 * Bewegt eine Figur vom Start- aufs Zielfeld.
+	 * Es wird davon ausgegangen, dass das Zielfeld leer ist. Sollte also eine Figur mit diesem
+	 * Zug geschmissen werden, muss sie vorher entfernt worden sein.
+	 * Sicherheitshalber wird es jedoch ueberprueft und notfalls gewarnt.
+	 * @param fromFieldNumber Startfeld
+	 * @param toFieldNumber Zielfeld
+	 * @return True: Zug wurde ausgefuehrt; False: Zug konnte nicht ausgefuehrt werden
+	 */
+	public boolean moveFigure(Integer fromFieldNumber, Integer toFieldNumber)
+	{
+		// Rueckgabewert
+		boolean ret = false;
+		
+		try {
+			// Befindet sich eine Figur auf dem Feld?
+			if (!this.isFigureOnField(fromFieldNumber))
+				throw new FieldException("Es befindet sich keine Figur auf dem Feld angegebenen Feld (" + fromFieldNumber + ")!");
+			
+			// Ist das Zielfeld frei?
+			if (this.isFigureOnField(toFieldNumber))
+				throw new FieldException("Es befindet sich eine Figur auf Feld " + toFieldNumber + ".\nWenn die Figur geschlagen werden soll, muss sie zuerst entfernt werden!");
+			
+			
+			// Figur temporaer speichern
+			Figure figure = this.figures.get(fromFieldNumber);
+			// Figur vom alten Feld entfernen
+			this.removeFigureAt(fromFieldNumber);
+			// Figur auf neues Feld setzen
+			this.putFigureAt(toFieldNumber, figure);
+			
+			// Zug erfolgreich
+			ret = true;
+			
+		} catch (FieldException e)
+		{
+			System.out.println(e.getMessage());
+		}
+		
+		return ret;
+	}
+	
+	/**
 	 * Entfernt die Figur auf der gegebenen Feldnummer.
 	 * @param fieldNumber Nummer des Feldes, von dem die Figur entfernt werden soll
 	 * @return True: Figur entfernt; False: Keine Figur vorhanden oder fehlerhafte Feldnummer
@@ -78,6 +227,33 @@ public class Field
 			System.out.println("Keine Figur auf dem Feld");
 			return false;
 		}
+	}
+	
+	/**
+	 * Gibt das aktuelle Feld aus.
+	 * @return String mit dem aktuellen Feld
+	 */
+	public String getCurrentField()
+	{
+		// Figuren auf dem Feld werden im Strin gespeichert
+		String str = "";
+		
+		// Nach Feldnummer (Key) sortieren
+		List<Integer> sortedList = new ArrayList<Integer>();
+		sortedList.addAll(this.figures.keySet());
+		Collections.sort(sortedList);
+		
+		for (int i = 0; i < sortedList.size(); i++) {
+			// Feldnummer aus der sortierten Liste holen
+			Integer fieldNumber = sortedList.get(i);
+			// Figur holen
+			Figure f = this.getFigureAt(fieldNumber);
+			
+			// In Ausgabe-String speichern
+			str += "Feld " + getFieldName(fieldNumber) + "(" + fieldNumber + "): " + f.toString() + "\n";
+		}
+		
+		return str;
 	}
 	
 	/**
@@ -97,10 +273,13 @@ public class Field
 		int arrayPosition = 0;
 		// iteriere ueber alle Figuren
 		while (it.hasNext()) {
+			// Key/Value-Paar speichern
+			Map.Entry<Integer, Figure> pair = it.next();
+			
 			// Position der Figur steht im Key
-			Integer i = (Integer) it.next().getKey();
-			// value-Objekt in ein Figure-Objekt casten
-			Figure f = (Figure) it.next().getValue();
+			Integer i = pair.getKey();
+			// value-Objekt
+			Figure f = pair.getValue();
 			
 			// Farbe, Figurtyp, X/Y-Position der aktuellen Figur ermitteln
 			byte color		= f.getColor();
