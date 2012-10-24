@@ -195,7 +195,8 @@ public class Gui extends JFrame
 		Gui g = new Gui("Schach");
 		Checkerboard cb = new Checkerboard(g);
 		Move move = new Move(Field.getFieldNumber("h8"), Field.getFieldNumber("g7"), new FigureKing((byte)1) );
-		Move move2 = new Move(Field.getFieldNumber("c7"), Field.getFieldNumber("d8"), new FigurePawn((byte)0), true, true, false, true, 'Q');
+		
+//		Move move2 = new Move(Field.getFieldNumber("c7"), Field.getFieldNumber("d8"), new FigurePawn((byte)0), true, true, false, true);
 		cb.getCheckerboardInformation(move);
 		
 		/*
