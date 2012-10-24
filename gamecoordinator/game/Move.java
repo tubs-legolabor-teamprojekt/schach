@@ -80,42 +80,26 @@ public class Move
 	 * @param captured Geschmissen
 	 * @param check Schach
 	 * @param checkMate Schachmatt
-	 * @param pawnPromotion Bauer-Umwandlung
-	 * @param pawnPromotedTo Bauer wurde umgewandelt in (Figurenkuerzel)
 	 */
-	public Move(int fieldFrom, int fieldTo, Figure figure, boolean captured, boolean check, boolean checkMate, boolean pawnPromotion, char pawnPromotedTo)
+	public Move(	int fieldFrom,
+					int fieldTo,
+					Figure figure,
+					boolean captured,
+					boolean check,
+					boolean checkMate)
 	{
 		this(fieldFrom, fieldTo, figure);
 		this.setCaptured(captured);
 		this.setCheck(check);
 		this.setCheckMate(checkMate);
-		try {
-			// Bauer-Umwandlung?
-			if (pawnPromotion) {
-				if ((figure.getFigureType() == ChessfigureConstants.PAWN)) { // Ist es ein Bauer?
-					if (	pawnPromotedTo == ' ' || // Keine Figur, in die umgewandelt wird, angegeben?
-							!ChessfigureConstants.isValidPawnPromotionFigure(pawnPromotedTo) // Umwandlung gueltig?
-						) {
-						throw new MoveException("Ungueltige Bauer-Umwandlung!");
-					} else {
-						this.setPawnPromotion(pawnPromotion);
-						this.setPawnPromotedTo(pawnPromotedTo);
-					}
-				} else {
-					throw new MoveException("Figur, die umgewandelt werden soll, ist kein Bauer!");
-				}
-			}
-		} catch (MoveException e)
-		{
-			System.out.println(e.getMessage());
-		}
 	}
 	
 	/**
 	 * Ausgabe der Feldnummer, von dem der Zug beginnt
 	 * @return Feld von dem der Zug ausgeht (1-64)
 	 */
-	public int getFieldFrom() {
+	public int getFieldFrom()
+	{
 		return fieldFrom;
 	}
 
@@ -123,7 +107,8 @@ public class Move
 	 * Setzt das Von-Feld des Spielzugs.
 	 * @param fieldFrom Feld, von dem der Zug startet (1-64)
 	 */
-	public void setFieldFrom(int fieldFrom) {
+	public void setFieldFrom(int fieldFrom)
+	{
 		try {
 			if (!Field.isValidFieldnumber(fieldFrom))
 				throw new FieldException("Ungueltige Feldnummer (" + fieldFrom + ")!");
@@ -138,7 +123,8 @@ public class Move
 	 * Ausgabe der Feldnummer, auf dem der Zug endet.
 	 * @return Feld auf dem der Zug endet (1-64)
 	 */
-	public int getFieldTo() {
+	public int getFieldTo()
+	{
 		return fieldTo;
 	}
 
@@ -146,7 +132,8 @@ public class Move
 	 * Ausgabe der Feldnummer, auf dem der Zug endet
 	 * @param fieldTo Feld auf dem der Zug endet (1-64)
 	 */
-	public void setFieldTo(int fieldTo) {
+	public void setFieldTo(int fieldTo)
+	{
 		try {
 			if (!Field.isValidFieldnumber(fieldTo))
 				throw new FieldException("Ungueltige Feldnummer (" + fieldTo + ")!");
@@ -161,7 +148,8 @@ public class Move
 	 * Figur, die den Zug taetigt.
 	 * @return
 	 */
-	public Figure getFigure() {
+	public Figure getFigure()
+	{
 		return figure;
 	}
 
@@ -169,7 +157,8 @@ public class Move
 	 * Figur setzen, die den Zug taetigt.
 	 * @param figure Figur
 	 */
-	public void setFigure(Figure figure) {
+	public void setFigure(Figure figure)
+	{
 		this.figure = figure;
 	}
 
@@ -177,7 +166,8 @@ public class Move
 	 * Wurde mit diesem Zug eine gegnerische Figur geschmissen?
 	 * @return True: Gegner geschmissen; False: Nicht
 	 */
-	public boolean isCaptured() {
+	public boolean isCaptured()
+	{
 		return captured;
 	}
 
@@ -185,7 +175,8 @@ public class Move
 	 * Wurde mit diesem Zug eine gegnerische Figur geschmissen?
 	 * @param captured  True: Gegner geschmissen; False: Nicht
 	 */
-	public void setCaptured(boolean captured) {
+	public void setCaptured(boolean captured)
+	{
 		this.captured = captured;
 	}
 
@@ -193,7 +184,8 @@ public class Move
 	 * Wurde mit diesem Zug ein Bauer in eine Dame/Springer/Laeufer/Turm gewandelt?
 	 * @return True: Bauer gewandelt; False: Nicht
 	 */
-	public boolean isPawnPromotion() {
+	public boolean isPawnPromotion()
+	{
 		return pawnPromotion;
 	}
 
@@ -201,7 +193,8 @@ public class Move
 	 * Wurde mit diesem Zug ein Bauer in eine Dame/Springer/Laeufer/Turm gewandelt?
 	 * @param pawnPromotion True: Bauer gewandelt; False: Nicht
 	 */
-	public void setPawnPromotion(boolean pawnPromotion) {
+	private void setPawnPromotion(boolean pawnPromotion)
+	{
 		this.pawnPromotion = pawnPromotion;
 	}
 
@@ -210,7 +203,8 @@ public class Move
 	 * Wird zur Bestimmung der ausfuehrlichen algebraischen Notation benoetigt.
 	 * @return Buchstabe der neuen Figur
 	 */
-	public char getPawnPromotedTo() {
+	public char getPawnPromotedTo()
+	{
 		return pawnPromotedTo;
 	}
 
@@ -218,15 +212,14 @@ public class Move
 	 * Methode um den Buchstaben der Figur auszugeben, in den der Bauer umgewandelt wurde.
 	 * @param pawnPromotedTo Buchstabe der neuen Figur.
 	 */
-	public void setPawnPromotedTo(char pawnPromotedTo) {
+	public void setPawnPromotedTo(char pawnPromotedTo)
+	{
 		try {
-			// Wird ein Bauer umgewandelt?
-			if (!isPawnPromotion())
-				throw new MoveException("Es wurde kein Bauer umgewandelt!");
-			
 			// Ist eine gueltige Figur zur Umwandlung angegeben?
 			if (!ChessfigureConstants.isValidPawnPromotionFigure(pawnPromotedTo))
 				throw new MoveException("Ungueltige Figur, in die umgewandelt werden soll, angegeben");
+			else
+				this.setPawnPromotion(true);
 			
 			this.pawnPromotedTo = pawnPromotedTo;
 		} catch (MoveException e)
@@ -239,7 +232,8 @@ public class Move
 	 * Befindet sich der gegnerische Koenig, nach diesem Zug, im Schach?
 	 * @return True: Gegnerischer Koenig ist Schach; False: Gegner nicht Schach
 	 */
-	public boolean isCheck() {
+	public boolean isCheck()
+	{
 		return check;
 	}
 
@@ -247,7 +241,8 @@ public class Move
 	 * Befindet sich der gegnerische Koenig, nach diesem Zug, im Schach?
 	 * @param check True: Gegnerischer Koenig ist Schach; False: Gegner nicht Schach
 	 */
-	public void setCheck(boolean check) {
+	public void setCheck(boolean check)
+	{
 		this.check = check;
 	}
 
@@ -257,7 +252,8 @@ public class Move
 	 * @return True: Gegner ist Schachmatt, Spiel beendet.
 	 * False: Gegner nicht Schachmatt.
 	 */
-	public boolean isCheckMate() {
+	public boolean isCheckMate()
+	{
 		return checkMate;
 	}
 
@@ -267,7 +263,8 @@ public class Move
 	 * @param checkMate True: Gegner ist Schachmatt, Spiel beendet.
 	 * False: Gegner nicht Schachmatt.
 	 */
-	public void setCheckMate(boolean checkMate) {
+	public void setCheckMate(boolean checkMate)
+	{
 		this.checkMate = checkMate;
 	}
 	
@@ -339,7 +336,8 @@ public class Move
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "Move [fieldFrom=" + fieldFrom + ", fieldTo=" + fieldTo
 				+ ", figure=" + figure + ", captured=" + captured
 				+ ", pawnPromotion=" + pawnPromotion + ", pawnPromotedTo="
