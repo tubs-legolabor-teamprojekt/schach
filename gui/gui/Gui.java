@@ -1,5 +1,7 @@
 package gui;
 
+import game.Move;
+
 import java.awt.BorderLayout;
 import java.awt.Container;
 
@@ -11,6 +13,10 @@ import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
+
+import components.Field;
+import components.FigureKing;
+import components.FigurePawn;
 
 /**
  * Klasse, die das Hauptfenster darstellt.
@@ -27,7 +33,7 @@ public class Gui extends JFrame
 					left = new JPanel(),
 					right = new JPanel();
 	
-	private Checkerboard checkerboard = new Checkerboard();
+	private Checkerboard checkerboard;
 	
 	private String[] 	columnNames_1 = {"a", "b", "c", "d", "e", "f", "g", "h"},
 						columnNames_2 = {"8"};
@@ -36,8 +42,7 @@ public class Gui extends JFrame
 	private JTable 	table_bottom = new JTable(rowData_1, columnNames_1),
 					table_left = new JTable(rowData_2, columnNames_2);
 	
-	private boolean pawnPromotion = false,
-					queen = false, 
+	private boolean queen = false, 
 					bishop = false,
 					knight = false,
 					rook = false;
@@ -50,8 +55,12 @@ public class Gui extends JFrame
 	public Gui(String title)
 	{
 		super(title);
+		
+		this.checkerboard = new Checkerboard(this);
+		
 		this.startWindow();
 		this.makeLayout();
+		
 	}
 	
 	/**
@@ -67,7 +76,7 @@ public class Gui extends JFrame
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
 		// nur zu Testzwecken
-		this.pawnPromotionGUI();
+		// this.pawnPromotionGUI();
 	}
 	
 	/**
@@ -148,29 +157,18 @@ public class Gui extends JFrame
 		this.table_left.setShowVerticalLines(false);
 	}
 	
-	/**
-	 * Methode, die die Informationen über das aktuelle Schachfeld und 
-	 * eventuelle Sonderfälle einholt.
-	 */
-	/*public void getCheckerboardInformation(Move move) 
-	{
-		// wer zieht wohin, geschmissen?, Sonderfall: PawnPromotion, Schach?, Schachmatt? 
-		this.pawnPromotion = pawnPromotion
-		if (this.pawnPromotion) {
-			this.pawnPromotionGUI();
-		}
-	}*/
 	
 	/**
 	 * Methode, die ein neues Objekt der Klasse PawnPromotionGUI erzeugt.
 	 */
-	public void pawnPromotionGUI() {
+	public void pawnPromotionGUI() 
+	{
 		PawnPromotionGUI pp = new PawnPromotionGUI("Bauernumwandlung", this);
 	}
 	
 	/**
 	 * Methode, die die Informationen über die getroffene Spielfigurenwahl
-	 * des Spielers enthält.
+	 * des Spielers enthält, wenn der Bauer ausgewechselt werden durfte.
 	 * @param queen
 	 * @param bishop
 	 * @param knight
@@ -187,16 +185,6 @@ public class Gui extends JFrame
 //		System.out.println("queen: " + this.queen + " bishop: " + this.bishop
 //				+ " knight: " + this.knight + " rook: " + this.rook);
 	}
-	
-	/**
-	 * Getter für die boolean-Variable pawnPromotion, die angibt, ob
-	 * ein solcher Sonderfall vorliegt.
-	 * @return
-	 */
-	public boolean isPawnPromotion() 
-	{
-		return this.pawnPromotion;
-	}
 
 	/**
 	 * Main-Methode
@@ -205,9 +193,12 @@ public class Gui extends JFrame
 	public static void main(String[] args)
 	{
 		Gui g = new Gui("Schach");
+		Checkerboard cb = new Checkerboard(g);
+		Move move = new Move(Field.getFieldNumber("h8"), Field.getFieldNumber("g7"), new FigureKing((byte)1) );
+		Move move2 = new Move(Field.getFieldNumber("c7"), Field.getFieldNumber("d8"), new FigurePawn((byte)0), true, true, false, true, 'Q');
+		cb.getCheckerboardInformation(move);
 		
-		/*Checkerboard cb = new Checkerboard();
-		
+		/*
 		for (int i = 0; i < 64; i++) {
 			cb.fieldNumberConverter(i);
 		}*/

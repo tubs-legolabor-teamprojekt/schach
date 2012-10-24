@@ -1,5 +1,7 @@
 package gui;
 
+import game.Move;
+
 import java.awt.Color;
 import java.awt.Component;
 
@@ -9,6 +11,8 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 
+import components.Figure;
+
 /**
  * Klasse, die das Schachbrett darstellt. 
  * @author Tabea
@@ -17,13 +21,26 @@ import javax.swing.table.TableColumn;
 public class Checkerboard extends JPanel
 {
 
+	private Gui g;
+	
 	private JTable grid = null;
+	
+	private Move move;
+	private int fieldFrom, 
+				fieldTo;
+	private Figure figure;
+	
+	private int fieldFromColumn = 0,
+				fieldFromRow = 0,
+				fieldToColumn = 0,
+				fieldToRow = 0;
 	
 	/**
 	 * Konstruktor, der ein neues Objekt der Klasse erstellt.
 	 */
-	public Checkerboard() 
+	public Checkerboard(Gui g) 
 	{
+		this.g = g;
 		this.makeTable();
 	}
 	
@@ -97,23 +114,101 @@ public class Checkerboard extends JPanel
 	}
 	
 	/**
-	 * Methode, die die übergebene Feldnummer an die Zählweise der JTable anpasst. 
+	 * Methode, die die verwendete Nummerieung in Tabellenform 
+	 * umrechnet. Hier nur den Spaltenwert. 
+	 * Sonst 0-63 von links unten nach rechts oben, meine Tabelle
+	 * hat aber standardmäßig, 0/0 links oben.
 	 * @param fieldNumber
+	 * @return
 	 */
-	public void fieldNumberConverter(int fieldNumber) 
+	public int fieldNumberConverterColumn(int fieldNumber)
 	{
-		/* 
-		 * Nummerierung des Feldes: unten links - 0
-		 * 							oben rechts - 63
-		 * bei mir: oben rechts - 0/0
-		 * 
-		 * Spalte = fieldNumber mod 8
-		 * Zeile = 63-fieldNumber / 8 --> abrunden
-		 */							
+		// Spalte = fieldNumber mod 8
+		int column = (fieldNumber-1)%8;
 		
-		int column = fieldNumber%8;
-		int row = (int)Math.floor((63-fieldNumber)/8);
-		
-		//System.out.println("FieldNumber: " + fieldNumber + " ,column: " + column + " ,row: " + row);	
+		return column;
 	}
+	
+	/**
+	 * Methode, die die verwendete Nummerieung in Tabellenform 
+	 * umrechnet. Hier nur den Zeilenwert.
+	 * Sonst 0-63 von links unten nach rechts oben, meine Tabelle
+	 * hat aber standardmäßig, 0/0 links oben.
+	 * @param fieldNumber
+	 * @return
+	 */
+	public int fieldNumberConverterRow(int fieldNumber)
+	{
+		// Zeile = 63-fieldNumber / 8 --> abrunden
+		int row = (int)Math.floor((64-fieldNumber)/8);
+		
+		return row;
+	}
+	
+	/**
+	 * Methode, die die Informationen über das aktuelle Schachfeld und 
+	 * eventuelle Sonderfälle einholt.
+	 */
+	public void getCheckerboardInformation(Move move) 
+	{
+		// wer zieht wohin, geschmissen?, Sonderfall: PawnPromotion, Schach?, Schachmatt? 
+		
+		this.move = move;
+		
+		if (this.move.isPawnPromotion()) {
+			this.g.pawnPromotionGUI();
+		}
+		
+		this.figure = this.move.getFigure();
+			
+		this.fieldFrom = this.move.getFieldFrom();
+		this.fieldFromColumn = this.fieldNumberConverterColumn(this.fieldFrom);
+		this.fieldFromRow = this.fieldNumberConverterRow(this.fieldFrom);
+		
+		for (int i = 0; i < 8; i++) {
+			if (i == this.fieldFromColumn) {
+				for (int j = 0; j < 8; j++) {
+					if (j == this.fieldFromRow) {
+						CheckerboardPanel cbp = (CheckerboardPanel)this.grid.getValueAt(i, j);
+						cbp.showIcon(this.figure, false);
+					}
+				}
+			}
+		}
+		
+		this.fieldTo = this.move.getFieldTo();
+		this.fieldToColumn = this.fieldNumberConverterColumn(this.fieldTo);
+		this.fieldToRow = this.fieldNumberConverterRow(this.fieldTo);
+		
+		System.out.println(this.fieldFrom + ": " + this.fieldFromColumn + "/" + this.fieldFromRow + " --> "
+								+ this.fieldTo + ": " + this.fieldToColumn + "/" + this.fieldToRow);
+		
+		for (int i = 0; i < 8; i++) {
+			if (i == this.fieldToColumn) {
+				for (int j = 0; j < 8; j++) {
+					if (j == this.fieldToRow) {
+						CheckerboardPanel cbp = (CheckerboardPanel)this.grid.getValueAt(i, j);
+						cbp.showIcon(this.figure, true);
+					}
+				}
+			}
+		}		
+		
+		this.repaint();
+		this.revalidate();
+		
+		if (this.move.isCaptured()) {	
+			// gucken, ob er die Icons übereinander macht, oder nicht, ansonsten, geschlagenen extra wegmachen
+		} 
+		
+		if (this.move.isCheck()) {
+			javax.swing.JOptionPane.showMessageDialog(this,"Schach!");
+		}
+		
+		if (this.move.isCheckMate()) {
+			javax.swing.JOptionPane.showMessageDialog(this,"Schachmatt!");
+		}
+		
+	}
+	
 }
