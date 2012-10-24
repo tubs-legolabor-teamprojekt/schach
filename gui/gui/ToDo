@@ -1,4 +1,8 @@
+- Auswahl ob Spieler gegen Spieler oder gegen Computer	
+- Methode gültiger Zug
+- Methode für HashMap figures übergeben --> aus Klasse Field
 
+- Start-Button
 
 - Icons entsprechend anzeigen lassen --> werden nicht angezeigt, Informationen da, aber kein Bild
 

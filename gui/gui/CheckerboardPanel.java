@@ -35,10 +35,11 @@ public class CheckerboardPanel extends JPanel
 	 */
 	public void showIcon(Figure figure, boolean show)
 	{
-		this.label.setIcon(figure.getIcon());
-		this.label.setVisible(show);
-		
-		System.out.println(this.label.isVisible());
+
+//		this.label.setIcon(figure.getIcon());
+//		this.label.setVisible(show);
+//		
+//		System.out.println(this.label.getComponentCount());
 		
 		this.repaint();
 		this.revalidate();
