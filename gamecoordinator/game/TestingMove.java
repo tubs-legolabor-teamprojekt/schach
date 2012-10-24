@@ -17,7 +17,7 @@ public class TestingMove
 		Figure bauer = new FigurePawn(colorWhite);
 		
 		// Zug erstellen
-		Move move = new Move(Field.getFieldNumber("b3"), Field.getFieldNumber("c4"), bauer, true, true, false, false, ' ');
+		Move move = new Move(Field.getFieldNumber("b3"), Field.getFieldNumber("c4"), bauer, true, true, false);
 		
 		System.out.println(move.getAlgebraicNotation());
 		System.out.println(move.getMoveAsText());
@@ -31,7 +31,8 @@ public class TestingMove
 		// und sich in eine Dame wandeln
 		
 		// Zug erstellen
-		Move move2 = new Move(Field.getFieldNumber("c7"), Field.getFieldNumber("d8"), bauer, true, true, false, true, 'Q');
+		Move move2 = new Move(Field.getFieldNumber("c7"), Field.getFieldNumber("d8"), bauer, true, true, false);
+		move2.setPawnPromotedTo('Q');
 		System.out.println(move2.getAlgebraicNotation());
 		System.out.println(move2.getMoveAsText());
 		
