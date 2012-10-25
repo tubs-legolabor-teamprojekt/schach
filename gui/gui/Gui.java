@@ -185,6 +185,12 @@ public class Gui extends JFrame
 //		System.out.println("queen: " + this.queen + " bishop: " + this.bishop
 //				+ " knight: " + this.knight + " rook: " + this.rook);
 	}
+	
+	
+
+	public Checkerboard getCheckerboard() {
+		return checkerboard;
+	}
 
 	/**
 	 * Main-Methode
@@ -193,11 +199,12 @@ public class Gui extends JFrame
 	public static void main(String[] args)
 	{
 		Gui g = new Gui("Schach");
-		Checkerboard cb = new Checkerboard(g);
+		
 		Move move = new Move(Field.getFieldNumber("h8"), Field.getFieldNumber("g7"), new FigureKing((byte)1) );
+		g.getCheckerboard().getCheckerboardInformation(move);
 		
 //		Move move2 = new Move(Field.getFieldNumber("c7"), Field.getFieldNumber("d8"), new FigurePawn((byte)0), true, true, false, true);
-		cb.getCheckerboardInformation(move);
+//		cb.getCheckerboardInformation(move);
 		
 		/*
 		for (int i = 0; i < 64; i++) {

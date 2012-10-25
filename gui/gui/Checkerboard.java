@@ -6,12 +6,15 @@ import java.awt.Color;
 import java.awt.Component;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 
+import components.Field;
 import components.Figure;
+import components.FigureKing;
 
 /**
  * Klasse, die das Schachbrett darstellt. 
@@ -34,6 +37,8 @@ public class Checkerboard extends JPanel
 				fieldFromRow = 0,
 				fieldToColumn = 0,
 				fieldToRow = 0;
+	
+	
 	
 	/**
 	 * Konstruktor, der ein neues Objekt der Klasse erstellt.
@@ -78,7 +83,10 @@ public class Checkerboard extends JPanel
 		
 		// in jeder Tabellenzelle wird ein JPanel eingefügt
 		// Schachbrettmuster wird angelegt
+		
+		// erst Zeilen
 		for (int i = 0; i < 8; i++) {
+			// dann Spalten
 			for (int j = 0; j < 8; j++) {
 				this.grid.setValueAt(new CheckerboardPanel(), i, j);
 				if (i%2 == 0) {
@@ -160,17 +168,21 @@ public class Checkerboard extends JPanel
 		}
 		
 		this.figure = this.move.getFigure();
-			
+					
 		this.fieldFrom = this.move.getFieldFrom();
 		this.fieldFromColumn = this.fieldNumberConverterColumn(this.fieldFrom);
 		this.fieldFromRow = this.fieldNumberConverterRow(this.fieldFrom);
 		
+		// erst Zeile 
 		for (int i = 0; i < 8; i++) {
-			if (i == this.fieldFromColumn) {
+			if (i == this.fieldFromRow) {
+				// dann Spalte
 				for (int j = 0; j < 8; j++) {
-					if (j == this.fieldFromRow) {
+					if (j == this.fieldFromColumn) {
 						CheckerboardPanel cbp = (CheckerboardPanel)this.grid.getValueAt(i, j);
 						cbp.showIcon(this.figure, false);
+						this.g.repaint();
+						this.g.validate();
 					}
 				}
 			}
@@ -179,23 +191,24 @@ public class Checkerboard extends JPanel
 		this.fieldTo = this.move.getFieldTo();
 		this.fieldToColumn = this.fieldNumberConverterColumn(this.fieldTo);
 		this.fieldToRow = this.fieldNumberConverterRow(this.fieldTo);
-		
-		System.out.println(this.fieldFrom + ": " + this.fieldFromColumn + "/" + this.fieldFromRow + " --> "
-								+ this.fieldTo + ": " + this.fieldToColumn + "/" + this.fieldToRow);
-		
+	
+		// Zeile
 		for (int i = 0; i < 8; i++) {
-			if (i == this.fieldToColumn) {
+			if (i == this.fieldToRow) {
+				// dann Spalte
 				for (int j = 0; j < 8; j++) {
-					if (j == this.fieldToRow) {
+					if (j == this.fieldToColumn) {
 						CheckerboardPanel cbp = (CheckerboardPanel)this.grid.getValueAt(i, j);
 						cbp.showIcon(this.figure, true);
+						this.g.repaint();
+						this.g.validate();
 					}
 				}
 			}
 		}		
 		
-		this.repaint();
-		this.revalidate();
+		this.g.repaint();
+		this.g.validate();
 		
 		if (this.move.isCaptured()) {	
 			// gucken, ob er die Icons übereinander macht, oder nicht, ansonsten, geschlagenen extra wegmachen
