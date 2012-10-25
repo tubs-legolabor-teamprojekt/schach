@@ -433,6 +433,28 @@ public class Field
 		return fieldNumber;
 	}
 	
+	/**
+	 * Berechnet aus der Zeile und Spalte die Feldnummer.
+	 * @param row Zeile
+	 * @param column Spalte
+	 * @return Feldnummer
+	 */
+	public static int getFieldNumber(int row, int column)
+	{
+		int fieldNumber = -1;
+		try {
+			if (!(row > 0 && row <= 8 && column > 0 && column <= 8)) {
+				throw new FieldException("Ungueltige Zeilen/Spaltengroessen");
+			} else {
+				fieldNumber = ((row-1)*8) + column;
+			}
+		} catch (FieldException e)
+		{
+			System.out.println(e.getMessage());
+		}
+		return fieldNumber;
+	}
+	
 	
 	/**
 	 * Ueberprueft ob der gegebenen byte-Wert eine gueltige X-Position ist
