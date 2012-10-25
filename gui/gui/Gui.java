@@ -74,9 +74,6 @@ public class Gui extends JFrame
 		this.setResizable(false);
 		this.setVisible(true);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		
-		// nur zu Testzwecken
-		// this.pawnPromotionGUI();
 	}
 	
 	/**
@@ -200,7 +197,7 @@ public class Gui extends JFrame
 	{
 		Gui g = new Gui("Schach");
 		
-		Move move = new Move(Field.getFieldNumber("h8"), Field.getFieldNumber("g7"), new FigureKing((byte)1) );
+		Move move = new Move(Field.getFieldNumber("h7"), Field.getFieldNumber("g6"), new FigureKing((byte)1) );
 		g.getCheckerboard().getCheckerboardInformation(move);
 		
 //		Move move2 = new Move(Field.getFieldNumber("c7"), Field.getFieldNumber("d8"), new FigurePawn((byte)0), true, true, false, true);

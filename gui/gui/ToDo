@@ -2,12 +2,9 @@
 - Methode gültiger Zug
 - Methode für HashMap figures übergeben --> aus Klasse Field
 
-
----> FLO: 2.Konstruktor, boolean pawnPromotion wäre schön, nur char weg
-
 - Start-Button
 
-- Icons entsprechend anzeigen lassen --> werden nicht angezeigt, Informationen da, aber kein Bild
+- Icons ein wenig nach oben verschieben		// funktioniert das auch bei showIcon?
 
 - Hintergrund
 - Beschriftung dick + größer

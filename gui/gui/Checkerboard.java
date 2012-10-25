@@ -4,17 +4,16 @@ import game.Move;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 
-import components.Field;
 import components.Figure;
-import components.FigureKing;
 
 /**
  * Klasse, die das Schachbrett darstellt. 
@@ -170,8 +169,8 @@ public class Checkerboard extends JPanel
 		this.figure = this.move.getFigure();
 					
 		this.fieldFrom = this.move.getFieldFrom();
-		this.fieldFromColumn = this.fieldNumberConverterColumn(this.fieldFrom);
-		this.fieldFromRow = this.fieldNumberConverterRow(this.fieldFrom);
+		this.fieldTo = this.move.getFieldTo();
+		this.fieldFromAndToConverter();
 		
 		// erst Zeile 
 		for (int i = 0; i < 8; i++) {
@@ -187,10 +186,6 @@ public class Checkerboard extends JPanel
 				}
 			}
 		}
-		
-		this.fieldTo = this.move.getFieldTo();
-		this.fieldToColumn = this.fieldNumberConverterColumn(this.fieldTo);
-		this.fieldToRow = this.fieldNumberConverterRow(this.fieldTo);
 	
 		// Zeile
 		for (int i = 0; i < 8; i++) {
@@ -199,7 +194,8 @@ public class Checkerboard extends JPanel
 				for (int j = 0; j < 8; j++) {
 					if (j == this.fieldToColumn) {
 						CheckerboardPanel cbp = (CheckerboardPanel)this.grid.getValueAt(i, j);
-						cbp.showIcon(this.figure, true);
+//						cbp.showIcon(this.figure, true);
+						cbp.setIcon();
 						this.g.repaint();
 						this.g.validate();
 					}
@@ -222,6 +218,25 @@ public class Checkerboard extends JPanel
 			javax.swing.JOptionPane.showMessageDialog(this,"Schachmatt!");
 		}
 		
+	}
+	
+	public void fieldFromAndToConverter()
+	{
+		this.fieldFromColumn = this.fieldNumberConverterColumn(this.fieldFrom);
+		this.fieldFromRow = this.fieldNumberConverterRow(this.fieldFrom);
+		
+		this.fieldToColumn = this.fieldNumberConverterColumn(this.fieldTo);
+		this.fieldToRow = this.fieldNumberConverterRow(this.fieldTo);
+	}
+	
+	public void getStartMap(HashMap<Integer, Figure> figures)
+	{
+		for (Map.Entry<Integer, Figure> e : figures.entrySet()) {
+			System.out.println( e.getKey() + " = "+ e.getValue() );
+		}
+		
+		
+			
 	}
 	
 }
