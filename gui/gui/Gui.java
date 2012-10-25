@@ -8,6 +8,7 @@ import java.awt.Container;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
@@ -183,7 +184,10 @@ public class Gui extends JFrame
 //				+ " knight: " + this.knight + " rook: " + this.rook);
 	}
 	
-	
+	public void showWarning(String message)
+	{
+		javax.swing.JOptionPane.showMessageDialog(this, message, "Fehler!", JOptionPane.WARNING_MESSAGE);
+	}
 
 	public Checkerboard getCheckerboard() {
 		return checkerboard;
@@ -197,7 +201,11 @@ public class Gui extends JFrame
 	{
 		Gui g = new Gui("Schach");
 		
-		Move move = new Move(Field.getFieldNumber("h7"), Field.getFieldNumber("g6"), new FigureKing((byte)1) );
+		Move move = new Move(Field.getFieldNumber("e8"), Field.getFieldNumber("e7"), new FigureKing((byte)1), true, true, false );
+		
+		
+		Field f = Field.getInstance();
+		g.getCheckerboard().getStartMap(f.getCurrentFieldAsHashMap());
 		g.getCheckerboard().getCheckerboardInformation(move);
 		
 //		Move move2 = new Move(Field.getFieldNumber("c7"), Field.getFieldNumber("d8"), new FigurePawn((byte)0), true, true, false, true);

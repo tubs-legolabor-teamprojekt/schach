@@ -5,9 +5,12 @@ import game.Move;
 import java.awt.Color;
 import java.awt.Component;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.swing.BorderFactory;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -169,8 +172,8 @@ public class Checkerboard extends JPanel
 		this.figure = this.move.getFigure();
 					
 		this.fieldFrom = this.move.getFieldFrom();
-		this.fieldTo = this.move.getFieldTo();
-		this.fieldFromAndToConverter();
+		this.fieldFromColumn = this.fieldNumberConverterColumn(this.fieldFrom);
+		this.fieldFromRow = this.fieldNumberConverterRow(this.fieldFrom);		
 		
 		// erst Zeile 
 		for (int i = 0; i < 8; i++) {
@@ -187,6 +190,10 @@ public class Checkerboard extends JPanel
 			}
 		}
 	
+		this.fieldTo = this.move.getFieldTo();
+		this.fieldToColumn = this.fieldNumberConverterColumn(this.fieldTo);
+		this.fieldToRow = this.fieldNumberConverterRow(this.fieldTo);
+		
 		// Zeile
 		for (int i = 0; i < 8; i++) {
 			if (i == this.fieldToRow) {
@@ -194,8 +201,7 @@ public class Checkerboard extends JPanel
 				for (int j = 0; j < 8; j++) {
 					if (j == this.fieldToColumn) {
 						CheckerboardPanel cbp = (CheckerboardPanel)this.grid.getValueAt(i, j);
-//						cbp.showIcon(this.figure, true);
-						cbp.setIcon();
+						cbp.showIcon(this.figure, true);
 						this.g.repaint();
 						this.g.validate();
 					}
@@ -211,32 +217,34 @@ public class Checkerboard extends JPanel
 		} 
 		
 		if (this.move.isCheck()) {
-			javax.swing.JOptionPane.showMessageDialog(this,"Schach!");
+			javax.swing.JOptionPane.showMessageDialog(this,"Schach!", "Schach", JOptionPane.INFORMATION_MESSAGE);
 		}
 		
 		if (this.move.isCheckMate()) {
-			javax.swing.JOptionPane.showMessageDialog(this,"Schachmatt!");
+			javax.swing.JOptionPane.showMessageDialog(this,"Schachmatt!", "Schachmatt", JOptionPane.INFORMATION_MESSAGE);
 		}
 		
-	}
-	
-	public void fieldFromAndToConverter()
-	{
-		this.fieldFromColumn = this.fieldNumberConverterColumn(this.fieldFrom);
-		this.fieldFromRow = this.fieldNumberConverterRow(this.fieldFrom);
-		
-		this.fieldToColumn = this.fieldNumberConverterColumn(this.fieldTo);
-		this.fieldToRow = this.fieldNumberConverterRow(this.fieldTo);
 	}
 	
 	public void getStartMap(HashMap<Integer, Figure> figures)
 	{
-		for (Map.Entry<Integer, Figure> e : figures.entrySet()) {
-			System.out.println( e.getKey() + " = "+ e.getValue() );
-		}
-		
-		
+		// Iterator erstellen, der ueber alle Figuren iteriert
+		Iterator<Entry<Integer, Figure>> it = figures.entrySet().iterator();
+		// iteriere ueber alle Figuren
+		while (it.hasNext()) {
+			// Key/Value-Paar speichern
+			Map.Entry<Integer, Figure> pair = it.next();
 			
+			// Position der Figur steht im Key
+			Integer i = pair.getKey();
+			// value-Objekt
+			Figure f = pair.getValue();
+			
+			CheckerboardPanel cbp = (CheckerboardPanel)this.grid.
+					getValueAt(this.fieldNumberConverterRow(i),
+					(this.fieldNumberConverterColumn(i)));
+			cbp.showIcon(f, true);
+		}
 	}
 	
 }
