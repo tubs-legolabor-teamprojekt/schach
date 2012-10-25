@@ -32,22 +32,28 @@ public class Rules {
        * Hilfsvariablen
        */
       boolean legalMove;
-
+      
+      // false zurückgeben, wenn Start- oder Zielfeld nicht existiert
+      if(Field.isValidFieldnumber(move.getFieldFrom())
+                  || Field.isValidFieldnumber(move.getFieldTo())){
+          return false;
+      }
       
       // false zurückgeben, wenn zu schlagende Figur eine eigene Figur ist oder dort keine steht
       if(move.isCaptured()){
-          if(currentField.getFigureAt(move.getFieldTo()) == null
+          if(!currentField.isFigureOnField(move.getFieldTo())
                   || currentField.getFigureAt(move.getFieldTo()).getColor() == move.getFigure().getColor()){
                   return false;
           }
       // false zurückgeben, wenn eine Figur geschlagen werden würde    
-      }else{
-          if(currentField.getFigureAt(move.getFieldTo()) != null){
+      }
+      else{
+          if(currentField.isFigureOnField(move.getFieldTo())){
               return false;
           }
       }
       // false zurückgeben, wenn zu bewegende Figur nicht existiert oder nicht die eigene Figur ist
-      if(currentField.getFigureAt(move.getFieldFrom())== null
+      if(!currentField.isFigureOnField(move.getFieldFrom())
               || currentField.getFigureAt(move.getFieldFrom()).getColor() != move.getFigure().getColor()){
           return false;
       }
@@ -94,61 +100,100 @@ public class Rules {
       
       if(legalMove){
           return isCheck(currentField, move);
-      }else{
-          return true;
+      }
+      else{
+          return false;
       }
       
   }
   
   /**
    * Überprüft, ob ein Bauernzug gültig ist.
-   * @param currentField
-   * @param move
-   * @return
+   * @param currentField aktuelles Spielfeld
+   * @param move auszuführender Schachzug
+   * @return True: Bauer darf dem Move-Objekt entsprechend bewegt werden, False: Irgendwas stimmt hier nicht!
    */
   private boolean checkPawnMove(Field currentField, Move move)
   {
-      return true;
+      int i;
+      if(move.getFigure().getColor() == ChessfigureConstants.BLACK){
+          i = 1;
+      }
+      else if(move.getFigure().getColor() == ChessfigureConstants.WHITE){
+          i = -1;
+      }
+      else{
+          return false;
+      }
+      // Bauer schlägt nicht
+      if(currentX == x
+              && !move.isCaptured()){
+          // Bauer ein Feld vor
+          if(currentY - y == i){
+              return true;
+          }
+          //Bauer zwei Felder vor (vom Startfeld), auf dem Feld dazwischen steht keine Figur
+          else if(currentY - y == 2*i
+                  && currentY == 4.5 + 2.5*i
+                  && !currentField.isFigureOnField(Field.getFieldNumber(currentX, currentY + i))){
+              return true;
+          }
+      }
+      // Bauer schlägt
+      else if(Math.abs(currentX - x) == 1
+              && move.isCaptured()
+              && currentY - y == i){
+          return true;
+      }
+      
+      return false;
   }
   
   /**
    * Überprüft, ob ein Turmzug gültig ist.
-   * @param currentField
-   * @param move
-   * @return
+   * @param currentField aktuelles Spielfeld
+   * @param move auszuführender Schachzug
+   * @return True: Turm darf dem Move-Objekt entsprechend bewegt werden, False: Irgendwas stimmt hier nicht!
    */
   private boolean checkRookMove(Field currentField, Move move)
   {
-      return true;
+      return false;
   }
   
   /**
    * Überprüft, ob ein Springerzug gültig ist.
-   * @param currentField
-   * @param move
-   * @return
+   * @param currentField aktuelles Spielfeld
+   * @param move auszuführender Schachzug
+   * @return True: Springer darf dem Move-Objekt entsprechend bewegt werden, False: Irgendwas stimmt hier nicht!
    */
   private boolean checkKnightMove(Field currentField, Move move)
   {
-      return true;
+      if((Math.abs(currentX - x) == 1 
+              && Math.abs(currentY - y) == 2)
+              
+              || (Math.abs(currentX - x) == 2
+              && Math.abs(currentY - y) == 1)){
+          return true;
+      }
+      return false;
   }
   
   /**
    * Überprüft, ob ein Läufernzug gültig ist.
-   * @param currentField
-   * @param move
-   * @return
+   * @param currentField aktuelles Spielfeld
+   * @param move auszuführender Schachzug
+   * @return True: Läufer darf dem Move-Objekt entsprechend bewegt werden, False: Irgendwas stimmt hier nicht!
    */
   private boolean checkBishopMove(Field currentField, Move move)
   {
-      return true;
+      return false;
   }
   
   /**
    * Überprüft, ob ein Damenzug gültig ist.
-   * @param currentField
-   * @param move
-   * @return
+   * @param currentField aktuelles Spielfeld
+   * @param move auszuführender Schachzug
+   * @return True: Dame darf dem Move-Objekt entsprechend bewegt werden, False: Irgendwas stimmt hier nicht!
    */
   private boolean checkQueenMove(Field currentField, Move move)
   {
@@ -157,19 +202,23 @@ public class Rules {
   
   /**
    * Überprüft, ob ein Königszug gültig ist.
-   * @param currentField
-   * @param move
-   * @return
+   * @param currentField aktuelles Spielfeld
+   * @param move auszuführender Schachzug
+   * @return True: König darf dem Move-Objekt entsprechend bewegt werden, False: Irgendwas stimmt hier nicht!
    */
   private boolean checkKingMove(Field currentField, Move move)
   {
+      //TODO: Herr Hallensleben hat wohl noch die Schrägbewegung vergessen @author Herr Hallensleben
       if(currentX == x 
               &&(currentY - 1 == y || currentY + 1 == y)){
           return true;
-      }else if(currentY == y
+      }
+      else if(currentY == y
               && (currentX - 1 == x || currentX + 1 == x)){
           return true;
-      }else if(!kingMoved){
+      }
+      //TODO: Rochade, aww yiss
+      else if(!kingMoved){
           return true;
       }
       return false;
@@ -177,9 +226,9 @@ public class Rules {
   
   /**
    * Überprüft, ob sich der König im Schach befindet.
-   * @param currentField
-   * @param move
-   * @return
+   * @param currentField aktuelles Spielfeld
+   * @param move auszuführender Schachzug
+   * @return True: der eigene König steht nicht im Schach, False: Der eigene König ist durch den Zug gefährdet.
    */
   private boolean isCheck(Field currentField, Move move)
   {
