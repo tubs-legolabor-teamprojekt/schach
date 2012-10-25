@@ -230,6 +230,17 @@ public class Field
 	}
 	
 	/**
+	 * Gibt das aktuelle Feld als Hashmap aus.
+	 * Integer: Feldposition
+	 * Figure: Figur auf dem Feld
+	 * @return HashMap<Integer, Figure>
+	 */
+	public HashMap<Integer, Figure> getCurrentFieldAsHashMap()
+	{
+		return this.figures;
+	}
+	
+	/**
 	 * Gibt das aktuelle Feld aus.
 	 * @return String mit dem aktuellen Feld
 	 */
