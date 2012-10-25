@@ -5,6 +5,7 @@ import game.Move;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Font;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -131,9 +132,11 @@ public class Gui extends JFrame
 		
 		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
 		centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+//		centerRenderer.setFont(new Font("Courier", Font.BOLD, 50));
 		
 		for(int i = 0; i < 8; i++){
-			table_bottom.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+			this.table_bottom.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+//			System.out.println(this.table_bottom.getFont());
 		}
 		
 		this.table_bottom.setRowHeight(30);
