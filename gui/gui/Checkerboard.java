@@ -13,6 +13,8 @@ import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.Border;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 
@@ -120,7 +122,7 @@ public class Checkerboard extends JPanel
 		
 		// Tabelle hinzufügen und Wände fett machen
 		this.add(grid);
-//		this.grid.setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, Color.BLACK));
+		this.grid.setBorder(BorderFactory.createMatteBorder(5, 5, 5, 5, Color.BLACK));
 	}
 	
 	/**

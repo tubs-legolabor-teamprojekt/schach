@@ -3,6 +3,7 @@ package gui;
 import game.Move;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Container;
 
 import javax.swing.ImageIcon;
@@ -17,7 +18,6 @@ import javax.swing.table.TableColumn;
 
 import components.Field;
 import components.FigureKing;
-import components.FigurePawn;
 
 /**
  * Klasse, die das Hauptfenster darstellt.
@@ -28,6 +28,8 @@ public class Gui extends JFrame
 {
 
 	private Container c;
+	
+	final Color alphaZero = new Color(0, true);
 	
 	private JPanel 	top = new JPanel(),
 					bottom = new JPanel(),
@@ -85,25 +87,38 @@ public class Gui extends JFrame
 		this.makeTable_bottomLayout();
 		this.makeTable_leftLayout();
 		
-		this.c = getContentPane();
-		this.c.setLayout(new BorderLayout());
+		this.setContentPane(new BackgroundPanel());
+		this.setLayout(new BorderLayout());
 		
-		this.c.add(top, BorderLayout.NORTH);
+//		this.c = getContentPane();
+//		this.c.setLayout(new BorderLayout());
+		
+//		this.c.add(this.top, BorderLayout.NORTH);
+		this.getContentPane().add(this.top, BorderLayout.NORTH);
 		this.top.setBorder(new EmptyBorder(25, 25, 25, 25));
+		this.top.setOpaque(false);
 		
-		this.c.add(bottom, BorderLayout.SOUTH);
+//		this.c.add(this.bottom, BorderLayout.SOUTH);
+		this.getContentPane().add(this.bottom, BorderLayout.SOUTH);
 		this.bottom.setBorder(new EmptyBorder(10, 10, 10, 10));
-		this.bottom.add(table_bottom);
+		this.bottom.add(this.table_bottom);
+		this.bottom.setOpaque(false);
 		
-		this.c.add(left, BorderLayout.WEST);
+//		this.c.add(this.left, BorderLayout.WEST);
+		this.getContentPane().add(this.left, BorderLayout.WEST);
 		this.left.setBorder(new EmptyBorder(0, 10, 10, 10));
-		this.left.add(table_left);
+		this.left.add(this.table_left);
+		this.left.setOpaque(false);
 		
-		this.c.add(right, BorderLayout.EAST);
+//		this.c.add(this.right, BorderLayout.EAST);
+		this.getContentPane().add(this.right, BorderLayout.EAST);
 		this.right.setBorder(new EmptyBorder(25, 25, 25, 25));
+		this.right.setOpaque(false);
 		
-		this.c.add(checkerboard, BorderLayout.CENTER);
+//		this.c.add(this.checkerboard, BorderLayout.CENTER);
+		this.getContentPane().add(this.checkerboard, BorderLayout.CENTER);
 		this.checkerboard.setBorder(new EmptyBorder(-4, 0, 0, 0));
+		this.checkerboard.setOpaque(false);
 	}
 	
 	/**
@@ -122,7 +137,9 @@ public class Gui extends JFrame
 		}
 		
 		this.table_bottom.setRowHeight(30);
-		this.table_bottom.setBackground(null);
+//		this.table_bottom.setBackground(null);
+		this.table_bottom.setOpaque(false);
+		this.table_bottom.setBackground(alphaZero);
 		this.table_bottom.setShowHorizontalLines(false);
 		this.table_bottom.setShowVerticalLines(false);
 	}
@@ -150,7 +167,9 @@ public class Gui extends JFrame
 			col.setPreferredWidth(30);
 		}
 		
-		this.table_left.setBackground(null);
+//		this.table_left.setBackground(null);
+		this.table_left.setOpaque(false);
+		this.table_left.setBackground(alphaZero);
 		this.table_left.setShowHorizontalLines(false);
 		this.table_left.setShowVerticalLines(false);
 	}
