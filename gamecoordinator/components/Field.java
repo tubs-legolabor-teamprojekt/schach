@@ -435,11 +435,11 @@ public class Field
 	
 	/**
 	 * Berechnet aus der Zeile und Spalte die Feldnummer.
-	 * @param row Zeile
 	 * @param column Spalte
+	 * @param row Zeile
 	 * @return Feldnummer
 	 */
-	public static int getFieldNumber(int row, int column)
+	public static int getFieldNumber(int column, int row)
 	{
 		int fieldNumber = -1;
 		try {
