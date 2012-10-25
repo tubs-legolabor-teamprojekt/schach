@@ -27,9 +27,9 @@ public class FigureKing extends Figure
 	@Override
 	protected void setIcon() {
 		if (this.color == util.ChessfigureConstants.BLACK) {
-			this.icon = new ImageIcon("images/icons/king_black.png");
+			this.icon = new ImageIcon("images/icons/king_black_70x70.png");
 		} else {
-			this.icon = new ImageIcon("images/icons/king_white.png");
+			this.icon = new ImageIcon("images/icons/king_white_70x70.png");
 		}
 	}
 	
