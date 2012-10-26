@@ -15,4 +15,14 @@ public class GameTree {
 		
 	}
 	
+	protected static void build_Tree(int depth, GameTree gt){
+		
+		for( int i = 0 ; i < gt.tree.length ; i++ ){
+			
+			build_Tree(depth++, tolleMethode().getArrayOfTrees);
+			
+		}
+		
+	}
+	
 }
