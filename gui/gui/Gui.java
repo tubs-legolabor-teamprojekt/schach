@@ -65,6 +65,8 @@ public class Gui extends JFrame
 		this.startWindow();
 		this.makeLayout();
 		
+		//this.pawnPromotionGUI();
+		
 	}
 	
 	/**
@@ -139,6 +141,7 @@ public class Gui extends JFrame
 //			System.out.println(this.table_bottom.getFont());
 		}
 		
+		this.table_bottom.setEnabled(false);
 		this.table_bottom.setRowHeight(30);
 //		this.table_bottom.setBackground(null);
 		this.table_bottom.setOpaque(false);
@@ -170,6 +173,7 @@ public class Gui extends JFrame
 			col.setPreferredWidth(30);
 		}
 		
+		this.table_left.setEnabled(false);
 //		this.table_left.setBackground(null);
 		this.table_left.setOpaque(false);
 		this.table_left.setBackground(alphaZero);
