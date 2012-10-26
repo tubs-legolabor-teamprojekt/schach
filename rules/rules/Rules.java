@@ -157,6 +157,66 @@ public class Rules {
    */
   private boolean checkRookMove(Field currentField, Move move)
   {
+      //Turm bewegt sich in y-Richtung
+      if(currentX == x
+              && currentY != y){
+          if(currentY - 1 > y){
+              //Überprüfung, dass keine Figur zwischen Start- und Zielfeld steht
+              for(int i = 1; currentY - i > y; i++){
+                  if(currentField.isFigureOnField(Field.getFieldNumber(currentX, currentY - i))){
+                      return false;
+                  }
+              }
+          }
+          else if(currentY + 1 < y){
+            //Überprüfung, dass keine Figur zwischen Start- und Zielfeld steht
+              for(int i = 1; currentY + i < y; i++){
+                  if(currentField.isFigureOnField(Field.getFieldNumber(currentX, currentY + i))){
+                      return false;
+                  }
+              }
+          }
+          return true;
+      }
+      //Turm bewegt sich in x-Richtung
+      else if(currentY == y
+              && currentX != x){
+          if(currentX - 1 > x){
+            //Überprüfung, dass keine Figur zwischen Start- und Zielfeld steht
+              for(int i = 1; currentX - i > x; i++){
+                  if(currentField.isFigureOnField(Field.getFieldNumber(currentX - i, currentY))){
+                      return false;
+                  }
+              }
+          }
+          else if(currentX + 1 < x){
+            //Überprüfung, dass keine Figur zwischen Start- und Zielfeld steht
+              for(int i = 1; currentX + i < x; i++){
+                  if(currentField.isFigureOnField(Field.getFieldNumber(currentX + i, currentY))){
+                      return false;
+                  }
+              }
+          }
+          //bewegt sich ein Turm, darf er nicht mehr Teil der Rochade sein
+          if(move.getFigure().getColor() == ChessfigureConstants.BLACK){
+              if(move.getFieldFrom() == 57){
+                  this.blackLeftRookMoved = true;
+              }
+              else if(move.getFieldFrom() == 64){
+                  this.blackRightRookMoved = true;
+              }
+          }
+          else if(move.getFigure().getColor() == ChessfigureConstants.WHITE){
+              if(move.getFieldFrom() == 1){
+                  this.whiteLeftRookMoved = true;
+              }
+              else if(move.getFieldFrom() == 8){
+                  this.whiteRightRookMoved = true;
+              }
+          }
+          //Turm hat sich nur ein Feld weit bewegt
+          return true;
+      }
       return false;
   }
   
