@@ -22,7 +22,7 @@ public class BackgroundPanel extends JPanel
 			mt.waitForAll();
 		} catch(InterruptedException e) {}
 	}
-
+	
 	@Override
 	protected void paintComponent(Graphics g) {
 		g.drawImage(img, 0, 0, getWidth(), getHeight(), this);

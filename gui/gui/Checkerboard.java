@@ -96,18 +96,24 @@ public class Checkerboard extends JPanel
 				if (i%2 == 0) {
 					if (j%2 == 0) {
 						cb = (CheckerboardPanel)this.grid.getValueAt(i, j);
-						cb.setBackground(Color.black);
+//						cb.setBackground(new Color(41, 15, 5));
+						cb.setIcon(false);
 					} else {
 						cb = (CheckerboardPanel)this.grid.getValueAt(i, j);
-						cb.setBackground(Color.white);
+//						cb.setBackground(new Color(251, 225, 172));
+						cb.setIcon(true);
 					}
 				} else {
 					if (j%2 == 0) {
 						cb = (CheckerboardPanel)this.grid.getValueAt(i, j);
-						cb.setBackground(Color.white);
+//						cb.setBackground(Color.white);
+//						cb.setBackground(new Color(251, 225, 172));
+						cb.setIcon(true);
 					} else {
 						cb = (CheckerboardPanel)this.grid.getValueAt(i, j);
-						cb.setBackground(Color.black);
+//						cb.setBackground(Color.black);
+//						cb.setBackground(new Color(41, 15, 5));
+						cb.setIcon(false);
 					}
 				}
 			} 
