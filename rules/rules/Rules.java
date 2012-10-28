@@ -15,11 +15,12 @@ public class Rules {
   private boolean whiteLeftRookMoved = false;
   private boolean blackRightRookMoved = false;
   private boolean blackLeftRookMoved = false;
-  private boolean kingMoved = false;
-  byte currentX;
-  byte currentY;
-  byte x;
-  byte y;
+  private boolean blackKingMoved = false;
+  private boolean whiteKingMoved = false;
+  private byte currentX;
+  private byte currentY;
+  private byte x;
+  private byte y;
   /**
    * Diese Methode überprüft, ob ein Schachzug gültig ist oder nicht.
    * @param currentField Das aktuelle Spielfeld.
@@ -90,7 +91,12 @@ public class Rules {
           
       case ChessfigureConstants.KING:
           legalMove = checkKingMove(currentField, move);
-          kingMoved = true;
+          if(move.getFigure().getColor() == ChessfigureConstants.WHITE){
+              whiteKingMoved = true;
+          }
+          else if(move.getFigure().getColor() == ChessfigureConstants.BLACK){
+              blackKingMoved = true;
+          }
           break;
           
       default:
@@ -198,23 +204,26 @@ public class Rules {
               }
           }
           //bewegt sich ein Turm, darf er nicht mehr Teil der Rochade sein
-          if(move.getFigure().getColor() == ChessfigureConstants.BLACK){
-              if(move.getFieldFrom() == 57){
-                  this.blackLeftRookMoved = true;
+          //da Damenbewegung auch über diese Methode überprüft wird, darf die Dame hier nicht "reinpfuschen" :)
+          if(move.getFigure().getFigureType() != ChessfigureConstants.QUEEN){
+              if(move.getFigure().getColor() == ChessfigureConstants.BLACK){
+                  if(move.getFieldFrom() == 57){
+                      this.blackLeftRookMoved = true;
+                  }
+                  else if(move.getFieldFrom() == 64){
+                      this.blackRightRookMoved = true;
+                  }
               }
-              else if(move.getFieldFrom() == 64){
-                  this.blackRightRookMoved = true;
+              else if(move.getFigure().getColor() == ChessfigureConstants.WHITE){
+                  if(move.getFieldFrom() == 1){
+                      this.whiteLeftRookMoved = true;
+                  }
+                  else if(move.getFieldFrom() == 8){
+                      this.whiteRightRookMoved = true;
+                  }
               }
           }
-          else if(move.getFigure().getColor() == ChessfigureConstants.WHITE){
-              if(move.getFieldFrom() == 1){
-                  this.whiteLeftRookMoved = true;
-              }
-              else if(move.getFieldFrom() == 8){
-                  this.whiteRightRookMoved = true;
-              }
-          }
-          //Turm hat sich nur ein Feld weit bewegt
+          //Keine Figur im Weg oder Turm hat sich nur ein Feld weit bewegt
           return true;
       }
       return false;
@@ -229,8 +238,7 @@ public class Rules {
   private boolean checkKnightMove(Field currentField, Move move)
   {
       if((Math.abs(currentX - x) == 1 
-              && Math.abs(currentY - y) == 2)
-              
+              && Math.abs(currentY - y) == 2)     
               || (Math.abs(currentX - x) == 2
               && Math.abs(currentY - y) == 1)){
           return true;
@@ -246,6 +254,52 @@ public class Rules {
    */
   private boolean checkBishopMove(Field currentField, Move move)
   {
+      int xDif = currentX - x;
+      int yDif = currentY - y;
+      //Läufer bewegt sich schräg
+      if(Math.abs(xDif) == Math.abs(yDif)
+              && xDif != 0){
+          //nach unten
+          if(xDif > 1){
+              //links
+              if(yDif > 1){
+                  for(int i = 1; currentY - i > y; i++){
+                      if(currentField.isFigureOnField(Field.getFieldNumber(currentX - i, currentY - i))){
+                          return false;
+                      }
+                  }
+              }
+              //rechts
+              else if (yDif < 1){
+                  for(int i = 1; currentY + i < y; i++){
+                      if(currentField.isFigureOnField(Field.getFieldNumber(currentX - i, currentY + i))){
+                          return false;
+                      }
+                  }
+              }
+          }
+          //nach oben
+          else if(xDif < 1){
+              //links
+              if(yDif > 1){
+                  for(int i = 1; currentY - i > y; i++){
+                      if(currentField.isFigureOnField(Field.getFieldNumber(currentX + i, currentY - i))){
+                          return false;
+                      }
+                  }
+              }
+              //rechts
+              else if (yDif < 1){
+                  for(int i = 1; currentY + i < y; i++){
+                      if(currentField.isFigureOnField(Field.getFieldNumber(currentX + i, currentY + i))){
+                          return false;
+                      }
+                  }
+              }
+          }
+          //keine Figur im Weg oder Läufer hat sich nur ein Feld bewegt
+          return true;
+      }
       return false;
   }
   
@@ -268,18 +322,45 @@ public class Rules {
    */
   private boolean checkKingMove(Field currentField, Move move)
   {
-      //TODO: Herr Hallensleben hat wohl noch die Schrägbewegung vergessen @author Herr Hallensleben
       if(currentX == x 
-              &&(currentY - 1 == y || currentY + 1 == y)){
+              && Math.abs(currentY - y) == 1){
           return true;
       }
-      else if(currentY == y
-              && (currentX - 1 == x || currentX + 1 == x)){
+      else if(currentX == x + 1
+              && Math.abs(currentY - y) <= 1){
+          
+      }
+      else if(currentX == x - 1
+              && Math.abs(currentY - y) <= 1){
           return true;
       }
-      //TODO: Rochade, aww yiss
-      else if(!kingMoved){
-          return true;
+      //Rochade
+      if(currentY == y && Math.abs(currentX - x) == 2){
+          //des weißen Königs, der sich noch nicht bewegt hat und nicht im Schach steht
+          if(!whiteKingMoved 
+                  && move.getFigure().getColor() == ChessfigureConstants.WHITE
+                  && !isCheck(currentField, move)){
+              if(currentY + 2 == y
+                      && !whiteRightRookMoved){
+                  return true;
+              }
+              else if(currentY - 2 == y
+                      && !whiteLeftRookMoved){
+                  return true;
+              }
+          }
+          //des schwarzen Königs, der sich noch nicht bewegt hat und nicht im Schach steht
+          else if(!blackKingMoved 
+                  && move.getFigure().getColor() == ChessfigureConstants.BLACK){
+              if(currentY + 2 == y
+                      && !blackRightRookMoved){
+                  return true;
+              }
+              else if(currentY - 2 == y
+                      && !blackLeftRookMoved){
+                  return true;
+              }
+          }
       }
       return false;
   }
