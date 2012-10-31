@@ -25,7 +25,8 @@ public class Rules {
    * Diese Methode überprüft, ob ein Schachzug gültig ist oder nicht.
    * @param currentField Das aktuelle Spielfeld.
    * @param move Der Schachzug, der überprüft werden soll.
-   * @return True: Gültiger Schachzug, False: Ungültiger Schachzug
+   * @return True: Gültiger Schachzug
+   *         False: Ungültiger Schachzug
    */
   public boolean checkMove(Field currentField, Move move)
   {
@@ -35,8 +36,8 @@ public class Rules {
       boolean legalMove;
       
       // false zurückgeben, wenn Start- oder Zielfeld nicht existiert
-      if(Field.isValidFieldnumber(move.getFieldFrom())
-                  || Field.isValidFieldnumber(move.getFieldTo())){
+      if(!Field.isValidFieldnumber(move.getFieldFrom())
+                  || !Field.isValidFieldnumber(move.getFieldTo())){
           return false;
       }
       
@@ -117,7 +118,8 @@ public class Rules {
    * Überprüft, ob ein Bauernzug gültig ist.
    * @param currentField aktuelles Spielfeld
    * @param move auszuführender Schachzug
-   * @return True: Bauer darf dem Move-Objekt entsprechend bewegt werden, False: Irgendwas stimmt hier nicht!
+   * @return True: Bauer darf dem Move-Objekt entsprechend bewegt werden
+   *         False: Irgendwas stimmt hier nicht!
    */
   private boolean checkPawnMove(Field currentField, Move move)
   {
@@ -141,7 +143,7 @@ public class Rules {
           //Bauer zwei Felder vor (vom Startfeld), auf dem Feld dazwischen steht keine Figur
           else if(currentY - y == 2*i
                   && currentY == 4.5 + 2.5*i
-                  && !currentField.isFigureOnField(Field.getFieldNumber(currentX, currentY + i))){
+                  && !currentField.isFigureOnField(Field.getFieldNumber(currentX, currentY - i))){
               return true;
           }
       }
@@ -159,7 +161,8 @@ public class Rules {
    * Überprüft, ob ein Turmzug gültig ist.
    * @param currentField aktuelles Spielfeld
    * @param move auszuführender Schachzug
-   * @return True: Turm darf dem Move-Objekt entsprechend bewegt werden, False: Irgendwas stimmt hier nicht!
+   * @return True: Turm darf dem Move-Objekt entsprechend bewegt werden
+   *         False: Irgendwas stimmt hier nicht!
    */
   private boolean checkRookMove(Field currentField, Move move)
   {
@@ -233,7 +236,8 @@ public class Rules {
    * Überprüft, ob ein Springerzug gültig ist.
    * @param currentField aktuelles Spielfeld
    * @param move auszuführender Schachzug
-   * @return True: Springer darf dem Move-Objekt entsprechend bewegt werden, False: Irgendwas stimmt hier nicht!
+   * @return True: Springer darf dem Move-Objekt entsprechend bewegt werden
+             False: Irgendwas stimmt hier nicht!
    */
   private boolean checkKnightMove(Field currentField, Move move)
   {
@@ -250,7 +254,8 @@ public class Rules {
    * Überprüft, ob ein Läufernzug gültig ist.
    * @param currentField aktuelles Spielfeld
    * @param move auszuführender Schachzug
-   * @return True: Läufer darf dem Move-Objekt entsprechend bewegt werden, False: Irgendwas stimmt hier nicht!
+   * @return True: Läufer darf dem Move-Objekt entsprechend bewegt werden
+   *         False: Irgendwas stimmt hier nicht!
    */
   private boolean checkBishopMove(Field currentField, Move move)
   {
@@ -307,7 +312,8 @@ public class Rules {
    * Überprüft, ob ein Damenzug gültig ist.
    * @param currentField aktuelles Spielfeld
    * @param move auszuführender Schachzug
-   * @return True: Dame darf dem Move-Objekt entsprechend bewegt werden, False: Irgendwas stimmt hier nicht!
+   * @return True: Dame darf dem Move-Objekt entsprechend bewegt werden
+   *         False: Irgendwas stimmt hier nicht!
    */
   private boolean checkQueenMove(Field currentField, Move move)
   {
@@ -318,7 +324,8 @@ public class Rules {
    * Überprüft, ob ein Königszug gültig ist.
    * @param currentField aktuelles Spielfeld
    * @param move auszuführender Schachzug
-   * @return True: König darf dem Move-Objekt entsprechend bewegt werden, False: Irgendwas stimmt hier nicht!
+   * @return True: König darf dem Move-Objekt entsprechend bewegt werden
+             False: Irgendwas stimmt hier nicht!
    */
   private boolean checkKingMove(Field currentField, Move move)
   {
@@ -336,43 +343,57 @@ public class Rules {
       }
       //Rochade
       if(currentY == y && Math.abs(currentX - x) == 2){
-          //des weißen Königs, der sich noch nicht bewegt hat und nicht im Schach steht
-          if(!whiteKingMoved 
-                  && move.getFigure().getColor() == ChessfigureConstants.WHITE
-                  && !isCheck(currentField, move)){
-              if(currentY + 2 == y
-                      && !whiteRightRookMoved){
-                  return true;
-              }
-              else if(currentY - 2 == y
-                      && !whiteLeftRookMoved){
-                  return true;
-              }
-          }
-          //des schwarzen Königs, der sich noch nicht bewegt hat und nicht im Schach steht
-          else if(!blackKingMoved 
-                  && move.getFigure().getColor() == ChessfigureConstants.BLACK){
-              if(currentY + 2 == y
-                      && !blackRightRookMoved){
-                  return true;
-              }
-              else if(currentY - 2 == y
-                      && !blackLeftRookMoved){
-                  return true;
-              }
-          }
+          return isCastlingPossible(currentField, move);
       }
       return false;
   }
   
   /**
+   * Überprüft, ob Rochade möglich ist.
+   * @param currentField aktuelles Spielfeld
+   * @param move auszuführender Schaczug
+   * @return True: Rochade entsprechend des Move-Objekts möglich
+   *         False: Irgendwas stimmt hier nicht!
+   */
+  private boolean isCastlingPossible(Field currentField, Move move)
+  {
+      if(!whiteKingMoved 
+              && move.getFigure().getColor() == ChessfigureConstants.WHITE){
+          if(currentY + 2 == y
+                  && !whiteRightRookMoved){
+              //TODO: wie
+              //return isCastlingDangerous();
+          }
+          else if(currentY - 2 == y
+                  && !whiteLeftRookMoved){
+              return true;
+          }
+      }
+      //des schwarzen Königs, der sich noch nicht bewegt hat und nicht im Schach steht
+      else if(!blackKingMoved 
+              && move.getFigure().getColor() == ChessfigureConstants.BLACK){
+          if(currentY + 2 == y
+                  && !blackRightRookMoved){
+              return true;
+          }
+          else if(currentY - 2 == y
+                  && !blackLeftRookMoved){
+              return true;
+          }
+      }
+      return false;
+  }
+
+  /**
    * Überprüft, ob sich der König im Schach befindet.
    * @param currentField aktuelles Spielfeld
    * @param move auszuführender Schachzug
-   * @return True: der eigene König steht nicht im Schach, False: Der eigene König ist durch den Zug gefährdet.
+   * @return True: der eigene König steht nicht im Schach
+             False: Der eigene König ist durch den Zug gefährdet.
    */
   private boolean isCheck(Field currentField, Move move)
   {
+      
       return true;
   }
   
