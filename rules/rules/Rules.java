@@ -35,10 +35,11 @@ public class Rules {
       boolean legalMove;
       
       // false zurückgeben, wenn Start- oder Zielfeld nicht existiert
-      if(Field.isValidFieldnumber(move.getFieldFrom())
-                  || Field.isValidFieldnumber(move.getFieldTo())){
+      if(	!Field.isValidFieldnumber(move.getFieldFrom()) ||
+    		!Field.isValidFieldnumber(move.getFieldTo())){
           return false;
       }
+      
       
       // false zurückgeben, wenn zu schlagende Figur eine eigene Figur ist oder dort keine steht
       if(move.isCaptured()){
