@@ -1,9 +1,5 @@
 package gui;
 
-import java.awt.Dimension;
-import java.awt.Image;
-
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
