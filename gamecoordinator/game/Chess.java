@@ -1,5 +1,7 @@
 package game;
 
+import gui.Gui;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +19,7 @@ public class Chess
 	private GameCoordinator gameCoordinator;
 	
 	/**
-	 * List an Zuegen, falls ein Spiel simuliert werden soll.
+	 * Liste an Zuegen, falls ein Spiel simuliert werden soll.
 	 */
 	private List<Move> simulatedMoves = new ArrayList<Move>();
 	
@@ -41,8 +43,22 @@ public class Chess
 	 */
 	public void startGame()
 	{
+		// GUI initialisieren, Start-Button wird angezeigt
+		Gui gui = new Gui();
+		// Warten, bis Benutzer das Spiel gestartet hat
+		while (!gui.isStartPressed()) {
+			try {
+				Thread.sleep(333);
+			} catch (InterruptedException e) {
+				System.out.println(e.getMessage());
+			}
+		}
+			
 		// Schach-Koordinator holen
 		this.gameCoordinator = GameCoordinator.getInstance(true);
+		// GUI uebergeben
+		this.gameCoordinator.setGui(gui);
+		
 		// TODO wie wird ermittelt, ob Spieler ggn Computer oder Computer ggn Computer
 		
 		int moveCounter = 0;
@@ -60,6 +76,8 @@ public class Chess
 			if(this.gameCoordinator.receiveMove(newMove)) {
 				// Zug ausfuehren
 				this.gameCoordinator.execMove();
+			} else {
+				// TODO Was wird getan, wenn ein ungueltiger Zug vorliegt?
 			}
 			
 			if (this.simulatedMoves.size() <= moveCounter) {
