@@ -186,7 +186,7 @@ public class Field
 		try {
 			// Befindet sich eine Figur auf dem Feld?
 			if (!this.isFigureOnField(fromFieldNumber))
-				throw new FieldException("Es befindet sich keine Figur auf dem Feld angegebenen Feld (" + fromFieldNumber + ")!");
+				throw new FieldException("Es befindet sich keine Figur auf dem Feld angegebenen Feld (" + getFieldName(fromFieldNumber) + ")!");
 			
 			// Ist das Zielfeld frei?
 			if (this.isFigureOnField(toFieldNumber))
@@ -219,12 +219,11 @@ public class Field
 	public boolean removeFigureAt(Integer fieldNumber)
 	{
 		if (	this.isFigureOnField(fieldNumber) &&
-				fieldNumber > 0 &&
-				fieldNumber <= 64) {
+				isValidFieldnumber(fieldNumber)) {
 			this.figures.remove(fieldNumber);
 			return true;
 		} else {
-			System.out.println("Keine Figur auf dem Feld");
+			System.out.println("Keine Figur auf dem Feld (" + getFieldName(fieldNumber) + ").");
 			return false;
 		}
 	}

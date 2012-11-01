@@ -107,18 +107,20 @@ public class GameCoordinator
 	 */
 	public boolean receiveMove(Move newMove)
 	{
-		if (!this.rules.checkMove(this.field, newMove)) {
-			// TODO Fehlermeldung anzeigen (GUI)
-			System.out.println("Ungueltiger Zug laut Rules.checkMove()");
-			return false;
-		} else {
+		// TODO Wenn Rules fertig, Zug ueberpruefen
+//		if (!this.rules.checkMove(this.field, newMove)) {
+//			// TODO Fehlermeldung anzeigen (GUI)
+//			System.out.println("Ungueltiger Zug laut Rules.checkMove()");
+//			return false;
+//		} else {
+		
 			// Aktuellen Zug hinzufuegen
 			this.moves.add(newMove);
 			
 			// currentMove aktualisieren
 			this.currentMove = newMove;
 			return true;
-		}
+//		}
 	}
 	
 	/**
