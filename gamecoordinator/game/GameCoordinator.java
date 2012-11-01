@@ -1,5 +1,7 @@
 package game;
 
+import gui.Gui;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +36,11 @@ public class GameCoordinator
 	 * Enthaelt den aktuellen Zug
 	 */
 	private Move currentMove = null;
+	
+	/**
+	 * Gui-Objekt
+	 */
+	private Gui gui;
 	
 	/**
 	 * Rules-Objekt
@@ -94,6 +101,8 @@ public class GameCoordinator
 		
 		// TODO Roboter soll Figur bewegen
 		
+		// Gui soll Figur bewegen
+		this.gui.getCheckerboard().setCheckerboardInformation(this.currentMove);
 		
 		// War es der letzte Zug?
 		this.lastMove = this.currentMove.isCheckMate();
@@ -110,6 +119,7 @@ public class GameCoordinator
 		// TODO Wenn Rules fertig, Zug ueberpruefen
 //		if (!this.rules.checkMove(this.field, newMove)) {
 //			// TODO Fehlermeldung anzeigen (GUI)
+//			this.gui.showWarning("Ungueltiger Zug!");
 //			System.out.println("Ungueltiger Zug laut Rules.checkMove()");
 //			return false;
 //		} else {
@@ -121,6 +131,15 @@ public class GameCoordinator
 			this.currentMove = newMove;
 			return true;
 //		}
+	}
+	
+	/**
+	 * Setzt die Gui
+	 * @param gui GUI
+	 */
+	public void setGui(Gui gui)
+	{
+		this.gui = gui;
 	}
 	
 	/**
