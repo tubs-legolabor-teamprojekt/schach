@@ -16,7 +16,7 @@ public class StartWindow extends JFrame implements ActionListener
 	
 	private Gui g;
 	private Container c;
-	private JButton start = new JButton("Start");
+	private JButton start = new JButton("Spiel starten");
 	
 	private JPanel 	top = new JPanel(),
 			bottom = new JPanel(),
@@ -24,8 +24,8 @@ public class StartWindow extends JFrame implements ActionListener
 			right = new JPanel(),
 			center = new JPanel();
 	
-	public StartWindow(String title, Gui g) {
-		super(title);
+	public StartWindow(Gui g) {
+		this.setTitle("Schach");
 		this.g = g;
 		this.startWindow();
 		this.makeLayout();
@@ -45,15 +45,17 @@ public class StartWindow extends JFrame implements ActionListener
 	 * Methode, die das Layout des Fensters erstellt. 
 	 */
 	public void makeLayout() 
-	{
-		this.c = getContentPane();
-		this.c.setLayout(new BorderLayout());
+	{		
+		this.setContentPane(new BackgroundPanel());
+		this.setLayout(new BorderLayout());
+		this.getContentPane().add(this.center, BorderLayout.CENTER);
+		this.center.setOpaque(false);
 		
 //		this.c.add(this.top, BorderLayout.NORTH);
 //		this.c.add(this.bottom, BorderLayout.SOUTH);
 //		this.c.add(this.left, BorderLayout.WEST);
 //		this.c.add(this.right, BorderLayout.EAST);
-		this.c.add(this.center, BorderLayout.CENTER);
+//		this.c.add(this.center, BorderLayout.CENTER);
 		
 //		this.top.setBackground(Color.green);
 //		this.bottom.setBackground(Color.yellow);

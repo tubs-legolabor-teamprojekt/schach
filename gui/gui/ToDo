@@ -1,5 +1,6 @@
-- Start-Button auf schwarzem Panel, das etwas trasparent üder schon bestehendes Schachbrett gelegt wird, bei Knopdruck --> weg
-- Auswahl ob Spieler gegen Spieler oder gegen Computer?	
-
-
+- Startfeld ordentlich
 - PawnPromotion Text auf "Holzbrett"
+
+- Spiel vorbei: * neues Spiel starten
+				* Spiel ausgeben (pgn-Format) --> neuer Frame mit Textfeld zum anzeigen + Scrollpane
+				* Spiel exportieren

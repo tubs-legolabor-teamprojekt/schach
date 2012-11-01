@@ -55,7 +55,7 @@ public class Gui extends JFrame
 	public Gui()
 	{
 		super();
-		StartWindow sw = new StartWindow("Start", this);
+		StartWindow sw = new StartWindow(this);
 		this.checkerboard = new Checkerboard(this);
 		
 		/*
