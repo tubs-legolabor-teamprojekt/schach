@@ -64,6 +64,7 @@ public class StartWindow extends JFrame implements ActionListener
 		this.center.add(this.start);
 		this.start.addActionListener(this);
 		this.start.setActionCommand("start_button");
+		this.validate();
 	}
 
 	public void actionPerformed(ActionEvent e) {

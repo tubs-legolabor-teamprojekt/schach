@@ -162,7 +162,7 @@ public class Checkerboard extends JPanel
 	 * Methode, die die Informationen über das aktuelle Schachfeld und 
 	 * eventuelle Sonderfälle einholt.
 	 */
-	public void getCheckerboardInformation(Move move) 
+	public void setCheckerboardInformation(Move move) 
 	{
 		// wer zieht wohin, geschmissen?, Sonderfall: PawnPromotion, Schach?, Schachmatt? 
 		
@@ -219,12 +219,12 @@ public class Checkerboard extends JPanel
 			// gucken, ob er die Icons übereinander macht, oder nicht, ansonsten, geschlagenen extra wegmachen
 		} 
 		
-		if (this.move.isCheck()) {
-			javax.swing.JOptionPane.showMessageDialog(this,"Schach!", "Schach", JOptionPane.INFORMATION_MESSAGE);
+		if (this.move.isCheck() && this.move.isCheckMate()) {
+			javax.swing.JOptionPane.showMessageDialog(this,"Schachmatt! \nSpiel vorbei!", "Schachmatt", JOptionPane.INFORMATION_MESSAGE);
 		}
 		
-		if (this.move.isCheckMate()) {
-			javax.swing.JOptionPane.showMessageDialog(this,"Schachmatt!", "Schachmatt", JOptionPane.INFORMATION_MESSAGE);
+		if (this.move.isCheck()) {
+			javax.swing.JOptionPane.showMessageDialog(this,"Schach!", "Schach", JOptionPane.INFORMATION_MESSAGE);
 		}
 		
 	}
