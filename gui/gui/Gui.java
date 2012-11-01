@@ -4,6 +4,7 @@ import game.Move;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Font;
 
@@ -130,17 +131,10 @@ public class Gui extends JFrame
 	 */
 	public void makeTable_bottomLayout() 
 	{
-//		this.table_bottom.getTableHeader().setFont(new Font("Courier", Font.BOLD, 50));
-		
-		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-		centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-//		centerRenderer.setFont(new Font("Courier", Font.BOLD, 50));
-		
-		for(int i = 0; i < 8; i++){
-			this.table_bottom.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
-//			System.out.println(this.table_bottom.getFont());
+		for (int i = 0; i < 8; i++) {
+			this.table_bottom.getColumnModel().getColumn(i).setCellRenderer(new MyCellRenderer());
 		}
-		
+	
 		this.table_bottom.setEnabled(false);
 		this.table_bottom.setRowHeight(30);
 //		this.table_bottom.setBackground(null);
@@ -155,7 +149,11 @@ public class Gui extends JFrame
 	 * linken Rand des Feldes erzeugt.
 	 */
 	public void makeTable_leftLayout() 
-	{		
+	{	
+		
+		this.table_left.getColumnModel().getColumn(0).setCellRenderer(new MyCellRenderer());
+		
+		/*	
 //		this.table_left.getTableHeader().setFont(new Font("Courier", Font.BOLD, 50));
 		
 		DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
@@ -163,7 +161,7 @@ public class Gui extends JFrame
 		
 		for(int i = 0; i < 1; i++){
 			table_left.getColumnModel().getColumn(i).setCellRenderer(rightRenderer);
-		}
+		}*/
 		
 		this.table_left.setRowHeight(75);
 

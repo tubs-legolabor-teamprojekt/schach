@@ -62,6 +62,7 @@ public class Checkerboard extends JPanel
 		// Tabelle erstellen
 		this.grid = new JTable(8, 8);
 		this.grid.setShowHorizontalLines(true);
+		this.grid.setOpaque(false);
 		
 		// Zeilenhöhe und Spaltenbreite anpassen, so dass die Felder quadratisch sind
 		this.grid.setRowHeight(75);
@@ -96,24 +97,17 @@ public class Checkerboard extends JPanel
 				if (i%2 == 0) {
 					if (j%2 == 0) {
 						cb = (CheckerboardPanel)this.grid.getValueAt(i, j);
-//						cb.setBackground(new Color(41, 15, 5));
-						cb.setIcon(false);
+						cb.setBackground(new Color(41, 15, 5, 100));
 					} else {
 						cb = (CheckerboardPanel)this.grid.getValueAt(i, j);
-//						cb.setBackground(new Color(251, 225, 172));
-						cb.setIcon(true);
+						cb.setBackground(new Color(251, 225, 172, 100));
 					}
 				} else {
 					if (j%2 == 0) {
 						cb = (CheckerboardPanel)this.grid.getValueAt(i, j);
-//						cb.setBackground(Color.white);
-//						cb.setBackground(new Color(251, 225, 172));
-						cb.setIcon(true);
+						cb.setBackground(new Color(251, 225, 172, 100));
 					} else {
 						cb = (CheckerboardPanel)this.grid.getValueAt(i, j);
-//						cb.setBackground(Color.black);
-//						cb.setBackground(new Color(41, 15, 5));
-						cb.setIcon(false);
 					}
 				}
 			} 

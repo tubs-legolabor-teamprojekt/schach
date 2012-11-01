@@ -40,14 +40,4 @@ public class CheckerboardPanel extends JPanel
 		this.label.setVisible(show);
 	}
 	
-	// nur zum Testen....
-	public void setIcon(boolean light) 
-	{
-		if (light) {
-			this.label.setIcon(new ImageIcon("gui/gui/feld_hell.gif"));
-			System.out.println(this.label.getHeight() + " " + this.label.getWidth());
-		} else {
-			this.label.setIcon(new ImageIcon("gui/gui/feld_dunkel.gif"));
-		}
-	}
 }
