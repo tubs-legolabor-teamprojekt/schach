@@ -45,16 +45,19 @@ public class Gui extends JFrame
 					knight = false,
 					rook = false;
 	
+	private boolean startPressed = false;
+	
 	/**
 	 * Konstruktor, der ein neues Fenster erstellt und 
 	 * Einstellungen und Layout festlegt.
 	 * @param title
 	 */
-	public Gui(String title)
+	public Gui()
 	{
-		super(title);
+		super();
 		StartWindow sw = new StartWindow("Start", this);
 		this.checkerboard = new Checkerboard(this);
+		
 		/*
 		this.startWindow();
 		this.makeLayout();*/
@@ -74,6 +77,8 @@ public class Gui extends JFrame
 		this.setResizable(false);
 		this.setVisible(false);
 	
+		this.setStartPressed(true);
+		this.setTitle("Schach");
 		this.makeLayout();
 		Field f = Field.getInstance();
 		this.getCheckerboard().getStartMap(f.getCurrentFieldAsHashMap());
@@ -208,16 +213,15 @@ public class Gui extends JFrame
 		return checkerboard;
 	}
 
+	public boolean isStartPressed() {
+		return this.startPressed;
+	}
+
 	/**
-	 * Main-Methode
-	 * @param args
+	 * Setter für die Information, ob der Finish-Button geklickt wurde. 
+	 * @param finish
 	 */
-	public static void main(String[] args)
-	{
-		Gui g = new Gui("Schach");
-		
-//		Move move = new Move(Field.getFieldNumber("e4"), Field.getFieldNumber("e5"), new FigureKing((byte)1), true, true, false );
-//		g.getCheckerboard().getCheckerboardInformation(move);
-		
-	}	
+	public void setStartPressed(boolean startPressed) {
+		this.startPressed = startPressed;
+	}
 }
