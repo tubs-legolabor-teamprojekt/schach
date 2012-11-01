@@ -4,17 +4,17 @@ import game.Move;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Image;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
-import javax.swing.border.LineBorder;
-import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 
@@ -108,6 +108,7 @@ public class Checkerboard extends JPanel
 						cb.setBackground(new Color(251, 225, 172, 100));
 					} else {
 						cb = (CheckerboardPanel)this.grid.getValueAt(i, j);
+						cb.setBackground(new Color(41, 15, 5, 100));
 					}
 				}
 			} 
@@ -122,11 +123,7 @@ public class Checkerboard extends JPanel
 		
 		// Tabelle hinzufügen und Wände fett machen
 		this.add(grid);
-		this.grid.setBorder(BorderFactory.createMatteBorder(5, 5, 5, 5, Color.BLACK));
-		
-		// abgerundetet Ecken sind dämlich... 
-//		this.grid.setBorder(BorderFactory.createCompoundBorder(new LineBorder(Color.black, 6, true), new MatteBorder(5, 5, 5, 5, Color.black)));
-		
+		this.grid.setBorder(BorderFactory.createMatteBorder(5, 5, 5, 5, new Color(0, 0, 0, 255)));
 	}
 	
 	/**

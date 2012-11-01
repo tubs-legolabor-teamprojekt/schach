@@ -225,12 +225,11 @@ public class Gui extends JFrame
 	{
 		Gui g = new Gui("Schach");
 		
-		Move move = new Move(Field.getFieldNumber("e8"), Field.getFieldNumber("e7"), new FigureKing((byte)1), true, true, false );
-		
+//		Move move = new Move(Field.getFieldNumber("e4"), Field.getFieldNumber("e5"), new FigureKing((byte)1), true, true, false );
 		
 		Field f = Field.getInstance();
 		g.getCheckerboard().getStartMap(f.getCurrentFieldAsHashMap());
-		g.getCheckerboard().getCheckerboardInformation(move);
+//		g.getCheckerboard().getCheckerboardInformation(move);
 		
 //		Move move2 = new Move(Field.getFieldNumber("c7"), Field.getFieldNumber("d8"), new FigurePawn((byte)0), true, true, false, true);
 //		cb.getCheckerboardInformation(move);
