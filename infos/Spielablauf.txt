@@ -11,7 +11,7 @@ Wenn Methoden fehlen (Roboter soll Figur bewegen), diese Einfügen, sollten sie s
 // Spiel starten
 GameCoordinator.startGame();
 
-// Grafische Abfrage nach "Spieler gegen Spieler" oder "Spieler gegen Computer"
+// Grafische Abfrage nach "Spieler gegen Computer" oder "Computer gegen Computer"
 GameCoordinator.setPlayers (
     gui.playerPopup();
 );

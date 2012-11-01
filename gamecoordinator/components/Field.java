@@ -416,7 +416,7 @@ public class Field
 		
 		try {
 			if (!Pattern.matches(pattern, fieldName))
-				throw new FieldException("Die Eingabe (" + fieldName + ") entspricht nicht einer gueltigen Feldbezeichnung!");
+				throw new FieldException("Die Eingabe (" + fieldName + ") entspricht nicht einer gueltigen Feldbezeichnung!\n Buchstaben klein geschrieben?");
 			else {
 				// Gueltige Feldbezeichnung, Zeile und Spalte "ausschneiden"
 				int column = getColumnnumberByChar(fieldName.substring(0, 1).charAt(0));
