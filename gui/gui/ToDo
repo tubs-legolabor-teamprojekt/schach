@@ -1,9 +1,5 @@
 - Start-Button auf schwarzem Panel, das etwas trasparent üder schon bestehendes Schachbrett gelegt wird, bei Knopdruck --> weg
-
-
-- Umrandung des Schachbretts, abgerundete Ecken oder so was...
-
-
-
-
 - Auswahl ob Spieler gegen Spieler oder gegen Computer?	
+
+
+- PawnPromotion Text auf "Holzbrett"

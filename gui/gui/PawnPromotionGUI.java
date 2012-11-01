@@ -1,8 +1,11 @@
 package gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Container;
+import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -31,6 +34,7 @@ public class PawnPromotionGUI extends JFrame implements ActionListener
 					forRadioButtonsRight = new JPanel(),
 					forOkButton = new JPanel();	
 	private JTextArea text = new JTextArea("     In welche Figur soll der \nBauer umgewandelt werden?", 1, 1);
+	private ImageIcon img = new ImageIcon("gui/gui/checkerboard.png");
 	private JRadioButton 	queen = new JRadioButton("Dame"),
 							bishop = new JRadioButton("Läufer"),
 							knight = new  JRadioButton("Springer"),
@@ -47,9 +51,12 @@ public class PawnPromotionGUI extends JFrame implements ActionListener
 	{
 		super(title);
 		this.g = g;
-		
 		this.startWindow();
 		this.makeLayout();
+	}
+	
+	public void setIconSize(ImageIcon icon) {
+		icon.setImage(icon.getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
 	}
 	
 	/**
@@ -70,24 +77,41 @@ public class PawnPromotionGUI extends JFrame implements ActionListener
 	 */
 	public void makeLayout() 
 	{
-		this.c = getContentPane();
-		this.c.setLayout(new BorderLayout());
+		this.setContentPane(new BackgroundPanel());
+		this.setLayout(new BorderLayout());
 		
 		this.makeRadioButtons();
 		
-		this.c.add(this.forText, BorderLayout.NORTH);
-		this.c.add(this.forRadioButtons, BorderLayout.CENTER);
-		this.c.add(this.forOkButton, BorderLayout.SOUTH);
+		this.getContentPane().add(this.forText, BorderLayout.NORTH);
+		this.add(this.forRadioButtons, BorderLayout.CENTER);
+		this.add(this.forOkButton, BorderLayout.SOUTH);
+	
+//		this.c = getContentPane();
+//		this.c.setLayout(new BorderLayout());
 		
+//		this.c.add(this.forText, BorderLayout.NORTH);
+//		this.c.add(this.forRadioButtons, BorderLayout.CENTER);
+//		this.c.add(this.forOkButton, BorderLayout.SOUTH);
+		
+		this.forText.setOpaque(false);
+//		this.forText.setBackground(new Color(41, 15, 5, 100));
 		this.forText.add(this.text);
-		this.text.setBackground(null);
+		
+		this.text.setOpaque(false);
+		this.text.setFont(new Font("Arial", Font.BOLD, 13));
+//		this.text.setBackground(null);
 		this.text.setEditable(false);
 		
+		this.forRadioButtons.setOpaque(false);
+		
+		this.forOkButton.setOpaque(false);
 		this.forOkButton.add(this.okButton);
 		
 		this.okButton.setEnabled(false);
 		this.okButton.addActionListener(this);
 		this.okButton.setActionCommand("button_ok");
+		
+		this.validate();
 	}
 	
 	/**
@@ -96,6 +120,19 @@ public class PawnPromotionGUI extends JFrame implements ActionListener
 	public void makeRadioButtons() {
 		
 		ButtonGroup group = new ButtonGroup();
+		
+//		this.setIconSize(img);
+//		this.queen = new JRadioButton("Dame" , img);
+		
+		this.queen.setBackground(new Color(251, 190, 172));
+		this.bishop.setBackground(new Color(251, 190, 172));
+		this.knight.setBackground(new Color(140, 95, 70));
+		this.rook.setBackground(new Color(140, 95, 70));
+		
+		this.queen.setOpaque(false);
+		this.bishop.setOpaque(false);
+		this.knight.setOpaque(false);
+		this.rook.setOpaque(false);
 		
 		// Dame-Radiobutton
 		group.add(this.queen);
@@ -121,11 +158,13 @@ public class PawnPromotionGUI extends JFrame implements ActionListener
 		
 		this.forRadioButtonsLeft.setLayout(new GridLayout(0, 1));
 		this.forRadioButtonsLeft.setBorder(new EmptyBorder(0, 35, 0, 0));
+		this.forRadioButtonsLeft.setOpaque(false);
 		this.forRadioButtonsLeft.add(this.queen);
 		this.forRadioButtonsLeft.add(this.bishop);
 		
 		this.forRadioButtonsRight.setLayout(new GridLayout(0, 1));
 		this.forRadioButtonsRight.setBorder(new EmptyBorder(0, 5, 0, 0));
+		this.forRadioButtonsRight.setOpaque(false);
 		this.forRadioButtonsRight.add(this.knight);
 		this.forRadioButtonsRight.add(this.rook);
 		

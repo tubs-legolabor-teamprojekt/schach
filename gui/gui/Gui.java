@@ -1,25 +1,18 @@
 package gui;
 
-import game.Move;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Container;
-import java.awt.Font;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 
 import components.Field;
-import components.FigureKing;
 
 /**
  * Klasse, die das Hauptfenster darstellt.
@@ -66,7 +59,7 @@ public class Gui extends JFrame
 		this.startWindow();
 		this.makeLayout();
 		
-		//this.pawnPromotionGUI();
+		this.pawnPromotionGUI();
 		
 	}
 	
@@ -132,7 +125,7 @@ public class Gui extends JFrame
 	public void makeTable_bottomLayout() 
 	{
 		for (int i = 0; i < 8; i++) {
-			this.table_bottom.getColumnModel().getColumn(i).setCellRenderer(new MyCellRenderer());
+			this.table_bottom.getColumnModel().getColumn(i).setCellRenderer(new MyCellRenderer(true));
 		}
 	
 		this.table_bottom.setEnabled(false);
@@ -151,17 +144,7 @@ public class Gui extends JFrame
 	public void makeTable_leftLayout() 
 	{	
 		
-		this.table_left.getColumnModel().getColumn(0).setCellRenderer(new MyCellRenderer());
-		
-		/*	
-//		this.table_left.getTableHeader().setFont(new Font("Courier", Font.BOLD, 50));
-		
-		DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
-		rightRenderer.setHorizontalAlignment(JLabel.RIGHT);
-		
-		for(int i = 0; i < 1; i++){
-			table_left.getColumnModel().getColumn(i).setCellRenderer(rightRenderer);
-		}*/
+		this.table_left.getColumnModel().getColumn(0).setCellRenderer(new MyCellRenderer(false));
 		
 		this.table_left.setRowHeight(75);
 
