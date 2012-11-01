@@ -53,13 +53,13 @@ public class Gui extends JFrame
 	public Gui(String title)
 	{
 		super(title);
-		
+		StartWindow sw = new StartWindow("Start", this);
 		this.checkerboard = new Checkerboard(this);
-		
+		/*
 		this.startWindow();
-		this.makeLayout();
+		this.makeLayout();*/
 		
-		this.pawnPromotionGUI();
+//		this.pawnPromotionGUI();
 		
 	}
 	
@@ -72,6 +72,14 @@ public class Gui extends JFrame
 		this.setSize(750, 750);
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
+		this.setVisible(false);
+	
+		this.makeLayout();
+		Field f = Field.getInstance();
+		this.getCheckerboard().getStartMap(f.getCurrentFieldAsHashMap());
+		
+		this.repaint();
+		this.validate();
 		this.setVisible(true);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
@@ -209,17 +217,7 @@ public class Gui extends JFrame
 		Gui g = new Gui("Schach");
 		
 //		Move move = new Move(Field.getFieldNumber("e4"), Field.getFieldNumber("e5"), new FigureKing((byte)1), true, true, false );
-		
-		Field f = Field.getInstance();
-		g.getCheckerboard().getStartMap(f.getCurrentFieldAsHashMap());
 //		g.getCheckerboard().getCheckerboardInformation(move);
 		
-//		Move move2 = new Move(Field.getFieldNumber("c7"), Field.getFieldNumber("d8"), new FigurePawn((byte)0), true, true, false, true);
-//		cb.getCheckerboardInformation(move);
-		
-		/*
-		for (int i = 0; i < 64; i++) {
-			cb.fieldNumberConverter(i);
-		}*/
 	}	
 }

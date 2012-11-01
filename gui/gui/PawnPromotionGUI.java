@@ -27,7 +27,6 @@ public class PawnPromotionGUI extends JFrame implements ActionListener
 {
 
 	private Gui g;	
-	private Container c;
 	private JPanel 	forText = new JPanel(),
 					forRadioButtons = new JPanel(),
 					forRadioButtonsLeft = new JPanel(),
@@ -53,10 +52,6 @@ public class PawnPromotionGUI extends JFrame implements ActionListener
 		this.g = g;
 		this.startWindow();
 		this.makeLayout();
-	}
-	
-	public void setIconSize(ImageIcon icon) {
-		icon.setImage(icon.getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
 	}
 	
 	/**
