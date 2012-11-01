@@ -62,11 +62,13 @@ public class Move
 	 * @param fieldTo Zielfeld
 	 * @param figure Figur, die den Zug macht
 	 */
-	public Move(int fieldFrom, int fieldTo, Figure figure)
+	public Move(int fieldFrom, int fieldTo)
 	{
 		this.setFieldFrom(fieldFrom);
 		this.setFieldTo(fieldTo);
-		this.setFigure(figure);
+		
+		// Hole die Figur, die den Zug durchfuehrt
+		this.setFigure(Field.getInstance().getFigureAt(this.getFieldFrom()));
 	}
 	
 	/**
@@ -83,12 +85,11 @@ public class Move
 	 */
 	public Move(	int fieldFrom,
 					int fieldTo,
-					Figure figure,
 					boolean captured,
 					boolean check,
 					boolean checkMate)
 	{
-		this(fieldFrom, fieldTo, figure);
+		this(fieldFrom, fieldTo);
 		this.setCaptured(captured);
 		this.setCheck(check);
 		this.setCheckMate(checkMate);
