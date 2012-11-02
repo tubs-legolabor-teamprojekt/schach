@@ -177,7 +177,7 @@ public class Checkerboard extends JPanel
 		// Umrechnung der FieldFrom-Nummer
 		this.fieldFrom = this.move.getFieldFrom();
 		this.fieldFromColumn = this.fieldNumberConverterColumn(this.fieldFrom);
-		this.fieldFromRow = this.fieldNumberConverterRow(this.fieldFrom);		
+		this.fieldFromRow = this.fieldNumberConverterRow(this.fieldFrom);
 		
 		// erst Zeile 
 		for (int i = 0; i < 8; i++) {
@@ -194,11 +194,11 @@ public class Checkerboard extends JPanel
 				}
 			}
 		}
-	
+		
 		// Umrechnung der FieldTo-Nummer
 		this.fieldTo = this.move.getFieldTo();
 		this.fieldToColumn = this.fieldNumberConverterColumn(this.fieldTo);
-		this.fieldToRow = this.fieldNumberConverterRow(this.fieldTo);
+		this.fieldToRow = this.fieldNumberConverterRow(this.fieldTo);	
 		
 		// Zeile
 		for (int i = 0; i < 8; i++) {
@@ -206,25 +206,25 @@ public class Checkerboard extends JPanel
 				// dann Spalte
 				for (int j = 0; j < 8; j++) {
 					if (j == this.fieldToColumn) {
-						// zeigt die entsprechende Figur auf dem zugehörigen Feld an
 						CheckerboardPanel cbp = (CheckerboardPanel)this.grid.getValueAt(i, j);
+						if (this.move.isCaptured()) {
+							cbp.label.setVisible(false);
+						}
+						// zeigt die entsprechende Figur auf dem zugehörigen Feld an
 						cbp.showIcon(this.figure, true);
 						this.g.repaint();
 						this.g.validate();
 					}
 				}
 			}
-		}		
+		}	
 		
 		this.g.repaint();
 		this.g.validate();
 		
-		if (this.move.isCaptured()) {	
-			// gucken, ob er die Icons übereinander macht, oder nicht, ansonsten, geschlagenen extra wegmachen
-		} 
-		
 		if (this.move.isCheck() && this.move.isCheckMate()) {
 			javax.swing.JOptionPane.showMessageDialog(this,"Schachmatt! Spiel vorbei!", "Schachmatt", JOptionPane.INFORMATION_MESSAGE);
+//			FinishedGameGUI 
 		}
 		
 		if (this.move.isCheck() && !this.move.isCheckMate()) {
