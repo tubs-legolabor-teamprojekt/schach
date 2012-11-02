@@ -122,7 +122,7 @@ public class Checkerboard extends JPanel
 		
 		// Tabelle hinzufügen und Wände fett machen
 		this.add(grid);
-		this.grid.setBorder(BorderFactory.createMatteBorder(5, 5, 5, 5, new Color(0, 0, 0, 255)));
+		this.grid.setBorder(BorderFactory.createMatteBorder(5, 5, 5, 5, new Color(43, 23, 2, 255)));
 	}
 	
 	/**
@@ -224,7 +224,7 @@ public class Checkerboard extends JPanel
 		} 
 		
 		if (this.move.isCheck() && this.move.isCheckMate()) {
-			javax.swing.JOptionPane.showMessageDialog(this,"Schachmatt! \nSpiel vorbei!", "Schachmatt", JOptionPane.INFORMATION_MESSAGE);
+			javax.swing.JOptionPane.showMessageDialog(this,"Schachmatt! Spiel vorbei!", "Schachmatt", JOptionPane.INFORMATION_MESSAGE);
 		}
 		
 		if (this.move.isCheck() && !this.move.isCheckMate()) {
