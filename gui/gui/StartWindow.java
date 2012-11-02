@@ -14,6 +14,8 @@ import javax.swing.JPanel;
 public class StartWindow extends JFrame implements ActionListener
 {
 	
+	// Idee: links icon, rechts text, unter beides button
+	
 	private Gui g;
 	private Container c;
 	private JButton start = new JButton("Spiel starten");
