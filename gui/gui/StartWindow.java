@@ -118,6 +118,7 @@ public class StartWindow extends JFrame implements ActionListener
 		this.forButton.add(this.startButton);
 		this.startButton.addActionListener(this);
 		this.startButton.setActionCommand("startButton");
+		this.getRootPane().setDefaultButton(this.startButton);
 		
 		this.validate();
 	}

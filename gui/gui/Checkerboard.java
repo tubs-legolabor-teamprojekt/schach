@@ -224,7 +224,9 @@ public class Checkerboard extends JPanel
 		
 		if (this.move.isCheck() && this.move.isCheckMate()) {
 			javax.swing.JOptionPane.showMessageDialog(this,"Schachmatt! Spiel vorbei!", "Schachmatt", JOptionPane.INFORMATION_MESSAGE);
-//			FinishedGameGUI 
+//			this.g.setVisible(false);
+//			this.g.dispose();	
+			FinishedGameGUI f = new FinishedGameGUI(this.g);
 		}
 		
 		if (this.move.isCheck() && !this.move.isCheckMate()) {

@@ -1,7 +1,17 @@
-- Schachfeldrand und -beschriftung dunkelbraun
-- funktioniert, wenn captured?
-- PawnPromotion Text auf "Holzbrett"
+ToDo
+------
+- Spiel vorbei: * Anordnung 
+				* actionPerformed:
+						+ Spiel ausgeben (pgn-Format) --> neuer Frame mit Textfeld zum anzeigen + Scrollpane
+						+ Spiel exportieren
+				* bei StartButton nur Tabelle neu zeichnen lassen
+						
 
-- Spiel vorbei: * neues Spiel starten
-				* Spiel ausgeben (pgn-Format) --> neuer Frame mit Textfeld zum anzeigen + Scrollpane
-				* Spiel exportieren
+Fragen
+-------
+			
+						
+						
+Extras:
+- PawnPromotion Text auf "Holzbrett"
+						
