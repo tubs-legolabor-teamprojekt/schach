@@ -1,6 +1,7 @@
 package game;
 
 import java.util.Date;
+import java.util.List;
 
 public class Exporter
 {
@@ -18,29 +19,29 @@ public class Exporter
 	public static String exportMovesToPGN(	
 			String event,
 			String site,
-			Date date,
+			String date,
 			String namePlayerWhite,
 			String namePlayerBlack,
 			String result,
-			Move[] moves
+			List<Move> moves
 			)
 	{
 		String exportStr = "";
 		
-		exportStr += "[Event \"" + event + "\"]";
-		exportStr += "[Site \"" + site + "\"]";
-		exportStr += "[Date \"" + date.toString() + "\"]";
-		exportStr += "[Round \"" + moves.length + "\"]";
-		exportStr += "[White \"" + namePlayerWhite + "\"]";
-		exportStr += "[Black \"" + namePlayerBlack + "\"]";
+		exportStr += "[Event \"" + event + "\"]\n";
+		exportStr += "[Site \"" + site + "\"]\n";
+		exportStr += "[Date \"" + date + "\"]\n";
+		exportStr += "[Round \"" + moves.size() + "\"]\n";
+		exportStr += "[White \"" + namePlayerWhite + "\"]\n";
+		exportStr += "[Black \"" + namePlayerBlack + "\"]\n";
 		exportStr += "[Result \"" + result + "\"]\n\n";
 		
 		int moveCount = 0;
-		for(int i = 0; i < moves.length; i++) {
+		for(int i = 0; i < moves.size(); i++) {
 			if (i%2 == 0)
 				exportStr += "" + ++moveCount + ". ";
 			
-			exportStr += moves[i].getAlgebraicNotation() + " ";
+			exportStr += moves.get(i).getAlgebraicNotation() + " ";
 		}
 		exportStr += result;
 		
