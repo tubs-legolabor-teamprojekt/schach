@@ -261,4 +261,9 @@ public class Checkerboard extends JPanel
 			cbp.showIcon(f, true);
 		}
 	}
+	
+	public void resetMap() {
+		this.removeAll();
+		this.makeTable();
+	}
 }

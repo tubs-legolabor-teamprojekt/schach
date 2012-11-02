@@ -14,6 +14,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
+import components.Field;
+
 public class FinishedGameGUI extends JFrame implements ActionListener
 {
 
@@ -197,8 +199,10 @@ public class FinishedGameGUI extends JFrame implements ActionListener
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand() == "startButton") {
-			
-			this.g.startWindow();
+			Field f = Field.getInstance();
+			f.resetField();
+			this.g.getCheckerboard().resetMap();
+			this.g.getCheckerboard().getStartMap(f.getCurrentFieldAsHashMap());
 			this.setVisible(false);
 			this.dispose();
 		}

@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import rules.Rules;
-import sun.tools.tree.ThisExpression;
 
 import components.Field;
 
