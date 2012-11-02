@@ -41,9 +41,7 @@ public class Checkerboard extends JPanel
 				fieldFromRow = 0,
 				fieldToColumn = 0,
 				fieldToRow = 0;
-	
-	
-	
+
 	/**
 	 * Konstruktor, der ein neues Objekt der Klasse erstellt.
 	 */
@@ -62,11 +60,11 @@ public class Checkerboard extends JPanel
 		// Tabelle erstellen
 		this.grid = new JTable(8, 8);
 		this.grid.setShowHorizontalLines(true);
+		
 		this.grid.setOpaque(false);
 		
 		// Zeilenhöhe und Spaltenbreite anpassen, so dass die Felder quadratisch sind
 		this.grid.setRowHeight(75);
-		
 		int columnIndex = 8;
 		TableColumn col = null;
 		for (int i = 0; i < columnIndex; i++) {
@@ -84,15 +82,16 @@ public class Checkerboard extends JPanel
 			);
 		}
 		
+		// neues CheckerboardPanel-Objekt
 		CheckerboardPanel cb = new CheckerboardPanel();
 		
 		// in jeder Tabellenzelle wird ein JPanel eingefügt
 		// Schachbrettmuster wird angelegt
-		
 		// erst Zeilen
 		for (int i = 0; i < 8; i++) {
 			// dann Spalten
 			for (int j = 0; j < 8; j++) {
+				// aktuelle Tabellenzelle 
 				this.grid.setValueAt(new CheckerboardPanel(), i, j);
 				if (i%2 == 0) {
 					if (j%2 == 0) {
@@ -168,12 +167,14 @@ public class Checkerboard extends JPanel
 		
 		this.move = move;
 		
+		// wenn der Bauer umgewandelt werden soll
 		if (this.move.isPawnPromotion()) {
 			this.g.pawnPromotionGUI();
 		}
 		
 		this.figure = this.move.getFigure();
-					
+		
+		// Umrechnung der FieldFrom-Nummer
 		this.fieldFrom = this.move.getFieldFrom();
 		this.fieldFromColumn = this.fieldNumberConverterColumn(this.fieldFrom);
 		this.fieldFromRow = this.fieldNumberConverterRow(this.fieldFrom);		
@@ -184,6 +185,7 @@ public class Checkerboard extends JPanel
 				// dann Spalte
 				for (int j = 0; j < 8; j++) {
 					if (j == this.fieldFromColumn) {
+						// entfernt die entsprechende Figur auf dem zugehörigen Feld
 						CheckerboardPanel cbp = (CheckerboardPanel)this.grid.getValueAt(i, j);
 						cbp.showIcon(this.figure, false);
 						this.g.repaint();
@@ -193,6 +195,7 @@ public class Checkerboard extends JPanel
 			}
 		}
 	
+		// Umrechnung der FieldTo-Nummer
 		this.fieldTo = this.move.getFieldTo();
 		this.fieldToColumn = this.fieldNumberConverterColumn(this.fieldTo);
 		this.fieldToRow = this.fieldNumberConverterRow(this.fieldTo);
@@ -203,6 +206,7 @@ public class Checkerboard extends JPanel
 				// dann Spalte
 				for (int j = 0; j < 8; j++) {
 					if (j == this.fieldToColumn) {
+						// zeigt die entsprechende Figur auf dem zugehörigen Feld an
 						CheckerboardPanel cbp = (CheckerboardPanel)this.grid.getValueAt(i, j);
 						cbp.showIcon(this.figure, true);
 						this.g.repaint();
@@ -229,6 +233,10 @@ public class Checkerboard extends JPanel
 		
 	}
 	
+	/**
+	 * Methode, die die Schachfiguren auf ihre Startpositionen setzt.
+	 * @param figures
+	 */
 	public void getStartMap(HashMap<Integer, Figure> figures)
 	{
 		// Iterator erstellen, der ueber alle Figuren iteriert
@@ -243,11 +251,12 @@ public class Checkerboard extends JPanel
 			// value-Objekt
 			Figure f = pair.getValue();
 			
+			// entsprechende Figuren werden an zugehöriger Position angezeigt
+			// Umrechnung der Feldnummern notwendig
 			CheckerboardPanel cbp = (CheckerboardPanel)this.grid.
 					getValueAt(this.fieldNumberConverterRow(i),
 					(this.fieldNumberConverterColumn(i)));
 			cbp.showIcon(f, true);
 		}
 	}
-	
 }

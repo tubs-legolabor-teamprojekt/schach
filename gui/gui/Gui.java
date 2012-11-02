@@ -56,14 +56,7 @@ public class Gui extends JFrame
 	{
 		super();
 		StartWindow sw = new StartWindow(this);
-		this.checkerboard = new Checkerboard(this);
-		
-		/*
-		this.startWindow();
-		this.makeLayout();*/
-		
-//		this.pawnPromotionGUI();
-		
+		this.checkerboard = new Checkerboard(this);		
 	}
 	
 	/**
@@ -77,9 +70,12 @@ public class Gui extends JFrame
 		this.setResizable(false);
 		this.setVisible(false);
 	
+		// wenn hier reingegangen wird, muss vorher der StartButton gedrückt worden
+		// sein, also Variable auf true setzen
 		this.setStartPressed(true);
 		this.setTitle("Schach");
 		this.makeLayout();
+		// Startfeld anzeigen
 		Field f = Field.getInstance();
 		this.getCheckerboard().getStartMap(f.getCurrentFieldAsHashMap());
 		
@@ -100,32 +96,24 @@ public class Gui extends JFrame
 		this.setContentPane(new BackgroundPanel());
 		this.setLayout(new BorderLayout());
 		
-//		this.c = getContentPane();
-//		this.c.setLayout(new BorderLayout());
-		
-//		this.c.add(this.top, BorderLayout.NORTH);
 		this.getContentPane().add(this.top, BorderLayout.NORTH);
 		this.top.setBorder(new EmptyBorder(25, 25, 25, 25));
 		this.top.setOpaque(false);
 		
-//		this.c.add(this.bottom, BorderLayout.SOUTH);
 		this.getContentPane().add(this.bottom, BorderLayout.SOUTH);
 		this.bottom.setBorder(new EmptyBorder(10, 10, 10, 10));
 		this.bottom.add(this.table_bottom);
 		this.bottom.setOpaque(false);
 		
-//		this.c.add(this.left, BorderLayout.WEST);
 		this.getContentPane().add(this.left, BorderLayout.WEST);
 		this.left.setBorder(new EmptyBorder(0, 10, 10, 10));
 		this.left.add(this.table_left);
 		this.left.setOpaque(false);
 		
-//		this.c.add(this.right, BorderLayout.EAST);
 		this.getContentPane().add(this.right, BorderLayout.EAST);
 		this.right.setBorder(new EmptyBorder(25, 25, 25, 25));
 		this.right.setOpaque(false);
 		
-//		this.c.add(this.checkerboard, BorderLayout.CENTER);
 		this.getContentPane().add(this.checkerboard, BorderLayout.CENTER);
 		this.checkerboard.setBorder(new EmptyBorder(-4, 0, 0, 0));
 		this.checkerboard.setOpaque(false);
@@ -137,6 +125,7 @@ public class Gui extends JFrame
 	 */
 	public void makeTable_bottomLayout() 
 	{
+		// jeder Spalte wird ein neuer CellRenderer hinzugefügt
 		for (int i = 0; i < 8; i++) {
 			this.table_bottom.getColumnModel().getColumn(i).setCellRenderer(new MyCellRenderer(true));
 		}
@@ -156,7 +145,7 @@ public class Gui extends JFrame
 	 */
 	public void makeTable_leftLayout() 
 	{	
-		
+		// der Spalte wird ein neuer CellRenderer hinzugefügt
 		this.table_left.getColumnModel().getColumn(0).setCellRenderer(new MyCellRenderer(false));
 		
 		this.table_left.setRowHeight(75);
@@ -181,7 +170,7 @@ public class Gui extends JFrame
 	 */
 	public void pawnPromotionGUI() 
 	{
-		PawnPromotionGUI pp = new PawnPromotionGUI("Bauernumwandlung", this);
+		PawnPromotionGUI pp = new PawnPromotionGUI(this);
 	}
 	
 	/**
@@ -199,27 +188,37 @@ public class Gui extends JFrame
 		this.bishop = bishop;
 		this.knight = knight;
 		this.rook = rook;
-		
-//		System.out.println("queen: " + this.queen + " bishop: " + this.bishop
-//				+ " knight: " + this.knight + " rook: " + this.rook);
 	}
 	
+	/**
+	 * Methode, die ein Dialogfenster mit der Übergebenen Nachricht öffnet.
+	 * @param message
+	 */
 	public void showWarning(String message)
 	{
 		javax.swing.JOptionPane.showMessageDialog(this, message, "Fehler!", JOptionPane.WARNING_MESSAGE);
 	}
 
+	/**
+	 * Getter für das Checkerboard-Objekt.
+	 * @return
+	 */
 	public Checkerboard getCheckerboard() {
 		return checkerboard;
 	}
 
+	/**
+	 * Getter für die booleansche Variable, die angibt,
+	 * ob der StartButton gedrückt worden ist oder nicht.
+	 * @return
+	 */
 	public boolean isStartPressed() {
 		return this.startPressed;
 	}
 
 	/**
-	 * Setter für die Information, ob der Finish-Button geklickt wurde. 
-	 * @param finish
+	 * Setter für die Information, ob der StartButton geklickt wurde. 
+	 * @param startPressed
 	 */
 	public void setStartPressed(boolean startPressed) {
 		this.startPressed = startPressed;

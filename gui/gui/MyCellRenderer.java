@@ -8,16 +8,32 @@ import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
-public class MyCellRenderer extends DefaultTableCellRenderer {
+/** 
+ * Klasse, die einen eigenen TableCellRenderer repräsentiert. 
+ * @author Tabea
+ *
+ */
+public class MyCellRenderer extends DefaultTableCellRenderer 
+{
 	
 	private boolean bottom;
 	
-	public MyCellRenderer(boolean bottom) {
+	/**
+	 * Konstruktor, der ein neues Objekt der Klase erzeugt
+	 * und setzt die übergebene Variable bottom.
+	 * @param bottom
+	 */
+	public MyCellRenderer(boolean bottom) 
+	{
 		this.bottom = bottom;
 	}
 	
+	/**
+	 * Methode, die die Eigenschaften der Tabellenzellen setzt. 
+	 */
 	public Component getTableCellRendererComponent(JTable table, Object value,
-            boolean isSelected, boolean hasFocus, int row, int column) {
+            boolean isSelected, boolean hasFocus, int row, int column) 
+	{
 		
 		JLabel c = (JLabel)super.getTableCellRendererComponent(table, value, isSelected,
 				hasFocus, row, column);
@@ -25,6 +41,8 @@ public class MyCellRenderer extends DefaultTableCellRenderer {
 		c.setForeground(Color.black);
 		c.setVerticalAlignment(JLabel.CENTER);
 		
+		// wenn es sich um die untere Tabelle handelt, wird die Beschriftung anders
+		// ausgerichtet, als wenn es sich um die linke Tabelle handelt
 		if (this.bottom) {
 	        c.setHorizontalAlignment(JLabel.CENTER);
 		} else {

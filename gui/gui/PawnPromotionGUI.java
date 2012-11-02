@@ -27,17 +27,22 @@ public class PawnPromotionGUI extends JFrame implements ActionListener
 {
 
 	private Gui g;	
+	
 	private JPanel 	forText = new JPanel(),
 					forRadioButtons = new JPanel(),
 					forRadioButtonsLeft = new JPanel(),
 					forRadioButtonsRight = new JPanel(),
 					forOkButton = new JPanel();	
+	
 	private JTextArea text = new JTextArea("     In welche Figur soll der \nBauer umgewandelt werden?", 1, 1);
+	
 	private ImageIcon img = new ImageIcon("gui/gui/checkerboard.png");
+	
 	private JRadioButton 	queen = new JRadioButton("Dame"),
 							bishop = new JRadioButton("Läufer"),
 							knight = new  JRadioButton("Springer"),
 							rook = new JRadioButton("Turm");
+	
 	private JButton okButton = new JButton("OK");
 	
 	/**
@@ -46,9 +51,9 @@ public class PawnPromotionGUI extends JFrame implements ActionListener
 	 * @param title
 	 * @param g
 	 */
-	public PawnPromotionGUI(String title, Gui g)
+	public PawnPromotionGUI(Gui g)
 	{
-		super(title);
+		this.setTitle("Bauernumwandlung");
 		this.g = g;
 		this.startWindow();
 		this.makeLayout();
@@ -80,13 +85,6 @@ public class PawnPromotionGUI extends JFrame implements ActionListener
 		this.getContentPane().add(this.forText, BorderLayout.NORTH);
 		this.add(this.forRadioButtons, BorderLayout.CENTER);
 		this.add(this.forOkButton, BorderLayout.SOUTH);
-	
-//		this.c = getContentPane();
-//		this.c.setLayout(new BorderLayout());
-		
-//		this.c.add(this.forText, BorderLayout.NORTH);
-//		this.c.add(this.forRadioButtons, BorderLayout.CENTER);
-//		this.c.add(this.forOkButton, BorderLayout.SOUTH);
 		
 		this.forText.setOpaque(false);
 //		this.forText.setBackground(new Color(41, 15, 5, 100));
@@ -114,10 +112,8 @@ public class PawnPromotionGUI extends JFrame implements ActionListener
 	 */
 	public void makeRadioButtons() {
 		
+		// um die Radibuttons zu gruppieren
 		ButtonGroup group = new ButtonGroup();
-		
-//		this.setIconSize(img);
-//		this.queen = new JRadioButton("Dame" , img);
 		
 		this.queen.setBackground(new Color(251, 190, 172));
 		this.bishop.setBackground(new Color(251, 190, 172));

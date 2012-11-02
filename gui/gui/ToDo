@@ -1,4 +1,5 @@
-- Startfeld ordentlich
+- Schachfeldrand und -beschriftung dunkelbraun
+- funktioniert, wenn captured?
 - PawnPromotion Text auf "Holzbrett"
 
 - Spiel vorbei: * neues Spiel starten
