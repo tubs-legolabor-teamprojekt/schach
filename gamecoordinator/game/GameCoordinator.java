@@ -153,6 +153,15 @@ public class GameCoordinator
 	}
 	
 	/**
+	 * Gibt alle Zuege des Spiels zurueck
+	 * @return ArrayList mit allen Zuegen
+	 */
+	public List<Move> getAllMoves()
+	{
+		return this.moves;
+	}
+	
+	/**
 	 * Um die Instanz des GameCoordinators zu holen.
 	 * @return GameCoordinator-Instanz
 	 */

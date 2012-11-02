@@ -85,5 +85,16 @@ public class Chess
 				break;
 			}
 		}
+		
+		// Exportieren
+		System.out.println(
+			Exporter.exportMovesToPGN(	"Tabea testet",						// Name des Spiels
+										"Braunschweig",						// Ort
+										"11-02-2012",						// Datum
+										"Tabea",							// Spieler weiss
+										"Florian",							// Spieler schwarz
+										"1-0",								// Ergebnis
+										this.gameCoordinator.getAllMoves())	// Zuege
+		);
 	}
 }
