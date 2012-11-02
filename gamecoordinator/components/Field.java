@@ -190,7 +190,7 @@ public class Field
 			
 			// Ist das Zielfeld frei?
 			if (this.isFigureOnField(toFieldNumber))
-				throw new FieldException("Es befindet sich eine Figur auf Feld " + toFieldNumber + ".\nWenn die Figur geschlagen werden soll, muss sie zuerst entfernt werden!");
+				throw new FieldException("+++++\nEs befindet sich eine Figur auf Feld " + getFieldName(toFieldNumber) + ".\nWenn die Figur geschlagen werden soll, muss sie zuerst entfernt werden!\n+++++");
 			
 			
 			// Figur temporaer speichern
@@ -308,6 +308,14 @@ public class Field
 		}
 		
 		return shortArray;
+	}
+	
+	/**
+	 * Setzt das Feld in den Startzustand zurueck
+	 */
+	public void resetField()
+	{
+		this.equipField();
 	}
 	
 	/**

@@ -25,11 +25,6 @@ public class Move
 	private int fieldTo;
 	
 	/**
-	 * Figur, die den Zug tat
-	 */
-	private Figure figure;
-	
-	/**
 	 * Wurde eine Figur geschmissen?
 	 */
 	private boolean captured = false;;
@@ -57,6 +52,11 @@ public class Move
 	private boolean checkMate = false;
 	
 	/**
+	 * Figure-Objekt. Wird erst gesetzt, wenn der Zug ausgefuehrt werden soll
+	 */
+	private Figure figure = null;
+	
+	/**
 	 * Standard-Konstruktor mit allen mindestens noetigen Informationen zu einem Zug.
 	 * @param fieldFrom Feld von dem der Zug ausgeht
 	 * @param fieldTo Zielfeld
@@ -66,9 +66,6 @@ public class Move
 	{
 		this.setFieldFrom(fieldFrom);
 		this.setFieldTo(fieldTo);
-		
-		// Hole die Figur, die den Zug durchfuehrt
-		this.setFigure(Field.getInstance().getFigureAt(this.getFieldFrom()));
 	}
 	
 	/**
@@ -144,6 +141,16 @@ public class Move
 		}
 		this.fieldTo = fieldTo;
 	}
+	
+	/**
+	 * Wird direkt vor Ausfuehrung des Zuges aufgerufen, damit die Figur auf dem
+	 * Feld fieldFrom geholt wird.
+	 */
+	public boolean execMove()
+	{
+		this.figure = Field.getInstance().getFigureAt(this.fieldFrom);
+		return (this.figure != null);
+	}
 
 	/**
 	 * Figur, die den Zug taetigt.
@@ -151,16 +158,22 @@ public class Move
 	 */
 	public Figure getFigure()
 	{
-		return figure;
-	}
-
-	/**
-	 * Figur setzen, die den Zug taetigt.
-	 * @param figure Figur
-	 */
-	public void setFigure(Figure figure)
-	{
-		this.figure = figure;
+		/*
+		 * Es soll nicht auf das aktuelle Feld zugegriffen werden!
+		 * Das kann zu Problemen fuehren, da nur VOR Ausfuehrung des Zuges
+		 * die richtige Figur zurueckgegeben wird.
+		 * Nach Ausfuehrung des Zuges wird null zurueckgegeben.
+		 * 
+		 * Idee: Figur soll zwischengespeichert werden.
+		 * Problem dabei: Im Konstruktor kann nicht die Figur geholt werden,
+		 * da z.B. beim Testen alle Zuege vorher angegeben werden und somit
+		 * nicht die richtigen Figuren im Move-Objekt sind (teilweise sind
+		 * sie zum Zeitpunkt des Erstellens des Zugs noch gar nicht auf dem
+		 * angegebenen Feld).
+		 * Problemloesung: Vorm Ausfuehren des Zuges das Zug-Objekt aktualisieren
+		 * und dabei die Figur holen
+		 */
+		return this.figure;
 	}
 
 	/**
@@ -277,7 +290,7 @@ public class Move
 	public String getAlgebraicNotation()
 	{
 		// Anfangsbuchstabe
-		String figureLetter	= "" + this.figure.getFigureLetter();
+		String figureLetter	= "" + this.getFigure().getFigureLetter();
 		// Zielfeld
 		String to			= Field.getFieldName(this.fieldTo);
 		// Geschmissen
@@ -305,10 +318,10 @@ public class Move
 	{
 		String str = "";
 		// Farbe
-		str += ChessfigureConstants.getFigureColor(this.figure.getColor()) + "er ";
+		str += ChessfigureConstants.getFigureColor(this.getFigure().getColor()) + "er ";
 		
 		// Figur
-		str += ChessfigureConstants.getFigureName(figure.getFigureType()) + " ";
+		str += ChessfigureConstants.getFigureName(this.getFigure().getFigureType()) + " ";
 		
 		// Von
 		str += "zieht von " + Field.getFieldName(this.fieldFrom) + " ";
@@ -340,7 +353,7 @@ public class Move
 	public String toString()
 	{
 		return "Move [fieldFrom=" + fieldFrom + ", fieldTo=" + fieldTo
-				+ ", figure=" + figure + ", captured=" + captured
+				+ ", figure=" + this.getFigure() + ", captured=" + captured
 				+ ", pawnPromotion=" + pawnPromotion + ", pawnPromotedTo="
 				+ pawnPromotedTo + ", check=" + check + ", checkMate="
 				+ checkMate + ", toString()=" + super.toString() + "]";
