@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import rules.Rules;
+import sun.tools.tree.ThisExpression;
 
 import components.Field;
 
@@ -84,28 +85,38 @@ public class GameCoordinator
 	 */
 	public void execMove()
 	{
-		// Zug ausgeben?
-		if (this.logging)
-			System.out.println(this.currentMove.getMoveAsText());
-		
-		// Wurde geschmissen?
-		if (this.currentMove.isCaptured()) {
-			// Geschmissene Figur vom Feld entfernen
-			this.field.removeFigureAt(this.currentMove.getFieldTo());
+		// Zug soll ausgefuehrt werden
+		if (this.currentMove.execMove()) {
 			
-			// TODO Roboter soll Figur entfernen
+			// Zug ausgeben?
+			if (this.logging)
+				System.out.println(this.currentMove.getMoveAsText());
+			
+			// Wurde geschmissen?
+			if (this.currentMove.isCaptured()) {
+				// Geschmissene Figur vom Feld entfernen
+				this.field.removeFigureAt(this.currentMove.getFieldTo());
+				
+				// TODO Roboter soll Figur entfernen
+			}
+			
+			// Figur soll Zug durchfuehren
+			this.field.moveFigure(this.currentMove.getFieldFrom(), this.currentMove.getFieldTo());
+			
+			// TODO Roboter soll Figur bewegen
+			
+			// Gui soll Figur bewegen
+			this.gui.getCheckerboard().setCheckerboardInformation(this.currentMove);
+			
+			// War es der letzte Zug?
+			this.lastMove = this.currentMove.isCheckMate();
+			
+			// Wurde inzwischen die GUI beendet? => Spiel ist beendet
+			if (!this.gui.isDisplayable())
+				this.lastMove = true;
+		} else {
+			System.out.println("Der Zug konnte nicht ausgefuehrt werden!\nthis.currentMove.execMove() schlug fehl!");
 		}
-		
-		// Figur soll Zug durchfuehren
-		this.field.moveFigure(this.currentMove.getFieldFrom(), this.currentMove.getFieldTo());
-		
-		// TODO Roboter soll Figur bewegen
-		
-		// Gui soll Figur bewegen
-		this.gui.getCheckerboard().setCheckerboardInformation(this.currentMove);
-		
-		// War es der letzte Zug?
-		this.lastMove = this.currentMove.isCheckMate();
 	}
 	
 	/**
