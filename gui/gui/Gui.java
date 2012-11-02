@@ -1,24 +1,18 @@
 package gui;
 
-import game.Move;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
-import java.awt.Font;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 
 import components.Field;
-import components.FigureKing;
 
 /**
  * Klasse, die das Hauptfenster darstellt.
@@ -51,22 +45,18 @@ public class Gui extends JFrame
 					knight = false,
 					rook = false;
 	
+	private boolean startPressed = false;
+	
 	/**
 	 * Konstruktor, der ein neues Fenster erstellt und 
 	 * Einstellungen und Layout festlegt.
 	 * @param title
 	 */
-	public Gui(String title)
+	public Gui()
 	{
-		super(title);
-		
-		this.checkerboard = new Checkerboard(this);
-		
-		this.startWindow();
-		this.makeLayout();
-		
-		//this.pawnPromotionGUI();
-		
+		super();
+		StartWindow sw = new StartWindow(this);
+		this.checkerboard = new Checkerboard(this);		
 	}
 	
 	/**
@@ -78,8 +68,22 @@ public class Gui extends JFrame
 		this.setSize(750, 750);
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
+		this.setVisible(false);
+	
+		// wenn hier reingegangen wird, muss vorher der StartButton gedrückt worden
+		// sein, also Variable auf true setzen
+		this.setStartPressed(true);
+		this.setTitle("Schach");
+		this.makeLayout();
+		// Startfeld anzeigen
+		Field f = Field.getInstance();
+		this.getCheckerboard().getStartMap(f.getCurrentFieldAsHashMap());
+		
+		this.repaint();
+		this.validate();
 		this.setVisible(true);
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+//		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
 	}
 	
 	/**
@@ -93,32 +97,24 @@ public class Gui extends JFrame
 		this.setContentPane(new BackgroundPanel());
 		this.setLayout(new BorderLayout());
 		
-//		this.c = getContentPane();
-//		this.c.setLayout(new BorderLayout());
-		
-//		this.c.add(this.top, BorderLayout.NORTH);
 		this.getContentPane().add(this.top, BorderLayout.NORTH);
 		this.top.setBorder(new EmptyBorder(25, 25, 25, 25));
 		this.top.setOpaque(false);
 		
-//		this.c.add(this.bottom, BorderLayout.SOUTH);
 		this.getContentPane().add(this.bottom, BorderLayout.SOUTH);
 		this.bottom.setBorder(new EmptyBorder(10, 10, 10, 10));
 		this.bottom.add(this.table_bottom);
 		this.bottom.setOpaque(false);
 		
-//		this.c.add(this.left, BorderLayout.WEST);
 		this.getContentPane().add(this.left, BorderLayout.WEST);
 		this.left.setBorder(new EmptyBorder(0, 10, 10, 10));
 		this.left.add(this.table_left);
 		this.left.setOpaque(false);
 		
-//		this.c.add(this.right, BorderLayout.EAST);
 		this.getContentPane().add(this.right, BorderLayout.EAST);
 		this.right.setBorder(new EmptyBorder(25, 25, 25, 25));
 		this.right.setOpaque(false);
 		
-//		this.c.add(this.checkerboard, BorderLayout.CENTER);
 		this.getContentPane().add(this.checkerboard, BorderLayout.CENTER);
 		this.checkerboard.setBorder(new EmptyBorder(-4, 0, 0, 0));
 		this.checkerboard.setOpaque(false);
@@ -130,17 +126,11 @@ public class Gui extends JFrame
 	 */
 	public void makeTable_bottomLayout() 
 	{
-//		this.table_bottom.getTableHeader().setFont(new Font("Courier", Font.BOLD, 50));
-		
-		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-		centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-//		centerRenderer.setFont(new Font("Courier", Font.BOLD, 50));
-		
-		for(int i = 0; i < 8; i++){
-			this.table_bottom.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
-//			System.out.println(this.table_bottom.getFont());
+		// jeder Spalte wird ein neuer CellRenderer hinzugefügt
+		for (int i = 0; i < 8; i++) {
+			this.table_bottom.getColumnModel().getColumn(i).setCellRenderer(new MyCellRenderer(true));
 		}
-		
+	
 		this.table_bottom.setEnabled(false);
 		this.table_bottom.setRowHeight(30);
 //		this.table_bottom.setBackground(null);
@@ -155,15 +145,9 @@ public class Gui extends JFrame
 	 * linken Rand des Feldes erzeugt.
 	 */
 	public void makeTable_leftLayout() 
-	{		
-//		this.table_left.getTableHeader().setFont(new Font("Courier", Font.BOLD, 50));
-		
-		DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
-		rightRenderer.setHorizontalAlignment(JLabel.RIGHT);
-		
-		for(int i = 0; i < 1; i++){
-			table_left.getColumnModel().getColumn(i).setCellRenderer(rightRenderer);
-		}
+	{	
+		// der Spalte wird ein neuer CellRenderer hinzugefügt
+		this.table_left.getColumnModel().getColumn(0).setCellRenderer(new MyCellRenderer(false));
 		
 		this.table_left.setRowHeight(75);
 
@@ -187,7 +171,7 @@ public class Gui extends JFrame
 	 */
 	public void pawnPromotionGUI() 
 	{
-		PawnPromotionGUI pp = new PawnPromotionGUI("Bauernumwandlung", this);
+		PawnPromotionGUI pp = new PawnPromotionGUI(this);
 	}
 	
 	/**
@@ -205,41 +189,39 @@ public class Gui extends JFrame
 		this.bishop = bishop;
 		this.knight = knight;
 		this.rook = rook;
-		
-//		System.out.println("queen: " + this.queen + " bishop: " + this.bishop
-//				+ " knight: " + this.knight + " rook: " + this.rook);
 	}
 	
+	/**
+	 * Methode, die ein Dialogfenster mit der Übergebenen Nachricht öffnet.
+	 * @param message
+	 */
 	public void showWarning(String message)
 	{
 		javax.swing.JOptionPane.showMessageDialog(this, message, "Fehler!", JOptionPane.WARNING_MESSAGE);
 	}
 
+	/**
+	 * Getter für das Checkerboard-Objekt.
+	 * @return
+	 */
 	public Checkerboard getCheckerboard() {
 		return checkerboard;
 	}
 
 	/**
-	 * Main-Methode
-	 * @param args
+	 * Getter für die booleansche Variable, die angibt,
+	 * ob der StartButton gedrückt worden ist oder nicht.
+	 * @return
 	 */
-	public static void main(String[] args)
-	{
-		Gui g = new Gui("Schach");
-		
-		Move move = new Move(Field.getFieldNumber("e8"), Field.getFieldNumber("e7"), new FigureKing((byte)1), true, true, false );
-		
-		
-		Field f = Field.getInstance();
-		g.getCheckerboard().getStartMap(f.getCurrentFieldAsHashMap());
-		g.getCheckerboard().getCheckerboardInformation(move);
-		
-//		Move move2 = new Move(Field.getFieldNumber("c7"), Field.getFieldNumber("d8"), new FigurePawn((byte)0), true, true, false, true);
-//		cb.getCheckerboardInformation(move);
-		
-		/*
-		for (int i = 0; i < 64; i++) {
-			cb.fieldNumberConverter(i);
-		}*/
-	}	
+	public boolean isStartPressed() {
+		return this.startPressed;
+	}
+
+	/**
+	 * Setter für die Information, ob der StartButton geklickt wurde. 
+	 * @param startPressed
+	 */
+	public void setStartPressed(boolean startPressed) {
+		this.startPressed = startPressed;
+	}
 }

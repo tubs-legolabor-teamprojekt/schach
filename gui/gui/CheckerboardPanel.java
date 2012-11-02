@@ -1,11 +1,7 @@
 package gui;
 
-import java.awt.Color;
-
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 
 import components.Figure;
 
@@ -36,14 +32,7 @@ public class CheckerboardPanel extends JPanel
 	public void showIcon(Figure figure, boolean show)
 	{
 		this.label.setIcon(figure.getIcon());
-		//this.label.setBorder(new EmptyBorder(-3, 0, 0, 0));
+//		this.label.setBorder(new EmptyBorder(-3, 0, 0, 0));
 		this.label.setVisible(show);
-	}
-	
-	// nur zum Testen....
-	public void setIcon() 
-	{
-		this.label.setIcon(new ImageIcon("gui/gui/king_white_70x70.png"));
-		this.label.setBorder(new EmptyBorder(-3, 0, 0, 0));
 	}
 }

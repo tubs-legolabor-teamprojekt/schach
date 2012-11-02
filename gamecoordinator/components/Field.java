@@ -186,11 +186,11 @@ public class Field
 		try {
 			// Befindet sich eine Figur auf dem Feld?
 			if (!this.isFigureOnField(fromFieldNumber))
-				throw new FieldException("Es befindet sich keine Figur auf dem Feld angegebenen Feld (" + fromFieldNumber + ")!");
+				throw new FieldException("Es befindet sich keine Figur auf dem Feld angegebenen Feld (" + getFieldName(fromFieldNumber) + ")!");
 			
 			// Ist das Zielfeld frei?
 			if (this.isFigureOnField(toFieldNumber))
-				throw new FieldException("Es befindet sich eine Figur auf Feld " + toFieldNumber + ".\nWenn die Figur geschlagen werden soll, muss sie zuerst entfernt werden!");
+				throw new FieldException("+++++\nEs befindet sich eine Figur auf Feld " + getFieldName(toFieldNumber) + ".\nWenn die Figur geschlagen werden soll, muss sie zuerst entfernt werden!\n+++++");
 			
 			
 			// Figur temporaer speichern
@@ -219,12 +219,11 @@ public class Field
 	public boolean removeFigureAt(Integer fieldNumber)
 	{
 		if (	this.isFigureOnField(fieldNumber) &&
-				fieldNumber > 0 &&
-				fieldNumber <= 64) {
+				isValidFieldnumber(fieldNumber)) {
 			this.figures.remove(fieldNumber);
 			return true;
 		} else {
-			System.out.println("Keine Figur auf dem Feld");
+			System.out.println("Keine Figur auf dem Feld (" + getFieldName(fieldNumber) + ").");
 			return false;
 		}
 	}
@@ -309,6 +308,14 @@ public class Field
 		}
 		
 		return shortArray;
+	}
+	
+	/**
+	 * Setzt das Feld in den Startzustand zurueck
+	 */
+	public void resetField()
+	{
+		this.equipField();
 	}
 	
 	/**
@@ -416,7 +423,7 @@ public class Field
 		
 		try {
 			if (!Pattern.matches(pattern, fieldName))
-				throw new FieldException("Die Eingabe (" + fieldName + ") entspricht nicht einer gueltigen Feldbezeichnung!");
+				throw new FieldException("Die Eingabe (" + fieldName + ") entspricht nicht einer gueltigen Feldbezeichnung!\n Buchstaben klein geschrieben?");
 			else {
 				// Gueltige Feldbezeichnung, Zeile und Spalte "ausschneiden"
 				int column = getColumnnumberByChar(fieldName.substring(0, 1).charAt(0));

@@ -1,9 +1,17 @@
-- Start-Button auf schwarzem Panel, das etwas trasparent üder schon bestehendes Schachbrett gelegt wird, bei Knopdruck --> weg
-- Beschriftung dick + größer!!
+ToDo
+------
+- Spiel vorbei: * Anordnung 
+				* actionPerformed:
+						+ Spiel ausgeben (pgn-Format) --> neuer Frame mit Textfeld zum anzeigen + Scrollpane
+						+ Spiel exportieren
+				* bei StartButton nur Tabelle neu zeichnen lassen
+						
 
-- Umrandung des Schachbretts, abgerundete Ecken oder so was...
-
-
-
-
-- Auswahl ob Spieler gegen Spieler oder gegen Computer?	
+Fragen
+-------
+			
+						
+						
+Extras:
+- PawnPromotion Text auf "Holzbrett"
+						

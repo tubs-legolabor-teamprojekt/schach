@@ -41,6 +41,7 @@ public class Rules {
           return false;
       }
       
+      
       // false zurückgeben, wenn zu schlagende Figur eine eigene Figur ist oder dort keine steht
       if(move.isCaptured()){
           if(!currentField.isFigureOnField(move.getFieldTo())
