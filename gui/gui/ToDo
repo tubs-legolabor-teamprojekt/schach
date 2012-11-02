@@ -3,7 +3,8 @@ ToDo
 - Spiel vorbei: * Anordnung 
 				* actionPerformed:
 						+ Spiel ausgeben (pgn-Format) --> neuer Frame mit Textfeld zum anzeigen + Scrollpane
-						+ Spiel exportieren
+						+ Spiel exportieren/speichern
+- beim Spiel starten nach Benutzerdaten fragen --> Flo
 						
 
 Fragen

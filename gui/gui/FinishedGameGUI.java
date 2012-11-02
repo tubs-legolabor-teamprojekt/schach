@@ -1,5 +1,6 @@
 package gui;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -94,6 +95,8 @@ public class FinishedGameGUI extends JFrame implements ActionListener
 		this.text.setText("\nWas möchten Sie machen?");
 		this.text.setOpaque(false);
 		this.text.setEditable(false);
+		this.text.setEnabled(false);
+		this.text.setDisabledTextColor(Color.black);
 		this.text.setFont(new Font("Arial", Font.BOLD, 14));	
 		
 		this.makeForStartLayout();
@@ -130,6 +133,8 @@ public class FinishedGameGUI extends JFrame implements ActionListener
 		this.forStart.add(this.startExplanation);
 		this.startExplanation.setOpaque(false);
 		this.startExplanation.setEditable(false);
+		this.startExplanation.setEnabled(false);
+		this.startExplanation.setDisabledTextColor(Color.black);
 	}
 	
 	/**
@@ -160,6 +165,8 @@ public class FinishedGameGUI extends JFrame implements ActionListener
 		this.forShow.add(this.showExplanation);
 		this.showExplanation.setOpaque(false);
 		this.showExplanation.setEditable(false);
+		this.showExplanation.setEnabled(false);
+		this.showExplanation.setDisabledTextColor(Color.black);
 	}
 	
 	/**
@@ -190,6 +197,8 @@ public class FinishedGameGUI extends JFrame implements ActionListener
 		this.forExport.add(this.exportExplanation);
 		this.exportExplanation.setOpaque(false);
 		this.exportExplanation.setEditable(false);
+		this.exportExplanation.setEnabled(false);
+		this.exportExplanation.setDisabledTextColor(Color.black);
 	}
 	
 	/**
@@ -220,6 +229,8 @@ public class FinishedGameGUI extends JFrame implements ActionListener
 		this.forEnd.add(this.endExplanation);
 		this.endExplanation.setOpaque(false);
 		this.endExplanation.setEditable(false);
+		this.endExplanation.setEnabled(false);
+		this.endExplanation.setDisabledTextColor(Color.black);
 	}
 
 	/**
@@ -239,6 +250,7 @@ public class FinishedGameGUI extends JFrame implements ActionListener
 			this.dispose();
 		}
 		if (e.getActionCommand() == "showButton") {
+			ShowPGNFormat pgn = new ShowPGNFormat(this.g);
 			System.out.println("hallo");
 			/*
 			 * hier soll ein neues Fenster geöffnet werden, dass den genazen Text anzeigt

@@ -1,5 +1,6 @@
 package gui;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -111,6 +112,8 @@ public class StartWindow extends JFrame implements ActionListener
 		this.forText.add(this.text);
 		this.text.setOpaque(false);
 		this.text.setEditable(false);
+		this.text.setEnabled(false);
+		this.text.setDisabledTextColor(Color.black);
 //		this.text.setBackground(new Color(41, 15, 5, 100));
 		this.text.setText("Klicken Sie auf den \nStartbutton, um ein \nneues Spiel zu \nbeginnen.");
 		this.text.setFont(new Font("Arial", Font.PLAIN, 13));

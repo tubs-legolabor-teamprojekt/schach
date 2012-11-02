@@ -54,8 +54,8 @@ public class TestingChess
 //		/*
 //		 * Zug #5
 //		 */
-//		Move move5 = new Move(Field.getFieldNumber("f1"), Field.getFieldNumber("e8"), true, true, true);
-//		moves.add(move5);
+		Move move5 = new Move(Field.getFieldNumber("f1"), Field.getFieldNumber("e8"), true, true, true);
+		moves.add(move5);
 		
 		return moves;
 	}
