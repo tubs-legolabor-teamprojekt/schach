@@ -21,9 +21,6 @@ import components.Field;
  */
 public class Gui extends JFrame
 {
-
-	private Container c;
-	
 	final Color alphaZero = new Color(0, true);
 	
 	private JPanel 	top = new JPanel(),

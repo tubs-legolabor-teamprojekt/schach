@@ -44,7 +44,7 @@ public class StartWindow extends JFrame implements ActionListener
 	 */
 	public StartWindow(Gui g) 
 	{
-		this.setTitle("Wllkommen");
+		this.setTitle("Willkommen");
 		this.g = g;
 		this.initWindow();
 		this.makeLayout();
@@ -118,6 +118,7 @@ public class StartWindow extends JFrame implements ActionListener
 		this.forButton.add(this.startButton);
 		this.startButton.addActionListener(this);
 		this.startButton.setActionCommand("startButton");
+		// damit man mit Enter bestätigen kann
 		this.getRootPane().setDefaultButton(this.startButton);
 		
 		this.validate();
@@ -127,6 +128,7 @@ public class StartWindow extends JFrame implements ActionListener
 	 * Methode, die auf eine Aktion des Benutzers wartet, um dann 
 	 * entsprechend zu reagieren.
 	 */
+	@Override
 	public void actionPerformed(ActionEvent e) 
 	{
 		if (e.getActionCommand() == "startButton") {

@@ -4,7 +4,6 @@ ToDo
 				* actionPerformed:
 						+ Spiel ausgeben (pgn-Format) --> neuer Frame mit Textfeld zum anzeigen + Scrollpane
 						+ Spiel exportieren
-				* bei StartButton nur Tabelle neu zeichnen lassen
 						
 
 Fragen

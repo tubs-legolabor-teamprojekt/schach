@@ -16,6 +16,11 @@ import javax.swing.JTextArea;
 
 import components.Field;
 
+/**
+ * Klasse, die das Fenster repräsentiert, wenn ein Spiel beendet wurde.
+ * @author Tabea
+ *
+ */
 public class FinishedGameGUI extends JFrame implements ActionListener
 {
 
@@ -38,6 +43,12 @@ public class FinishedGameGUI extends JFrame implements ActionListener
 					exportButton = new JButton("Exportieren"),
 					endButton = new JButton("Beenden");
 	
+	/**
+	 * Konstruktor, der ein neues Objekt der Klasse erstellt,
+	 * das übregebene Gui-Objekt setzt und die Fenstereinstellungen
+	 * alle aufruft.
+	 * @param g
+	 */
 	public FinishedGameGUI(Gui g) 
 	{
 		this.g = g;
@@ -59,6 +70,9 @@ public class FinishedGameGUI extends JFrame implements ActionListener
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 	
+	/**
+	 * Methode, die das gesamt FensterLayout erstellt.
+	 */
 	public void makeLayout() 
 	{
 		this.setContentPane(new BackgroundPanel());
@@ -88,6 +102,9 @@ public class FinishedGameGUI extends JFrame implements ActionListener
 		this.makeForEndLayout();
 	}
 	
+	/**
+	 * Methode, die das Layout für das StartPanel erstellt.
+	 */
 	public void makeForStartLayout() 
 	{
 		GridBagLayout gbl = new GridBagLayout();
@@ -115,6 +132,9 @@ public class FinishedGameGUI extends JFrame implements ActionListener
 		this.startExplanation.setEditable(false);
 	}
 	
+	/**
+	 * Methode, die das Layout für das ShowPanel erstellt.
+	 */
 	public void makeForShowLayout() 
 	{
 		GridBagLayout gbl = new GridBagLayout();
@@ -142,6 +162,9 @@ public class FinishedGameGUI extends JFrame implements ActionListener
 		this.showExplanation.setEditable(false);
 	}
 	
+	/**
+	 * Methode, die das Layout für das ExportPanel erstellt.
+	 */
 	public void makeForExportLayout() 
 	{
 		GridBagLayout gbl = new GridBagLayout();
@@ -169,6 +192,9 @@ public class FinishedGameGUI extends JFrame implements ActionListener
 		this.exportExplanation.setEditable(false);
 	}
 	
+	/**
+	 * Methode, die das Layout für das EndPanel erstellt.
+	 */
 	public void makeForEndLayout() 
 	{
 		GridBagLayout gbl = new GridBagLayout();
@@ -196,13 +222,19 @@ public class FinishedGameGUI extends JFrame implements ActionListener
 		this.endExplanation.setEditable(false);
 	}
 
+	/**
+	 * Methode, die entsprechend auf die ausgeführten Aktionen
+	 * des Benutzers reagiert. 
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand() == "startButton") {
+			// aktuelle Schachbrett wird auf das Ausgangsfeld zurückgesetzt
 			Field f = Field.getInstance();
 			f.resetField();
 			this.g.getCheckerboard().resetMap();
 			this.g.getCheckerboard().getStartMap(f.getCurrentFieldAsHashMap());
+			// dieses Fenster wird geschlossen
 			this.setVisible(false);
 			this.dispose();
 		}
@@ -221,12 +253,11 @@ public class FinishedGameGUI extends JFrame implements ActionListener
 			 */
 		}
 		if (e.getActionCommand() == "endButton") {
+			// alle noch geöffneten Fenster werden geschlossen
 			this.g.setVisible(false);
 			this.g.dispose();
 			this.setVisible(false);
 			this.dispose();
 		}
 	}
-	
-	
 }

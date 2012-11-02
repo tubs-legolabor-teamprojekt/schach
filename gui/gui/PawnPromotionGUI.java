@@ -168,6 +168,7 @@ public class PawnPromotionGUI extends JFrame implements ActionListener
 	 * nach Bestätigung die Informationen an die Klasse Gui weitergibt.
 	 * @param e
 	 */
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		if (e.getActionCommand() == "radiobutton_queen") {
