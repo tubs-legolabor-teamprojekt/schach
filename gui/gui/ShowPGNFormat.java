@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.border.EmptyBorder;
 
 public class ShowPGNFormat extends JFrame implements ActionListener
 {
@@ -24,7 +25,7 @@ public class ShowPGNFormat extends JFrame implements ActionListener
 	private JPanel 	forText = new JPanel(), 
 					forButton = new JPanel();
 	
-	private JTextArea text = new JTextArea();
+	private JTextArea text = new JTextArea(20, 30);
 	
 	
 	
@@ -45,7 +46,7 @@ public class ShowPGNFormat extends JFrame implements ActionListener
 	public void initWindow()
 	{
 		this.setIconImage(new ImageIcon("gui/gui/checkerboard.png").getImage());
-		this.setSize(200, 200);
+		this.setSize(450, 450);
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
 		this.setVisible(true);
@@ -60,30 +61,38 @@ public class ShowPGNFormat extends JFrame implements ActionListener
 		this.setContentPane(new BackgroundPanel());
 		this.setLayout(new BorderLayout());		
 		
-//		this.forText.add(this.text);
-//		this.text.setOpaque(false);
+		this.text.setBorder(new EmptyBorder(5, 10, 0, 0));
+		this.text.setLineWrap(true);
 		this.text.setEditable(false);
 		this.text.setEnabled(false);
 		this.text.setDisabledTextColor(Color.black);
 		this.text.setText(Exporter.exportMovesToPGN("lalala", "djslaf", "fsa",
-				"klasnf", "Legoroboter", "1-0", GameCoordinator.getInstance(false).getAllMoves()));
+				"klasnf", "Legoroboter", "1-0", GameCoordinator.getInstance(false).getAllMoves()) + " heakj" +
+				"\ncy\nx lksdj kc\nnm,kdj" + "jksdh k\nsdsajd ks\n+dfjaslj cjhsd a dl\nkda dask\nd mo" +
+				" an \nclsa\nn cp\nas idv aed \nnoaskj  faskj mna\nsdk mn\ndaksh f,c ld jdf" + 
+				"jksd \nhfkdsjf kjdf  \nkdsflas\npüeda , spdf sdj\nkfpasdf  .sdff o\niasf ");
+		this.text.setCaretPosition(0);
+	    JScrollPane scrollingArea = new JScrollPane(this.text);
+//	    scrollingArea.setOpaque(false);
+	    scrollingArea.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollingArea.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+	 
+		this.text.setOpaque(false);
+		this.forText.setOpaque(false);
+		scrollingArea.getViewport().setOpaque(false);
+		this.forButton.setOpaque(false);
 		
-		JScrollPane scrollPane = new JScrollPane(this.text, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
-	            ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		this.forText.add(scrollPane);
-		scrollPane.repaint();
-		scrollPane.validate();
-		
+	    this.forText.setBorder(new EmptyBorder(20, 0, -20, 0));
+	    this.forText.add(scrollingArea);
+	   
 		this.forButton.add(this.okButton);
+		this.forButton.setBorder(new EmptyBorder(0, 0, 20, 0));
 		this.okButton.addActionListener(this);
 		this.okButton.setActionCommand("okButton");
 		this.getRootPane().setDefaultButton(this.okButton);
 		
 		this.getContentPane().add(this.forText, BorderLayout.CENTER);
 		this.getContentPane().add(this.forButton, BorderLayout.SOUTH);
-		
-		this.forText.setOpaque(false);
-		this.forButton.setOpaque(false);
 	}
 
 	@Override
