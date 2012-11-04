@@ -94,6 +94,8 @@ public class PawnPromotionGUI extends JFrame implements ActionListener
 		this.text.setFont(new Font("Arial", Font.BOLD, 13));
 //		this.text.setBackground(null);
 		this.text.setEditable(false);
+		this.text.setEnabled(false);
+		this.text.setDisabledTextColor(Color.black);
 		
 		this.forRadioButtons.setOpaque(false);
 		
@@ -168,6 +170,7 @@ public class PawnPromotionGUI extends JFrame implements ActionListener
 	 * nach Bestätigung die Informationen an die Klasse Gui weitergibt.
 	 * @param e
 	 */
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		if (e.getActionCommand() == "radiobutton_queen") {

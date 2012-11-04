@@ -1,5 +1,6 @@
 package gui;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -44,7 +45,7 @@ public class StartWindow extends JFrame implements ActionListener
 	 */
 	public StartWindow(Gui g) 
 	{
-		this.setTitle("Wllkommen");
+		this.setTitle("Willkommen");
 		this.g = g;
 		this.initWindow();
 		this.makeLayout();
@@ -111,6 +112,8 @@ public class StartWindow extends JFrame implements ActionListener
 		this.forText.add(this.text);
 		this.text.setOpaque(false);
 		this.text.setEditable(false);
+		this.text.setEnabled(false);
+		this.text.setDisabledTextColor(Color.black);
 //		this.text.setBackground(new Color(41, 15, 5, 100));
 		this.text.setText("Klicken Sie auf den \nStartbutton, um ein \nneues Spiel zu \nbeginnen.");
 		this.text.setFont(new Font("Arial", Font.PLAIN, 13));
@@ -118,6 +121,7 @@ public class StartWindow extends JFrame implements ActionListener
 		this.forButton.add(this.startButton);
 		this.startButton.addActionListener(this);
 		this.startButton.setActionCommand("startButton");
+		// damit man mit Enter bestätigen kann
 		this.getRootPane().setDefaultButton(this.startButton);
 		
 		this.validate();
@@ -127,6 +131,7 @@ public class StartWindow extends JFrame implements ActionListener
 	 * Methode, die auf eine Aktion des Benutzers wartet, um dann 
 	 * entsprechend zu reagieren.
 	 */
+	@Override
 	public void actionPerformed(ActionEvent e) 
 	{
 		if (e.getActionCommand() == "startButton") {

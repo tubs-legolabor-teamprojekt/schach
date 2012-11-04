@@ -207,6 +207,7 @@ public class Checkerboard extends JPanel
 				for (int j = 0; j < 8; j++) {
 					if (j == this.fieldToColumn) {
 						CheckerboardPanel cbp = (CheckerboardPanel)this.grid.getValueAt(i, j);
+						// falls dort eine Schachfigur geschlagen wurde
 						if (this.move.isCaptured()) {
 							cbp.label.setVisible(false);
 						}
@@ -224,8 +225,7 @@ public class Checkerboard extends JPanel
 		
 		if (this.move.isCheck() && this.move.isCheckMate()) {
 			javax.swing.JOptionPane.showMessageDialog(this,"Schachmatt! Spiel vorbei!", "Schachmatt", JOptionPane.INFORMATION_MESSAGE);
-//			this.g.setVisible(false);
-//			this.g.dispose();	
+//			// neues Objekt
 			FinishedGameGUI f = new FinishedGameGUI(this.g);
 		}
 		
@@ -262,6 +262,10 @@ public class Checkerboard extends JPanel
 		}
 	}
 	
+	/**
+	 * Methode, die die Tabelle neu zeichnen lässt, um ein 
+	 * neues Spiel zu ermöglichen.
+	 */
 	public void resetMap() {
 		this.removeAll();
 		this.makeTable();
