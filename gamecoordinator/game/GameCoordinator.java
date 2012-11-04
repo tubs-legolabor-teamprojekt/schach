@@ -110,9 +110,7 @@ public class GameCoordinator
 			// War es der letzte Zug?
 			this.lastMove = this.currentMove.isCheckMate();
 			
-			// Wurde inzwischen die GUI beendet? => Spiel ist beendet
-			if (!this.gui.isDisplayable())
-				this.lastMove = true;
+			// TODO Wurde inzwischen die GUI beendet? => Spiel ist beendet
 		} else {
 			System.out.println("Der Zug konnte nicht ausgefuehrt werden!\nthis.currentMove.execMove() schlug fehl!");
 		}

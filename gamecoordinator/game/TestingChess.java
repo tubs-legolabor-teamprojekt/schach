@@ -20,6 +20,8 @@ public class TestingChess
 		
 		/*
 		 * Ein paar Test-ZŸge, ohne auf die Schachregeln zu achten
+		 * 
+		 * Momentan besteht die Mšglichkeit, dass ein Spiel mitten drin abstŸrzt
 		 */
 		
 //		/*
