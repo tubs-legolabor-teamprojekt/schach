@@ -5,6 +5,10 @@ import gui.Gui;
 import java.util.ArrayList;
 import java.util.List;
 
+import components.Field;
+
+import util.ChessfigureConstants;
+
 /**
  * Startet das Spiel
  * @author Florian Franke
