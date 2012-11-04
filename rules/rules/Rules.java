@@ -2,6 +2,7 @@ package rules;
 
 import game.Move;
 import components.Field;
+import components.Figure;
 
 import util.*;
 
@@ -93,12 +94,27 @@ public class Rules {
           
       case ChessfigureConstants.KING:
           legalMove = checkKingMove(currentField, move);
-          if(move.getFigure().getColor() == ChessfigureConstants.WHITE){
-              whiteKingMoved = true;
+          if(legalMove){
+              if(move.getFigure().getColor() == ChessfigureConstants.WHITE){
+                  whiteKingMoved = true;
+                  if(currentY == y && currentX - x == 2){
+                      whiteLeftRookMoved = true;
+                  }
+                  else if(currentY == y && currentX - x == - 2){
+                      whiteRightRookMoved = true;
+                  }
+              }
+              else if(move.getFigure().getColor() == ChessfigureConstants.BLACK){
+                  blackKingMoved = true;
+                  if(currentY == y && currentX - x == 2){
+                      blackLeftRookMoved = true;
+                  }
+                  else if(currentY == y && currentX - x == - 2){
+                      blackRightRookMoved = true;
+                  }
+              }
           }
-          else if(move.getFigure().getColor() == ChessfigureConstants.BLACK){
-              blackKingMoved = true;
-          }
+          return legalMove;
           break;
           
       default:
@@ -107,7 +123,7 @@ public class Rules {
       }
       
       if(legalMove){
-          return isCheck(currentField, move);
+          return isCheck(currentField, move, false, currentField.getKingPosition());
       }
       else{
           return false;
@@ -344,58 +360,253 @@ public class Rules {
       }
       //Rochade
       if(currentY == y && Math.abs(currentX - x) == 2){
-          return isCastlingPossible(currentField, move);
+          return isCheck(currentField, move, true, move.getFieldFrom());
       }
-      return false;
-  }
-  
-  /**
-   * Überprüft, ob Rochade möglich ist.
-   * @param currentField aktuelles Spielfeld
-   * @param move auszuführender Schaczug
-   * @return True: Rochade entsprechend des Move-Objekts möglich
-   *         False: Irgendwas stimmt hier nicht!
-   */
-  private boolean isCastlingPossible(Field currentField, Move move)
-  {
-      if(!whiteKingMoved 
-              && move.getFigure().getColor() == ChessfigureConstants.WHITE){
-          if(currentY + 2 == y
-                  && !whiteRightRookMoved){
-              //TODO: wie
-              //return isCastlingDangerous();
-          }
-          else if(currentY - 2 == y
-                  && !whiteLeftRookMoved){
-              return true;
-          }
-      }
-      //des schwarzen Königs, der sich noch nicht bewegt hat und nicht im Schach steht
-      else if(!blackKingMoved 
-              && move.getFigure().getColor() == ChessfigureConstants.BLACK){
-          if(currentY + 2 == y
-                  && !blackRightRookMoved){
-              return true;
-          }
-          else if(currentY - 2 == y
-                  && !blackLeftRookMoved){
-              return true;
-          }
-      }
-      return false;
+      return isCheck(currentField, move, false, move.getFieldFrom());
   }
 
   /**
    * Überprüft, ob sich der König im Schach befindet.
    * @param currentField aktuelles Spielfeld
    * @param move auszuführender Schachzug
+   * @param castling soll eine Rochade überprüft werden?
    * @return True: der eigene König steht nicht im Schach
              False: Der eigene König ist durch den Zug gefährdet.
    */
-  private boolean isCheck(Field currentField, Move move)
+  private boolean isCheck(Field currentField, Move move, boolean castling, int position)
   {
+      byte colour = move.getFigure().getColor();
+      Figure fig;
+      byte figType;
+      byte xAxis = Field.getXPositionFromFieldnumber(position);
+      byte yAxis = Field.getYPositionFromFieldnumber(position);
+      //x-Achse prüfen
+      //Bewegung nach rechts
+      //ein Feld neben dem König anfangen, solange das Feld in der gleichen Zeile ist
+      for(int i = position + 1; (i - 1)/8 == (position - 1)/8; i++){
+          fig = currentField.getFigureAt(i);
+
+          if(fig == null){
+              continue;
+          }
+          if(fig.getColor() == colour){
+              break;
+          }
+          
+          figType = fig.getFigureType();
+          if(fig.getColor() != colour
+                  && (figType == ChessfigureConstants.ROOK
+                          || (figType == ChessfigureConstants.PAWN && position + 1 == i)
+                          || figType == ChessfigureConstants.QUEEN)){
+              return true;
+          }
+      }
+      //Bewegung nach links
+      for(int i = position - 1; (i - 1)/8 == (position - 1)/8; i--){
+          fig = currentField.getFigureAt(i);
+          
+          if(fig == null){
+              continue;
+          }
+          if(fig.getColor() == colour){
+              break;
+          }
+          
+          figType = fig.getFigureType();
+          if(fig.getColor() != colour
+                  && (figType == ChessfigureConstants.ROOK
+                          || (figType == ChessfigureConstants.KING
+                              && position - 1 == i)
+                          || figType == ChessfigureConstants.QUEEN)){
+              return true;
+          }
+      }
+      //y-Achse prüfen
+      //nach oben
+      for(int i = position + 8; i > 0 && i <= 64; i += 8){
+          fig = currentField.getFigureAt(i);
+
+          if(fig == null){
+              continue;
+          }
+          if(fig.getColor() == colour){
+              break;
+          }
+          
+          figType = fig.getFigureType();
+          if(fig.getColor() != colour
+                  && (figType == ChessfigureConstants.ROOK
+                          || (figType == ChessfigureConstants.KING
+                              && position - 8 == i)
+                          || figType == ChessfigureConstants.QUEEN)){
+              return true;
+          }
+      }
+      //nach unten
+      for(int i = position - 8; i > 0 && i <= 64; i -= 8){
+          fig = currentField.getFigureAt(i);
+          
+          if(fig == null){
+              continue;
+          }
+          if(fig.getColor() == colour){
+              break;
+          }
+          
+          figType = fig.getFigureType();
+          if(fig.getColor() != colour
+                  && (figType == ChessfigureConstants.ROOK
+                          || (figType == ChessfigureConstants.KING
+                              && position + 8 == i)
+                          || figType == ChessfigureConstants.QUEEN)){
+              return true;
+          }
+      }
+      //schräg prüfen
+      //nach rechts oben
+      for(int i = 1; xAxis + i < 9 && yAxis < 9; i++){
+          fig = currentField.getFigureAt(Field.getFieldNumber(xAxis + i, yAxis + i));
+          if(fig == null){
+              continue;
+          }
+          if(fig.getColor() == colour){
+              break;
+          }
+          figType = fig.getFigureType();
+          if(fig.getColor() != colour
+                  && (figType == ChessfigureConstants.BISHOP
+                  || figType == ChessfigureConstants.QUEEN
+                  || (figType == ChessfigureConstants.KING && i == 1)
+                  || (figType == ChessfigureConstants.PAWN && i == 1 
+                      && fig.getColor() == ChessfigureConstants.BLACK))){
+              return true;
+          }
+      }
+      //nach rechts unten
+      for(int i = 1; xAxis + i < 9 && yAxis - i > 0; i++){
+          fig = currentField.getFigureAt(Field.getFieldNumber(xAxis + i, yAxis - i));
+          if(fig == null){
+              continue;
+          }
+          if(fig.getColor() == colour){
+              break;
+          }
+          figType = fig.getFigureType();
+          if(fig.getColor() != colour
+                  && (figType == ChessfigureConstants.BISHOP
+                  || figType == ChessfigureConstants.QUEEN
+                  || (figType == ChessfigureConstants.KING && i == 1)
+                  || (figType == ChessfigureConstants.PAWN && i == 1 
+                      && fig.getColor() == ChessfigureConstants.WHITE))){
+              return true;
+          }
+      }
+      //nach links oben
+      for(int i = 1; xAxis - i > 0 && yAxis + i < 9; i++){
+          fig = currentField.getFigureAt(Field.getFieldNumber(xAxis - i, yAxis + i));
+          if(fig == null){
+              continue;
+          }
+          if(fig.getColor() == colour){
+              break;
+          }
+          figType = fig.getFigureType();
+          if(fig.getColor() != colour
+                  && (figType == ChessfigureConstants.BISHOP
+                  || figType == ChessfigureConstants.QUEEN
+                  || (figType == ChessfigureConstants.KING && i == 1)
+                  || (figType == ChessfigureConstants.PAWN && i == 1 
+                      && fig.getColor() == ChessfigureConstants.BLACK))){
+              return true;
+          }
+      }
+      //nach links unten
+      for(int i = 1; xAxis - i > 0 && yAxis - i > 0; i++){
+          fig = currentField.getFigureAt(Field.getFieldNumber(xAxis - i, yAxis - i));
+          if(fig == null){
+              continue;
+          }
+          if(fig.getColor() == colour){
+              break;
+          }
+          figType = fig.getFigureType();
+          if(fig.getColor() != colour
+                  && (figType == ChessfigureConstants.BISHOP
+                  || figType == ChessfigureConstants.QUEEN
+                  || (figType == ChessfigureConstants.KING && i == 1)
+                  || (figType == ChessfigureConstants.PAWN && i == 1 
+                      && fig.getColor() == ChessfigureConstants.WHITE))){
+              return true;
+          }
+      }
       
-      return true;
+      //Springer prüfen
+      //TODO: übersichtlicher gestallten???????????
+      if(xAxis + 2 < 9 && yAxis + 1 < 9){
+          fig = currentField.getFigureAt(Field.getFieldNumber(xAxis + 2, yAxis + 1));
+          if(fig.getColor() != colour && fig.getFigureType() == ChessfigureConstants.KNIGHT){
+              return true;
+          }
+      }
+      if(xAxis + 1 < 9 && yAxis + 2 < 9){
+          fig = currentField.getFigureAt(Field.getFieldNumber(xAxis + 1, yAxis + 2));
+          if(fig.getColor() != colour && fig.getFigureType() == ChessfigureConstants.KNIGHT){
+              return true;
+          }
+      }
+      if(xAxis - 2 > 0 && yAxis + 1 < 9){
+          fig = currentField.getFigureAt(Field.getFieldNumber(xAxis + 2, yAxis + 1));
+          if(fig.getColor() != colour && fig.getFigureType() == ChessfigureConstants.KNIGHT){
+              return true;
+          }
+      }
+      if(xAxis + 1 < 9 && yAxis - 2 > 0){
+          fig = currentField.getFigureAt(Field.getFieldNumber(xAxis + 2, yAxis + 1));
+          if(fig.getColor() != colour && fig.getFigureType() == ChessfigureConstants.KNIGHT){
+              return true;
+          }
+      }
+      if(xAxis - 2 > 0 && yAxis - 1 > 0){
+          fig = currentField.getFigureAt(Field.getFieldNumber(xAxis + 2, yAxis + 1));
+          if(fig.getColor() != colour && fig.getFigureType() == ChessfigureConstants.KNIGHT){
+              return true;
+          }
+      }
+      if(xAxis - 1 > 0  && yAxis - 2 > 0){
+          fig = currentField.getFigureAt(Field.getFieldNumber(xAxis + 2, yAxis + 1));
+          if(fig.getColor() != colour && fig.getFigureType() == ChessfigureConstants.KNIGHT){
+              return true;
+          }
+      }
+      if(xAxis - 1 > 0 && yAxis + 2 < 9){
+          fig = currentField.getFigureAt(Field.getFieldNumber(xAxis + 2, yAxis + 1));
+          if(fig.getColor() != colour && fig.getFigureType() == ChessfigureConstants.KNIGHT){
+              return true;
+          }
+      }
+      if(xAxis + 2 < 9 && yAxis - 1 > 0){
+          fig = currentField.getFigureAt(Field.getFieldNumber(xAxis + 2, yAxis + 1));
+          if(fig.getColor() != colour && fig.getFigureType() == ChessfigureConstants.KNIGHT){
+              return true;
+          }
+      }
+      
+      if(castling && x > currentX){
+          if((colour == ChessfigureConstants.WHITE && !whiteKingMoved && !whiteRightRookMoved)
+                  || (colour == ChessfigureConstants.BLACK && !blackKingMoved && !blackRightRookMoved)){
+              return isCheck(currentField, move, false, position + 1)
+                      && isCheck(currentField, move, false, position + 2);
+          }
+      }
+      else if(castling && x < currentX){
+          if((colour == ChessfigureConstants.WHITE && !whiteKingMoved && !whiteLeftRookMoved)
+                  || (colour == ChessfigureConstants.BLACK && !blackKingMoved && !blackLeftRookMoved)){
+              return isCheck(currentField, move, false, position - 1)
+                      && isCheck(currentField, move, false, position - 2);
+          }
+      }
+      
+      return false;
   }
   
 }//class
