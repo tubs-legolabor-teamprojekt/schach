@@ -25,7 +25,7 @@ public class GameCoordinator
 	/**
 	 * Enthaelt das Spielfeld
 	 */
-	private Field field;
+	public Field field;
 	
 	/**
 	 * Enthaelt alle Zuege des aktuellen Spiels

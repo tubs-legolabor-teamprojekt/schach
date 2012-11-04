@@ -1,5 +1,7 @@
 package components;
 
+import game.Chess;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -308,6 +310,38 @@ public class Field
 		}
 		
 		return shortArray;
+	}
+	
+	/**
+	 * Ermittelt die Position
+	 * @return
+	 */
+	public int getKingPosition(byte color)
+	{
+		int position = -1;
+		
+		if (ChessfigureConstants.isValidColor(color)) {
+			
+			// Iterator erstellen, der ueber alle Figuren iteriert
+			Iterator<Entry<Integer, Figure>> it = this.figures.entrySet().iterator();
+			// iteriere ueber alle Figuren
+			while (it.hasNext()) {
+				// Key/Value-Paar speichern
+				Map.Entry<Integer, Figure> pair = it.next();
+				Figure f = pair.getValue();
+				// Koenig mit benoetigter Farbe?
+				if (	f.getFigureType() == ChessfigureConstants.KING &&
+						f.getColor() == color) {
+					position = pair.getKey();
+					break;
+				}
+			}
+			
+		} else {
+			System.out.println("Ungueltige Farbe des Koenigs!");
+		}
+		
+		return position;
 	}
 	
 	/**

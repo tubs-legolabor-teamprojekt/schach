@@ -115,7 +115,6 @@ public class Rules {
               }
           }
           return legalMove;
-          break;
           
       default:
           legalMove = false;
@@ -123,7 +122,8 @@ public class Rules {
       }
       
       if(legalMove){
-          return isCheck(currentField, move, false, currentField.getKingPosition());
+          return isCheck(currentField, move, false,
+                          currentField.getKingPosition(move.getFigure().getColor()));
       }
       else{
           return false;
