@@ -36,11 +36,13 @@ public class FinishedGameGUI extends JFrame implements ActionListener
 						startExplanation = new JTextArea(1, 1),
 						showExplanation = new JTextArea(1, 1),
 						exportExplanation = new JTextArea(1, 1),
+						userExplanation = new JTextArea(1, 1),
 						endExplanation = new JTextArea(1, 1);
 	
-	private JButton startButton = new JButton("Start"),
+	private JButton startButton = new JButton("neues Spiel"),
 					showButton = new JButton("Spielverlauf"),
 					exportButton = new JButton("Exportieren"),
+					userButton = new JButton("Benutzer wechseln"),
 					endButton = new JButton("Beenden");
 	
 	/**
@@ -63,7 +65,7 @@ public class FinishedGameGUI extends JFrame implements ActionListener
 	public void initWindow()
 	{
 		this.setIconImage(new ImageIcon("gui/gui/checkerboard.png").getImage());
-		this.setSize(400, 250);
+		this.setSize(400, 300);
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
 		this.setVisible(true);
@@ -81,10 +83,11 @@ public class FinishedGameGUI extends JFrame implements ActionListener
 		gbc.insets = new Insets(5, 5, 5, 5); 
 
 		this.makeTextLayout();
-		this.makeForStartLayout();
-		this.makeForShowLayout();
-		this.makeForExportLayout();
-		this.makeForEndLayout();
+		this.makeStartLayout();
+		this.makeShowLayout();
+		this.makeExportLayout();
+		this.makeUserLayout();
+		this.makeEndLayout();
 	}
 	
 	public void makeTextLayout() 
@@ -109,7 +112,7 @@ public class FinishedGameGUI extends JFrame implements ActionListener
 	/**
 	 * Methode, die das Layout für das StartPanel erstellt.
 	 */
-	public void makeForStartLayout() 
+	public void makeStartLayout() 
 	{
 		gbc.gridx = 0;
 		gbc.gridy = 1;  
@@ -136,7 +139,7 @@ public class FinishedGameGUI extends JFrame implements ActionListener
 	/**
 	 * Methode, die das Layout für das ShowPanel erstellt.
 	 */
-	public void makeForShowLayout() 
+	public void makeShowLayout() 
 	{
 		gbc.gridx = 0;
 		gbc.gridy = 2;  
@@ -163,7 +166,7 @@ public class FinishedGameGUI extends JFrame implements ActionListener
 	/**
 	 * Methode, die das Layout für das ExportPanel erstellt.
 	 */
-	public void makeForExportLayout() 
+	public void makeExportLayout() 
 	{
 		gbc.gridx = 0;
 		gbc.gridy = 3;  
@@ -187,13 +190,37 @@ public class FinishedGameGUI extends JFrame implements ActionListener
 		this.exportExplanation.setDisabledTextColor(Color.black);
 	}
 	
-	/**
-	 * Methode, die das Layout für das EndPanel erstellt.
-	 */
-	public void makeForEndLayout() 
+	public void makeUserLayout()
 	{
 		gbc.gridx = 0;
 		gbc.gridy = 4;  
+		gbc.gridheight = 1; 
+		gbc.gridwidth = 1;
+		gbl.setConstraints(this.userButton, gbc);
+		this.getContentPane().add(this.userButton);
+		this.userButton.addActionListener(this);
+		this.userButton.setActionCommand("userButton");
+		
+		gbc.gridx = 1;
+		gbc.gridy = 4;  
+		gbc.gridheight = 1; 
+		gbc.gridwidth = 2;
+		this.userExplanation.setText("Wechselt den Benutzer.");
+		gbl.setConstraints(this.userExplanation, gbc);
+		this.getContentPane().add(this.userExplanation);
+		this.userExplanation.setOpaque(false);
+		this.userExplanation.setEditable(false);
+		this.userExplanation.setEnabled(false);
+		this.userExplanation.setDisabledTextColor(Color.black);
+	}
+	
+	/**
+	 * Methode, die das Layout für das EndPanel erstellt.
+	 */
+	public void makeEndLayout() 
+	{
+		gbc.gridx = 0;
+		gbc.gridy = 5;  
 		gbc.gridheight = 1;  
 		gbc.gridwidth = 1;
 		gbl.setConstraints(this.endButton, gbc);
@@ -202,7 +229,7 @@ public class FinishedGameGUI extends JFrame implements ActionListener
 		this.endButton.setActionCommand("endButton");
 		
 		gbc.gridx = 1;
-		gbc.gridy = 4;  
+		gbc.gridy = 5;  
 		gbc.gridheight = 1; 
 		gbc.gridwidth = 2;
 		this.endExplanation.setText("Beendet das Programm.");
@@ -231,11 +258,8 @@ public class FinishedGameGUI extends JFrame implements ActionListener
 			this.dispose();
 		}
 		if (e.getActionCommand() == "showButton") {
+			// zeigt das aktuelle Spiel im PGN-Format ab
 			ShowPGNFormat pgn = new ShowPGNFormat(this.g);
-			System.out.println("hallo");
-			/*
-			 * hier soll ein neues Fenster geöffnet werden, dass den genazen Text anzeigt
-			 */
 		}
 		if (e.getActionCommand() == "exportButton") {
 			System.out.println("hallöchen");
@@ -243,6 +267,14 @@ public class FinishedGameGUI extends JFrame implements ActionListener
 			 * hier soll eine Methode aufgerufen werden, die den Spielverlauf abspeichert
 			 * Benachrichtigung, ob erfolgreich gespeichert --> Dialog-Fenster
 			 * neues Fenster, was danach geschiet
+			 */
+		}
+		if (e.getActionCommand() == "userButton") {
+			this.setVisible(false);
+			this.dispose();
+			StartWindow sw = new StartWindow(this.g);
+			/*
+			 * hier soll der Benutzername geändert werden
 			 */
 		}
 		if (e.getActionCommand() == "endButton") {

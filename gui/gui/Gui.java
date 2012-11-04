@@ -79,8 +79,7 @@ public class Gui extends JFrame
 		this.repaint();
 		this.validate();
 		this.setVisible(true);
-//		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		this.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 	
 	/**

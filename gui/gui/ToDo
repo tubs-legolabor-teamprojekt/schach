@@ -1,16 +1,21 @@
 ToDo
 ------
-- Spiel vorbei: * actionPerformed:
-						+ Spiel ausgeben (pgn-Format) --> neuer Frame mit Textfeld zum anzeigen + Scrollpane
-						+ Spiel exportieren/speichern
-- beim Spiel starten nach Benutzerdaten fragen --> Flo
-						
+- kommentieren
+- Benutzer wechseln unbenennen
+- Benutzername:	* Benutzername in ShowPGNFormat bei Exporter.exportMovesToPGN als weiﬂen Spieler einsetzen
+				* wenn man ein neues Spiel starten will, Benutzernamen beibehalten
+- Datum in ShowPGNFormat bei Exporter.exportMovesToPGN
 
-Fragen
--------
-			
-						
-						
-Extras:
-- PawnPromotion Text auf "Holzbrett"
+- ‰ndern, wenn man auf Benutzer wechseln kickt, welche Fenster sichtbar, etc. L‰d ganze gui neu, nur Schachfeld
+
+- wenn Benutzer gewechselt, wie neues Spiel, Anfangsmap
+
+- Spiel vorbei: * actionPerformed:
+						+ Spiel exportieren/speichern
+						+ Benutzer wechseln
+				* evtl. zwischen Exportieren und Benutzer wechseln Linie
+
+		
+		
+
 						

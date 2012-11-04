@@ -7,7 +7,9 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -27,10 +29,8 @@ public class ShowPGNFormat extends JFrame implements ActionListener
 	
 	private JTextArea text = new JTextArea(20, 30);
 	
-	
-	
 	private JButton okButton = new JButton("Ok");
-	
+
 	
 	public ShowPGNFormat(Gui g) 
 	{
@@ -66,27 +66,27 @@ public class ShowPGNFormat extends JFrame implements ActionListener
 		this.text.setEditable(false);
 		this.text.setEnabled(false);
 		this.text.setDisabledTextColor(Color.black);
-		this.text.setText(Exporter.exportMovesToPGN("lalala", "djslaf", "fsa",
-				"klasnf", "Legoroboter", "1-0", GameCoordinator.getInstance(false).getAllMoves()) + " heakj" +
-				"\ncy\nx lksdj kc\nnm,kdj" + "jksdh k\nsdsajd ks\n+dfjaslj cjhsd a dl\nkda dask\nd mo" +
-				" an \nclsa\nn cp\nas idv aed \nnoaskj  faskj mna\nsdk mn\ndaksh f,c ld jdf" + 
-				"jksd \nhfkdsjf kjdf  \nkdsflas\npüeda , spdf sdj\nkfpasdf  .sdff o\niasf ");
+		this.text.setText(Exporter.exportMovesToPGN("Teamprojekt", "Legolabor", "heute",
+				"!Weißer Spieler!", "Legoroboter", "1-0", GameCoordinator.getInstance(false).getAllMoves()));
 		this.text.setCaretPosition(0);
-	    JScrollPane scrollingArea = new JScrollPane(this.text);
-//	    scrollingArea.setOpaque(false);
-	    scrollingArea.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollingArea.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-	 
-		this.text.setOpaque(false);
+	    JScrollPane scrollPane = new JScrollPane(this.text);
+	    scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+	    scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		
+//		this.text.setOpaque(false);
 		this.forText.setOpaque(false);
-		scrollingArea.getViewport().setOpaque(false);
+		scrollPane.setOpaque(false);
+		scrollPane.getViewport().setOpaque(false);
 		this.forButton.setOpaque(false);
 		
-	    this.forText.setBorder(new EmptyBorder(20, 0, -20, 0));
-	    this.forText.add(scrollingArea);
+		this.text.setBackground(new Color(251, 225, 172));
+		scrollPane.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, new Color(41, 15, 5)));
+		
+	    this.forText.setBorder(new EmptyBorder(20, 0, 0, 0));
+	    this.forText.add(scrollPane);
 	   
 		this.forButton.add(this.okButton);
-		this.forButton.setBorder(new EmptyBorder(0, 0, 20, 0));
+		this.forButton.setBorder(new EmptyBorder(0, 0, 15, 0));
 		this.okButton.addActionListener(this);
 		this.okButton.setActionCommand("okButton");
 		this.getRootPane().setDefaultButton(this.okButton);
@@ -94,7 +94,7 @@ public class ShowPGNFormat extends JFrame implements ActionListener
 		this.getContentPane().add(this.forText, BorderLayout.CENTER);
 		this.getContentPane().add(this.forButton, BorderLayout.SOUTH);
 	}
-
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand() == "okButton") {
