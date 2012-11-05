@@ -15,20 +15,22 @@ import javax.swing.table.TableColumn;
 import components.Field;
 
 /**
- * Klasse, die das Hauptfenster darstellt. Hallo Tabea, ich bin der 2. Branch
+ * Klasse, die das Hauptfenster darstellt.
  * @author Tabea
  *
  */
 public class Gui extends JFrame
 {
+	
+	private static Gui instance = null;
+	private Checkerboard checkerboard;
+	
 	final Color alphaZero = new Color(0, true);
 	
 	private JPanel 	top = new JPanel(),
 					bottom = new JPanel(),
 					left = new JPanel(),
 					right = new JPanel();
-	
-	private Checkerboard checkerboard;
 	
 	private String[] 	columnNames_1 = {"a", "b", "c", "d", "e", "f", "g", "h"},
 						columnNames_2 = {"8"};
@@ -49,11 +51,20 @@ public class Gui extends JFrame
 	 * Einstellungen und Layout festlegt.
 	 * @param title
 	 */
-	public Gui()
+	private Gui()
 	{
 		super();
-		StartWindow sw = new StartWindow(this);
-		this.checkerboard = new Checkerboard(this);		
+		this.checkerboard = Checkerboard.getInstance();		
+	}
+	
+	public static Gui getInstance()
+	{
+		if (instance == null) {
+			instance = new Gui();
+			StartWindow.getInstance();
+		}
+		
+		return instance;
 	}
 	
 	/**
@@ -167,7 +178,7 @@ public class Gui extends JFrame
 	 */
 	public void pawnPromotionGUI() 
 	{
-		PawnPromotionGUI pp = new PawnPromotionGUI(this);
+		PawnPromotionGUI.getInstance();
 	}
 	
 	/**

@@ -48,7 +48,7 @@ public class Chess
 	public void startGame()
 	{
 		// GUI initialisieren, Start-Button wird angezeigt
-		Gui gui = new Gui();
+		Gui gui = Gui.getInstance();
 		// Warten, bis Benutzer das Spiel gestartet hat
 		while (!gui.isStartPressed()) {
 			try {

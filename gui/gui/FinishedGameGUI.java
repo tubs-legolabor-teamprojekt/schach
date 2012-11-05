@@ -25,7 +25,7 @@ import components.Field;
 public class FinishedGameGUI extends JFrame implements ActionListener
 {
 
-	private Gui g;
+	private static FinishedGameGUI instance = null;
 	
 	private GridBagLayout gbl = new GridBagLayout();
 	private GridBagConstraints gbc = new GridBagConstraints();
@@ -51,12 +51,20 @@ public class FinishedGameGUI extends JFrame implements ActionListener
 	 * alle aufruft.
 	 * @param g
 	 */
-	public FinishedGameGUI(Gui g) 
+	private FinishedGameGUI() 
 	{
-		this.g = g;
 		this.setTitle("Spiel vorbei");
 		this.initWindow();
 		this.makeLayout();
+	}
+	
+	public static FinishedGameGUI getInstance()
+	{
+		if (instance == null) {
+			instance = new FinishedGameGUI();
+		}
+		
+		return instance;
 	}
 	
 	/**
@@ -251,15 +259,15 @@ public class FinishedGameGUI extends JFrame implements ActionListener
 			// aktuelle Schachbrett wird auf das Ausgangsfeld zurückgesetzt
 			Field f = Field.getInstance();
 			f.resetField();
-			this.g.getCheckerboard().resetMap();
-			this.g.getCheckerboard().getStartMap(f.getCurrentFieldAsHashMap());
+			Gui.getInstance().getCheckerboard().resetMap();
+			Gui.getInstance().getCheckerboard().getStartMap(f.getCurrentFieldAsHashMap());
 			// dieses Fenster wird geschlossen
 			this.setVisible(false);
 			this.dispose();
 		}
 		if (e.getActionCommand() == "showButton") {
 			// zeigt das aktuelle Spiel im PGN-Format ab
-			ShowPGNFormat pgn = new ShowPGNFormat(this.g);
+			ShowPGNFormat.getInstance();
 		}
 		if (e.getActionCommand() == "exportButton") {
 			System.out.println("hallöchen");
@@ -272,15 +280,15 @@ public class FinishedGameGUI extends JFrame implements ActionListener
 		if (e.getActionCommand() == "userButton") {
 			this.setVisible(false);
 			this.dispose();
-			StartWindow sw = new StartWindow(this.g);
+			StartWindow.getInstance().reset();
 			/*
 			 * hier soll der Benutzername geändert werden
 			 */
 		}
 		if (e.getActionCommand() == "endButton") {
 			// alle noch geöffneten Fenster werden geschlossen
-			this.g.setVisible(false);
-			this.g.dispose();
+			Gui.getInstance().setVisible(false);
+			Gui.getInstance().dispose();
 			this.setVisible(false);
 			this.dispose();
 		}

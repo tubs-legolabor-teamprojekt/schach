@@ -22,7 +22,7 @@ import javax.swing.border.EmptyBorder;
 public class ShowPGNFormat extends JFrame implements ActionListener
 {
 
-	private Gui g;
+	private static ShowPGNFormat instance = null;
 	
 	private JPanel 	forText = new JPanel(), 
 					forButton = new JPanel();
@@ -32,12 +32,20 @@ public class ShowPGNFormat extends JFrame implements ActionListener
 	private JButton okButton = new JButton("Ok");
 
 	
-	public ShowPGNFormat(Gui g) 
+	private ShowPGNFormat() 
 	{
-		this.g = g;
 		this.setTitle("PGN-Format");
 		this.initWindow();
 		this.makeLayout();
+	}
+	
+	public static ShowPGNFormat getInstance()
+	{
+		if (instance == null) {
+			instance = new ShowPGNFormat();
+		}
+		
+		return instance;
 	}
 	
 	/**

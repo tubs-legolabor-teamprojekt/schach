@@ -28,7 +28,7 @@ import javax.swing.event.DocumentListener;
 public class StartWindow extends JFrame implements ActionListener
 {
 
-	private Gui g;
+	private static StartWindow instance = null;
 
 	private JPanel forIcon = new JPanel(), forText = new JPanel(),
 			forName = new JPanel(), forButton = new JPanel();
@@ -51,12 +51,21 @@ public class StartWindow extends JFrame implements ActionListener
 	 * 
 	 * @param g
 	 */
-	public StartWindow(Gui g) 
+	private StartWindow() 
 	{
 		this.setTitle("Willkommen");
-		this.g = g;
+//		this.g = Gui.getInstance();
 		this.initWindow();
 		this.makeLayout();
+	}
+	
+	public static StartWindow getInstance() 
+	{
+		if (instance == null) {
+			instance = new StartWindow();
+		}
+		
+		return instance;
 	}
 
 	/**
@@ -182,6 +191,12 @@ public class StartWindow extends JFrame implements ActionListener
 		return this.username;
 	}
 	
+	public void reset()
+	{
+		instance = null;
+		instance = new StartWindow();
+	}
+	
 	/**
 	 * Methode, die auf eine Aktion des Benutzers wartet, um dann entsprechend
 	 * zu reagieren.
@@ -191,7 +206,7 @@ public class StartWindow extends JFrame implements ActionListener
 	{
 		if (e.getActionCommand() == "startButton") {
 			// dieses Fenster wird geschlossen und das Schachfeld angezeigt
-			this.g.startWindow();
+			Gui.getInstance().startWindow();
 			this.setVisible(false);
 			this.dispose();
 		}
