@@ -15,7 +15,7 @@ import javax.swing.table.TableColumn;
 import components.Field;
 
 /**
- * Klasse, die das Hauptfenster darstellt.
+ * Klasse, die das Hauptfenster darstellt. Hallo Tabea, ich bin der 2. Branch
  * @author Tabea
  *
  */
