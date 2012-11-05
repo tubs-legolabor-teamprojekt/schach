@@ -7,7 +7,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -21,7 +22,7 @@ import javax.swing.border.EmptyBorder;
 
 public class ShowPGNFormat extends JFrame implements ActionListener
 {
-
+	
 	private static ShowPGNFormat instance = null;
 	
 	private JPanel 	forText = new JPanel(), 
@@ -31,7 +32,10 @@ public class ShowPGNFormat extends JFrame implements ActionListener
 	
 	private JButton okButton = new JButton("Ok");
 
-	
+	/**
+	 * Privater Konstruktor, der nur ein Objekt der Klasse ShowPGNFormat
+	 * erstellt, den Titel setzt und alle nötigen Fenstereinstellungen aufruft.
+	 */
 	private ShowPGNFormat() 
 	{
 		this.setTitle("PGN-Format");
@@ -39,6 +43,10 @@ public class ShowPGNFormat extends JFrame implements ActionListener
 		this.makeLayout();
 	}
 	
+	/**
+	 * Gibt die ShowPGNFormat-Instanz zurück.
+	 * @return ShowOGNFormat-Instanz
+	 */
 	public static ShowPGNFormat getInstance()
 	{
 		if (instance == null) {
@@ -74,8 +82,13 @@ public class ShowPGNFormat extends JFrame implements ActionListener
 		this.text.setEditable(false);
 		this.text.setEnabled(false);
 		this.text.setDisabledTextColor(Color.black);
-		this.text.setText(Exporter.exportMovesToPGN("Teamprojekt", "Legolabor", "heute",
-				"!Weißer Spieler!", "Legoroboter", "1-0", GameCoordinator.getInstance(false).getAllMoves()));
+		
+		SimpleDateFormat sdf = new SimpleDateFormat();
+	    sdf.applyPattern( "dd.MM.yyyy" );
+		
+		this.text.setText(Exporter.exportMovesToPGN("Teamprojekt", "Legolabor", sdf.format(new Date()),
+				StartWindow.getInstance().getUsername(), "Legoroboter", "1-0", 
+				GameCoordinator.getInstance(false).getAllMoves()));
 		this.text.setCaretPosition(0);
 	    JScrollPane scrollPane = new JScrollPane(this.text);
 	    scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -103,6 +116,10 @@ public class ShowPGNFormat extends JFrame implements ActionListener
 		this.getContentPane().add(this.forButton, BorderLayout.SOUTH);
 	}
 	
+	/**
+	 * Methode, die angemessen auf die unterschiedlichen Events reagiert.
+	 * @param e auslösendes ActionEvent
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand() == "okButton") {

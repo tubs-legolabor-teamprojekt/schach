@@ -43,13 +43,18 @@ public class Checkerboard extends JPanel
 				fieldToRow = 0;
 
 	/**
-	 * Konstruktor, der ein neues Objekt der Klasse erstellt.
+	 * Privater Konstruktor, der nur ein neues Objekt der Klasse erstellt.
+	 * Ruft die Methode zur Tabellenerstellung auf.
 	 */
 	private Checkerboard() 
 	{
 		this.makeTable();
 	}
 	
+	/**
+	 * Gibt die Checkerboard-Instanz zurück.
+	 * @return Checkerboard-Instanz
+	 */
 	public static Checkerboard getInstance()
 	{
 		if (instance == null) {
@@ -138,8 +143,8 @@ public class Checkerboard extends JPanel
 	 * umrechnet. Hier nur den Spaltenwert. 
 	 * Sonst 0-63 von links unten nach rechts oben, meine Tabelle
 	 * hat aber standardmäßig, 0/0 links oben.
-	 * @param fieldNumber
-	 * @return
+	 * @param fieldNumber Feldnummer
+	 * @return konvertierte Spaltennummer
 	 */
 	public int fieldNumberConverterColumn(int fieldNumber)
 	{
@@ -154,8 +159,8 @@ public class Checkerboard extends JPanel
 	 * umrechnet. Hier nur den Zeilenwert.
 	 * Sonst 0-63 von links unten nach rechts oben, meine Tabelle
 	 * hat aber standardmäßig, 0/0 links oben.
-	 * @param fieldNumber
-	 * @return
+	 * @param fieldNumber Feldnummer
+	 * @return konvertierte Zeilennummer
 	 */
 	public int fieldNumberConverterRow(int fieldNumber)
 	{
@@ -168,6 +173,7 @@ public class Checkerboard extends JPanel
 	/**
 	 * Methode, die die Informationen über das aktuelle Schachfeld und 
 	 * eventuelle Sonderfälle einholt.
+	 * @param move aktuelles Move-Objekt
 	 */
 	public void setCheckerboardInformation(Move move) 
 	{
@@ -245,7 +251,7 @@ public class Checkerboard extends JPanel
 	
 	/**
 	 * Methode, die die Schachfiguren auf ihre Startpositionen setzt.
-	 * @param figures
+	 * @param figures HashMap mit der Startfeldfigurenanordnung
 	 */
 	public void getStartMap(HashMap<Integer, Figure> figures)
 	{
