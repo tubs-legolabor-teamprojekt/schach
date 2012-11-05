@@ -7,3 +7,4 @@ Thumbs.db
 camera/Thumbs.db
 camera/img/Thumbs.db
 bin
+*.class
