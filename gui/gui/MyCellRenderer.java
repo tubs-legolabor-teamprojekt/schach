@@ -21,7 +21,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer
 	/**
 	 * Konstruktor, der ein neues Objekt der Klase erzeugt
 	 * und setzt die übergebene Variable bottom.
-	 * @param bottom
+	 * @param bottom untere oder linke Tabelle
 	 */
 	public MyCellRenderer(boolean bottom) 
 	{
@@ -31,6 +31,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer
 	/**
 	 * Methode, die die Eigenschaften der Tabellenzellen setzt. 
 	 */
+	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value,
             boolean isSelected, boolean hasFocus, int row, int column) 
 	{

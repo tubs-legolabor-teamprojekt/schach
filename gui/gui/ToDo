@@ -2,18 +2,14 @@ ToDo
 ------
 - kommentieren
 - Benutzer wechseln unbenennen
-- Benutzername:	* Benutzername in ShowPGNFormat bei Exporter.exportMovesToPGN als weißen Spieler einsetzen
-				* wenn man ein neues Spiel starten will, Benutzernamen beibehalten
-- Datum in ShowPGNFormat bei Exporter.exportMovesToPGN
 
-- ändern, wenn man auf Benutzer wechseln kickt, welche Fenster sichtbar, etc. Läd ganze gui neu, nur Schachfeld
+- abgespeicherte Spiele in einheitlichem Format --> Texteditor mach chinesische Zeichen, eclipse nicht
+- Benutzername vllt noch in Dateiname oder zu lang?
 
-- wenn Benutzer gewechselt, wie neues Spiel, Anfangsmap
+- Benutzername:	* wenn man ein neues Spiel starten will, Benutzernamen beibehalten (dafür neuer Test notwendig)
+- PGN-Format: 	* Runde
+				* Ergebnis
 
-- Spiel vorbei: * actionPerformed:
-						+ Spiel exportieren/speichern
-						+ Benutzer wechseln
-				* evtl. zwischen Exportieren und Benutzer wechseln Linie
 
 		
 		

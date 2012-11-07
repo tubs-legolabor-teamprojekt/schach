@@ -21,14 +21,16 @@ import components.Field;
  */
 public class Gui extends JFrame
 {
+	
+	private static Gui instance = null;
+	private Checkerboard checkerboard;
+	
 	final Color alphaZero = new Color(0, true);
 	
 	private JPanel 	top = new JPanel(),
 					bottom = new JPanel(),
 					left = new JPanel(),
 					right = new JPanel();
-	
-	private Checkerboard checkerboard;
 	
 	private String[] 	columnNames_1 = {"a", "b", "c", "d", "e", "f", "g", "h"},
 						columnNames_2 = {"8"};
@@ -45,15 +47,28 @@ public class Gui extends JFrame
 	private boolean startPressed = false;
 	
 	/**
-	 * Konstruktor, der ein neues Fenster erstellt und 
-	 * Einstellungen und Layout festlegt.
+	 * Privater Konstruktor, der nur ein neues Objekt erstellt und
+	 * eine Checkerboard-Instanz setzt.
 	 * @param title
 	 */
-	public Gui()
+	private Gui()
 	{
 		super();
-		StartWindow sw = new StartWindow(this);
-		this.checkerboard = new Checkerboard(this);		
+		this.checkerboard = Checkerboard.getInstance();		
+	}
+	
+	/**
+	 * Gibt die Gui-Instanz zurück.
+	 * @return Gui-Instanz
+	 */
+	public static Gui getInstance()
+	{
+		if (instance == null) {
+			instance = new Gui();
+			StartWindow.getInstance();
+		}
+		
+		return instance;
 	}
 	
 	/**
@@ -161,13 +176,12 @@ public class Gui extends JFrame
 		this.table_left.setShowVerticalLines(false);
 	}
 	
-	
 	/**
-	 * Methode, die ein neues Objekt der Klasse PawnPromotionGUI erzeugt.
+	 * Methode, die eine Instanz der Klasse PawnPromotionGUI aufruft.
 	 */
 	public void pawnPromotionGUI() 
 	{
-		PawnPromotionGUI pp = new PawnPromotionGUI(this);
+		PawnPromotionGUI.getInstance();
 	}
 	
 	/**
@@ -189,7 +203,7 @@ public class Gui extends JFrame
 	
 	/**
 	 * Methode, die ein Dialogfenster mit der Übergebenen Nachricht öffnet.
-	 * @param message
+	 * @param message Nachricht an den Benutzer
 	 */
 	public void showWarning(String message)
 	{
@@ -198,7 +212,7 @@ public class Gui extends JFrame
 
 	/**
 	 * Getter für das Checkerboard-Objekt.
-	 * @return
+	 * @return aktuelle Checkerboard-Instanz
 	 */
 	public Checkerboard getCheckerboard() {
 		return checkerboard;
@@ -207,7 +221,7 @@ public class Gui extends JFrame
 	/**
 	 * Getter für die booleansche Variable, die angibt,
 	 * ob der StartButton gedrückt worden ist oder nicht.
-	 * @return
+	 * @return Start wurde gedrückt oder nicht
 	 */
 	public boolean isStartPressed() {
 		return this.startPressed;
@@ -215,7 +229,7 @@ public class Gui extends JFrame
 
 	/**
 	 * Setter für die Information, ob der StartButton geklickt wurde. 
-	 * @param startPressed
+	 * @param startPressed Start wurde gedrückt oder nicht
 	 */
 	public void setStartPressed(boolean startPressed) {
 		this.startPressed = startPressed;

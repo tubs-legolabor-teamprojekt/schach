@@ -13,6 +13,6 @@ public class GuiStart
 	 */
 	public static void main(String[] args)
 	{
-		Gui g = new Gui();
+		Gui.getInstance();
 	}	
 }

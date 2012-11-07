@@ -26,7 +26,7 @@ import javax.swing.border.EmptyBorder;
 public class PawnPromotionGUI extends JFrame implements ActionListener
 {
 
-	private Gui g;	
+	private static PawnPromotionGUI instance = null;
 	
 	private JPanel 	forText = new JPanel(),
 					forRadioButtons = new JPanel(),
@@ -46,17 +46,27 @@ public class PawnPromotionGUI extends JFrame implements ActionListener
 	private JButton okButton = new JButton("OK");
 	
 	/**
-	 * Konstruktor, der ein neues Objekt der Klasse PawnPromotionGUI erstellt und
-	 * einen Titel und ein Gui-Objekt übergeben bekommt.
-	 * @param title
-	 * @param g
+	 * Privater Konstruktor, der nur ein neues Objekt der Klasse PawnPromotionGUI erstellt.
+	 * Der Titel wird gesetzt und alle Fenstereinstellung vorgenommen.
 	 */
-	public PawnPromotionGUI(Gui g)
+	private PawnPromotionGUI()
 	{
 		this.setTitle("Bauernumwandlung");
-		this.g = g;
 		this.startWindow();
 		this.makeLayout();
+	}
+	
+	/**
+	 * Gibt die PawnPromotionGUI-Instanz zurück.
+	 * @return PawnPromotionGUI-Instanz
+	 */
+	public static PawnPromotionGUI getInstance()
+	{
+		if (instance == null) {
+			instance = new PawnPromotionGUI();
+		}
+		
+		return instance;
 	}
 	
 	/**
@@ -168,7 +178,7 @@ public class PawnPromotionGUI extends JFrame implements ActionListener
 	/**
 	 * Methode, die die vom Benutzer getroffene Auswahl speichert und 
 	 * nach Bestätigung die Informationen an die Klasse Gui weitergibt.
-	 * @param e
+	 * @param e auslösendes Event
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e)
@@ -186,7 +196,7 @@ public class PawnPromotionGUI extends JFrame implements ActionListener
 			this.okButton.setEnabled(true);
 		}
 		if (e.getActionCommand() == "button_ok") {
-			this.g.pawnPromotionInformation(this.queen.isSelected(), 
+			Gui.getInstance().pawnPromotionInformation(this.queen.isSelected(), 
 					this.bishop.isSelected(), this.knight.isSelected(), 
 					this.rook.isSelected());
 			this.setVisible(false);

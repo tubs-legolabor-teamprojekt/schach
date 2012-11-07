@@ -2,9 +2,9 @@ package gui;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
@@ -25,7 +26,7 @@ import components.Field;
 public class FinishedGameGUI extends JFrame implements ActionListener
 {
 
-	private Gui g;
+	private static FinishedGameGUI instance = null;
 	
 	private GridBagLayout gbl = new GridBagLayout();
 	private GridBagConstraints gbc = new GridBagConstraints();
@@ -45,18 +46,30 @@ public class FinishedGameGUI extends JFrame implements ActionListener
 					userButton = new JButton("Benutzer wechseln"),
 					endButton = new JButton("Beenden");
 	
+	private int counter = 0;
+	
 	/**
-	 * Konstruktor, der ein neues Objekt der Klasse erstellt,
-	 * das übregebene Gui-Objekt setzt und die Fenstereinstellungen
-	 * alle aufruft.
-	 * @param g
+	 * privater Konstruktor, der nur ein neues Objekt der Klasse erstellt,
+	 * den Titel setzt und alle Fenstereinstellungen aufruft.
 	 */
-	public FinishedGameGUI(Gui g) 
+	private FinishedGameGUI() 
 	{
-		this.g = g;
 		this.setTitle("Spiel vorbei");
 		this.initWindow();
 		this.makeLayout();
+	}
+	
+	/**
+	 * Gibt die FinishedGameGUI-Instanz zurück.
+	 * @return FinishedGameGUI-Instanz
+	 */
+	public static FinishedGameGUI getInstance()
+	{
+		if (instance == null) {
+			instance = new FinishedGameGUI();
+		}
+		
+		return instance;
 	}
 	
 	/**
@@ -90,6 +103,9 @@ public class FinishedGameGUI extends JFrame implements ActionListener
 		this.makeEndLayout();
 	}
 	
+	/**
+	 * Methode, die das Layout für das TextPanel erstellt.
+	 */
 	public void makeTextLayout() 
 	{
 		gbc.gridx = 0;
@@ -190,6 +206,9 @@ public class FinishedGameGUI extends JFrame implements ActionListener
 		this.exportExplanation.setDisabledTextColor(Color.black);
 	}
 	
+	/**
+	 * Methode, die das Layout für das UserPanel erstellt. 
+	 */
 	public void makeUserLayout()
 	{
 		gbc.gridx = 0;
@@ -240,10 +259,11 @@ public class FinishedGameGUI extends JFrame implements ActionListener
 		this.endExplanation.setEnabled(false);
 		this.endExplanation.setDisabledTextColor(Color.black);
 	}
-
+	
 	/**
 	 * Methode, die entsprechend auf die ausgeführten Aktionen
 	 * des Benutzers reagiert. 
+	 * @param e auslösendes ActionEvent
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -251,36 +271,51 @@ public class FinishedGameGUI extends JFrame implements ActionListener
 			// aktuelle Schachbrett wird auf das Ausgangsfeld zurückgesetzt
 			Field f = Field.getInstance();
 			f.resetField();
-			this.g.getCheckerboard().resetMap();
-			this.g.getCheckerboard().getStartMap(f.getCurrentFieldAsHashMap());
+			Gui.getInstance().getCheckerboard().resetMap();
+			Gui.getInstance().getCheckerboard().getStartMap(f.getCurrentFieldAsHashMap());
 			// dieses Fenster wird geschlossen
 			this.setVisible(false);
 			this.dispose();
 		}
 		if (e.getActionCommand() == "showButton") {
 			// zeigt das aktuelle Spiel im PGN-Format ab
-			ShowPGNFormat pgn = new ShowPGNFormat(this.g);
+			ShowPGNFormat.getInstance();
 		}
 		if (e.getActionCommand() == "exportButton") {
-			System.out.println("hallöchen");
-			/*
-			 * hier soll eine Methode aufgerufen werden, die den Spielverlauf abspeichert
-			 * Benachrichtigung, ob erfolgreich gespeichert --> Dialog-Fenster
-			 * neues Fenster, was danach geschiet
-			 */
+			this.counter++;
+			if (this.counter == 1) {
+				StAXWriter s = new StAXWriter();
+				if (s.makeFile()) {
+					javax.swing.JOptionPane.showMessageDialog(this,"Das Spiel wurde erfolgreich " +
+							"in den Order 'saveGame' gespeichert.", "Gespeichert!", JOptionPane.INFORMATION_MESSAGE);
+				} else {
+					javax.swing.JOptionPane.showMessageDialog(this,"Das Spiel konnte nicht " +
+							"gespeichert werden!", "Fehler", JOptionPane.INFORMATION_MESSAGE);
+				}
+			} else {
+				javax.swing.JOptionPane.showMessageDialog(this,"Das Spiel wurde bereits " +
+						"gespeichert!", "Fehler", JOptionPane.INFORMATION_MESSAGE);
+			}
 		}
 		if (e.getActionCommand() == "userButton") {
+			Field f = Field.getInstance();
+			f.resetField();
+			Gui.getInstance().getCheckerboard().resetMap();
+			Gui.getInstance().getCheckerboard().getStartMap(f.getCurrentFieldAsHashMap());
+			// dieses Fenster wird geschlossen
+			Gui.getInstance().setVisible(false);
+			Gui.getInstance().dispose();
 			this.setVisible(false);
 			this.dispose();
-			StartWindow sw = new StartWindow(this.g);
+			StartWindow.getInstance().reset();
 			/*
 			 * hier soll der Benutzername geändert werden
 			 */
 		}
 		if (e.getActionCommand() == "endButton") {
 			// alle noch geöffneten Fenster werden geschlossen
-			this.g.setVisible(false);
-			this.g.dispose();
+			Gui.getInstance().setVisible(false);
+			Gui.getInstance().dispose();
 			this.setVisible(false);
 			this.dispose();
 		}

@@ -28,7 +28,7 @@ import components.Figure;
 public class Checkerboard extends JPanel
 {
 
-	private Gui g;
+	private static Checkerboard instance = null;
 	
 	private JTable grid = null;
 	
@@ -43,12 +43,25 @@ public class Checkerboard extends JPanel
 				fieldToRow = 0;
 
 	/**
-	 * Konstruktor, der ein neues Objekt der Klasse erstellt.
+	 * Privater Konstruktor, der nur ein neues Objekt der Klasse erstellt.
+	 * Ruft die Methode zur Tabellenerstellung auf.
 	 */
-	public Checkerboard(Gui g) 
+	private Checkerboard() 
 	{
-		this.g = g;
 		this.makeTable();
+	}
+	
+	/**
+	 * Gibt die Checkerboard-Instanz zurück.
+	 * @return Checkerboard-Instanz
+	 */
+	public static Checkerboard getInstance()
+	{
+		if (instance == null) {
+			instance = new Checkerboard();
+		}
+		
+		return instance;
 	}
 	
 	/**
@@ -130,8 +143,8 @@ public class Checkerboard extends JPanel
 	 * umrechnet. Hier nur den Spaltenwert. 
 	 * Sonst 0-63 von links unten nach rechts oben, meine Tabelle
 	 * hat aber standardmäßig, 0/0 links oben.
-	 * @param fieldNumber
-	 * @return
+	 * @param fieldNumber Feldnummer
+	 * @return konvertierte Spaltennummer
 	 */
 	public int fieldNumberConverterColumn(int fieldNumber)
 	{
@@ -146,8 +159,8 @@ public class Checkerboard extends JPanel
 	 * umrechnet. Hier nur den Zeilenwert.
 	 * Sonst 0-63 von links unten nach rechts oben, meine Tabelle
 	 * hat aber standardmäßig, 0/0 links oben.
-	 * @param fieldNumber
-	 * @return
+	 * @param fieldNumber Feldnummer
+	 * @return konvertierte Zeilennummer
 	 */
 	public int fieldNumberConverterRow(int fieldNumber)
 	{
@@ -160,16 +173,17 @@ public class Checkerboard extends JPanel
 	/**
 	 * Methode, die die Informationen über das aktuelle Schachfeld und 
 	 * eventuelle Sonderfälle einholt.
+	 * @param move aktuelles Move-Objekt
 	 */
 	public void setCheckerboardInformation(Move move) 
 	{
 		// wer zieht wohin, geschmissen?, Sonderfall: PawnPromotion, Schach?, Schachmatt? 
 		
 		this.move = move;
-		
+		System.out.println("halsdk");
 		// wenn der Bauer umgewandelt werden soll
 		if (this.move.isPawnPromotion()) {
-			this.g.pawnPromotionGUI();
+			Gui.getInstance().pawnPromotionGUI();
 		}
 		
 		this.figure = this.move.getFigure();
@@ -188,8 +202,8 @@ public class Checkerboard extends JPanel
 						// entfernt die entsprechende Figur auf dem zugehörigen Feld
 						CheckerboardPanel cbp = (CheckerboardPanel)this.grid.getValueAt(i, j);
 						cbp.showIcon(this.figure, false);
-						this.g.repaint();
-						this.g.validate();
+						Gui.getInstance().repaint();
+						Gui.getInstance().validate();
 					}
 				}
 			}
@@ -213,20 +227,20 @@ public class Checkerboard extends JPanel
 						}
 						// zeigt die entsprechende Figur auf dem zugehörigen Feld an
 						cbp.showIcon(this.figure, true);
-						this.g.repaint();
-						this.g.validate();
+						Gui.getInstance().repaint();
+						Gui.getInstance().validate();
 					}
 				}
 			}
 		}	
 		
-		this.g.repaint();
-		this.g.validate();
+		Gui.getInstance().repaint();
+		Gui.getInstance().validate();
 		
 		if (this.move.isCheck() && this.move.isCheckMate()) {
 			javax.swing.JOptionPane.showMessageDialog(this,"Schachmatt! Spiel vorbei!", "Schachmatt", JOptionPane.INFORMATION_MESSAGE);
 //			// neues Objekt
-			FinishedGameGUI f = new FinishedGameGUI(this.g);
+			FinishedGameGUI.getInstance();
 		}
 		
 		if (this.move.isCheck() && !this.move.isCheckMate()) {
@@ -237,7 +251,7 @@ public class Checkerboard extends JPanel
 	
 	/**
 	 * Methode, die die Schachfiguren auf ihre Startpositionen setzt.
-	 * @param figures
+	 * @param figures HashMap mit der Startfeldfigurenanordnung
 	 */
 	public void getStartMap(HashMap<Integer, Figure> figures)
 	{

@@ -28,7 +28,7 @@ import javax.swing.event.DocumentListener;
 public class StartWindow extends JFrame implements ActionListener
 {
 
-	private Gui g;
+	private static StartWindow instance = null;
 
 	private JPanel forIcon = new JPanel(), forText = new JPanel(),
 			forName = new JPanel(), forButton = new JPanel();
@@ -45,18 +45,27 @@ public class StartWindow extends JFrame implements ActionListener
 	private JButton startButton = new JButton("Start");
 
 	/**
-	 * Konstruktor, der ein Gui-Objekt übergeben bekommt, dieses setzt, selbst
-	 * ein neues StartWindow-Objekt erstellt, den Titel setzt und alle
-	 * erforderlichen Einstellungen unternimmt.
-	 * 
-	 * @param g
+	 * Privater Konstruktor, der nur ein neues StartWindow-Objekt erstellt, 
+	 * den Titel setzt und alle erforderlichen Einstellungen unternimmt.
 	 */
-	public StartWindow(Gui g) 
+	private StartWindow() 
 	{
 		this.setTitle("Willkommen");
-		this.g = g;
 		this.initWindow();
 		this.makeLayout();
+	}
+	
+	/**
+	 * Gibt die StartWindow-Instanz zurück.
+	 * @return SatrtWindow-Instanz
+	 */
+	public static StartWindow getInstance() 
+	{
+		if (instance == null) {
+			instance = new StartWindow();
+		}
+		
+		return instance;
 	}
 
 	/**
@@ -167,6 +176,11 @@ public class StartWindow extends JFrame implements ActionListener
 		this.validate();
 	}
 
+	/**
+	 * Methode, die prüft, ob der Benutzer etwas in das Textfeld 
+	 * geschrieben hat. Wenn ja, wird diese Eingabe als Benutzername
+	 * abgespeichert. 
+	 */
 	private void checkFieldsFull() 
 	{
 		if (this.name.getText().length() == 0) {
@@ -177,29 +191,47 @@ public class StartWindow extends JFrame implements ActionListener
 		this.username = this.name.getText();
 	}
 	
+	/**
+	 * Gibt den Benutzernamen zurück.
+	 * @return Benutzername
+	 */
 	public String getUsername() 
 	{
 		return this.username;
 	}
 	
 	/**
+	 * Methode, die eine neue Instanz der Klasse erstellt. 
+	 */
+	public void reset()
+	{
+		instance = null;
+		instance = new StartWindow();
+	}
+	
+	/**
 	 * Methode, die auf eine Aktion des Benutzers wartet, um dann entsprechend
 	 * zu reagieren.
+	 * @param e auslösendes ActionEvent
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		if (e.getActionCommand() == "startButton") {
 			// dieses Fenster wird geschlossen und das Schachfeld angezeigt
-			this.g.startWindow();
+			Gui.getInstance().startWindow();
 			this.setVisible(false);
 			this.dispose();
 		}
 	}
 
+	/**
+	 * Private Klasse, die entsprechend auf Vorgänge im Textfeld reagiert.
+	 * @author Tabea
+	 *
+	 */
 	private class MyDocListener implements DocumentListener
 	{
-
 		public void changedUpdate(DocumentEvent e) {
 			checkFieldsFull();
 		}
@@ -211,6 +243,5 @@ public class StartWindow extends JFrame implements ActionListener
 		public void removeUpdate(DocumentEvent e) {
 			checkFieldsFull();
 		}
-
 	}
 }
