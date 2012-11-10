@@ -1,10 +1,7 @@
 package camera;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.*;
-import javax.imageio.ImageIO;
 
 public class ImageLoader
 {
@@ -61,7 +58,7 @@ public class ImageLoader
      */
     public int[] compareFields()
     {
-        
+        setFieldDiff();
 
     	for (int i = 0; i < FIELDS; i++) {
             if (i % 8 == 0) {
@@ -80,9 +77,6 @@ public class ImageLoader
         }
         System.out.println();
         for (int i = 0; i < FIELDS; i++) {
-
-            rgbFieldDiff[i] = (int) Math.abs(getPositionAverage(i, 1)
-                    - getPositionAverage(i, 2));
             if (i % 8 == 0) {
                 System.out.println();
             }
@@ -185,70 +179,6 @@ public class ImageLoader
     }
 
     /*
-     * Bild im entsprechenden Pfad wird geladen
-     * 
-     * @param file Pfad
-     * 
-     * @return Bild als BufferedImage
-     */
-    public BufferedImage getImage(File file)
-    {
-        BufferedImage bu = readImage(file);
-        return bu;
-    }
-
-    /*
-     * Differenz der beiden Bilder als Absolutwert in jeweils RGB wird berechnet
-     */
-    public void difference()
-    {
-        for (int i = 0; i < width * height; i++) {
-            diffR.add(Math.abs(r1.get(i) - r2.get(i)));
-            diffG.add(Math.abs(g1.get(i) - g2.get(i)));
-            diffB.add(Math.abs(b1.get(i) - b2.get(i)));
-        }
-    }
-
-    /*
-     * Testausgabe der RGB Werte des 1. Fotos...
-     */
-    public void print()
-    {
-        for (int i = 0; i < width * height; i++) {
-            if (i % (width) == 0) {
-                System.out.println();
-            }
-            System.out.printf("%03d/%03d/%03d  ", diffR.get(i), diffG.get(i),
-                    diffB.get(i));
-        }
-    }
-
-    /*
-     * Testausgabe der zu erkennenden markanten Unterschiede zwischen 2 Bildern
-     * unter Beruecksichtigung verschiedener Helligkeitsstufen der Bilder
-     */
-    public void printDiffTable()
-    {
-        int tolerance = sampleAverage();
-        int stDev = standardDeviation(tolerance);
-
-        System.out.println("\n Differenzen mit Mittelwert " + tolerance
-                + " und Standardabweichung " + stDev + " ermittelt");
-        for (int i = 0; i < width * height; i++) {
-            if (i % (width) == 0) {
-                System.out.println();
-            }
-            if ((int) ((diffR.get(i) + diffG.get(i) + diffB.get(i)) / 3) > (tolerance + stDev))
-                System.out.print("1 ");
-            // System.out.print((int)((diffR.get(i) + diffG.get(i) +
-            // diffB.get(i))/3));
-            else
-                System.out.print("0 ");
-            // System.out.printf("%03d/%03d/%03d  ",diffR.get(i),diffG.get(i),diffB.get(i));
-        }
-    }
-
-    /*
      * Ermittelt den durchschnittlichen Toleranzdifferenzwert der beiden Bilder
      * Z.B. unterschiedliche Lichtverhaeltnisse erfordern andere Toleranzen...
      * (Mittelwert)
@@ -295,7 +225,7 @@ public class ImageLoader
      */
     public boolean takePhoto1()
     {
-        loadPhoto(true);
+        loadRGB(true);
         return true;
     }
 
@@ -306,7 +236,7 @@ public class ImageLoader
      */
     public boolean takePhoto2()
     {
-        loadPhoto(false);
+        loadRGB(false);
         return true;
     }
 
@@ -317,7 +247,7 @@ public class ImageLoader
      * 
      * @param toggle true fuer das erste Foto, false fuer das zweite Foto
      */
-    private void loadPhoto(boolean toggle)
+    private void loadRGB(boolean toggle)
     {
         ArrayList<Integer> r = new ArrayList<Integer>();
         ArrayList<Integer> g = new ArrayList<Integer>();
@@ -349,30 +279,10 @@ public class ImageLoader
 
     }
 
-    /*
-     * Foto aus Datei einlesen
-     * 
-     * @param file Pfad zum Foto
-     */
-    private BufferedImage readImage(File file)
-    {
-        try {
-            BufferedImage bu = ImageIO.read(file);
-            return bu;
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("Pfad falsch gesetzt o. Bild nicht vorhanden.");
-        }
-        return null;
-    }
-
     public static void main(String[] args)
     {
         ImageLoader im = new ImageLoader();
         im.calcOffset();
-        
-        
-        // im.calcOffset();
          im.takePhoto1();
         System.out.println("Foto1 taken");
          try{
@@ -382,11 +292,9 @@ public class ImageLoader
         	 e.printStackTrace();
          }
          im.takePhoto2();
-        // im.difference();
-        // System.out.println(im.getPositionAverage(12));
          im.compareFields();
-        // im.print();
-        // im.printDiffTable();
+       
+       
 
     }
 
