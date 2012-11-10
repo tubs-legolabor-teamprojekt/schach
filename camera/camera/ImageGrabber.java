@@ -27,7 +27,7 @@ public final class ImageGrabber
       try {
           img = grabber.grab();
           if (img != null) {
-              cvFlip(img, img, 1);// l-r = 90_degrees_steps_anti_clockwise
+              //cvFlip(img, img, 1);// l-r = 90_degrees_steps_anti_clockwise
               return img.getBufferedImage();
           }
 

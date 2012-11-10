@@ -15,7 +15,7 @@ public class ImageLoader
     private ArrayList<Integer> r1, r2, g1, g2, b1, b2;
     private ArrayList<Integer> diffR, diffG, diffB;
     public int offsetX1, offsetX2, offsetY1, offsetY2;
-    private int[] rgbFieldDiff = new int[64];
+    public int[] rgbFieldDiff = new int[64];
 
     ImageGrabber grabber;
 
@@ -46,8 +46,22 @@ public class ImageLoader
         //int tolerance = sampleAverage();
         //int stDev = standardDeviation(tolerance);
 
+    	for (int i = 0; i < 64; i++) {
+            if (i % 8 == 0) {
+                System.out.println();
+            }
+            System.out.print("\t" + getPositionAverage(i, 1));
+        }
+    	
         int result[] = new int[2];
-
+        System.out.println();
+        for (int i = 0; i < 64; i++) {
+            if (i % 8 == 0) {
+                System.out.println();
+            }
+            System.out.print("\t" + getPositionAverage(i, 2));
+        }
+        System.out.println();
         for (int i = 0; i < 64; i++) {
 
             rgbFieldDiff[i] = (int) Math.abs(getPositionAverage(i, 1)
@@ -62,6 +76,7 @@ public class ImageLoader
     }
 
     /*
+     * EDIT: MOMENTAN NUR ROTE SPIELSTEINE!
      * Mittelwert der RGB-Werte eines der 64 Schachfelder wird berechnet
      * 
      * @param position Position des Schachfeldes (oben links 0, unten rechts 63)
@@ -84,24 +99,24 @@ public class ImageLoader
         int startY = unitY1 * unitHeight;
         int endX = unitX2 * unitWidth;
         int endY = unitY2 * unitHeight;
-
+        //momentan nur ROTE SPIELSTEINE
         int value = 0;
         for (int y = startY; y < endY; y++) {
             for (int x = startX; x < endX; x++) {
                 if (image == 1)
-                    value = value + r1.get(y * width + x)
-                            + g1.get(y * width + x) + b1.get(y * width + x);
+                    value = value + r1.get(y * width + x);
+                            //+ g1.get(y * width + x);// + b1.get(y * width + x);
                 else if (image == 2)
-                    value = value + r2.get(y * width + x)
-                            + g2.get(y * width + x) + b2.get(y * width + x);
+                    value = value + r2.get(y * width + x);
+                            //+ g2.get(y * width + x);// + b2.get(y * width + x);
                 else
-                    value = value + diffR.get(y * width + x)
-                            + diffG.get(y * width + x)
-                            + diffB.get(y * width + x);
+                    value = value + diffR.get(y * width + x);
+                            //+ diffG.get(y * width + x);
+                            //+ diffB.get(y * width + x);
 
             }
         }
-        return (int) (value / 3) / (unitWidth * unitHeight);
+        return (int) (value / 1) / (unitWidth * unitHeight);
 
     }
 
@@ -115,9 +130,13 @@ public class ImageLoader
         // OffsetGUI offsetGUI = new OffsetGUI(w.getImage(), this);
         OffsetGUI offsetGUI = new OffsetGUI(grabber.getImage(), this);
 
-        while (offsetGUI.getStatus() != 'n')
-            System.out.println("");
-
+        while (offsetGUI.getStatus() != 'n') {
+         try {
+        	Thread.sleep(1);
+         } catch(Exception e) {
+        	 e.printStackTrace();
+         }
+        }
         this.width = offsetX2 - offsetX1;
         this.height = offsetY2 - offsetY1;
         System.out.println("breite:" + this.width + " hoehe " + this.height);
@@ -252,9 +271,9 @@ public class ImageLoader
      * 
      * @param file Pfad zum Foto
      */
-    public boolean takePhoto1(File file)
+    public boolean takePhoto1()
     {
-        loadPhoto(file, true);
+        loadPhoto(true);
         return true;
     }
 
@@ -263,9 +282,9 @@ public class ImageLoader
      * 
      * @param file Pfad zum Foto
      */
-    public boolean takePhoto2(File file)
+    public boolean takePhoto2()
     {
-        loadPhoto(file, false);
+        loadPhoto(false);
         return true;
     }
 
@@ -276,13 +295,13 @@ public class ImageLoader
      * 
      * @param toggle true fuer das erste Foto, false fuer das zweite Foto
      */
-    private void loadPhoto(File file, boolean toggle)
+    private void loadPhoto(boolean toggle)
     {
         ArrayList<Integer> r = new ArrayList<Integer>();
         ArrayList<Integer> g = new ArrayList<Integer>();
         ArrayList<Integer> b = new ArrayList<Integer>();
 
-        BufferedImage bu = readImage(file);
+        BufferedImage bu = grabber.getImage();
 
         for (int y = offsetY1; y < offsetY2; y++) {
             for (int x = offsetX1; x < offsetX2; x++) {
@@ -332,11 +351,18 @@ public class ImageLoader
         
         
         // im.calcOffset();
-        // im.takePhoto1(new File("camera/img/schachbrett.jpg"));
-        // im.takePhoto2(new File("camera/img/schachbrett2.jpg"));
+         im.takePhoto1();
+        System.out.println("Foto1 taken");
+         try{
+        	 Thread.sleep(10000);
+         }
+         catch(Exception e) {
+        	 e.printStackTrace();
+         }
+         im.takePhoto2();
         // im.difference();
         // System.out.println(im.getPositionAverage(12));
-        // im.compareFields();
+         im.compareFields();
         // im.print();
         // im.printDiffTable();
 
