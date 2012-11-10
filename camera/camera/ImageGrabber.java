@@ -1,5 +1,4 @@
 package camera;
-
 import static com.googlecode.javacv.cpp.opencv_core.cvFlip;
 //import static com.googlecode.javacv.cpp.opencv_highgui.cvSaveImage;
 import java.awt.image.BufferedImage;
