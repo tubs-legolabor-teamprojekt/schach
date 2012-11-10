@@ -48,6 +48,17 @@ C:\opencv\build\common\tbb\ia32\vc10;C:\opencv\build\x86\vc10\bin;
 fertig.
 
 MacOS
+- opencv runterladen, http://sourceforge.net/projects/opencvlibrary/files/opencv-unix/2.4.3/
+- xCode sollte installiert sein, damit make funktioniert. Eventuell damit das alles noch im terminal geht, noch die CommandLineTools aus dem DeveloperCenter installieren: https://developer.apple.com/downloads/index.action
+(sind standardmäßig NICHT installiert)
+- cmake wird noch benötigt: http://cmake.org/cmake/resources/software.html dmg datei laden und installieren.
+- Den Ordner "OpenCV-2.4.3" nach beispielsweise "opt" kopieren. (z.b. im terminal "sudo cp -r -v OpenCV-2.4.3 opt/" (oder irgendwo anders hin…)
+- in den ordner wechseln, und "cmake ." eingeben
+- nachdem das durchgeführt wurde, "sudo make" eingeben (kann so 15-30 min dauern)
+- danach "sudo make install"
+
+fertig
+
 
 
 
