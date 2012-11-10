@@ -3,7 +3,7 @@ package camera;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.Vector;
+import java.util.*;
 import javax.imageio.ImageIO;
 
 public class ImageLoader
@@ -12,26 +12,26 @@ public class ImageLoader
     private int width, height; // gibt die groesse des Schachbretts und nicht
                                // die
                                // des Bildes an.
-    private Vector<Integer> r1, r2, g1, g2, b1, b2;
-    private Vector<Integer> diffR, diffG, diffB;
+    private ArrayList<Integer> r1, r2, g1, g2, b1, b2;
+    private ArrayList<Integer> diffR, diffG, diffB;
     public int offsetX1, offsetX2, offsetY1, offsetY2;
     private int[] rgbFieldDiff = new int[64];
 
-    Webcam w;
+    //Webcam w;
 
     public ImageLoader() {
-        w = new Webcam();
-        r1 = new Vector<Integer>();
-        g1 = new Vector<Integer>();
-        b1 = new Vector<Integer>();
+       // w = new Webcam();
+        r1 = new ArrayList<Integer>();
+        g1 = new ArrayList<Integer>();
+        b1 = new ArrayList<Integer>();
 
-        r2 = new Vector<Integer>();
-        g2 = new Vector<Integer>();
-        b2 = new Vector<Integer>();
+        r2 = new ArrayList<Integer>();
+        g2 = new ArrayList<Integer>();
+        b2 = new ArrayList<Integer>();
 
-        diffR = new Vector<Integer>();
-        diffG = new Vector<Integer>();
-        diffB = new Vector<Integer>();
+        diffR = new ArrayList<Integer>();
+        diffG = new ArrayList<Integer>();
+        diffB = new ArrayList<Integer>();
     }
 
     /*
@@ -270,7 +270,7 @@ public class ImageLoader
     }
 
     /*
-     * Laed die RGB Werte eines Biles in die Vectoren r1,g1,b1 bzw. r2,g2,b2
+     * Laed die RGB Werte eines Biles in die ArrayListen r1,g1,b1 bzw. r2,g2,b2
      * 
      * @param file Pfad des Biles
      * 
@@ -278,9 +278,9 @@ public class ImageLoader
      */
     private void loadPhoto(File file, boolean toggle)
     {
-        Vector<Integer> r = new Vector<Integer>();
-        Vector<Integer> g = new Vector<Integer>();
-        Vector<Integer> b = new Vector<Integer>();
+        ArrayList<Integer> r = new ArrayList<Integer>();
+        ArrayList<Integer> g = new ArrayList<Integer>();
+        ArrayList<Integer> b = new ArrayList<Integer>();
 
         BufferedImage bu = readImage(file);
 
