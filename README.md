@@ -28,8 +28,7 @@ coding guidelines bei eclipse einstellen
 (achtung, kann probleme bei kommentaren geben ...
 
 Anleitung Webcamzugriff (Ordner camera)
----------------------------------------
----------------------------------------
+=======================================
 Allgemein (Windows + MacOS):
 - JavaCV wird benötigt. Eigentlich sollten die .jar Dateien bereits im GIT-Repo sein… aber alternativ kann man sich diese hier downloaden: http://code.google.com/p/javacv/downloads/detail?name=javacv-0.3-bin.zip
 - Die entsprechenden .jar's zum Build Path hinzufügen (unter Eclipse: rechtsklick auf das Projekt-> properties->java build path-> libraries -> add jars (bzw. add external jars, je nachdem ob es schon im projekt ist oder nicht, aber wie gesagt, eigentlich sollte es schon drin sein…)
@@ -67,6 +66,5 @@ MacOS
 
 
 Todo
-----
-----
+====
 coming soon...
