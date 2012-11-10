@@ -8,14 +8,15 @@ import javax.imageio.ImageIO;
 
 public class ImageLoader
 {
-
+	private final int FIELDS = 64;
     private int width, height; // gibt die groesse des Schachbretts und nicht
                                // die
                                // des Bildes an.
     private ArrayList<Integer> r1, r2, g1, g2, b1, b2;
     private ArrayList<Integer> diffR, diffG, diffB;
     public int offsetX1, offsetX2, offsetY1, offsetY2;
-    public int[] rgbFieldDiff = new int[64];
+    public int[] rgbFieldDiff = new int[FIELDS];
+    
 
     ImageGrabber grabber;
 
@@ -34,6 +35,23 @@ public class ImageLoader
         diffG = new ArrayList<Integer>();
         diffB = new ArrayList<Integer>();
     }
+    
+    private void setFieldDiff() {
+    	if(r1!=null && r2!=null && g1!=null && g2!=null && b1!=null && b2!=null) {
+    
+    	for (int i = 0; i < FIELDS; i++) {
+
+            rgbFieldDiff[i] = (int) Math.abs(getPositionAverage(i, 1)
+                    - getPositionAverage(i, 2));
+            if (i % 8 == 0) {
+                System.out.println();
+            }
+    }
+    	}
+    	else {
+    		System.out.println("Erst 2 Fotos machen");
+    	}
+    }
 
     /*
      * Vergleicht die 2 Schachbilder miteinander und erkennt, ob eine Figur
@@ -43,10 +61,9 @@ public class ImageLoader
      */
     public int[] compareFields()
     {
-        //int tolerance = sampleAverage();
-        //int stDev = standardDeviation(tolerance);
+        
 
-    	for (int i = 0; i < 64; i++) {
+    	for (int i = 0; i < FIELDS; i++) {
             if (i % 8 == 0) {
                 System.out.println();
             }
@@ -55,14 +72,14 @@ public class ImageLoader
     	
         int result[] = new int[2];
         System.out.println();
-        for (int i = 0; i < 64; i++) {
+        for (int i = 0; i < FIELDS; i++) {
             if (i % 8 == 0) {
                 System.out.println();
             }
             System.out.print("\t" + getPositionAverage(i, 2));
         }
         System.out.println();
-        for (int i = 0; i < 64; i++) {
+        for (int i = 0; i < FIELDS; i++) {
 
             rgbFieldDiff[i] = (int) Math.abs(getPositionAverage(i, 1)
                     - getPositionAverage(i, 2));
@@ -71,7 +88,10 @@ public class ImageLoader
             }
             System.out.print("\t" + rgbFieldDiff[i]);
         }
-
+        int average = sampleAverage();
+        int stDev = standardDeviation(average);
+        
+        System.out.println("Toleranz:"+average+"  stdabweichung"+stDev);
         return result;
     }
 
@@ -238,10 +258,10 @@ public class ImageLoader
     private int sampleAverage()
     {
         int tolerance = 0;
-        for (int i = 0; i < width * height; i++) {
-            tolerance += diffR.get(i) + diffG.get(i) + diffB.get(i);
+        for (int i = 0; i <FIELDS; i++) {
+            tolerance += rgbFieldDiff[i];
         }
-        return (int) (tolerance / 3) / (width * height);
+        return (int) Math.round(tolerance / FIELDS);
     }
 
     /*
@@ -256,12 +276,14 @@ public class ImageLoader
         // nach Formel Var(x) = E(X^2)-E(X)^2 und sqrt(Var(X)) =
         // Standardabweichung
         int t = 0;
-        int av2 = (int) Math.pow(average, 2);
-        for (int i = 0; i < width * height; i++) {
-            t += (int) Math.pow(
-                    (diffR.get(i) + diffG.get(i) + diffB.get(i)) / 3, 2);
+        int av2 = (int) Math.round(Math.pow(average, 2));
+        for (int i = 0; i < FIELDS; i++) {
+           /* t += (int) Math.pow(
+                    (diffR.get(i) + diffG.get(i) + diffB.get(i)) / 3, 2);*/
+        	t += (int) Math.pow(
+                    (rgbFieldDiff[i]), 2);
         }
-        t = t / (width * height);
+        t = Math.round(t / FIELDS);
         return (int) Math.sqrt(t - av2);
 
     }
