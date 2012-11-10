@@ -12,7 +12,5 @@
 	<classpathentry kind="lib" path="lib/pccomm.jar"/>
 	<classpathentry kind="lib" path="lib/pctools.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="lib/javacv-macosx-x86_64.jar"/>
-	<classpathentry kind="lib" path="lib/javacv.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
