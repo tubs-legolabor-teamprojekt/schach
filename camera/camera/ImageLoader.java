@@ -59,6 +59,8 @@ public class ImageLoader
     public int[] compareFields()
     {
         setFieldDiff();
+        int average = sampleAverage();
+        int stDev = standardDeviation(average);
 
     	for (int i = 0; i < FIELDS; i++) {
             if (i % 8 == 0) {
@@ -82,10 +84,21 @@ public class ImageLoader
             }
             System.out.print("\t" + rgbFieldDiff[i]);
         }
-        int average = sampleAverage();
-        int stDev = standardDeviation(average);
         
-        System.out.println("Toleranz:"+average+"  stdabweichung"+stDev);
+        System.out.println();
+        for (int i = 0; i < FIELDS; i++) {
+            if (i % 8 == 0) {
+                System.out.println();
+            }
+            if(rgbFieldDiff[i]>average+stDev) {
+            System.out.print("\t" + "1");
+            }
+            else {
+            	System.out.print("\t" + "0");
+            }
+        }
+        
+        System.out.println("\n Toleranz:"+average+"  stdabweichung"+stDev);
         return result;
     }
 
