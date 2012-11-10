@@ -6,7 +6,11 @@ import javax.swing.JPanel;
 
 public class PaintImage extends JPanel
 {
-    public static BufferedImage bu;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private BufferedImage bu;
 
     public PaintImage(BufferedImage bu) {
         this.bu = bu;

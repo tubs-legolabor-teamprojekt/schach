@@ -17,10 +17,11 @@ public class ImageLoader
     public int offsetX1, offsetX2, offsetY1, offsetY2;
     private int[] rgbFieldDiff = new int[64];
 
-    //Webcam w;
+    ImageGrabber grabber;
 
     public ImageLoader() {
-       // w = new Webcam();
+        grabber = new ImageGrabber();
+        
         r1 = new ArrayList<Integer>();
         g1 = new ArrayList<Integer>();
         b1 = new ArrayList<Integer>();
@@ -42,8 +43,8 @@ public class ImageLoader
      */
     public int[] compareFields()
     {
-        int tolerance = sampleAverage();
-        int stDev = standardDeviation(tolerance);
+        //int tolerance = sampleAverage();
+        //int stDev = standardDeviation(tolerance);
 
         int result[] = new int[2];
 
@@ -112,8 +113,7 @@ public class ImageLoader
     public void calcOffset()
     {
         // OffsetGUI offsetGUI = new OffsetGUI(w.getImage(), this);
-        OffsetGUI offsetGUI = new OffsetGUI(getImage(new File(
-                "camera/img/schachbrett.jpg")), this);
+        OffsetGUI offsetGUI = new OffsetGUI(grabber.getImage(), this);
 
         while (offsetGUI.getStatus() != 'n')
             System.out.println("");
@@ -329,11 +329,14 @@ public class ImageLoader
     {
         ImageLoader im = new ImageLoader();
         im.calcOffset();
-        im.takePhoto1(new File("camera/img/schachbrett.jpg"));
-        im.takePhoto2(new File("camera/img/schachbrett2.jpg"));
-        im.difference();
+        
+        
+        // im.calcOffset();
+        // im.takePhoto1(new File("camera/img/schachbrett.jpg"));
+        // im.takePhoto2(new File("camera/img/schachbrett2.jpg"));
+        // im.difference();
         // System.out.println(im.getPositionAverage(12));
-        im.compareFields();
+        // im.compareFields();
         // im.print();
         // im.printDiffTable();
 

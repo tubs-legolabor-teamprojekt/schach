@@ -7,7 +7,11 @@ import javax.swing.JPanel;
 
 public class OffsetGUI extends JFrame implements MouseListener
 {
-    private JPanel panel;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private JPanel panel;
     private char state = '1'; // 1 fuer koord1, 2 fuer koord2, n fuer fertig
     private int offsetX1, offsetX2, offsetY1, offsetY2;
     private ImageLoader im;
