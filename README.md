@@ -16,6 +16,7 @@ coding guidelines
 - Geschweifte Klammern:
 	- bei Klassen/Methoden: neue Zeile
 	- bei if, while etc.: gleiche Zeile
+- Keine Sonderzeichen (ä,ö,ü,ß) im gesamten Code, auch nicht in Kommentaren, verwenden 
 
 coding guidelines bei eclipse einstellen
 -----------------------------------------

@@ -7,13 +7,10 @@ import java.util.Collections;
 public class ImageLoader
 {
 	private final int FIELDS = 64;
-	private int width, height; // gibt die groesse des Schachbretts und nicht
-	// die
-	// des Bildes an.
+	private int width, height; //groesse Schachbrett (nicht Bild)
 	private ArrayList<Integer> r1, r2, g1, g2, b1, b2;
 	private ArrayList<Integer> diffR, diffG, diffB;
-	public int offsetX1, offsetX2, offsetY1, offsetY2;
-	//public Field[] rgbFieldDiff = new Field[FIELDS];
+	private int offsetX1, offsetX2, offsetY1, offsetY2;
 	private List<Field> rgbFieldDiff = new ArrayList<Field>();
 
 	ImageGrabber grabber;
@@ -35,15 +32,58 @@ public class ImageLoader
 		diffB = new ArrayList<Integer>();
 	}
 	
-	public void sortList() {
-		Collections.sort(rgbFieldDiff);
-		System.out.println();
-		System.out.println(rgbFieldDiff.size());
-		for(int i=0; i<rgbFieldDiff.size(); i++) {
-			System.out.println("Nummer "+rgbFieldDiff.get(i).getPosition() +" Wert: "+ rgbFieldDiff.get(i).getValue());
+	/*
+	 * 
+	 */
+	public List<Integer> getChangedPositions() {
+		setFieldDiff();
+		List<Field> sortedList = sortList(this.rgbFieldDiff);
+		int average = sampleAverage();
+		int stDev = standardDeviation(average);
+		
+		List<Integer> l = new ArrayList<Integer>();
+		boolean rochadePossible = true;
+		//Rochade nur auf der obersten o. untersten Reihe moeglich
+		for(int i=0; i<4 && rochadePossible; i++) {
+			if(sortedList.get(i).getPosition() > 7 && sortedList.get(i).getPosition() < 60) {
+				rochadePossible = false;	
+			}
 		}
+		
+			l.add(sortedList.get(0).getValue());
+			l.add(sortedList.get(1).getValue());
+		
+		//wenn rochade moeglich ist, dann wird noch geprueft, ob
+		//die werte der felder ausserhalb der 2fachen standardabweichung vom mittelwert
+	    //liegen. Wenn ja, dann ist eine Rochade sehr wahrscheinlich.
+		if(rochadePossible) {
+			if( (sortedList.get(2).getValue() > (average+2*stDev)) && (sortedList.get(3).getValue() > (average+2*stDev)) ) {
+				l.add(sortedList.get(2).getValue());
+				l.add(sortedList.get(3).getValue());
+			}
+		}
+		
+		
+		return l;
 	}
-
+	
+/*
+ * Sortiert die Liste mittles Collections Framework	
+ * @return absteigend sortierte Liste
+ */
+	private List<Field> sortList(List<Field> l) {
+		Collections.sort(l);
+		System.out.println();
+		System.out.println(l.size());
+		for(int i=0; i<l.size(); i++) {
+			System.out.println("Nummer "+l.get(i).getPosition() +" Wert: "+ l.get(i).getValue());
+		}
+		return l;
+	}
+/*
+ * Berechnet die Differenz der 64 Felder aus Bild 1 und Bild 2
+ * uns speichert sie in einer Liste als Typ "Field".
+ */
 	private void setFieldDiff() {
 		if(r1!=null && r2!=null && g1!=null && g2!=null && b1!=null && b2!=null) {
 			for (int i = 0; i < FIELDS; i++) {
@@ -65,9 +105,8 @@ public class ImageLoader
 	 * 
 	 * @return Array mit geaenderten Feldern
 	 */
-	public int[] compareFields()
+	public void compareFields()
 	{
-		setFieldDiff();
 		int average = sampleAverage();
 		int stDev = standardDeviation(average);
 
@@ -78,7 +117,6 @@ public class ImageLoader
 			System.out.print("\t" + getPositionAverage(i, 1));
 		}
 
-		int result[] = new int[2];
 		System.out.println();
 		for (int i = 0; i < FIELDS; i++) {
 			if (i % 8 == 0) {
@@ -108,7 +146,6 @@ public class ImageLoader
 		}
 
 		System.out.println("\n Toleranz:"+average+"  stdabweichung"+stDev);
-		return result;
 	}
 
 	/*
@@ -311,8 +348,12 @@ public class ImageLoader
 			e.printStackTrace();
 		}
 		im.takePhoto2();
-		im.compareFields();
-		im.sortList();
+		//im.compareFields();
+		List<Integer> l = im.getChangedPositions();
+		System.out.println("AUSGABE");
+		for(int i=0; i<l.size(); i++) {
+			System.out.println(l.get(i));
+		}
 
 
 
