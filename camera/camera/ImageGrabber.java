@@ -1,6 +1,6 @@
 package camera;
 import static com.googlecode.javacv.cpp.opencv_core.cvFlip;
-//import static com.googlecode.javacv.cpp.opencv_highgui.cvSaveImage;
+import static com.googlecode.javacv.cpp.opencv_highgui.cvSaveImage;
 import java.awt.image.BufferedImage;
 //import com.googlecode.javacv.CanvasFrame;
 //import com.googlecode.javacv.FrameGrabber;
@@ -12,6 +12,7 @@ public final class ImageGrabber
 {
 	private IplImage img;
 	private OpenCVFrameGrabber grabber = new OpenCVFrameGrabber(0);
+	private static int i=0;
 
 
 	public ImageGrabber() {
@@ -27,6 +28,9 @@ public final class ImageGrabber
 		try {
 			img = grabber.grab();
 			if (img != null) {
+				
+				cvSaveImage(i+"capture.jpg", img);
+				i++;
 				//cvFlip(img, img, 1);// l-r = 90_degrees_steps_anti_clockwise
 				return img.getBufferedImage();
 			}

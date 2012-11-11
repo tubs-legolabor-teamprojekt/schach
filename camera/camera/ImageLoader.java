@@ -45,21 +45,21 @@ public class ImageLoader
 		boolean rochadePossible = true;
 		//Rochade nur auf der obersten o. untersten Reihe moeglich
 		for(int i=0; i<4 && rochadePossible; i++) {
-			if(sortedList.get(i).getPosition() > 7 && sortedList.get(i).getPosition() < 60) {
+			if(sortedList.get(i).getPosition() > 7 && sortedList.get(i).getPosition() < 56) {
 				rochadePossible = false;	
 			}
 		}
 		
-			l.add(sortedList.get(0).getValue());
-			l.add(sortedList.get(1).getValue());
+			l.add(sortedList.get(0).getPosition());
+			l.add(sortedList.get(1).getPosition());
 		
 		//wenn rochade moeglich ist, dann wird noch geprueft, ob
 		//die werte der felder ausserhalb der 2fachen standardabweichung vom mittelwert
 	    //liegen. Wenn ja, dann ist eine Rochade sehr wahrscheinlich.
 		if(rochadePossible) {
-			if( (sortedList.get(2).getValue() > (average+2*stDev)) && (sortedList.get(3).getValue() > (average+2*stDev)) ) {
-				l.add(sortedList.get(2).getValue());
-				l.add(sortedList.get(3).getValue());
+			if( (sortedList.get(2).getValue() > (average+1*stDev)) && (sortedList.get(3).getValue() > (average+1*stDev)) ) {
+				l.add(sortedList.get(2).getPosition());
+				l.add(sortedList.get(3).getPosition());
 			}
 		}
 		
@@ -354,6 +354,7 @@ public class ImageLoader
 		for(int i=0; i<l.size(); i++) {
 			System.out.println(l.get(i));
 		}
+		im.compareFields();
 
 
 
