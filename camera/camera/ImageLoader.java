@@ -2,6 +2,7 @@ package camera;
 
 import java.awt.image.BufferedImage;
 import java.util.*;
+import java.util.Collections;
 
 public class ImageLoader
 {
@@ -12,12 +13,13 @@ public class ImageLoader
 	private ArrayList<Integer> r1, r2, g1, g2, b1, b2;
 	private ArrayList<Integer> diffR, diffG, diffB;
 	public int offsetX1, offsetX2, offsetY1, offsetY2;
-	public int[] rgbFieldDiff = new int[FIELDS];
-
+	//public Field[] rgbFieldDiff = new Field[FIELDS];
+	private List<Field> rgbFieldDiff = new ArrayList<Field>();
 
 	ImageGrabber grabber;
 
 	public ImageLoader() {
+		
 		grabber = new ImageGrabber();
 
 		r1 = new ArrayList<Integer>();
@@ -32,14 +34,21 @@ public class ImageLoader
 		diffG = new ArrayList<Integer>();
 		diffB = new ArrayList<Integer>();
 	}
+	
+	public void sortList() {
+		Collections.sort(rgbFieldDiff);
+		System.out.println();
+		System.out.println(rgbFieldDiff.size());
+		for(int i=0; i<rgbFieldDiff.size(); i++) {
+			System.out.println("Nummer "+rgbFieldDiff.get(i).getPosition() +" Wert: "+ rgbFieldDiff.get(i).getValue());
+		}
+	}
 
 	private void setFieldDiff() {
 		if(r1!=null && r2!=null && g1!=null && g2!=null && b1!=null && b2!=null) {
-
 			for (int i = 0; i < FIELDS; i++) {
-
-				rgbFieldDiff[i] = (int) Math.abs(getPositionAverage(i, 1)
-						- getPositionAverage(i, 2));
+				Field a = new Field(i,(int) Math.abs(getPositionAverage(i, 1) - getPositionAverage(i, 2)));
+				rgbFieldDiff.add(a);
 				if (i % 8 == 0) {
 					System.out.println();
 				}
@@ -82,7 +91,7 @@ public class ImageLoader
 			if (i % 8 == 0) {
 				System.out.println();
 			}
-			System.out.print("\t" + rgbFieldDiff[i]);
+			System.out.print("\t" + rgbFieldDiff.get(i).getValue());
 		}
 
 		System.out.println();
@@ -90,7 +99,7 @@ public class ImageLoader
 			if (i % 8 == 0) {
 				System.out.println();
 			}
-			if(rgbFieldDiff[i]>average+stDev) {
+			if(rgbFieldDiff.get(i).getValue()>average+stDev) {
 				System.out.print("\t" + "1");
 			}
 			else {
@@ -130,20 +139,19 @@ public class ImageLoader
 		int value = 0;
 		for (int y = startY; y < endY; y++) {
 			for (int x = startX; x < endX; x++) {
-				if (image == 1)
-					value = value + r1.get(y * width + x);
-				//+ g1.get(y * width + x);// + b1.get(y * width + x);
-				else if (image == 2)
-					value = value + r2.get(y * width + x);
-				//+ g2.get(y * width + x);// + b2.get(y * width + x);
-				else
-					value = value + diffR.get(y * width + x);
-				//+ diffG.get(y * width + x);
-				//+ diffB.get(y * width + x);
+				if (image == 1) {
+					value = value + r1.get(y * width + x) + g1.get(y * width + x) + b1.get(y * width + x);
+				}
+				else if (image == 2) {
+					value = value + r2.get(y * width + x) + g2.get(y * width + x) + b2.get(y * width + x);
+				}
+				else {
+					value = value + diffR.get(y * width + x) + diffG.get(y * width + x) + diffB.get(y * width + x);
+				}
 
 			}
 		}
-		return (int) (value / 1) / (unitWidth * unitHeight);
+		return (int) (value / 3) / (unitWidth * unitHeight);
 
 	}
 
@@ -202,7 +210,7 @@ public class ImageLoader
 	{
 		int tolerance = 0;
 		for (int i = 0; i <FIELDS; i++) {
-			tolerance += rgbFieldDiff[i];
+			tolerance += rgbFieldDiff.get(i).getValue();
 		}
 		return (int) Math.round(tolerance / FIELDS);
 	}
@@ -221,10 +229,8 @@ public class ImageLoader
 		int t = 0;
 		int av2 = (int) Math.round(Math.pow(average, 2));
 		for (int i = 0; i < FIELDS; i++) {
-			/* t += (int) Math.pow(
-                    (diffR.get(i) + diffG.get(i) + diffB.get(i)) / 3, 2);*/
-			t += (int) Math.pow(
-					(rgbFieldDiff[i]), 2);
+			 //t += (int) Math.pow((diffR.get(i) + diffG.get(i) + diffB.get(i)) / 3, 2);
+			t += (int) Math.pow((rgbFieldDiff.get(i).getValue()), 2);
 		}
 		t = Math.round(t / FIELDS);
 		return (int) Math.sqrt(t - av2);
@@ -306,6 +312,7 @@ public class ImageLoader
 		}
 		im.takePhoto2();
 		im.compareFields();
+		im.sortList();
 
 
 
