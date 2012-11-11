@@ -1,342 +1,363 @@
 package camera;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.*;
-import javax.imageio.ImageIO;
+import java.util.Collections;
 
 public class ImageLoader
 {
+	private final int FIELDS = 64;
+	private int width, height; //groesse Schachbrett (nicht Bild)
+	private ArrayList<Integer> r1, r2, g1, g2, b1, b2;
+	private ArrayList<Integer> diffR, diffG, diffB;
+	private int offsetX1, offsetX2, offsetY1, offsetY2;
+	private List<Field> rgbFieldDiff = new ArrayList<Field>();
 
-    private int width, height; // gibt die groesse des Schachbretts und nicht
-                               // die
-                               // des Bildes an.
-    private ArrayList<Integer> r1, r2, g1, g2, b1, b2;
-    private ArrayList<Integer> diffR, diffG, diffB;
-    public int offsetX1, offsetX2, offsetY1, offsetY2;
-    private int[] rgbFieldDiff = new int[64];
+	ImageGrabber grabber;
 
-    //Webcam w;
+	public ImageLoader() {
+		
+		grabber = new ImageGrabber();
 
-    public ImageLoader() {
-       // w = new Webcam();
-        r1 = new ArrayList<Integer>();
-        g1 = new ArrayList<Integer>();
-        b1 = new ArrayList<Integer>();
+		r1 = new ArrayList<Integer>();
+		g1 = new ArrayList<Integer>();
+		b1 = new ArrayList<Integer>();
 
-        r2 = new ArrayList<Integer>();
-        g2 = new ArrayList<Integer>();
-        b2 = new ArrayList<Integer>();
+		r2 = new ArrayList<Integer>();
+		g2 = new ArrayList<Integer>();
+		b2 = new ArrayList<Integer>();
 
-        diffR = new ArrayList<Integer>();
-        diffG = new ArrayList<Integer>();
-        diffB = new ArrayList<Integer>();
-    }
+		diffR = new ArrayList<Integer>();
+		diffG = new ArrayList<Integer>();
+		diffB = new ArrayList<Integer>();
+	}
+	
+	/*
+	 * 
+	 */
+	public List<Integer> getChangedPositions() {
+		setFieldDiff();
+		List<Field> sortedList = sortList(this.rgbFieldDiff);
+		int average = sampleAverage();
+		int stDev = standardDeviation(average);
+		
+		List<Integer> l = new ArrayList<Integer>();
+		boolean rochadePossible = true;
+		//Rochade nur auf der obersten o. untersten Reihe moeglich
+		for(int i=0; i<4 && rochadePossible; i++) {
+			if(sortedList.get(i).getPosition() > 7 && sortedList.get(i).getPosition() < 56) {
+				rochadePossible = false;	
+			}
+		}
+		
+			l.add(sortedList.get(0).getPosition());
+			l.add(sortedList.get(1).getPosition());
+		
+		//wenn rochade moeglich ist, dann wird noch geprueft, ob
+		//die werte der felder ausserhalb der 2fachen standardabweichung vom mittelwert
+	    //liegen. Wenn ja, dann ist eine Rochade sehr wahrscheinlich.
+		if(rochadePossible) {
+			if( (sortedList.get(2).getValue() > (average+1*stDev)) && (sortedList.get(3).getValue() > (average+1*stDev)) ) {
+				l.add(sortedList.get(2).getPosition());
+				l.add(sortedList.get(3).getPosition());
+			}
+		}
+		
+		
+		return l;
+	}
+	
+/*
+ * Sortiert die Liste mittles Collections Framework	
+ * @return absteigend sortierte Liste
+ */
+	private List<Field> sortList(List<Field> l) {
+		Collections.sort(l);
+		System.out.println();
+		System.out.println(l.size());
+		for(int i=0; i<l.size(); i++) {
+			System.out.println("Nummer "+l.get(i).getPosition() +" Wert: "+ l.get(i).getValue());
+		}
+		return l;
+	}
+/*
+ * Berechnet die Differenz der 64 Felder aus Bild 1 und Bild 2
+ * uns speichert sie in einer Liste als Typ "Field".
+ */
+	private void setFieldDiff() {
+		if(r1!=null && r2!=null && g1!=null && g2!=null && b1!=null && b2!=null) {
+			for (int i = 0; i < FIELDS; i++) {
+				Field a = new Field(i,(int) Math.abs(getPositionAverage(i, 1) - getPositionAverage(i, 2)));
+				rgbFieldDiff.add(a);
+				if (i % 8 == 0) {
+					System.out.println();
+				}
+			}
+		}
+		else {
+			System.out.println("Erst 2 Fotos machen");
+		}
+	}
 
-    /*
-     * Vergleicht die 2 Schachbilder miteinander und erkennt, ob eine Figur
-     * bewegt wurde anmerkung: funktioniert schon, return aber noch nicht fertig
-     * 
-     * @return Array mit geaenderten Feldern
-     */
-    public int[] compareFields()
-    {
-        int tolerance = sampleAverage();
-        int stDev = standardDeviation(tolerance);
+	/*
+	 * Vergleicht die 2 Schachbilder miteinander und erkennt, ob eine Figur
+	 * bewegt wurde anmerkung: funktioniert schon, return aber noch nicht fertig
+	 * 
+	 * @return Array mit geaenderten Feldern
+	 */
+	public void compareFields()
+	{
+		int average = sampleAverage();
+		int stDev = standardDeviation(average);
 
-        int result[] = new int[2];
+		for (int i = 0; i < FIELDS; i++) {
+			if (i % 8 == 0) {
+				System.out.println();
+			}
+			System.out.print("\t" + getPositionAverage(i, 1));
+		}
 
-        for (int i = 0; i < 64; i++) {
+		System.out.println();
+		for (int i = 0; i < FIELDS; i++) {
+			if (i % 8 == 0) {
+				System.out.println();
+			}
+			System.out.print("\t" + getPositionAverage(i, 2));
+		}
+		System.out.println();
+		for (int i = 0; i < FIELDS; i++) {
+			if (i % 8 == 0) {
+				System.out.println();
+			}
+			System.out.print("\t" + rgbFieldDiff.get(i).getValue());
+		}
 
-            rgbFieldDiff[i] = (int) Math.abs(getPositionAverage(i, 1)
-                    - getPositionAverage(i, 2));
-            if (i % 8 == 0) {
-                System.out.println();
-            }
-            System.out.print("\t" + rgbFieldDiff[i]);
-        }
+		System.out.println();
+		for (int i = 0; i < FIELDS; i++) {
+			if (i % 8 == 0) {
+				System.out.println();
+			}
+			if(rgbFieldDiff.get(i).getValue()>average+stDev) {
+				System.out.print("\t" + "1");
+			}
+			else {
+				System.out.print("\t" + "0");
+			}
+		}
 
-        return result;
-    }
+		System.out.println("\n Toleranz:"+average+"  stdabweichung"+stDev);
+	}
 
-    /*
-     * Mittelwert der RGB-Werte eines der 64 Schachfelder wird berechnet
-     * 
-     * @param position Position des Schachfeldes (oben links 0, unten rechts 63)
-     * 
-     * @param image aus welchem Bild der RGB Wert genommen werden soll (1 oder
-     * 2)
-     * 
-     * @return durchschnittswert rgb
-     */
-    private int getPositionAverage(int position, int image)
-    {
-        int unitWidth = (int) width / 8;
-        int unitHeight = (int) height / 8;
-        int unitX1 = position % 8;
-        int unitY1 = (int) position / 8;
-        int unitX2 = unitX1 + 1;
-        int unitY2 = unitY1 + 1;
+	/*
+	 * EDIT: MOMENTAN NUR ROTE SPIELSTEINE!
+	 * Mittelwert der RGB-Werte eines der 64 Schachfelder wird berechnet
+	 * 
+	 * @param position Position des Schachfeldes (oben links 0, unten rechts 63)
+	 * 
+	 * @param image aus welchem Bild der RGB Wert genommen werden soll (1 oder
+	 * 2)
+	 * 
+	 * @return durchschnittswert rgb
+	 */
+	private int getPositionAverage(int position, int image)
+	{
+		int unitWidth = (int) width / 8;
+		int unitHeight = (int) height / 8;
+		int unitX1 = position % 8;
+		int unitY1 = (int) position / 8;
+		int unitX2 = unitX1 + 1;
+		int unitY2 = unitY1 + 1;
 
-        int startX = unitX1 * unitWidth;
-        int startY = unitY1 * unitHeight;
-        int endX = unitX2 * unitWidth;
-        int endY = unitY2 * unitHeight;
+		int startX = unitX1 * unitWidth;
+		int startY = unitY1 * unitHeight;
+		int endX = unitX2 * unitWidth;
+		int endY = unitY2 * unitHeight;
+		//momentan nur ROTE SPIELSTEINE
+		int value = 0;
+		for (int y = startY; y < endY; y++) {
+			for (int x = startX; x < endX; x++) {
+				if (image == 1) {
+					value = value + r1.get(y * width + x) + g1.get(y * width + x) + b1.get(y * width + x);
+				}
+				else if (image == 2) {
+					value = value + r2.get(y * width + x) + g2.get(y * width + x) + b2.get(y * width + x);
+				}
+				else {
+					value = value + diffR.get(y * width + x) + diffG.get(y * width + x) + diffB.get(y * width + x);
+				}
 
-        int value = 0;
-        for (int y = startY; y < endY; y++) {
-            for (int x = startX; x < endX; x++) {
-                if (image == 1)
-                    value = value + r1.get(y * width + x)
-                            + g1.get(y * width + x) + b1.get(y * width + x);
-                else if (image == 2)
-                    value = value + r2.get(y * width + x)
-                            + g2.get(y * width + x) + b2.get(y * width + x);
-                else
-                    value = value + diffR.get(y * width + x)
-                            + diffG.get(y * width + x)
-                            + diffB.get(y * width + x);
+			}
+		}
+		return (int) (value / 3) / (unitWidth * unitHeight);
 
-            }
-        }
-        return (int) (value / 3) / (unitWidth * unitHeight);
+	}
 
-    }
+	/*
+	 * berechnet den Offset, der um das Schachbrett als Rand bleibt. Dieser wird
+	 * dann bei spaeterer Berechnung abgeschnitten Offset: linke obere Ecke,
+	 * rechte untere Ecke.
+	 */
+	public void calcOffset()
+	{
+		// OffsetGUI offsetGUI = new OffsetGUI(w.getImage(), this);
+		OffsetGUI offsetGUI = new OffsetGUI(grabber.getImage(), this);
 
-    /*
-     * berechnet den Offset, der um das Schachbrett als Rand bleibt. Dieser wird
-     * dann bei spaeterer Berechnung abgeschnitten Offset: linke obere Ecke,
-     * rechte untere Ecke.
-     */
-    public void calcOffset()
-    {
-        // OffsetGUI offsetGUI = new OffsetGUI(w.getImage(), this);
-        OffsetGUI offsetGUI = new OffsetGUI(getImage(new File(
-                "camera/img/schachbrett.jpg")), this);
+		while (offsetGUI.getStatus() != 'n') {
+			try {
+				Thread.sleep(1);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		this.width = offsetX2 - offsetX1;
+		this.height = offsetY2 - offsetY1;
+		System.out.println("breite:" + this.width + " hoehe " + this.height);
+	}
 
-        while (offsetGUI.getStatus() != 'n')
-            System.out.println("");
+	/*
+	 * Offset eintragen, also Abstand vom Rand des Bildes bis zum eigentlichen
+	 * Schachfeld
+	 * 
+	 * @param offsetX1 xWert links oben
+	 * 
+	 * @param offsetY1 yWert links oben
+	 * 
+	 * @param offsetX2 xWert rechts unten
+	 * 
+	 * @param iffsetY2 yWert rechts unten
+	 */
+	public void setOffset(int offsetX1, int offsetY1, int offsetX2, int offsetY2)
+	{
+		this.offsetX1 = offsetX1;
+		this.offsetX2 = offsetX2;
+		this.offsetY1 = offsetY1;
+		this.offsetY2 = offsetY2;
+		System.out.println(offsetX1 + " " + offsetY1 + " " + offsetX2 + " "
+				+ offsetY2);
+	}
 
-        this.width = offsetX2 - offsetX1;
-        this.height = offsetY2 - offsetY1;
-        System.out.println("breite:" + this.width + " hoehe " + this.height);
-    }
+	/*
+	 * Ermittelt den durchschnittlichen Toleranzdifferenzwert der beiden Bilder
+	 * Z.B. unterschiedliche Lichtverhaeltnisse erfordern andere Toleranzen...
+	 * (Mittelwert)
+	 * 
+	 * @return mittlere Differenz der beiden Bilder Pixel pro Pixel
+	 */
+	private int sampleAverage()
+	{
+		int tolerance = 0;
+		for (int i = 0; i <FIELDS; i++) {
+			tolerance += rgbFieldDiff.get(i).getValue();
+		}
+		return (int) Math.round(tolerance / FIELDS);
+	}
 
-    /*
-     * Offset eintragen, also Abstand vom Rand des Bildes bis zum eigentlichen
-     * Schachfeld
-     * 
-     * @param offsetX1 xWert links oben
-     * 
-     * @param offsetY1 yWert links oben
-     * 
-     * @param offsetX2 xWert rechts unten
-     * 
-     * @param iffsetY2 yWert rechts unten
-     */
-    public void setOffset(int offsetX1, int offsetY1, int offsetX2, int offsetY2)
-    {
-        this.offsetX1 = offsetX1;
-        this.offsetX2 = offsetX2;
-        this.offsetY1 = offsetY1;
-        this.offsetY2 = offsetY2;
-        System.out.println(offsetX1 + " " + offsetY1 + " " + offsetX2 + " "
-                + offsetY2);
-    }
+	/*
+	 * Einfache Standardabweichung von der durchschnittlichen Toleranzdifferenz
+	 * 
+	 * @param average Mittelwert
+	 * 
+	 * @return mittlere Abweichung vom Mittelwert
+	 */
+	private int standardDeviation(int average)
+	{
+		// nach Formel Var(x) = E(X^2)-E(X)^2 und sqrt(Var(X)) =
+		// Standardabweichung
+		int t = 0;
+		int av2 = (int) Math.round(Math.pow(average, 2));
+		for (int i = 0; i < FIELDS; i++) {
+			 //t += (int) Math.pow((diffR.get(i) + diffG.get(i) + diffB.get(i)) / 3, 2);
+			t += (int) Math.pow((rgbFieldDiff.get(i).getValue()), 2);
+		}
+		t = Math.round(t / FIELDS);
+		return (int) Math.sqrt(t - av2);
 
-    /*
-     * Bild im entsprechenden Pfad wird geladen
-     * 
-     * @param file Pfad
-     * 
-     * @return Bild als BufferedImage
-     */
-    public BufferedImage getImage(File file)
-    {
-        BufferedImage bu = readImage(file);
-        return bu;
-    }
+	}
 
-    /*
-     * Differenz der beiden Bilder als Absolutwert in jeweils RGB wird berechnet
-     */
-    public void difference()
-    {
-        for (int i = 0; i < width * height; i++) {
-            diffR.add(Math.abs(r1.get(i) - r2.get(i)));
-            diffG.add(Math.abs(g1.get(i) - g2.get(i)));
-            diffB.add(Math.abs(b1.get(i) - b2.get(i)));
-        }
-    }
+	/*
+	 * Erste Vergleichsfoto machen
+	 * 
+	 * @param file Pfad zum Foto
+	 */
+	public boolean takePhoto1()
+	{
+		loadRGB(true);
+		return true;
+	}
 
-    /*
-     * Testausgabe der RGB Werte des 1. Fotos...
-     */
-    public void print()
-    {
-        for (int i = 0; i < width * height; i++) {
-            if (i % (width) == 0) {
-                System.out.println();
-            }
-            System.out.printf("%03d/%03d/%03d  ", diffR.get(i), diffG.get(i),
-                    diffB.get(i));
-        }
-    }
+	/*
+	 * Zweite Vergleichsfoto machen
+	 * 
+	 * @param file Pfad zum Foto
+	 */
+	public boolean takePhoto2()
+	{
+		loadRGB(false);
+		return true;
+	}
 
-    /*
-     * Testausgabe der zu erkennenden markanten Unterschiede zwischen 2 Bildern
-     * unter Beruecksichtigung verschiedener Helligkeitsstufen der Bilder
-     */
-    public void printDiffTable()
-    {
-        int tolerance = sampleAverage();
-        int stDev = standardDeviation(tolerance);
+	/*
+	 * Laed die RGB Werte eines Biles in die ArrayListen r1,g1,b1 bzw. r2,g2,b2
+	 * 
+	 * @param file Pfad des Biles
+	 * 
+	 * @param toggle true fuer das erste Foto, false fuer das zweite Foto
+	 */
+	private void loadRGB(boolean toggle)
+	{
+		ArrayList<Integer> r = new ArrayList<Integer>();
+		ArrayList<Integer> g = new ArrayList<Integer>();
+		ArrayList<Integer> b = new ArrayList<Integer>();
 
-        System.out.println("\n Differenzen mit Mittelwert " + tolerance
-                + " und Standardabweichung " + stDev + " ermittelt");
-        for (int i = 0; i < width * height; i++) {
-            if (i % (width) == 0) {
-                System.out.println();
-            }
-            if ((int) ((diffR.get(i) + diffG.get(i) + diffB.get(i)) / 3) > (tolerance + stDev))
-                System.out.print("1 ");
-            // System.out.print((int)((diffR.get(i) + diffG.get(i) +
-            // diffB.get(i))/3));
-            else
-                System.out.print("0 ");
-            // System.out.printf("%03d/%03d/%03d  ",diffR.get(i),diffG.get(i),diffB.get(i));
-        }
-    }
+		BufferedImage bu = grabber.getImage();
 
-    /*
-     * Ermittelt den durchschnittlichen Toleranzdifferenzwert der beiden Bilder
-     * Z.B. unterschiedliche Lichtverhaeltnisse erfordern andere Toleranzen...
-     * (Mittelwert)
-     * 
-     * @return mittlere Differenz der beiden Bilder Pixel pro Pixel
-     */
-    private int sampleAverage()
-    {
-        int tolerance = 0;
-        for (int i = 0; i < width * height; i++) {
-            tolerance += diffR.get(i) + diffG.get(i) + diffB.get(i);
-        }
-        return (int) (tolerance / 3) / (width * height);
-    }
+		for (int y = offsetY1; y < offsetY2; y++) {
+			for (int x = offsetX1; x < offsetX2; x++) {
+				r.add((int) (((Math.pow(256, 3) + bu.getRGB(x, y)) / 65536))); // Umwandlung
+				// der
+				// ausgelesenen
+				// Werte...
+				g.add((int) (((Math.pow(256, 3) + bu.getRGB(x, y)) / 256) % 256)); // ...in
+				// RGB
+				// Werte
+				b.add((int) ((Math.pow(256, 3) + bu.getRGB(x, y)) % 256));
+			}
+		}
+		if (toggle == true) {
+			this.r1 = r;
+			this.b1 = b;
+			this.g1 = g;
+		} else {
+			this.r2 = r;
+			this.b2 = b;
+			this.g2 = g;
+		}
 
-    /*
-     * Einfache Standardabweichung von der durchschnittlichen Toleranzdifferenz
-     * 
-     * @param average Mittelwert
-     * 
-     * @return mittlere Abweichung vom Mittelwert
-     */
-    private int standardDeviation(int average)
-    {
-        // nach Formel Var(x) = E(X^2)-E(X)^2 und sqrt(Var(X)) =
-        // Standardabweichung
-        int t = 0;
-        int av2 = (int) Math.pow(average, 2);
-        for (int i = 0; i < width * height; i++) {
-            t += (int) Math.pow(
-                    (diffR.get(i) + diffG.get(i) + diffB.get(i)) / 3, 2);
-        }
-        t = t / (width * height);
-        return (int) Math.sqrt(t - av2);
+	}
 
-    }
+	public static void main(String[] args)
+	{
+		ImageLoader im = new ImageLoader();
+		im.calcOffset();
+		im.takePhoto1();
+		System.out.println("Foto1 taken");
+		try{
+			Thread.sleep(10000);
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		im.takePhoto2();
+		//im.compareFields();
+		List<Integer> l = im.getChangedPositions();
+		System.out.println("AUSGABE");
+		for(int i=0; i<l.size(); i++) {
+			System.out.println(l.get(i));
+		}
+		im.compareFields();
 
-    /*
-     * Erste Vergleichsfoto machen
-     * 
-     * @param file Pfad zum Foto
-     */
-    public boolean takePhoto1(File file)
-    {
-        loadPhoto(file, true);
-        return true;
-    }
 
-    /*
-     * Zweite Vergleichsfoto machen
-     * 
-     * @param file Pfad zum Foto
-     */
-    public boolean takePhoto2(File file)
-    {
-        loadPhoto(file, false);
-        return true;
-    }
 
-    /*
-     * Laed die RGB Werte eines Biles in die ArrayListen r1,g1,b1 bzw. r2,g2,b2
-     * 
-     * @param file Pfad des Biles
-     * 
-     * @param toggle true fuer das erste Foto, false fuer das zweite Foto
-     */
-    private void loadPhoto(File file, boolean toggle)
-    {
-        ArrayList<Integer> r = new ArrayList<Integer>();
-        ArrayList<Integer> g = new ArrayList<Integer>();
-        ArrayList<Integer> b = new ArrayList<Integer>();
-
-        BufferedImage bu = readImage(file);
-
-        for (int y = offsetY1; y < offsetY2; y++) {
-            for (int x = offsetX1; x < offsetX2; x++) {
-                r.add((int) (((Math.pow(256, 3) + bu.getRGB(x, y)) / 65536))); // Umwandlung
-                                                                               // der
-                                                                               // ausgelesenen
-                                                                               // Werte...
-                g.add((int) (((Math.pow(256, 3) + bu.getRGB(x, y)) / 256) % 256)); // ...in
-                                                                                   // RGB
-                                                                                   // Werte
-                b.add((int) ((Math.pow(256, 3) + bu.getRGB(x, y)) % 256));
-            }
-        }
-        if (toggle == true) {
-            this.r1 = r;
-            this.b1 = b;
-            this.g1 = g;
-        } else {
-            this.r2 = r;
-            this.b2 = b;
-            this.g2 = g;
-        }
-
-    }
-
-    /*
-     * Foto aus Datei einlesen
-     * 
-     * @param file Pfad zum Foto
-     */
-    private BufferedImage readImage(File file)
-    {
-        try {
-            BufferedImage bu = ImageIO.read(file);
-            return bu;
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("Pfad falsch gesetzt o. Bild nicht vorhanden.");
-        }
-        return null;
-    }
-
-    public static void main(String[] args)
-    {
-        ImageLoader im = new ImageLoader();
-        im.calcOffset();
-        im.takePhoto1(new File("camera/img/schachbrett.jpg"));
-        im.takePhoto2(new File("camera/img/schachbrett2.jpg"));
-        im.difference();
-        // System.out.println(im.getPositionAverage(12));
-        im.compareFields();
-        // im.print();
-        // im.printDiffTable();
-
-    }
+	}
 
 }
