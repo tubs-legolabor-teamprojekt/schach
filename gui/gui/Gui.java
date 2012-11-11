@@ -94,6 +94,7 @@ public class Gui extends JFrame
 		this.repaint();
 		this.validate();
 		this.setVisible(true);
+//		this.addWindowListener(new WindowClosingAdapter());
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 	

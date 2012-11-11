@@ -1,17 +1,13 @@
 ToDo
 ------
 - kommentieren
-- Benutzer wechseln unbenennen
-
 - abgespeicherte Spiele in einheitlichem Format --> Texteditor mach chinesische Zeichen, eclipse nicht
-- Benutzername vllt noch in Dateiname oder zu lang?
+
+
 
 - Benutzername:	* wenn man ein neues Spiel starten will, Benutzernamen beibehalten (dafür neuer Test notwendig)
-- PGN-Format: 	* Runde
-				* Ergebnis
 
-
-		
-		
-
-						
+- falschen Zug anzeigen
+- PGN-Format: 	* Ergebnis
+- Fenster schließen: 	* bei allen Fenstern WindowListener?
+						* Flo beendet alles?
