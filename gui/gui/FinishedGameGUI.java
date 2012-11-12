@@ -2,9 +2,9 @@ package gui;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
@@ -45,11 +46,11 @@ public class FinishedGameGUI extends JFrame implements ActionListener
 					userButton = new JButton("Benutzer wechseln"),
 					endButton = new JButton("Beenden");
 	
+	private int counter = 0;
+	
 	/**
-	 * Konstruktor, der ein neues Objekt der Klasse erstellt,
-	 * das übregebene Gui-Objekt setzt und die Fenstereinstellungen
-	 * alle aufruft.
-	 * @param g
+	 * privater Konstruktor, der nur ein neues Objekt der Klasse erstellt,
+	 * den Titel setzt und alle Fenstereinstellungen aufruft.
 	 */
 	private FinishedGameGUI() 
 	{
@@ -58,6 +59,10 @@ public class FinishedGameGUI extends JFrame implements ActionListener
 		this.makeLayout();
 	}
 	
+	/**
+	 * Gibt die FinishedGameGUI-Instanz zurück.
+	 * @return FinishedGameGUI-Instanz
+	 */
 	public static FinishedGameGUI getInstance()
 	{
 		if (instance == null) {
@@ -98,6 +103,9 @@ public class FinishedGameGUI extends JFrame implements ActionListener
 		this.makeEndLayout();
 	}
 	
+	/**
+	 * Methode, die das Layout für das TextPanel erstellt.
+	 */
 	public void makeTextLayout() 
 	{
 		gbc.gridx = 0;
@@ -198,6 +206,9 @@ public class FinishedGameGUI extends JFrame implements ActionListener
 		this.exportExplanation.setDisabledTextColor(Color.black);
 	}
 	
+	/**
+	 * Methode, die das Layout für das UserPanel erstellt. 
+	 */
 	public void makeUserLayout()
 	{
 		gbc.gridx = 0;
@@ -248,10 +259,11 @@ public class FinishedGameGUI extends JFrame implements ActionListener
 		this.endExplanation.setEnabled(false);
 		this.endExplanation.setDisabledTextColor(Color.black);
 	}
-
+	
 	/**
 	 * Methode, die entsprechend auf die ausgeführten Aktionen
 	 * des Benutzers reagiert. 
+	 * @param e auslösendes ActionEvent
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -270,14 +282,29 @@ public class FinishedGameGUI extends JFrame implements ActionListener
 			ShowPGNFormat.getInstance();
 		}
 		if (e.getActionCommand() == "exportButton") {
-			System.out.println("hallöchen");
-			/*
-			 * hier soll eine Methode aufgerufen werden, die den Spielverlauf abspeichert
-			 * Benachrichtigung, ob erfolgreich gespeichert --> Dialog-Fenster
-			 * neues Fenster, was danach geschiet
-			 */
+			this.counter++;
+			if (this.counter == 1) {
+				StAXWriter s = new StAXWriter();
+				if (s.makeFile()) {
+					javax.swing.JOptionPane.showMessageDialog(this,"Das Spiel wurde erfolgreich " +
+							"in den Order 'saveGame' gespeichert.", "Gespeichert!", JOptionPane.INFORMATION_MESSAGE);
+				} else {
+					javax.swing.JOptionPane.showMessageDialog(this,"Das Spiel konnte nicht " +
+							"gespeichert werden!", "Fehler", JOptionPane.INFORMATION_MESSAGE);
+				}
+			} else {
+				javax.swing.JOptionPane.showMessageDialog(this,"Das Spiel wurde bereits " +
+						"gespeichert!", "Fehler", JOptionPane.INFORMATION_MESSAGE);
+			}
 		}
 		if (e.getActionCommand() == "userButton") {
+			Field f = Field.getInstance();
+			f.resetField();
+			Gui.getInstance().getCheckerboard().resetMap();
+			Gui.getInstance().getCheckerboard().getStartMap(f.getCurrentFieldAsHashMap());
+			// dieses Fenster wird geschlossen
+			Gui.getInstance().setVisible(false);
+			Gui.getInstance().dispose();
 			this.setVisible(false);
 			this.dispose();
 			StartWindow.getInstance().reset();

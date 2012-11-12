@@ -46,10 +46,8 @@ public class PawnPromotionGUI extends JFrame implements ActionListener
 	private JButton okButton = new JButton("OK");
 	
 	/**
-	 * Konstruktor, der ein neues Objekt der Klasse PawnPromotionGUI erstellt und
-	 * einen Titel und ein Gui-Objekt übergeben bekommt.
-	 * @param title
-	 * @param g
+	 * Privater Konstruktor, der nur ein neues Objekt der Klasse PawnPromotionGUI erstellt.
+	 * Der Titel wird gesetzt und alle Fenstereinstellung vorgenommen.
 	 */
 	private PawnPromotionGUI()
 	{
@@ -58,6 +56,10 @@ public class PawnPromotionGUI extends JFrame implements ActionListener
 		this.makeLayout();
 	}
 	
+	/**
+	 * Gibt die PawnPromotionGUI-Instanz zurück.
+	 * @return PawnPromotionGUI-Instanz
+	 */
 	public static PawnPromotionGUI getInstance()
 	{
 		if (instance == null) {
@@ -176,7 +178,7 @@ public class PawnPromotionGUI extends JFrame implements ActionListener
 	/**
 	 * Methode, die die vom Benutzer getroffene Auswahl speichert und 
 	 * nach Bestätigung die Informationen an die Klasse Gui weitergibt.
-	 * @param e
+	 * @param e auslösendes Event
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e)

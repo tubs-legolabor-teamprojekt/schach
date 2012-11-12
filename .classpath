@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="camera"/>
-	<classpathentry kind="src" path="gui"/>
-	<classpathentry kind="src" path="util"/>
-	<classpathentry kind="src" path="EngineControl"/>
-	<classpathentry kind="src" path="ai"/>
-	<classpathentry kind="src" path="gamecoordinator"/>
-	<classpathentry kind="src" path="rules"/>
-	<classpathentry kind="lib" path="lib/classes.jar"/>
-	<classpathentry kind="lib" path="lib/jtools.jar"/>
-	<classpathentry kind="lib" path="lib/pccomm.jar"/>
-	<classpathentry kind="lib" path="lib/pctools.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="output" path="bin"/>
+    <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+    <classpathentry kind="src" path="camera"/>
+    <classpathentry kind="src" path="gui"/>
+    <classpathentry kind="src" path="util"/>
+    <classpathentry kind="src" path="EngineControl"/>
+    <classpathentry kind="src" path="ai"/>
+    <classpathentry kind="src" path="gamecoordinator"/>
+    <classpathentry kind="src" path="rules"/>
+    <classpathentry kind="lib" path="lib/classes.jar"/>
+    <classpathentry kind="lib" path="lib/jtools.jar"/>
+    <classpathentry kind="lib" path="lib/pccomm.jar"/>
+    <classpathentry kind="lib" path="lib/pctools.jar"/>
+    <classpathentry kind="lib" path="lib/javacv-macosx-x86_64.jar"/>
+    <classpathentry kind="lib" path="lib/javacv.jar"/>
+    <classpathentry kind="output" path="bin"/>
 </classpath>

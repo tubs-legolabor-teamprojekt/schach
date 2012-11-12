@@ -65,6 +65,7 @@ public class GameCoordinator
 	{
 		// Feld-Instanz holen
 		this.field = Field.getInstance();
+		
 		// Logging?
 		this.logging = logging;
 	}

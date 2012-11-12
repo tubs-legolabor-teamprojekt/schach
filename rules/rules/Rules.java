@@ -400,7 +400,6 @@ public class Rules {
                           || figType == ChessfigureConstants.QUEEN)){
               return true;
           }
-          break;
       }
       //Bewegung nach links
       for(int i = position - 1; (i - 1)/8 == (position - 1)/8; i--){
@@ -421,7 +420,6 @@ public class Rules {
                           || figType == ChessfigureConstants.QUEEN)){
               return true;
           }
-          break;
       }
       //y-Achse prüfen
       //nach oben
@@ -441,9 +439,8 @@ public class Rules {
                           || (figType == ChessfigureConstants.KING
                               && position - 8 == i)
                           || figType == ChessfigureConstants.QUEEN)){
-             return true;
+              return true;
           }
-          break;
       }
       //nach unten
       for(int i = position - 8; i > 0 && i <= 64; i -= 8){
@@ -464,7 +461,6 @@ public class Rules {
                           || figType == ChessfigureConstants.QUEEN)){
               return true;
           }
-          break;
       }
       //schräg prüfen
       //nach rechts oben
@@ -485,7 +481,6 @@ public class Rules {
                       && fig.getColor() == ChessfigureConstants.BLACK))){
               return true;
           }
-          break;
       }
       //nach rechts unten
       for(int i = 1; xAxis + i < 9 && yAxis - i > 0; i++){
@@ -505,7 +500,6 @@ public class Rules {
                       && fig.getColor() == ChessfigureConstants.WHITE))){
               return true;
           }
-          break;
       }
       //nach links oben
       for(int i = 1; xAxis - i > 0 && yAxis + i < 9; i++){
@@ -525,7 +519,6 @@ public class Rules {
                       && fig.getColor() == ChessfigureConstants.BLACK))){
               return true;
           }
-          break;
       }
       //nach links unten
       for(int i = 1; xAxis - i > 0 && yAxis - i > 0; i++){
@@ -545,7 +538,6 @@ public class Rules {
                       && fig.getColor() == ChessfigureConstants.WHITE))){
               return true;
           }
-          break;
       }
       
       //Springer prüfen
