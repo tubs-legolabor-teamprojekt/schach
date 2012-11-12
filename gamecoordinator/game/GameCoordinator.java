@@ -85,36 +85,30 @@ public class GameCoordinator
 	 */
 	public void execMove()
 	{
-		// Zug soll ausgefuehrt werden
-		if (this.currentMove.execMove()) {
+		// Zug ausgeben?
+		if (this.logging)
+			System.out.println(this.currentMove.getMoveAsText());
+		
+		// Wurde geschmissen?
+		if (this.currentMove.isCaptured()) {
+			// Geschmissene Figur vom Feld entfernen
+			this.field.removeFigureAt(this.currentMove.getFieldTo());
 			
-			// Zug ausgeben?
-			if (this.logging)
-				System.out.println(this.currentMove.getMoveAsText());
-			
-			// Wurde geschmissen?
-			if (this.currentMove.isCaptured()) {
-				// Geschmissene Figur vom Feld entfernen
-				this.field.removeFigureAt(this.currentMove.getFieldTo());
-				
-				// TODO Roboter soll Figur entfernen
-			}
-			
-			// Figur soll Zug durchfuehren
-			this.field.moveFigure(this.currentMove.getFieldFrom(), this.currentMove.getFieldTo());
-			
-			// TODO Roboter soll Figur bewegen
-			
-			// Gui soll Figur bewegen
-			this.gui.getCheckerboard().setCheckerboardInformation(this.currentMove);
-			
-			// War es der letzte Zug?
-			this.lastMove = this.currentMove.isCheckMate();
-			
-			// TODO Wurde inzwischen die GUI beendet? => Spiel ist beendet
-		} else {
-			System.out.println("Der Zug konnte nicht ausgefuehrt werden!\nthis.currentMove.execMove() schlug fehl!");
+			// TODO Roboter soll Figur entfernen
 		}
+		
+		// Figur soll Zug durchfuehren
+		this.field.moveFigure(this.currentMove.getFieldFrom(), this.currentMove.getFieldTo());
+		
+		// TODO Roboter soll Figur bewegen
+		
+		// Gui soll Figur bewegen
+		this.gui.getCheckerboard().setCheckerboardInformation(this.currentMove);
+		
+		// War es der letzte Zug?
+		this.lastMove = this.currentMove.isCheckMate();
+		
+		// TODO Wurde inzwischen die GUI beendet? => Spiel ist beendet
 	}
 	
 	/**
@@ -125,21 +119,29 @@ public class GameCoordinator
 	 */
 	public boolean receiveMove(Move newMove)
 	{
-		// TODO Wenn Rules fertig, Zug ueberpruefen
-//		if (!this.rules.checkMove(this.field, newMove)) {
-//			// TODO Fehlermeldung anzeigen (GUI)
-//			this.gui.showWarning("Ungueltiger Zug!");
-//			System.out.println("Ungueltiger Zug laut Rules.checkMove()");
-//			return false;
-//		} else {
+		// Aktuellen Zug hinzufuegen
+		this.moves.add(newMove);
 		
-			// Aktuellen Zug hinzufuegen
-			this.moves.add(newMove);
-			
-			// currentMove aktualisieren
-			this.currentMove = newMove;
+		// currentMove aktualisieren
+		this.currentMove = newMove;
+		
+		// Zug soll ausgefuehrt werden
+		if (this.currentMove.execMove()) {
+			this.rules.checkMove(this.field, this.currentMove);
+			// Zug ueberpruefen
+//			if (!this.rules.checkMove(this.field, this.currentMove)) {
+//				// TODO Fehlermeldung anzeigen (GUI)
+//				this.gui.showWarning("Ungueltiger Zug!");
+//				System.out.println("Ungueltiger Zug laut Rules.checkMove()");
+//				return false;
+//			} else {
+//				return true;
+//			}
 			return true;
-//		}
+		} else {
+			System.out.println("Der Zug konnte nicht ausgefuehrt werden!\nthis.currentMove.execMove() schlug fehl!");
+			return false;
+		}
 	}
 	
 	/**
