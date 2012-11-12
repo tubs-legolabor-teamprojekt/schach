@@ -15,42 +15,63 @@ public class Nxt23_EngineControl {
 	final private int ROTATE_FOR_Z2 = 15;
 	final private int ROTATE_FOR_Z3 = 10;
 	
-	private final TachoPilot Mb1_Mb2 = new TachoPilot(3.2f, 11.4f, Motor.A, Motor.B);
+	private final TachoPilot MB1_MB2 = new TachoPilot(3.2f, 11.4f, Motor.A, Motor.B);
+	private final Motor MC1 = Motor.C;
 	
-	private char coordinate_x;
+	private int columnFrom;
+	private int columnTo;
+	
+	private int movedDistance;
 	
 	
 	Nxt23_EngineControl() {
-
+		this.movedDistance = 0;
 	}
 	
-	Nxt23_EngineControl(char coordinate_x) {
-		this.coordinate_x = coordinate_x;
+	Nxt23_EngineControl(int columnFrom, int columnTo) {
+		this.columnFrom = columnFrom;
+		this.columnTo = columnTo;
+		
+		this.movedDistance = 0;
 	}
 	
-	void setCoordinateX(char coordinate_x) {
-		this.coordinate_x = coordinate_x;
+	void setColumn(int columnFrom,int columnTo ) {
+		this.columnFrom = columnFrom;
+		this.columnTo = columnTo;
 		
 	}
 	
-	boolean moveToColumn() {
+	boolean moveToColumnFrom() {
+		int distance = this.columnFrom - this.movedDistance;
 		
+		this.MC1.rotate(this.movedDistance*ROTATE_FOR_Z3);
+		this.movedDistance += distance;
 		
+		return true;
+	}
+	
+	boolean moveToColumnTo() {
+		int distance = this.columnTo - this.movedDistance;
+		
+		this.MC1.rotate(this.movedDistance*ROTATE_FOR_Z3);
+		this.movedDistance += distance;
+			
 		return true;
 	}
 	
 	boolean moveUp() {
-		
+		this.MB1_MB2.travel(-ROTATE_FOR_Z2);
 		return true;
 	}
 	
 	boolean moveDown() {
-		
+		this.MB1_MB2.travel(ROTATE_FOR_Z2);
 		return true;
 	}
 	
 	boolean moveToInit() {
-		
+		this.MC1.rotate(-this.movedDistance*ROTATE_FOR_Z3);
+		this.movedDistance = 0;
 		return true;
 	}
 
