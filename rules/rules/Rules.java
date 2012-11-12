@@ -544,49 +544,49 @@ public class Rules {
       //TODO: übersichtlicher gestallten???????????
       if(xAxis + 2 < 9 && yAxis + 1 < 9){
           fig = currentField.getFigureAt(Field.getFieldNumber(xAxis + 2, yAxis + 1));
-          if(fig.getColor() != colour && fig.getFigureType() == ChessfigureConstants.KNIGHT){
+          if(fig != null && fig.getColor() != colour && fig.getFigureType() == ChessfigureConstants.KNIGHT){
               return true;
           }
       }
       if(xAxis + 1 < 9 && yAxis + 2 < 9){
           fig = currentField.getFigureAt(Field.getFieldNumber(xAxis + 1, yAxis + 2));
-          if(fig.getColor() != colour && fig.getFigureType() == ChessfigureConstants.KNIGHT){
+          if(fig != null && fig.getColor() != colour && fig.getFigureType() == ChessfigureConstants.KNIGHT){
               return true;
           }
       }
       if(xAxis - 2 > 0 && yAxis + 1 < 9){
           fig = currentField.getFigureAt(Field.getFieldNumber(xAxis + 2, yAxis + 1));
-          if(fig.getColor() != colour && fig.getFigureType() == ChessfigureConstants.KNIGHT){
+          if(fig != null && fig.getColor() != colour && fig.getFigureType() == ChessfigureConstants.KNIGHT){
               return true;
           }
       }
       if(xAxis + 1 < 9 && yAxis - 2 > 0){
           fig = currentField.getFigureAt(Field.getFieldNumber(xAxis + 2, yAxis + 1));
-          if(fig.getColor() != colour && fig.getFigureType() == ChessfigureConstants.KNIGHT){
+          if(fig != null && fig.getColor() != colour && fig.getFigureType() == ChessfigureConstants.KNIGHT){
               return true;
           }
       }
       if(xAxis - 2 > 0 && yAxis - 1 > 0){
           fig = currentField.getFigureAt(Field.getFieldNumber(xAxis + 2, yAxis + 1));
-          if(fig.getColor() != colour && fig.getFigureType() == ChessfigureConstants.KNIGHT){
+          if(fig != null && fig.getColor() != colour && fig.getFigureType() == ChessfigureConstants.KNIGHT){
               return true;
           }
       }
       if(xAxis - 1 > 0  && yAxis - 2 > 0){
           fig = currentField.getFigureAt(Field.getFieldNumber(xAxis + 2, yAxis + 1));
-          if(fig.getColor() != colour && fig.getFigureType() == ChessfigureConstants.KNIGHT){
+          if(fig != null && fig.getColor() != colour && fig.getFigureType() == ChessfigureConstants.KNIGHT){
               return true;
           }
       }
       if(xAxis - 1 > 0 && yAxis + 2 < 9){
           fig = currentField.getFigureAt(Field.getFieldNumber(xAxis + 2, yAxis + 1));
-          if(fig.getColor() != colour && fig.getFigureType() == ChessfigureConstants.KNIGHT){
+          if(fig != null && fig.getColor() != colour && fig.getFigureType() == ChessfigureConstants.KNIGHT){
               return true;
           }
       }
       if(xAxis + 2 < 9 && yAxis - 1 > 0){
           fig = currentField.getFigureAt(Field.getFieldNumber(xAxis + 2, yAxis + 1));
-          if(fig.getColor() != colour && fig.getFigureType() == ChessfigureConstants.KNIGHT){
+          if(fig != null && fig.getColor() != colour && fig.getFigureType() == ChessfigureConstants.KNIGHT){
               return true;
           }
       }
