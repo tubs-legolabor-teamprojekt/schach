@@ -10,6 +10,24 @@ public class Vec2f {
 		this.y = y;
 	}
 	
+	public Vec2f() {
+	}
+	/*
+	 * Berechnet aus 2 Punkten seinen Richtungsvektor und setzt ihn als seine x,y werte.
+	 * @param x1,y1,x2,y2 Punkte, aus denen RV berechnet wird
+	 */
+	public void calcVec2f(float x1, float y1, float x2, float y2) {
+		this.x = x2-x1;
+		this.y = y2-y1;
+	}
+	public void setX(float x) {
+		this.x = x;
+	}
+	
+	public void setY(float y) {
+		this.y = y;
+	}
+	
 	public float getX() {
 		return this.x;
 	}
