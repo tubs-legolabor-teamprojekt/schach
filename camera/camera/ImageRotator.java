@@ -7,22 +7,22 @@ import java.awt.image.BufferedImage;
 public class ImageRotator {
 
 	public ImageRotator() {
-		
+
 	}
-	public getRotatedImage(BufferedImage img, Vec2i v1, Vec2i v2) {
-		
-		return null;
+	public BufferedImage getRotatedImage(BufferedImage img, float degrees) {
+		return rotateImage(img,degrees);
 	}
+
 	private BufferedImage rotateImage(BufferedImage src, double degrees) {
-        AffineTransform affineTransform = AffineTransform.getRotateInstance(
-                Math.toRadians(degrees),
-                src.getWidth() / 2,
-                src.getHeight() / 2);
-        BufferedImage rotatedImage = new BufferedImage(src.getWidth(), src
-                .getHeight(), src.getType());
-        Graphics2D g = (Graphics2D) rotatedImage.getGraphics();
-        g.setTransform(affineTransform);
-        g.drawImage(src, 0, 0, null);
-        return rotatedImage;
-    }
+		AffineTransform affineTransform = AffineTransform.getRotateInstance(
+				Math.toRadians(degrees),
+				src.getWidth() / 2,
+				src.getHeight() / 2);
+		BufferedImage rotatedImage = new BufferedImage(src.getWidth(), src
+				.getHeight(), src.getType());
+		Graphics2D g = (Graphics2D) rotatedImage.getGraphics();
+		g.setTransform(affineTransform);
+		g.drawImage(src, 0, 0, null);
+		return rotatedImage;
+	}
 }
