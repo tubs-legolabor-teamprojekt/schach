@@ -62,7 +62,6 @@ public class Chess
 		// TODO wie wird ermittelt, ob Spieler ggn Computer oder Computer ggn Computer
 		
 		int moveCounter = 0;
-		System.out.println("GROESSE: " + this.simulatedMoves.size());
 		
 		while(!this.gameCoordinator.isEndOfGame()) {
 			Move newMove = null;
@@ -71,7 +70,6 @@ public class Chess
 			} else {
 				// Simulierten Zug holen
 				newMove = this.simulatedMoves.get(moveCounter);
-				System.out.println("ZAEHLER: " + moveCounter);
 				moveCounter++;
 			}
 			
@@ -82,8 +80,6 @@ public class Chess
 			} else {
 				// TODO Was wird getan, wenn ein ungueltiger Zug vorliegt?
 			}
-			System.out.println("UND? " + (moveCounter >= this.simulatedMoves.size()));
-			System.out.println("END? " + this.gameCoordinator.isEndOfGame());
 			if (moveCounter >= this.simulatedMoves.size()) {
 				System.out.println("\n-----\nLetzten simulierten Zug beendet.\nSpiel vorbei.");
 				break;
