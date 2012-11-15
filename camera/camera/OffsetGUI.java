@@ -15,8 +15,10 @@ public class OffsetGUI extends JFrame implements MouseListener
 	private char state = '1'; // 1 fuer koord1, 2 fuer koord2, n fuer fertig
 	private int offsetX1, offsetX2, offsetY1, offsetY2;
 	private ImageLoader im;
+	private boolean offset = true;
 
-	public OffsetGUI(BufferedImage bu, ImageLoader im) {
+	public OffsetGUI(BufferedImage bu, ImageLoader im, boolean offset) {
+		this.offset = offset;
 		this.im = im;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(100, 100); // einmal bereitsstellen, spaeter die Bounds nochmal
@@ -51,14 +53,24 @@ public class OffsetGUI extends JFrame implements MouseListener
 		// erster Klick, offset oben links, zweiter Klick, offset oben rechts
 		switch (state) {
 		case '1':
-			offsetX1 = e.getX();
-			offsetY1 = e.getY();
+			if(offset) {
+				offsetX1 = e.getX();
+				offsetY1 = e.getY();
+			}
+			else {
+				im.setVecA(e.getX(), e.getY());
+			}
 			state = '2';
 			break;
 		case '2':
-			offsetX2 = e.getX();
-			offsetY2 = e.getY();
-			im.setOffset(offsetX1, offsetY1, offsetX2, offsetY2);
+			if(offset) {
+				offsetX2 = e.getX();
+				offsetY2 = e.getY();
+				im.setOffset(offsetX1, offsetY1, offsetX2, offsetY2);
+			}
+			else {
+				im.setVecB(e.getX(), e.getY());
+			}
 			state = 'n';
 			setVisible(false);
 			dispose();
