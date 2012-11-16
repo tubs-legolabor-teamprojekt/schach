@@ -97,13 +97,17 @@ public class GameCoordinator
 			// TODO Roboter soll Figur entfernen
 		}
 		
-		// Figur soll Zug durchfuehren
-		this.field.moveFigure(this.currentMove.getFieldFrom(), this.currentMove.getFieldTo());
-		
 		// TODO Roboter soll Figur bewegen
 		
 		// Gui soll Figur bewegen
+		// Gui muss zuerst den Zug grafisch ausfuehren, da sie auf die
+		// Informationen des Feldes (fieldFrom) zugreift.
+		// Wuerde Field zuerst aktualisiert werden, koennte die Gui nicht
+		// mehr auf die zu versetzende Figur zugreifen!
 		this.gui.getCheckerboard().setCheckerboardInformation(this.currentMove);
+		
+		// Figur soll Zug durchfuehren
+		this.field.moveFigure(this.currentMove.getFieldFrom(), this.currentMove.getFieldTo());
 		
 		// War es der letzte Zug?
 		this.lastMove = this.currentMove.isCheckMate();
@@ -119,28 +123,22 @@ public class GameCoordinator
 	 */
 	public boolean receiveMove(Move newMove)
 	{
-		// Aktuellen Zug hinzufuegen
-		this.moves.add(newMove);
-		
-		// currentMove aktualisieren
-		this.currentMove = newMove;
-		
 		// Zug soll ausgefuehrt werden
-		if (this.currentMove.execMove()) {
-			this.rules.checkMove(this.field, this.currentMove);
-			// Zug ueberpruefen
-//			if (!this.rules.checkMove(this.field, this.currentMove)) {
-//				// TODO Fehlermeldung anzeigen (GUI)
-//				this.gui.showWarning("Ungueltiger Zug!");
-//				System.out.println("Ungueltiger Zug laut Rules.checkMove()");
-//				return false;
-//			} else {
-//				return true;
-//			}
-			return true;
-		} else {
-			System.out.println("Der Zug konnte nicht ausgefuehrt werden!\nthis.currentMove.execMove() schlug fehl!");
+		// Zug ueberpruefen
+		int temp = 1;
+		if (temp != 1 /*!this.rules.checkMove(this.field, this.currentMove)*/) {
+			// Fehlermeldung anzeigen (GUI)
+			this.gui.showWarning("Ungueltiger Zug!");
+			System.out.println("Ungueltiger Zug laut Rules.checkMove()");
 			return false;
+		} else {
+			// currentMove aktualisieren
+			this.currentMove = newMove;
+			// Figurtyp bestimmen
+			this.currentMove.setFigure();
+			// Aktuellen Zug hinzufuegen
+			this.moves.add(this.currentMove);
+			return true;
 		}
 	}
 	

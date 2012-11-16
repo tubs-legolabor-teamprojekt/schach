@@ -18,10 +18,11 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 
+import components.Field;
 import components.Figure;
 
 /**
- * Klasse, die das Schachbrett darstellt. 
+ * Klasse, die das Schachbrett darstellt.
  * @author Tabea
  *
  */
@@ -186,12 +187,12 @@ public class Checkerboard extends JPanel
 			Gui.getInstance().pawnPromotionGUI();
 		}
 		
-		this.figure = this.move.getFigure();
-		
 		// Umrechnung der FieldFrom-Nummer
 		this.fieldFrom = this.move.getFieldFrom();
 		this.fieldFromColumn = this.fieldNumberConverterColumn(this.fieldFrom);
 		this.fieldFromRow = this.fieldNumberConverterRow(this.fieldFrom);
+		
+		this.figure = Field.getInstance().getFigureAt(this.fieldFrom);
 		
 		// erst Zeile 
 		for (int i = 0; i < 8; i++) {
@@ -201,7 +202,8 @@ public class Checkerboard extends JPanel
 					if (j == this.fieldFromColumn) {
 						// entfernt die entsprechende Figur auf dem zugehörigen Feld
 						CheckerboardPanel cbp = (CheckerboardPanel)this.grid.getValueAt(i, j);
-						cbp.showIcon(this.figure, false);
+						
+						cbp.showIcon(null, false);
 						Gui.getInstance().repaint();
 						Gui.getInstance().validate();
 					}
@@ -226,6 +228,7 @@ public class Checkerboard extends JPanel
 							cbp.label.setVisible(false);
 						}
 						// zeigt die entsprechende Figur auf dem zugehörigen Feld an
+						System.out.println("SOLL TRUE SEIN: " + (this.figure != null));
 						cbp.showIcon(this.figure, true);
 						Gui.getInstance().repaint();
 						Gui.getInstance().validate();
