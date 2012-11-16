@@ -97,13 +97,17 @@ public class GameCoordinator
 			// TODO Roboter soll Figur entfernen
 		}
 		
-		// Figur soll Zug durchfuehren
-		this.field.moveFigure(this.currentMove.getFieldFrom(), this.currentMove.getFieldTo());
-		
 		// TODO Roboter soll Figur bewegen
 		
 		// Gui soll Figur bewegen
+		// Gui muss zuerst den Zug grafisch ausfuehren, da sie auf die
+		// Informationen des Feldes (fieldFrom) zugreift.
+		// Wuerde Field zuerst aktualisiert werden, koennte die Gui nicht
+		// mehr auf die zu versetzende Figur zugreifen!
 		this.gui.getCheckerboard().setCheckerboardInformation(this.currentMove);
+		
+		// Figur soll Zug durchfuehren
+		this.field.moveFigure(this.currentMove.getFieldFrom(), this.currentMove.getFieldTo());
 		
 		// War es der letzte Zug?
 		this.lastMove = this.currentMove.isCheckMate();

@@ -279,7 +279,7 @@ public class Move
 	public String getAlgebraicNotation()
 	{
 		// Anfangsbuchstabe
-		String figureLetter	= "" + Field.getInstance().getFigureAt(this.getFieldFrom()).getFigureLetter();
+		String figureLetter	= "" + getFigureLetter();
 		// Zielfeld
 		String to			= Field.getFieldName(this.fieldTo);
 		// Geschmissen
