@@ -46,7 +46,8 @@ public class Rules {
       // false zurückgeben, wenn zu schlagende Figur eine eigene Figur ist oder dort keine steht
       if(move.isCaptured()){
           if(!currentField.isFigureOnField(move.getFieldTo())
-                  || currentField.getFigureAt(move.getFieldTo()).getColor() == move.getFigure().getColor()){
+                  //TODO: wird entfernt, da move-objekt kein figure-objekt enthalten wird/soll
+                  /*|| currentField.getFigureAt(move.getFieldTo()).getColor() == move.getFigure().getColor()*/){
                   return false;
           }
       // false zurückgeben, wenn eine Figur geschlagen werden würde    
@@ -58,7 +59,8 @@ public class Rules {
       }
       // false zurückgeben, wenn zu bewegende Figur nicht existiert oder nicht die eigene Figur ist
       if(!currentField.isFigureOnField(move.getFieldFrom())
-              || currentField.getFigureAt(move.getFieldFrom()).getColor() != move.getFigure().getColor()){
+              //TODO: siehe weiter oben
+              /*|| currentField.getFigureAt(move.getFieldFrom()).getColor() != move.getFigure().getColor()*/){
           return false;
       }
       
@@ -70,8 +72,8 @@ public class Rules {
       x = Field.getXPositionFromFieldnumber(move.getFieldTo());
       y = Field.getYPositionFromFieldnumber(move.getFieldTo());
       
-      
-      switch(move.getFigure().getFigureType()) {
+      //TODO: siehe oben
+      switch(currentField.getFigureAt(move.getFieldFrom()).getFigureType() /*move.getFigure().getFigureType()*/) {
       case ChessfigureConstants.PAWN:
           legalMove = checkPawnMove(currentField, move);
           break;
@@ -95,7 +97,8 @@ public class Rules {
       case ChessfigureConstants.KING:
           legalMove = checkKingMove(currentField, move);
           if(legalMove){
-              if(move.getFigure().getColor() == ChessfigureConstants.WHITE){
+              //TODO: siehe oben
+              if(currentField.getFigureAt(move.getFieldFrom()).getColor() /*move.getFigure().getColor()*/ == ChessfigureConstants.WHITE){
                   whiteKingMoved = true;
                   if(currentY == y && currentX - x == 2){
                       whiteLeftRookMoved = true;
@@ -104,7 +107,8 @@ public class Rules {
                       whiteRightRookMoved = true;
                   }
               }
-              else if(move.getFigure().getColor() == ChessfigureConstants.BLACK){
+              //TODO: siehe oben
+              else if(currentField.getFigureAt(move.getFieldFrom()).getColor() /*move.getFigure().getColor()*/ == ChessfigureConstants.BLACK){
                   blackKingMoved = true;
                   if(currentY == y && currentX - x == 2){
                       blackLeftRookMoved = true;
@@ -123,7 +127,8 @@ public class Rules {
       
       if(legalMove){
           return isCheck(currentField, move, false,
-                          currentField.getKingPosition(move.getFigure().getColor()));
+                  //TODO: siehe oben
+                          currentField.getKingPosition(currentField.getFigureAt(move.getFieldFrom()).getColor() /*move.getFigure().getColor()*/));
       }
       else{
           return false;
@@ -141,10 +146,12 @@ public class Rules {
   private boolean checkPawnMove(Field currentField, Move move)
   {
       int i;
-      if(move.getFigure().getColor() == ChessfigureConstants.BLACK){
+      //TODO: siehe oben
+      if(/*move.getFigure().getColor()*/ currentField.getFigureAt(move.getFieldFrom()).getColor() == ChessfigureConstants.BLACK){
           i = 1;
       }
-      else if(move.getFigure().getColor() == ChessfigureConstants.WHITE){
+      //TODO: siehe oben
+      else if(/*move.getFigure().getColor()*/ currentField.getFigureAt(move.getFieldFrom()).getColor()== ChessfigureConstants.WHITE){
           i = -1;
       }
       else{
@@ -225,8 +232,8 @@ public class Rules {
           }
           //bewegt sich ein Turm, darf er nicht mehr Teil der Rochade sein
           //da Damenbewegung auch über diese Methode überprüft wird, darf die Dame hier nicht "reinpfuschen" :)
-          if(move.getFigure().getFigureType() != ChessfigureConstants.QUEEN){
-              if(move.getFigure().getColor() == ChessfigureConstants.BLACK){
+          if(/*move.getFigure().getFigureType()*/ currentField.getFigureAt(move.getFieldFrom()).getFigureType() != ChessfigureConstants.QUEEN){
+              if(/*move.getFigure().getColor()*/ currentField.getFigureAt(move.getFieldFrom()).getColor() == ChessfigureConstants.BLACK){
                   if(move.getFieldFrom() == 57){
                       this.blackLeftRookMoved = true;
                   }
@@ -234,7 +241,7 @@ public class Rules {
                       this.blackRightRookMoved = true;
                   }
               }
-              else if(move.getFigure().getColor() == ChessfigureConstants.WHITE){
+              else if(/*move.getFigure().getColor()*/ currentField.getFigureAt(move.getFieldFrom()).getColor() == ChessfigureConstants.WHITE){
                   if(move.getFieldFrom() == 1){
                       this.whiteLeftRookMoved = true;
                   }
@@ -375,7 +382,7 @@ public class Rules {
    */
   private boolean isCheck(Field currentField, Move move, boolean castling, int position)
   {
-      byte colour = move.getFigure().getColor();
+      byte colour = /*move.getFigure().getColor()*/ currentField.getFigureAt(move.getFieldFrom()).getColor();
       Figure fig;
       byte figType;
       byte xAxis = Field.getXPositionFromFieldnumber(position);
