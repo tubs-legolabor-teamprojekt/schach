@@ -22,7 +22,7 @@ import components.Field;
 import components.Figure;
 
 /**
- * Klasse, die das Schachbrett darstellt. 
+ * Klasse, die das Schachbrett darstellt.
  * @author Tabea
  *
  */
