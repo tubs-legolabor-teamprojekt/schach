@@ -12,12 +12,17 @@ public class ImageLoader
 	private ArrayList<Integer> diffR, diffG, diffB;
 	private int offsetX1, offsetX2, offsetY1, offsetY2;
 	private List<Field> rgbFieldDiff = new ArrayList<Field>();
+	private Vec2f a,b;
+	private float angle = 0;
+	ImageRotator ir;
 
 	ImageGrabber grabber;
 
 	public ImageLoader() {
-		
+		a = new Vec2f();
+		b = new Vec2f();
 		grabber = new ImageGrabber();
+		ir = new ImageRotator();
 
 		r1 = new ArrayList<Integer>();
 		g1 = new ArrayList<Integer>();
@@ -31,16 +36,80 @@ public class ImageLoader
 		diffG = new ArrayList<Integer>();
 		diffB = new ArrayList<Integer>();
 	}
-	
+
 	/*
+	 * Offset eintragen, also Abstand vom Rand des Bildes bis zum eigentlichen
+	 * Schachfeld
 	 * 
+	 * @param offsetX1 xWert links oben
+	 * 
+	 * @param offsetY1 yWert links oben
+	 * 
+	 * @param offsetX2 xWert rechts unten
+	 * 
+	 * @param iffsetY2 yWert rechts unten
+	 */
+	public void setOffset(int offsetX1, int offsetY1, int offsetX2, int offsetY2)
+	{
+		this.offsetX1 = offsetX1;
+		this.offsetX2 = offsetX2;
+		this.offsetY1 = offsetY1;
+		this.offsetY2 = offsetY2;
+		System.out.println(offsetX1 + " " + offsetY1 + " " + offsetX2 + " "
+				+ offsetY2);
+	}
+
+	/*
+	 * setzt den Vektor A, welcher auf linke obere Ecke des
+	 * Schachfeldes zeigt
+	 * @param x links oben x Wert
+	 * @param y links oben y Wert
+	 */
+	public void setVecA(float x, float y) {
+		this.a.setX(x);
+		this.a.setY(y);
+	}
+
+	/*
+	 * setzt den Vektor B, welcher auf rechte untere Ecke des
+	 * Schachfeldes zeigt
+	 * @param x rechts unten x Wert
+	 * @param y rechts unten y Wert
+	 */
+	public void setVecB(float x, float y) {
+		this.b.setX(x);
+		this.b.setY(y);
+	}
+
+	/*
+	 * Winkel um den das Schachfeld gedreht
+	 * werden muss um horizontal zu sein
+	 * @angle Winkel in Grad
+	 */
+	public void setAngle(float angle) {
+		this.angle = angle;
+	}
+
+	/*
+	 * Winkel um den das Schachfeld gedreht
+	 * werden muss um horizontal zu sein
+	 * @return Winkel in Grad
+	 */
+	public float getAngle() {
+		return this.angle;
+	}
+
+	/*
+	 *Gibt eine Liste der veraenderten Positionen zurueck
+	 *Top 2 (4 bei Rochade) mit meister Aenderung werden zurueckgegeben
+	 *@return Liste mit "Field" Elementen. Entweder 2 oder 4(Rochade) 
 	 */
 	public List<Integer> getChangedPositions() {
 		setFieldDiff();
 		List<Field> sortedList = sortList(this.rgbFieldDiff);
 		int average = sampleAverage();
 		int stDev = standardDeviation(average);
-		
+
 		List<Integer> l = new ArrayList<Integer>();
 		boolean rochadePossible = true;
 		//Rochade nur auf der obersten o. untersten Reihe moeglich
@@ -49,28 +118,28 @@ public class ImageLoader
 				rochadePossible = false;	
 			}
 		}
-		
-			l.add(sortedList.get(0).getPosition());
-			l.add(sortedList.get(1).getPosition());
-		
+
+		l.add(sortedList.get(0).getPosition());
+		l.add(sortedList.get(1).getPosition());
+
 		//wenn rochade moeglich ist, dann wird noch geprueft, ob
 		//die werte der felder ausserhalb der 2fachen standardabweichung vom mittelwert
-	    //liegen. Wenn ja, dann ist eine Rochade sehr wahrscheinlich.
+		//liegen. Wenn ja, dann ist eine Rochade sehr wahrscheinlich.
 		if(rochadePossible) {
 			if( (sortedList.get(2).getValue() > (average+1*stDev)) && (sortedList.get(3).getValue() > (average+1*stDev)) ) {
 				l.add(sortedList.get(2).getPosition());
 				l.add(sortedList.get(3).getPosition());
 			}
 		}
-		
-		
+
+
 		return l;
 	}
-	
-/*
- * Sortiert die Liste mittles Collections Framework	
- * @return absteigend sortierte Liste
- */
+
+	/*
+	 * Sortiert die Liste mittles Collections Framework	
+	 * @return absteigend sortierte Liste
+	 */
 	private List<Field> sortList(List<Field> l) {
 		Collections.sort(l);
 		System.out.println();
@@ -80,10 +149,11 @@ public class ImageLoader
 		}
 		return l;
 	}
-/*
- * Berechnet die Differenz der 64 Felder aus Bild 1 und Bild 2
- * uns speichert sie in einer Liste als Typ "Field".
- */
+
+	/*
+	 * Berechnet die Differenz der 64 Felder aus Bild 1 und Bild 2
+	 * uns speichert sie in einer Liste als Typ "Field".
+	 */
 	private void setFieldDiff() {
 		if(r1!=null && r2!=null && g1!=null && g2!=null && b1!=null && b2!=null) {
 			for (int i = 0; i < FIELDS; i++) {
@@ -200,7 +270,9 @@ public class ImageLoader
 	public void calcOffset()
 	{
 		// OffsetGUI offsetGUI = new OffsetGUI(w.getImage(), this);
-		OffsetGUI offsetGUI = new OffsetGUI(grabber.getImage(), this);
+		BufferedImage img = grabber.getImage();
+		img = ir.getRotatedImage(img, this.angle);
+		OffsetGUI offsetGUI = new OffsetGUI(img, this, true);
 
 		while (offsetGUI.getStatus() != 'n') {
 			try {
@@ -215,25 +287,23 @@ public class ImageLoader
 	}
 
 	/*
-	 * Offset eintragen, also Abstand vom Rand des Bildes bis zum eigentlichen
-	 * Schachfeld
-	 * 
-	 * @param offsetX1 xWert links oben
-	 * 
-	 * @param offsetY1 yWert links oben
-	 * 
-	 * @param offsetX2 xWert rechts unten
-	 * 
-	 * @param iffsetY2 yWert rechts unten
+	 * Berechnet den Winkel, um den das Spielfeld gedreht werden muss,
+	 * damit der obere Rand des Schachfelds horizontal ist
+	 * @return Winkel in Grad
 	 */
-	public void setOffset(int offsetX1, int offsetY1, int offsetX2, int offsetY2)
-	{
-		this.offsetX1 = offsetX1;
-		this.offsetX2 = offsetX2;
-		this.offsetY1 = offsetY1;
-		this.offsetY2 = offsetY2;
-		System.out.println(offsetX1 + " " + offsetY1 + " " + offsetX2 + " "
-				+ offsetY2);
+	public float calcAngle() {
+		OffsetGUI offsetGUI = new OffsetGUI(grabber.getImage(), this,false);
+		while (offsetGUI.getStatus() != 'n') {
+			try {
+				Thread.sleep(1);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		Vec2f diagon = new Vec2f();
+		diagon.calcVec2f(a, b);
+		return -(diagon.getAngle(new Vec2f(100,0)) - 45);
 	}
 
 	/*
@@ -259,6 +329,7 @@ public class ImageLoader
 	 * 
 	 * @return mittlere Abweichung vom Mittelwert
 	 */
+
 	private int standardDeviation(int average)
 	{
 		// nach Formel Var(x) = E(X^2)-E(X)^2 und sqrt(Var(X)) =
@@ -266,7 +337,7 @@ public class ImageLoader
 		int t = 0;
 		int av2 = (int) Math.round(Math.pow(average, 2));
 		for (int i = 0; i < FIELDS; i++) {
-			 //t += (int) Math.pow((diffR.get(i) + diffG.get(i) + diffB.get(i)) / 3, 2);
+			//t += (int) Math.pow((diffR.get(i) + diffG.get(i) + diffB.get(i)) / 3, 2);
 			t += (int) Math.pow((rgbFieldDiff.get(i).getValue()), 2);
 		}
 		t = Math.round(t / FIELDS);
@@ -310,6 +381,7 @@ public class ImageLoader
 		ArrayList<Integer> b = new ArrayList<Integer>();
 
 		BufferedImage bu = grabber.getImage();
+		bu = ir.getRotatedImage(bu, angle);
 
 		for (int y = offsetY1; y < offsetY2; y++) {
 			for (int x = offsetX1; x < offsetX2; x++) {
@@ -337,8 +409,13 @@ public class ImageLoader
 
 	public static void main(String[] args)
 	{
+
 		ImageLoader im = new ImageLoader();
+		im.setAngle(im.calcAngle());
+		System.out.println(im.getAngle());
 		im.calcOffset();
+		System.out.println(im.getAngle());
+
 		im.takePhoto1();
 		System.out.println("Foto1 taken");
 		try{
@@ -355,8 +432,6 @@ public class ImageLoader
 			System.out.println(l.get(i));
 		}
 		im.compareFields();
-
-
 
 	}
 

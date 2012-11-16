@@ -19,7 +19,7 @@ public class GameTree {
 		
 		for( int i = 0 ; i < gt.tree.length ; i++ ){
 			
-			build_Tree(depth++, tolleMethode().getArrayOfTrees);
+			//build_Tree(depth++, tolleMethode().getArrayOfTrees);
 			
 		}
 		

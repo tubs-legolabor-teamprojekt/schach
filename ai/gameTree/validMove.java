@@ -1,12 +1,12 @@
 package gameTree;
 
 /**
- * Klasse zum zurückgeben gültiger Schachzüge aus einer Situation heraus.
- * Übergeben wird das Schachfeld und die Farbe, die ziehen darf.
+ * Klasse zum zurueckgeben gueltiger Schachzuege aus einer Situation heraus.
+ * Uebergeben wird das Schachfeld und die Farbe, die ziehen darf.
  * @author tobi
  *
  */
-public class ValidMove {
+public class validMove {
 
 	
 	
