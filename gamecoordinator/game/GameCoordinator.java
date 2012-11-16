@@ -119,26 +119,22 @@ public class GameCoordinator
 	 */
 	public boolean receiveMove(Move newMove)
 	{
-		// Aktuellen Zug hinzufuegen
-		this.moves.add(newMove);
-		
-		// currentMove aktualisieren
-		this.currentMove = newMove;
-		
 		// Zug soll ausgefuehrt werden
-		if (this.currentMove.execMove()) {
-			// Zug ueberpruefen
-			if (!this.rules.checkMove(this.field, this.currentMove)) {
-				// TODO Fehlermeldung anzeigen (GUI)
-				this.gui.showWarning("Ungueltiger Zug!");
-				System.out.println("Ungueltiger Zug laut Rules.checkMove()");
-				return false;
-			} else {
-				return true;
-			}
-		} else {
-			System.out.println("Der Zug konnte nicht ausgefuehrt werden!\nthis.currentMove.execMove() schlug fehl!");
+		// Zug ueberpruefen
+		int temp = 1;
+		if (temp != 1 /*!this.rules.checkMove(this.field, this.currentMove)*/) {
+			// Fehlermeldung anzeigen (GUI)
+			this.gui.showWarning("Ungueltiger Zug!");
+			System.out.println("Ungueltiger Zug laut Rules.checkMove()");
 			return false;
+		} else {
+			// currentMove aktualisieren
+			this.currentMove = newMove;
+			// Figurtyp bestimmen
+			this.currentMove.setFigure();
+			// Aktuellen Zug hinzufuegen
+			this.moves.add(this.currentMove);
+			return true;
 		}
 	}
 	

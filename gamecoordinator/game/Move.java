@@ -1,6 +1,7 @@
 package game;
 
 import util.ChessfigureConstants;
+
 import components.Field;
 import components.FieldException;
 import components.Figure;
@@ -8,8 +9,7 @@ import components.Figure;
 /**
  * Ein Objekt dieser Klasse stellt genau einen Zug im Spiel dar.
  * @author Florian Franke
- * 21.10.2012
- * TODO Wird noch das Figure-Objekt benoetigt, in das bei Bauer-Umwandeln gewandelt wird?
+ * 16.11.2012
  *
  */
 public class Move
@@ -52,9 +52,9 @@ public class Move
 	private boolean checkMate = false;
 	
 	/**
-	 * Figure-Objekt. Wird erst gesetzt, wenn der Zug ausgefuehrt werden soll
+	 * Figure-Kuerzel
 	 */
-	private Figure figure = null;
+	private char figureLetter;
 	
 	/**
 	 * Standard-Konstruktor mit allen mindestens noetigen Informationen zu einem Zug.
@@ -140,40 +140,6 @@ public class Move
 			System.out.println(e.getMessage());
 		}
 		this.fieldTo = fieldTo;
-	}
-	
-	/**
-	 * Wird direkt vor Ausfuehrung des Zuges aufgerufen, damit die Figur auf dem
-	 * Feld fieldFrom geholt wird.
-	 */
-	public boolean execMove()
-	{
-		this.figure = Field.getInstance().getFigureAt(this.fieldFrom);
-		return (this.figure != null);
-	}
-
-	/**
-	 * Figur, die den Zug taetigt.
-	 * @return
-	 */
-	public Figure getFigure()
-	{
-		/*
-		 * Es soll nicht auf das aktuelle Feld zugegriffen werden!
-		 * Das kann zu Problemen fuehren, da nur VOR Ausfuehrung des Zuges
-		 * die richtige Figur zurueckgegeben wird.
-		 * Nach Ausfuehrung des Zuges wird null zurueckgegeben.
-		 * 
-		 * Idee: Figur soll zwischengespeichert werden.
-		 * Problem dabei: Im Konstruktor kann nicht die Figur geholt werden,
-		 * da z.B. beim Testen alle Zuege vorher angegeben werden und somit
-		 * nicht die richtigen Figuren im Move-Objekt sind (teilweise sind
-		 * sie zum Zeitpunkt des Erstellens des Zugs noch gar nicht auf dem
-		 * angegebenen Feld).
-		 * Problemloesung: Vorm Ausfuehren des Zuges das Zug-Objekt aktualisieren
-		 * und dabei die Figur holen
-		 */
-		return this.figure;
 	}
 
 	/**
@@ -283,6 +249,29 @@ public class Move
 	}
 	
 	/**
+	 * Setzt das Figure-Kuerzel.
+	 * Soll nur ausgefuehrt werden, wenn der Zug auf Gueltigkeit gerpueft wurde
+	 * @param figureLetter
+	 */
+	public void setFigure()
+	{
+		Figure f = Field.getInstance().getFigureAt(this.getFieldFrom());
+		if (f != null)
+			this.figureLetter = f.getFigureLetter();
+		else
+			System.out.println("Move.setFigure(): Konnte figureLetter nicht setzen!");
+	}
+	
+	/**
+	 * Gibt das Figurkuerzel zurueck
+	 * @return
+	 */
+	public char getFigureLetter()
+	{
+		return this.figureLetter;
+	}
+	
+	/**
 	 * Gibt den Zug in der ausfuehrlichen algebraischen Schachnotation aus.
 	 * Beschreibung zur Notation, siehe /infos/Ausfuehrliche_Schachnotation.txt.
 	 * @return String, der den Zug in algebraischer Schachnotation enthaelt.
@@ -290,7 +279,7 @@ public class Move
 	public String getAlgebraicNotation()
 	{
 		// Anfangsbuchstabe
-		String figureLetter	= "" + this.getFigure().getFigureLetter();
+		String figureLetter	= "" + Field.getInstance().getFigureAt(this.getFieldFrom()).getFigureLetter();
 		// Zielfeld
 		String to			= Field.getFieldName(this.fieldTo);
 		// Geschmissen
@@ -318,10 +307,10 @@ public class Move
 	{
 		String str = "";
 		// Farbe
-		str += ChessfigureConstants.getFigureColor(this.getFigure().getColor()) + "er ";
+		str += ChessfigureConstants.getFigureColor(Field.getInstance().getFigureAt(this.getFieldFrom()).getColor()) + "er ";
 		
 		// Figur
-		str += ChessfigureConstants.getFigureName(this.getFigure().getFigureType()) + " ";
+		str += ChessfigureConstants.getFigureName(Field.getInstance().getFigureAt(this.getFieldFrom()).getFigureType()) + " ";
 		
 		// Von
 		str += "zieht von " + Field.getFieldName(this.fieldFrom) + " ";
@@ -353,7 +342,7 @@ public class Move
 	public String toString()
 	{
 		return "Move [fieldFrom=" + fieldFrom + ", fieldTo=" + fieldTo
-				+ ", figure=" + this.getFigure() + ", captured=" + captured
+				+ ", figure=" + Field.getInstance().getFigureAt(this.getFieldFrom()) + ", captured=" + captured
 				+ ", pawnPromotion=" + pawnPromotion + ", pawnPromotedTo="
 				+ pawnPromotedTo + ", check=" + check + ", checkMate="
 				+ checkMate + ", toString()=" + super.toString() + "]";
