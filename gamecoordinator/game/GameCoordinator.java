@@ -127,17 +127,15 @@ public class GameCoordinator
 		
 		// Zug soll ausgefuehrt werden
 		if (this.currentMove.execMove()) {
-			this.rules.checkMove(this.field, this.currentMove);
 			// Zug ueberpruefen
-//			if (!this.rules.checkMove(this.field, this.currentMove)) {
-//				// TODO Fehlermeldung anzeigen (GUI)
-//				this.gui.showWarning("Ungueltiger Zug!");
-//				System.out.println("Ungueltiger Zug laut Rules.checkMove()");
-//				return false;
-//			} else {
-//				return true;
-//			}
-			return true;
+			if (!this.rules.checkMove(this.field, this.currentMove)) {
+				// TODO Fehlermeldung anzeigen (GUI)
+				this.gui.showWarning("Ungueltiger Zug!");
+				System.out.println("Ungueltiger Zug laut Rules.checkMove()");
+				return false;
+			} else {
+				return true;
+			}
 		} else {
 			System.out.println("Der Zug konnte nicht ausgefuehrt werden!\nthis.currentMove.execMove() schlug fehl!");
 			return false;
