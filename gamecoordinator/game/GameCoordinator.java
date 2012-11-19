@@ -104,7 +104,7 @@ public class GameCoordinator
 		// Informationen des Feldes (fieldFrom) zugreift.
 		// Wuerde Field zuerst aktualisiert werden, koennte die Gui nicht
 		// mehr auf die zu versetzende Figur zugreifen!
-		this.gui.getCheckerboard().setCheckerboardInformation(this.currentMove);
+		/*this.gui.getCheckerboard().setCheckerboardInformation(this.currentMove);*/
 		
 		// Figur soll Zug durchfuehren
 		this.field.moveFigure(this.currentMove.getFieldFrom(), this.currentMove.getFieldTo());
@@ -126,9 +126,9 @@ public class GameCoordinator
 		// Zug soll ausgefuehrt werden
 		// Zug ueberpruefen
 		int temp = 1;
-		if (temp != 1 /*!this.rules.checkMove(this.field, this.currentMove)*/) {
+		if ( !this.rules.checkMove(this.field, this.currentMove)) {
 			// Fehlermeldung anzeigen (GUI)
-			this.gui.showWarning("Ungueltiger Zug!");
+			/*this.gui.showWarning("Ungueltiger Zug!");*/
 			System.out.println("Ungueltiger Zug laut Rules.checkMove()");
 			return false;
 		} else {

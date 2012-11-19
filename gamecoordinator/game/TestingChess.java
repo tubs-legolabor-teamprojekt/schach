@@ -27,8 +27,14 @@ public class TestingChess
 //		/*
 //		 * Zug #1
 //		 */
-		Move move1 = new Move(Field.getFieldNumber("b2"), Field.getFieldNumber("b3"));
-		moves.add(move1);
+	      Move move1 = new Move(Field.getFieldNumber("b2"), Field.getFieldNumber("b4"));
+	      moves.add(move1);
+	      Move move2 = new Move(Field.getFieldNumber("b4"), Field.getFieldNumber("b5"));
+	      moves.add(move2);
+	      Move move4 = new Move(Field.getFieldNumber("b5"), Field.getFieldNumber("b6"));
+	      moves.add(move4);
+	      Move move5 = new Move(Field.getFieldNumber("b6"), Field.getFieldNumber("b7"));
+	      moves.add(move5);
 		
 //		Move move1a = new Move(Field.getFieldNumber("b3"), Field.getFieldNumber("b4"));
 //		moves.add(move1a);

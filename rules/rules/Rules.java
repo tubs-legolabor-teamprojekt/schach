@@ -159,7 +159,8 @@ public class Rules {
       }
       // Bauer schlägt nicht
       if(currentX == x
-              && !move.isCaptured()){
+              && !move.isCaptured()
+              && !currentField.isFigureOnField(move.getFieldTo())){
           // Bauer ein Feld vor
           if(currentY - y == i){
               return true;
@@ -174,6 +175,7 @@ public class Rules {
       // Bauer schlägt
       else if(Math.abs(currentX - x) == 1
               && move.isCaptured()
+              && currentField.isFigureOnField(move.getFieldTo())
               && currentY - y == i){
           return true;
       }

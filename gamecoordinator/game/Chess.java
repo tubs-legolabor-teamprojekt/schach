@@ -44,7 +44,7 @@ public class Chess
 	public void startGame()
 	{
 		// GUI initialisieren, Start-Button wird angezeigt
-		Gui gui = Gui.getInstance();
+		/*Gui gui = Gui.getInstance();
 		// Warten, bis Benutzer das Spiel gestartet hat
 		while (!gui.isStartPressed()) {
 			try {
@@ -52,12 +52,12 @@ public class Chess
 			} catch (InterruptedException e) {
 				System.out.println(e.getMessage());
 			}
-		}
+		}*/
 			
 		// Schach-Koordinator holen
 		this.gameCoordinator = GameCoordinator.getInstance(true);
 		// GUI uebergeben
-		this.gameCoordinator.setGui(gui);
+		/*this.gameCoordinator.setGui(gui);*/
 		
 		// TODO wie wird ermittelt, ob Spieler ggn Computer oder Computer ggn Computer
 		
