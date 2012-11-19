@@ -24,10 +24,12 @@ public class StandardSituation {
 		184,   //Turm h1
 		200,   //Springer b1
 		240,   //Springer g1
-		272,   //LŠufer c1
-		296,   //LŠufer f1
+		272,   //LÂŠufer c1
+		296,   //LÂŠufer f1
 		344,   //Dame d1
-		416,   //Kšnig e1
+		416,   //KÂšnig e1
+		
+		
 		582,   //Bauer a7
 		590,   //Bauer b7 
 		598,   //Bauer c7
@@ -40,14 +42,14 @@ public class StandardSituation {
 		703,   //Turm h8
 		719,   //Springer b8
 		759,   //Springer g8
-		791,   //LŠufer c8
-		815,   //LŠufer f8
+		791,   //LÂŠufer c8
+		815,   //LÂŠufer f8
 		863,   //Dame d8
-		935    //Kšnig e8
+		935    //KÂšnig e8
 	};
 	
 	/**
-	 * Getter-Methode fŸr das private array
+	 * Getter-Methode fÂŸr das private array
 	 * @return
 	 */
 	public static short[] get_STANDARD_SITUATION(){
