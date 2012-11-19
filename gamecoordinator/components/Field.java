@@ -25,6 +25,20 @@ public class Field
 	private HashMap<Integer, Figure> figures = new HashMap<Integer, Figure>();
 	
 	/**
+	 * Gibt an, ob noch eine weisse Rochade moeglich ist 
+	 */
+	private boolean rochadeWhitePossible = true;
+	private boolean whiteRook1Moved = false;
+	private boolean whiteRook2Moved = false;
+	
+	/**
+	 * Gibt an, ob noch eine schwarze Rochade moeglich ist 
+	 */
+	private boolean rochadeBlackPossible = true;
+	private boolean blackRook1Moved = false;
+	private boolean blackRook2Moved = false;
+	
+	/**
 	 * Private Variable, in der die Instanz dieser Klasse gespeichert ist.
 	 */
 	private static Field instance = null;
@@ -155,7 +169,7 @@ public class Field
 	 * @param figure Die zu positionierende Figur
 	 * @return True: Figur konnte positioniert werden. False: Feld schon besetzt oder nicht vorhanden.
 	 */
-	public boolean putFigureAt(Integer fieldNumber, Figure figure)
+	private boolean putFigureAt(Integer fieldNumber, Figure figure)
 	{
 		if (	!this.isFigureOnField(fieldNumber) &&
 				fieldNumber > 0 &&
@@ -192,6 +206,54 @@ public class Field
 			if (this.isFigureOnField(toFieldNumber))
 				throw new FieldException("+++++\nEs befindet sich eine Figur auf Feld " + getFieldName(toFieldNumber) + ".\nWenn die Figur geschlagen werden soll, muss sie zuerst entfernt werden!\n+++++");
 			
+			// Rochade pruefen
+			switch (fromFieldNumber) {
+			case 4: // Field.getFieldNumber("e1") geht nicht!
+				// Weissen Koenig bewegt
+				this.rochadeWhitePossible = false;
+				break;
+				
+			case 61:
+				// Schwarzen Koenig bewegt
+				this.rochadeBlackPossible = false;
+				break;
+				
+			case 8:
+				// Weisser Turm auf h1 bewegt
+				this.whiteRook2Moved = true;
+				// Wenn anderer Turm schon bewegt, keine Rochade mehr moeglich
+				if (this.whiteRook1Moved)
+					this.rochadeWhitePossible = false;
+				break;
+				
+			case 1:
+				// Weisser Turm auf a1 bewegt
+				this.whiteRook1Moved = true;
+				// Wenn anderer Turm schon bewegt, keine Rochade mehr moeglich
+				if (this.whiteRook2Moved)
+					this.rochadeWhitePossible = false;
+				break;
+				
+			case 64:
+				// Schwarzer Turm auf h8 bewegt
+				this.blackRook2Moved = true;
+				// Wenn anderer Turm schon bewegt, keine Rochade mehr moeglich
+				if (this.blackRook1Moved)
+					this.rochadeBlackPossible = false;
+				break;
+				
+			case 57:
+				// Schwarzer Turm auf a8 bewegt
+				this.blackRook1Moved = true;
+				// Wenn anderer Turm schon bewegt, keine Rochade mehr moeglich
+				if (this.blackRook2Moved)
+					this.rochadeBlackPossible = false;
+				break;
+				
+			default:
+				break;
+			}
+				
 			
 			// Figur temporaer speichern
 			Figure figure = this.figures.get(fromFieldNumber);
@@ -340,6 +402,24 @@ public class Field
 		}
 		
 		return position;
+	}
+	
+	
+	
+	/**
+	 * Ist eine schwarze Rochade moeglich?
+	 * @return True: Ja; False: Nein
+	 */
+	public boolean isRochadeWhitePossible() {
+		return this.rochadeWhitePossible;
+	}
+	
+	/**
+	 * Ist eine schwarze Rochade moeglich?
+	 * @return True: Ja; False: Nein
+	 */
+	public boolean isRochadeBlackPossible() {
+		return this.rochadeBlackPossible;
 	}
 	
 	/**
