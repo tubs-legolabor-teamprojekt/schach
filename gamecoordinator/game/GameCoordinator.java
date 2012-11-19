@@ -125,8 +125,7 @@ public class GameCoordinator
 	{
 		// Zug soll ausgefuehrt werden
 		// Zug ueberpruefen
-		int temp = 1;
-		if (temp != 1 /*!this.rules.checkMove(this.field, this.currentMove)*/) {
+		if (!this.rules.checkMove(this.field, newMove)) {
 			// Fehlermeldung anzeigen (GUI)
 			this.gui.showWarning("Ungueltiger Zug!");
 			System.out.println("Ungueltiger Zug laut Rules.checkMove()");
