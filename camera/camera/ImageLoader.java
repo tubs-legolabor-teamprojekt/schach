@@ -410,13 +410,21 @@ public class ImageLoader
 	public static void main(String[] args)
 	{
 
+		//ImageLoader erstellen
 		ImageLoader im = new ImageLoader();
+		//Winkel um den Schachbrett gedreht werden soll eingeben
+		//Bild wird in Fenster angezeigt
 		im.setAngle(im.calcAngle());
-		System.out.println(im.getAngle());
+		
+		//Offset bestimmen, also die groesse des Schachbretts
+		//wird ueber Fenster manuell bestimmt
 		im.calcOffset();
-		System.out.println(im.getAngle());
 
+		//erste Vergleichsfoto
 		im.takePhoto1();
+		
+		//nachfolgend nur fuer Tests (damit ich zeit habe
+		//Figuren umzusetzen
 		System.out.println("Foto1 taken");
 		try{
 			Thread.sleep(10000);
@@ -424,14 +432,28 @@ public class ImageLoader
 		catch(Exception e) {
 			e.printStackTrace();
 		}
+		
+		//2te Vergleichsfoto nehmen
 		im.takePhoto2();
-		//im.compareFields();
+		
+		//Hier werden die geaenderten Positionen geholt
 		List<Integer> l = im.getChangedPositions();
+		
+		//irrelevant
 		System.out.println("AUSGABE");
 		for(int i=0; i<l.size(); i++) {
 			System.out.println(l.get(i));
 		}
 		im.compareFields();
+		
+		/*
+		 * Aufruf erfolgt so: 
+		 * 1.) initialisieren; Imageloader, winkel setzen, offset berechnen
+		 * 2.) ueber takePhoto 1 und 2 Fotos aufnehmen
+		 * 3.)Positionen entnehmen
+		 * 
+		 * Schritt 2.) und 3.) beliebig oft wiederholbar
+		 */
 
 	}
 
