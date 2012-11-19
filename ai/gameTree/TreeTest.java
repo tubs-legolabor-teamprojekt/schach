@@ -11,17 +11,10 @@ public class TreeTest {
 		
 		
 		
-		int number = 10000000;
+		GameTree gt = new GameTree(StandardSituation.get_STANDARD_SITUATION(), (byte)0, true);
 		
-		System.out.println(rt.totalMemory()/1000000+" available <==> "+ (rt.totalMemory() - rt.freeMemory())/1000000 +" used <==> "+ rt.freeMemory()/1000000 +" free");
-		GameTree[] baum = new GameTree[number];
-		
-		for( int i = 0 ; i < number ; i++ ){
-			baum[i] = new GameTree();
-		}
-		
-		
-		
+		gt.build_Tree(true);
+		//gt.build_Tree_pool(true);
 		
 		
 		
@@ -30,7 +23,7 @@ public class TreeTest {
 		
 		zeit2  = System.currentTimeMillis();
 		
-		System.out.println(zeit2 - zeit);
+		System.out.println("gebrauchte Zeit: "+(zeit2 - zeit));
 
 	}
 

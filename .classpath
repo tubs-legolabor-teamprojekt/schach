@@ -8,6 +8,7 @@
 	<classpathentry kind="src" path="ai"/>
 	<classpathentry kind="src" path="gamecoordinator"/>
 	<classpathentry kind="src" path="rules"/>
+	<classpathentry kind="src" path="communication"/>
 	<classpathentry kind="lib" path="lib/classes.jar"/>
 	<classpathentry kind="lib" path="lib/jtools.jar"/>
 	<classpathentry kind="lib" path="lib/pccomm.jar"/>
