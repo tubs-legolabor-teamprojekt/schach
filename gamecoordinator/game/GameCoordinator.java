@@ -121,7 +121,7 @@ public class GameCoordinator
 	 * @return True: Gueltiger Zug wurde gespeichert;
 	 * False: Ungueltiger Zug, Fehlermeldung anzeigen
 	 */
-	public boolean receiveMove(Move newMove)
+	public boolean receiveMove(Move newMove, boolean checkThisMove)
 	{
 		// Zug soll ausgefuehrt werden
 		// Zug ueberpruefen
