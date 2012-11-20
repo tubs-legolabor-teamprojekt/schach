@@ -1,5 +1,10 @@
 package camera;
 
+/*
+ * @author Marcel Schubert
+ * 
+ * Fuer die Winkelberechnung
+ */
 public class Vec2f {
 
 	private float x = 0.f;

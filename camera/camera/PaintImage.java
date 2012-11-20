@@ -6,8 +6,8 @@ import javax.swing.JPanel;
 
 public class PaintImage extends JPanel
 {
-	/**
-	 * 
+	/*
+	 *Frame auf dem das Kalibrierungsbild ausgegeben wird 
 	 */
 	private static final long serialVersionUID = 1L;
 	private BufferedImage bu;

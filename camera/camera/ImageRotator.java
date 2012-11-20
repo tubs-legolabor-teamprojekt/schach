@@ -4,6 +4,9 @@ import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
+/*
+ * Bilder werden um einen bestimmten Winkel gedreht
+ */
 public class ImageRotator {
 
 	public ImageRotator() {

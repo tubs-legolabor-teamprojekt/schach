@@ -4,6 +4,12 @@ import java.awt.image.BufferedImage;
 import java.util.*;
 import java.util.Collections;
 
+/*
+ * @author Marcel Schubert
+ * 
+ * Klasse fuer Kalibrierung des Schachfelds unter der Kamera
+ * sowie der Berechnung der geaenderten Schachfiguren
+ */
 public class ImageLoader
 {
 	private final int FIELDS = 64;
