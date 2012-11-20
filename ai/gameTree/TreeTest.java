@@ -9,12 +9,7 @@ public class TreeTest {
 		//SYSTEM============================================================================================
 		
 		
-		
-		
-		GameTree gt = new GameTree(StandardSituation.get_STANDARD_SITUATION(), (byte)0, true);
-		
-		gt.build_Tree(true);
-		//gt.build_Tree_pool(true);
+
 		
 		
 		
