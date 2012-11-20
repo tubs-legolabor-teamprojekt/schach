@@ -1,6 +1,7 @@
 package util;
 
 import components.Field;
+import components.Figure;
 import components.FigureException;
 
 /**
@@ -168,6 +169,29 @@ public class ExtractInformationFromBinary
 		} else {
 			return -1;
 		}
+	}
+	
+	/**
+	 * Gibt alle Informationen eines short-Werts als String zurueck.
+	 * @param sh Der Short-Wert der Figur
+	 * @return String der Form "[Position(z.B. e2)]: [Figur], [Farbe]"
+	 */
+	public static String getAllInfosFromShort(short sh)
+	{
+		String s = "";
+		
+		// Feld, auf dem die Figur steht
+		s += Field.getFieldName(Field.getFieldNumber(getXPosition(sh), getYPosition(sh)));
+		s += ": ";
+		
+		// Welche Figur steht dort
+		s += ChessfigureConstants.getFigureName(getFigure(sh));
+		s += ", ";
+		
+		// Farbe
+		s += ChessfigureConstants.getFigureColor(getColor(sh));
+		
+		return s;
 	}
 
 }
