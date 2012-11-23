@@ -79,6 +79,7 @@ public class Chess
 				this.gameCoordinator.execMove();
 			} else {
 				// TODO Was wird getan, wenn ein ungueltiger Zug vorliegt?
+			    System.exit(0);
 			}
 			if (moveCounter >= this.simulatedMoves.size()) {
 				System.out.println("\n-----\nLetzten simulierten Zug beendet.\nSpiel vorbei.");
@@ -87,7 +88,7 @@ public class Chess
 		}
 		
 		// Exportieren
-		System.out.println(
+		/*System.out.println(
 			Exporter.exportMovesToPGN(	"Tabea testet",						// Name des Spiels
 										"Braunschweig",						// Ort
 										"11-02-2012",						// Datum
@@ -95,6 +96,6 @@ public class Chess
 										"Florian",							// Spieler schwarz
 										"1-0",								// Ergebnis
 										this.gameCoordinator.getAllMoves())	// Zuege
-		);
+		);*/
 	}
 }

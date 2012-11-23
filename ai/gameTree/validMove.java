@@ -6,7 +6,7 @@ package gameTree;
  * @author tobi
  *
  */
-public class ValidMove {
+public class validMove {
 
 	protected static short[][] ValMove(short[] situation, boolean white){
 		

@@ -67,6 +67,12 @@ public class Move
 		this.setFieldFrom(fieldFrom);
 		this.setFieldTo(fieldTo);
 	}
+	public Move(int fieldFrom, int fieldTo, boolean captured)
+    {
+        this.setFieldFrom(fieldFrom);
+        this.setFieldTo(fieldTo);
+        this.setCaptured(captured);
+    }
 	
 	/**
 	 * Konstruktor mit Standard- zusaetzlichen Informationen.

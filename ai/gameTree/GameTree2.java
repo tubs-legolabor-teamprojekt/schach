@@ -47,7 +47,7 @@ public class GameTree2 extends Thread {
 	 * @param sit
 	 */
 	protected GameTree2(short sit, boolean white) {
-		this.situation = sit;
+		//this.situation = sit;
 		this.white = white;
 	}
 	
@@ -58,7 +58,7 @@ public class GameTree2 extends Thread {
 	 * @param white
 	 */
 	protected void build_Tree(boolean white) {
-		build_Tree_Rek((byte) 0, white, );
+		//build_Tree_Rek((byte) 0, white, );
 	}
 
 	/**

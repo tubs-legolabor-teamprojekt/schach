@@ -41,7 +41,7 @@ public class Rules {
                   || !Field.isValidFieldnumber(move.getFieldTo())){
           return false;
       }
-      
+      System.out.println("FAIL 1");
       
       // false zurückgeben, wenn zu schlagende Figur eine eigene Figur ist oder dort keine steht
       if(move.isCaptured()){
@@ -57,12 +57,14 @@ public class Rules {
               return false;
           }
       }
+      System.out.println("FAIL 2");
       // false zurückgeben, wenn zu bewegende Figur nicht existiert oder nicht die eigene Figur ist
       if(!currentField.isFigureOnField(move.getFieldFrom())
               //TODO: siehe weiter oben
               /*|| currentField.getFigureAt(move.getFieldFrom()).getColor() != move.getFigure().getColor()*/){
           return false;
       }
+      System.out.println("FAIL 3");
       
       /**
        * Positionen speichern
@@ -126,7 +128,7 @@ public class Rules {
       }
       
       if(legalMove){
-          return isCheck(currentField, move, false,
+          return !isCheck(currentField, move, false,
                   //TODO: siehe oben
                           currentField.getKingPosition(currentField.getFigureAt(move.getFieldFrom()).getColor() /*move.getFigure().getColor()*/));
       }
@@ -379,8 +381,8 @@ public class Rules {
    * @param currentField aktuelles Spielfeld
    * @param move auszuführender Schachzug
    * @param castling soll eine Rochade überprüft werden?
-   * @return True: der eigene König steht nicht im Schach
-             False: Der eigene König ist durch den Zug gefährdet.
+   * @return False: der eigene König steht nicht im Schach
+             True: Der eigene König ist durch den Zug gefährdet.
    */
   private boolean isCheck(Field currentField, Move move, boolean castling, int position)
   {
@@ -398,7 +400,7 @@ public class Rules {
           if(fig == null){
               continue;
           }
-          if(fig.getColor() == colour){
+          if((fig.getColor() == colour && i != move.getFieldTo()) || i == move.getFieldTo()){
               break;
           }
           
@@ -410,6 +412,7 @@ public class Rules {
               return true;
           }
       }
+      System.out.println("FAIL 4");
       //Bewegung nach links
       for(int i = position - 1; (i - 1)/8 == (position - 1)/8; i--){
           fig = currentField.getFigureAt(i);
@@ -417,7 +420,7 @@ public class Rules {
           if(fig == null){
               continue;
           }
-          if(fig.getColor() == colour){
+          if((fig.getColor() == colour && i != move.getFieldTo()) || i == move.getFieldTo()){
               break;
           }
           
@@ -430,6 +433,7 @@ public class Rules {
               return true;
           }
       }
+      System.out.println("FAIL 5");
       //y-Achse prüfen
       //nach oben
       for(int i = position + 8; i > 0 && i <= 64; i += 8){
@@ -438,7 +442,7 @@ public class Rules {
           if(fig == null){
               continue;
           }
-          if(fig.getColor() == colour){
+          if((fig.getColor() == colour && i != move.getFieldTo()) || i == move.getFieldTo()){
               break;
           }
           
@@ -451,6 +455,7 @@ public class Rules {
               return true;
           }
       }
+      System.out.println("FAIL 6");
       //nach unten
       for(int i = position - 8; i > 0 && i <= 64; i -= 8){
           fig = currentField.getFigureAt(i);
@@ -458,7 +463,7 @@ public class Rules {
           if(fig == null){
               continue;
           }
-          if(fig.getColor() == colour){
+          if((fig.getColor() == colour && i != move.getFieldTo()) || i == move.getFieldTo()){
               break;
           }
           
@@ -471,14 +476,18 @@ public class Rules {
               return true;
           }
       }
+      System.out.println("FAIL 7");
       //schräg prüfen
       //nach rechts oben
+      int fieldNo;
       for(int i = 1; xAxis + i < 9 && yAxis < 9; i++){
-          fig = currentField.getFigureAt(Field.getFieldNumber(xAxis + i, yAxis + i));
+          fieldNo = Field.getFieldNumber(xAxis + i, yAxis + i);
+          fig = currentField.getFigureAt(fieldNo);
           if(fig == null){
               continue;
           }
-          if(fig.getColor() == colour){
+          if((fig.getColor() == colour && fieldNo != move.getFieldTo())
+                  || fieldNo == move.getFieldTo()){
               break;
           }
           figType = fig.getFigureType();
@@ -491,13 +500,15 @@ public class Rules {
               return true;
           }
       }
+      System.out.println("FAIL 8");
       //nach rechts unten
       for(int i = 1; xAxis + i < 9 && yAxis - i > 0; i++){
-          fig = currentField.getFigureAt(Field.getFieldNumber(xAxis + i, yAxis - i));
+          fieldNo = Field.getFieldNumber(xAxis + i, yAxis - i);
+          fig = currentField.getFigureAt(fieldNo);
           if(fig == null){
               continue;
           }
-          if(fig.getColor() == colour){
+          if((fig.getColor() == colour && fieldNo != move.getFieldTo()) || fieldNo == move.getFieldTo()){
               break;
           }
           figType = fig.getFigureType();
@@ -510,13 +521,15 @@ public class Rules {
               return true;
           }
       }
+      System.out.println("FAIL 9");
       //nach links oben
       for(int i = 1; xAxis - i > 0 && yAxis + i < 9; i++){
-          fig = currentField.getFigureAt(Field.getFieldNumber(xAxis - i, yAxis + i));
+          fieldNo = Field.getFieldNumber(xAxis - i, yAxis + i);
+          fig = currentField.getFigureAt(fieldNo);
           if(fig == null){
               continue;
           }
-          if(fig.getColor() == colour){
+          if((fig.getColor() == colour && fieldNo != move.getFieldTo()) || fieldNo == move.getFieldTo()){
               break;
           }
           figType = fig.getFigureType();
@@ -529,13 +542,15 @@ public class Rules {
               return true;
           }
       }
-      //nach links unten
+      System.out.println("FAIL 10");
+      //nach links unten (eigentlich links oben?!)
       for(int i = 1; xAxis - i > 0 && yAxis - i > 0; i++){
-          fig = currentField.getFigureAt(Field.getFieldNumber(xAxis - i, yAxis - i));
+          fieldNo = Field.getFieldNumber(xAxis - i, yAxis - i);
+          fig = currentField.getFigureAt(fieldNo);
           if(fig == null){
               continue;
           }
-          if(fig.getColor() == colour){
+          if((fig.getColor() == colour && fieldNo != move.getFieldTo()) || fieldNo == move.getFieldTo()){
               break;
           }
           figType = fig.getFigureType();
@@ -548,7 +563,7 @@ public class Rules {
               return true;
           }
       }
-      
+      System.out.println("FAIL 11");
       //Springer prüfen
       //TODO: übersichtlicher gestallten???????????
       if(xAxis + 2 < 9 && yAxis + 1 < 9){
@@ -557,48 +572,56 @@ public class Rules {
               return true;
           }
       }
+      System.out.println("FAIL 12");
       if(xAxis + 1 < 9 && yAxis + 2 < 9){
           fig = currentField.getFigureAt(Field.getFieldNumber(xAxis + 1, yAxis + 2));
           if(fig != null && fig.getColor() != colour && fig.getFigureType() == ChessfigureConstants.KNIGHT){
               return true;
           }
       }
+      System.out.println("FAIL 13");
       if(xAxis - 2 > 0 && yAxis + 1 < 9){
           fig = currentField.getFigureAt(Field.getFieldNumber(xAxis + 2, yAxis + 1));
           if(fig != null && fig.getColor() != colour && fig.getFigureType() == ChessfigureConstants.KNIGHT){
               return true;
           }
       }
+      System.out.println("FAIL 14");
       if(xAxis + 1 < 9 && yAxis - 2 > 0){
           fig = currentField.getFigureAt(Field.getFieldNumber(xAxis + 2, yAxis + 1));
           if(fig != null && fig.getColor() != colour && fig.getFigureType() == ChessfigureConstants.KNIGHT){
               return true;
           }
       }
+      System.out.println("FAIL 15");
       if(xAxis - 2 > 0 && yAxis - 1 > 0){
           fig = currentField.getFigureAt(Field.getFieldNumber(xAxis + 2, yAxis + 1));
           if(fig != null && fig.getColor() != colour && fig.getFigureType() == ChessfigureConstants.KNIGHT){
               return true;
           }
       }
+      System.out.println("FAIL 16");
       if(xAxis - 1 > 0  && yAxis - 2 > 0){
           fig = currentField.getFigureAt(Field.getFieldNumber(xAxis + 2, yAxis + 1));
           if(fig != null && fig.getColor() != colour && fig.getFigureType() == ChessfigureConstants.KNIGHT){
               return true;
           }
       }
+      System.out.println("FAIL 17");
       if(xAxis - 1 > 0 && yAxis + 2 < 9){
           fig = currentField.getFigureAt(Field.getFieldNumber(xAxis + 2, yAxis + 1));
           if(fig != null && fig.getColor() != colour && fig.getFigureType() == ChessfigureConstants.KNIGHT){
               return true;
           }
       }
+      System.out.println("FAIL 18");
       if(xAxis + 2 < 9 && yAxis - 1 > 0){
           fig = currentField.getFigureAt(Field.getFieldNumber(xAxis + 2, yAxis + 1));
           if(fig != null && fig.getColor() != colour && fig.getFigureType() == ChessfigureConstants.KNIGHT){
               return true;
           }
       }
+      System.out.println("FAIL 19");
       
       if(castling && x > currentX){
           if((colour == ChessfigureConstants.WHITE && !whiteKingMoved && !whiteRightRookMoved)
@@ -614,6 +637,7 @@ public class Rules {
                       && isCheck(currentField, move, false, position - 2);
           }
       }
+      System.out.println("FAIL 20");
       
       return false;
   }

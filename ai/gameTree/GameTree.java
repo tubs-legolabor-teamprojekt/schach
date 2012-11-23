@@ -91,7 +91,7 @@ public class GameTree extends Thread {
 		 * Situationen erstellen
 		 */
 		short[][] help;
-		help = ValidMove.ValMove(this.situation, white);
+		help = validMove.ValMove(this.situation, white);
 
 		/*
 		 * Situationen als Objekte von GameTree abspeichern
@@ -129,7 +129,7 @@ public class GameTree extends Thread {
 		 * Situationen erstellen
 		 */
 		short[][] help;
-		help = ValidMove.ValMove(this.situation, white);
+		help = validMove.ValMove(this.situation, white);
 
 		/*
 		 * Situationen als Objekte von GameTree abspeichern
