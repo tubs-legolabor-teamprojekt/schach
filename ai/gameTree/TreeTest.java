@@ -4,6 +4,7 @@ import java.util.LinkedList;
 
 import components.Field;
 
+import useful.Test_Situation;
 import util.ExtractInformationFromBinary;
 
 public class TreeTest {
