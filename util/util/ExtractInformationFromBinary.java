@@ -79,7 +79,7 @@ public class ExtractInformationFromBinary
 	}
 	
 	/**
-	 * Ermittelt die X-Position der Figur
+	 * Ermittelt die X-Position der Figur (1-8)
 	 * @param sh Short-Wert mit der Position, Farbe und Figur
 	 * @return Byte-Wert der X-Position
 	 */
@@ -113,7 +113,7 @@ public class ExtractInformationFromBinary
 	}
 	
 	/**
-	 * Ermittelt die Y-Position der Figur
+	 * Ermittelt die Y-Position der Figur (1-8)
 	 * @param sh Short-Wert mit der Position, Farbe und Figur
 	 * @return Byte-Wert der Y-Position
 	 */
