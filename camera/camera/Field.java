@@ -4,7 +4,7 @@ package camera;
  * Feldobjekt, welches die Position auf dem Feld sowie einen
  * Wert beinhaltet, welcher sich aus den RGB berechnungen
  * ergibt
- * ä
+ * 
  * @author Marcel Schubert
  */
 public class Field implements Comparable {
