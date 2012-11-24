@@ -85,9 +85,16 @@ public class ShowPGNFormat extends JFrame implements ActionListener
 		
 		SimpleDateFormat sdf = new SimpleDateFormat();
 	    sdf.applyPattern( "dd.MM.yyyy" );
+	    
+	    String result;
+	    if (Checkerboard.getInstance().hasBlackWon()) {
+	    	result = "0-1";
+	    } else {
+	    	result = "1-0";
+	    }
 		
 		this.text.setText(Exporter.exportMovesToPGN("Teamprojekt", "Legolabor", sdf.format(new Date()),
-				StartWindow.getInstance().getUsername(), "Legoroboter", "1-0", 
+				StartWindow.getInstance().getUsername(), "Legoroboter", result, 
 				GameCoordinator.getInstance(false).getAllMoves()));
 		this.text.setCaretPosition(0);
 	    JScrollPane scrollPane = new JScrollPane(this.text);

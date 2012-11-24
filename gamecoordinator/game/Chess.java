@@ -1,5 +1,6 @@
 package game;
 
+import gui.Checkerboard;
 import gui.Gui;
 
 import java.util.ArrayList;
@@ -59,6 +60,8 @@ public class Chess
 				System.out.println(e.getMessage());
 			}
 		}
+		
+		Checkerboard.getInstance().manualMove();
 			
 		// Schach-Koordinator holen
 		this.gameCoordinator = GameCoordinator.getInstance(true);

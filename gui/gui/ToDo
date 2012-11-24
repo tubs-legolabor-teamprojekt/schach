@@ -4,10 +4,13 @@ ToDo
 - abgespeicherte Spiele in einheitlichem Format --> Texteditor mach chinesische Zeichen, eclipse nicht
 
 
+- Gui für manuelle Zugeingabe: 	* ActionListener
+								* Methode manualMove
+								* Methoden, die int in Feldnummer umrechnen
+
 
 - Benutzername:	* wenn man ein neues Spiel starten will, Benutzernamen beibehalten (dafür neuer Test notwendig)
 
-- falschen Zug anzeigen
 - PGN-Format: 	* Ergebnis
 - Fenster schließen: 	* bei allen Fenstern WindowListener?
 						* Flo beendet alles?

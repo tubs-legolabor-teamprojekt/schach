@@ -22,6 +22,7 @@ public class CheckerboardPanel extends JPanel
 	public CheckerboardPanel() 
 	{
 		this.add(this.label);
+//		this.label.addMouseListener(new MyMouseListener());
 	}
 	
 	/**
@@ -29,12 +30,10 @@ public class CheckerboardPanel extends JPanel
 	 * @param figure Figure-Objekt
 	 * @param show anzeigen oder nicht
 	 */
-	public void showIcon(Figure figure, boolean show)
+	public void showIcon(Figure figure)
 	{
-		if(show) {
-			this.label.setIcon(figure.getIcon());
-		}
+		this.label.setIcon(figure.getIcon());
 //		this.label.setBorder(new EmptyBorder(-3, 0, 0, 0));
-		this.label.setVisible(show);
+		this.label.setVisible(true);
 	}
 }

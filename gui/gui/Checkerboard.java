@@ -4,19 +4,20 @@ import game.Move;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Image;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
+
+import util.ChessfigureConstants;
 
 import components.Field;
 import components.Figure;
@@ -42,6 +43,11 @@ public class Checkerboard extends JPanel
 				fieldFromRow = 0,
 				fieldToColumn = 0,
 				fieldToRow = 0;
+	
+	private boolean blackWon = false,
+					manualMove = false;
+	
+	private MyMouseListener mml;
 
 	/**
 	 * Privater Konstruktor, der nur ein neues Objekt der Klasse erstellt.
@@ -76,6 +82,9 @@ public class Checkerboard extends JPanel
 		this.grid.setShowHorizontalLines(true);
 		
 		this.grid.setOpaque(false);
+		
+		this.mml = new MyMouseListener(this.grid);
+		this.grid.addMouseListener(this.mml);
 		
 		// Zeilenhöhe und Spaltenbreite anpassen, so dass die Felder quadratisch sind
 		this.grid.setRowHeight(75);
@@ -147,7 +156,7 @@ public class Checkerboard extends JPanel
 	 * @param fieldNumber Feldnummer
 	 * @return konvertierte Spaltennummer
 	 */
-	public int fieldNumberConverterColumn(int fieldNumber)
+	public static int fieldNumberConverterColumn(int fieldNumber)
 	{
 		// Spalte = fieldNumber mod 8
 		int column = (fieldNumber-1)%8;
@@ -163,12 +172,18 @@ public class Checkerboard extends JPanel
 	 * @param fieldNumber Feldnummer
 	 * @return konvertierte Zeilennummer
 	 */
-	public int fieldNumberConverterRow(int fieldNumber)
+	public static int fieldNumberConverterRow(int fieldNumber)
 	{
 		// Zeile = 63-fieldNumber / 8 --> abrunden
 		int row = (int)Math.floor((64-fieldNumber)/8);
 		
 		return row;
+	}
+	
+	public static int convertIntoFieldNumber(int row, int column)
+	{
+		int fieldNumber = (((8 - row) - 1) * 8) + (column + 1);
+		return fieldNumber;
 	}
 	
 	/**
@@ -189,8 +204,8 @@ public class Checkerboard extends JPanel
 		
 		// Umrechnung der FieldFrom-Nummer
 		this.fieldFrom = this.move.getFieldFrom();
-		this.fieldFromColumn = this.fieldNumberConverterColumn(this.fieldFrom);
-		this.fieldFromRow = this.fieldNumberConverterRow(this.fieldFrom);
+		this.fieldFromColumn = fieldNumberConverterColumn(this.fieldFrom);
+		this.fieldFromRow = fieldNumberConverterRow(this.fieldFrom);
 		
 		this.figure = Field.getInstance().getFigureAt(this.fieldFrom);
 		
@@ -202,8 +217,7 @@ public class Checkerboard extends JPanel
 					if (j == this.fieldFromColumn) {
 						// entfernt die entsprechende Figur auf dem zugehörigen Feld
 						CheckerboardPanel cbp = (CheckerboardPanel)this.grid.getValueAt(i, j);
-						
-						cbp.showIcon(null, false);
+						cbp.label.setVisible(false);
 						Gui.getInstance().repaint();
 						Gui.getInstance().validate();
 					}
@@ -213,8 +227,8 @@ public class Checkerboard extends JPanel
 		
 		// Umrechnung der FieldTo-Nummer
 		this.fieldTo = this.move.getFieldTo();
-		this.fieldToColumn = this.fieldNumberConverterColumn(this.fieldTo);
-		this.fieldToRow = this.fieldNumberConverterRow(this.fieldTo);	
+		this.fieldToColumn = fieldNumberConverterColumn(this.fieldTo);
+		this.fieldToRow = fieldNumberConverterRow(this.fieldTo);	
 		
 		// Zeile
 		for (int i = 0; i < 8; i++) {
@@ -228,8 +242,7 @@ public class Checkerboard extends JPanel
 							cbp.label.setVisible(false);
 						}
 						// zeigt die entsprechende Figur auf dem zugehörigen Feld an
-						System.out.println("SOLL TRUE SEIN: " + (this.figure != null));
-						cbp.showIcon(this.figure, true);
+						cbp.showIcon(this.figure);
 						Gui.getInstance().repaint();
 						Gui.getInstance().validate();
 					}
@@ -242,7 +255,12 @@ public class Checkerboard extends JPanel
 		
 		if (this.move.isCheck() && this.move.isCheckMate()) {
 			javax.swing.JOptionPane.showMessageDialog(this,"Schachmatt! Spiel vorbei!", "Schachmatt", JOptionPane.INFORMATION_MESSAGE);
-//			// neues Objekt
+			// Result
+			if (this.figure.getColor() == ChessfigureConstants.BLACK) {
+				this.blackWon = true;
+			} else {
+				this.blackWon = false;
+			}
 			FinishedGameGUI.getInstance();
 		}
 		
@@ -250,6 +268,48 @@ public class Checkerboard extends JPanel
 			javax.swing.JOptionPane.showMessageDialog(this,"Schach!", "Schach", JOptionPane.INFORMATION_MESSAGE);
 		}
 		
+	}
+	
+	public ArrayList<Integer> manualMove()
+	{
+		
+		this.manualMove = true;
+		
+		MoveGUI.getInstance();
+		
+		ArrayList<Integer> a = new ArrayList<Integer>();
+		
+		
+		if (MoveGUI.getInstance().isKingsideCastling()) {
+			// kurze Rochade 
+			// a =  5 7 8 6
+			a.add(5);
+			a.add(7);
+			a.add(8);
+			a.add(6);
+		} else if (!MoveGUI.getInstance().isKingsideCastling()) {
+			// lange Rochade
+			// a = 5 3 1 4
+			a.add(5);
+			a.add(3);
+			a.add(1);
+			a.add(4);
+		} else {
+			// Feldnummern von den angeklickten Feldern
+//			a.add();
+//			a.add();
+		}
+		return a;
+	}
+	
+	public boolean hasBlackWon() 
+	{
+		return this.blackWon;
+	}
+	
+	public boolean isManualMove() 
+	{
+		return this.manualMove;
 	}
 	
 	/**
@@ -273,9 +333,9 @@ public class Checkerboard extends JPanel
 			// entsprechende Figuren werden an zugehöriger Position angezeigt
 			// Umrechnung der Feldnummern notwendig
 			CheckerboardPanel cbp = (CheckerboardPanel)this.grid.
-					getValueAt(this.fieldNumberConverterRow(i),
-					(this.fieldNumberConverterColumn(i)));
-			cbp.showIcon(f, true);
+					getValueAt(fieldNumberConverterRow(i),
+					(fieldNumberConverterColumn(i)));
+			cbp.showIcon(f);
 		}
 	}
 	
