@@ -1,5 +1,4 @@
 
-import communicate.ConnAg;
 
 import lejos.nxt.Motor;
 import lejos.robotics.navigation.TachoPilot;
@@ -20,6 +19,8 @@ public class MoveTest {
 	
 	private int movedDistance;
 	
+	static ConnAg con;
+	
 	public MoveTest() {
 		
 	}
@@ -33,7 +34,7 @@ public class MoveTest {
 	
 	
 	public static void main(String args[]) {
-		ConnAg conn = new ConnAg();
+		con = new ConnAg();
 		
 		MoveTest t1 = new MoveTest(1,2);
 		
