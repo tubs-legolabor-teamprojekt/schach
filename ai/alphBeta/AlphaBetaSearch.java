@@ -46,16 +46,11 @@ public class AlphaBetaSearch{ // Nacht erster Ueberlegung nicht Multi-Thread-fae
 	public static short getNextMove(short[] Situation){
 		
 		/*
-		 * Erstelle alle Kind-Situationen und speichere sie in einer LinkedList
+		 * Liste mit folgenden Kindsituationen erstellen (Am besten mit Heuristik vorsortiert)
 		 */
 		
 		/*
-		 *  Durchlaufe die LinkedList und rufe für jedes Element die Rekursive Funtion auf.
-		 *  Dies macht das alles auch Multi-Thread-faehig 
-		 */
-		
-		/*
-		 * waehle den am besten bewerteten Zug aus und gebe ihn in den output
+		 * Jedes Element der Liste mit miniMax aufrufen
 		 */
 		
 		AlphaBetaSearch search = new AlphaBetaSearch(Situation);

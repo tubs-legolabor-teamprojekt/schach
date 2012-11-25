@@ -1,4 +1,4 @@
-package gameTree;
+package useful;
 
 import java.util.LinkedList;
 
@@ -47,13 +47,13 @@ public class ValidMove {
 		
 		LinkedList<short[]> childSituation = new LinkedList<short[]>();
 		
-		// Schleife Ÿber alle gefundenen Bauern im short[] situation
+		// Schleife ï¿½ber alle gefundenen Bauern im short[] situation
 		for (int j = 0; j < situation.length; j++) {
 			
 			// Figur zwischenspeichern
 			short figure = situation[j];
 			
-			// FŸr jeden gefundenen Bauern
+			// Fï¿½r jeden gefundenen Bauern
 			if (ExtractInformationFromBinary.getFigure(figure) == ChessfigureConstants.PAWN) {
 				
 				// Information auslesen und speichern? (Position <X,Y> , Farbe)
@@ -63,14 +63,14 @@ public class ValidMove {
 				byte xPosNew = 0;
 				byte yPosNew = 0;
 				
-				// Alle vier Mšglichkeiten, den Bauern zu versetzen
+				// Alle vier Mï¿½glichkeiten, den Bauern zu versetzen
 				for(int i = 0 ; i < 4 ; i++ ){
 					// TODO Oben rechts/links nur wenn Gegner auf entsprechendem Feld
 					
 					// Neue Situation ---> short[] newSituation = new short[32] <--- erstellen. 32 Felder angenommenes Maximum.
 					short[] newSituation = situation.clone();
 					
-					// Bauer versetzen (ausgelesene Position verŠndern, neuen Short-Wert erstellen)
+					// Bauer versetzen (ausgelesene Position verï¿½ndern, neuen Short-Wert erstellen)
 					int pos;
 					switch(i){
 					case 0 : // Bauer geht nach oben links
@@ -125,7 +125,7 @@ public class ValidMove {
 					short newPawn = ChessfigureConstants.makeFigureShort(color, ChessfigureConstants.PAWN, xPosNew, yPosNew);
 					newSituation[j]= newPawn;
 					
-					// newSituation an LinkedList hinten anfŸgen
+					// newSituation an LinkedList hinten anfï¿½gen
 					childSituation.add(newSituation);
 				}
 			}

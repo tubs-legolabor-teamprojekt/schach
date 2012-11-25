@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import components.Field;
 
 import useful.Test_Situation;
+import useful.ValidMove;
 import util.ExtractInformationFromBinary;
 
 public class TreeTest {
