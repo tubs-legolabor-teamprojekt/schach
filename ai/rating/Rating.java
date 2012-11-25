@@ -21,7 +21,7 @@ public class Rating {
 	 * @param situation
 	 * @return
 	 */
-	public byte ratePositiv(short[] situation, byte player){
+	public static byte ratePositiv(short[] situation, byte player){
 		
 		return (byte)rand.nextInt(255);
 		
@@ -32,7 +32,7 @@ public class Rating {
 	 * @param situation
 	 * @return
 	 */
-	public byte rate(short[] situation){
+	public static byte rate(short[] situation){
 		
 		Vorzeichen = rand.nextBoolean();
 		

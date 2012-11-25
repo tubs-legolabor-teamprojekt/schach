@@ -2,26 +2,29 @@ package alphBeta;
 
 import java.util.LinkedList;
 
+import rating.Rating;
+import rating.Rating.*;
+
 /**
  * Dieses ist der erste Test zum Aplha-Beta-CutOff zur Generierung des Spielbaumes.
  * Der Pseudocode stammt aus Wikipedia und wird nach und nach auf unsere Situation angepasst.
  * @author tobi
  *
  */
-public class AlphaBetaSearch extends Thread{
+public class AlphaBetaSearch{ // Nacht erster Ueberlegung nicht Multi-Thread-faehig!!
 
 	// ############### Instanzvariablen
 	
 	/*
-	 *  Modellierte Situation. Soll einst durch eine Hash-Table ersetzt werden.
-	 *  Zum Zwecke des Testes nun jedoch noch mit der alten Modellierung.
+	 * Modellierte Situation. Soll einst durch eine Hash-Table ersetzt werden.
+	 * Zum Zwecke des Testes nun jedoch noch mit der alten Modellierung.
 	 */
 	short[] situation;
 	
 	/*
 	 * Maximale Tiefe. Diese Tiefe ist ausschlaggebend für die Staerke der KI verantwortlich. Je groeßer, desto besser.
 	 */
-	byte depth = 3;
+	static byte depth = 3;
 	
 	/*
 	 * Dieses Rating ist (bislang) nur für die erste Kind-Generation vorhanden. Anhand dieses wird der beste Zug ermittelt. 
@@ -32,6 +35,11 @@ public class AlphaBetaSearch extends Thread{
 	 * Liste mit Folgesituationen, die durchlaufen werden 
 	 */
 	LinkedList<short[]> list;
+	
+	/*
+	 * Zaehler für die untersuchten Objekte
+	 */
+	static int number = 0;
 	
 	// ############### Aufrufende public-Methode
 	
@@ -60,17 +68,23 @@ public class AlphaBetaSearch extends Thread{
 	
 	public AlphaBetaSearch(short[] situation){
 		this.situation = situation;
+		
+		System.out.println( this.miniMax(1, this.depth, 0, 0) );
 	}
 	
 	// ############### Alpha-Beta-Cut-Off
 
-	int miniMax(int spieler, int tiefe, int alpha, int beta) {
+	public int miniMax(int spieler, int tiefe, int alpha, int beta) {
+		
+		// zahler erhoehen
+		this.number++;
 		
 		// Falls die maximale Tiefe erreicht ist, oder es keine Spielzuege mehr zu tun gibt
-		if (tiefe == 0 or keineZuegeMehr(spieler)){
+		if (tiefe == 0 /* || keineZuegeMehr(spieler)*/ ){
 			
 			//Bewerte die in diesem Objekt steckende Situation
-			return bewerten(spieler);
+			
+			return Rating.ratePositiv(this.situation, (byte) spieler);
 			
 		}	
 		
@@ -84,9 +98,9 @@ public class AlphaBetaSearch extends Thread{
 		while (noch Zug da) {
 			
 			// Aufruf der Rekursion mit dem nächsten Kindzug
-			fuehreNaechstenZugAus();									//
+			
 			int wert = -miniMax(-spieler, tiefe-1,-beta, -maxWert);		//	REKURSION
-			macheZugRueckgaengig();										//
+			
 			
 			// Gebe gefundenen Wert nach oben durch, falls gefundener Wert groeßer als bisher maximaler
 			if (wert > maxWert) {
@@ -102,7 +116,7 @@ public class AlphaBetaSearch extends Thread{
 				}
 				
 				// Falls Bewertungen vorgenommen wurden
-				if (tiefe == anfangstiefe){
+				if (tiefe == this.depth){
 					
 					// KEINE AHNUNG, WAS DAS TUT
 					gespeicherterZug = Zug;
