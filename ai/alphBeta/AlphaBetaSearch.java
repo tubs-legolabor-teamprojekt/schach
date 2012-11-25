@@ -4,6 +4,7 @@ import java.util.LinkedList;
 
 import rating.Rating;
 import rating.Rating.*;
+import useful.pseudoValidMove;
 
 /**
  * Dieses ist der erste Test zum Aplha-Beta-CutOff zur Generierung des Spielbaumes.
@@ -43,15 +44,19 @@ public class AlphaBetaSearch{ // Nacht erster Ueberlegung nicht Multi-Thread-fae
 	
 	// ############### Aufrufende public-Methode
 	
-	public static short getNextMove(short[] Situation){
+	public short getNextMove(short[] Situation){
 		
 		/*
 		 * Liste mit folgenden Kindsituationen erstellen (Am besten mit Heuristik vorsortiert)
 		 */
+		this.list = pseudoValidMove.move(Situation);
 		
 		/*
 		 * Jedes Element der Liste mit miniMax aufrufen
 		 */
+		for(int i = 0 ; i < this.list.size() ; i++){
+			this.list.get(i).
+		}
 		
 		AlphaBetaSearch search = new AlphaBetaSearch(Situation);
 		
