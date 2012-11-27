@@ -22,18 +22,15 @@ public class CheckerboardPanel extends JPanel
 	public CheckerboardPanel() 
 	{
 		this.add(this.label);
-//		this.label.addMouseListener(new MyMouseListener());
 	}
 	
 	/**
-	 * Methode, die das entsprechende Icon entweder anzeigen oder ausblenden soll. 
+	 * Methode, die das entsprechende Icon anzeigt. 
 	 * @param figure Figure-Objekt
-	 * @param show anzeigen oder nicht
 	 */
 	public void showIcon(Figure figure)
 	{
 		this.label.setIcon(figure.getIcon());
-//		this.label.setBorder(new EmptyBorder(-3, 0, 0, 0));
 		this.label.setVisible(true);
 	}
 }

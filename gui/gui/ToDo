@@ -1,16 +1,9 @@
 ToDo
 ------
-- kommentieren
-- abgespeicherte Spiele in einheitlichem Format --> Texteditor mach chinesische Zeichen, eclipse nicht
-
-
 - Gui für manuelle Zugeingabe: 	* ActionListener
 								* Methode manualMove
-								* Methoden, die int in Feldnummer umrechnen
+- Fenster schließen --> Spiel beendet
+- PawnPromotion testen, also ob die richtigen Werte auch bei Flo ankommen
+- testen, ob man den Benutzer korrekt wechseln kann
 
-
-- Benutzername:	* wenn man ein neues Spiel starten will, Benutzernamen beibehalten (dafür neuer Test notwendig)
-
-- PGN-Format: 	* Ergebnis
-- Fenster schließen: 	* bei allen Fenstern WindowListener?
-						* Flo beendet alles?
+- abgespeicherte Spiele in einheitlichem Format --> Texteditor mach chinesische Zeichen, eclipse nicht

@@ -86,6 +86,7 @@ public class ShowPGNFormat extends JFrame implements ActionListener
 		SimpleDateFormat sdf = new SimpleDateFormat();
 	    sdf.applyPattern( "dd.MM.yyyy" );
 	    
+	    // Abfrage, wer gewonnen hat, um entsprechendes auszugeben
 	    String result;
 	    if (Checkerboard.getInstance().hasBlackWon()) {
 	    	result = "0-1";
@@ -101,7 +102,6 @@ public class ShowPGNFormat extends JFrame implements ActionListener
 	    scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 	    scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		
-//		this.text.setOpaque(false);
 		this.forText.setOpaque(false);
 		scrollPane.setOpaque(false);
 		scrollPane.getViewport().setOpaque(false);

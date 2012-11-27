@@ -38,6 +38,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer
 		
 		JLabel c = (JLabel)super.getTableCellRendererComponent(table, value, isSelected,
 				hasFocus, row, column);
+		// Tabelleneigenschaften
 		c.setFont(new Font("Arial", Font.BOLD, 15));
 		c.setForeground(new Color(43, 23, 2));
 		c.setVerticalAlignment(JLabel.CENTER);

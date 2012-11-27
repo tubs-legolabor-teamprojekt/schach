@@ -141,14 +141,16 @@ public class StartWindow extends JFrame implements ActionListener
 		this.text.setEnabled(false);
 		this.text.setDisabledTextColor(Color.black);
 		// this.text.setBackground(new Color(41, 15, 5, 100));
-		this.text
-				.setText("Benutzernamen eingeben und \nein neues Spiel starten.");
+		this.text.setText("Benutzernamen eingeben und \nein neues Spiel starten.");
 		this.text.setFont(new Font("Arial", Font.PLAIN, 13));
 
 		this.forName.add(this.name);
 		this.name.setFont(new Font("Arial", Font.ITALIC, 12));
 		this.name.setForeground(Color.LIGHT_GRAY);
 		this.name.getDocument().addDocumentListener(new MyDocListener());
+		
+		// wenn man in das Textfeld klickt, soll der vorherige Text
+		// 'Benutzername' weggehen, die Schrift sich verändern
 		this.name.addFocusListener(new java.awt.event.FocusAdapter()
 		{
 			public void focusGained(java.awt.event.FocusEvent evt) 
@@ -160,9 +162,9 @@ public class StartWindow extends JFrame implements ActionListener
 				name.setForeground(Color.BLACK);
 				counter++;
 				if (counter > 0) {
+					// überprüft, ob was ins Textfeld geschrieben wurde
 					checkFieldsFull();
 				}
-				// ((javax.swing.JTextField) evt.getComponent()).setText("");
 			}
 		});
 

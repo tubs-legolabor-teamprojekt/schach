@@ -85,6 +85,7 @@ public class Checkerboard extends JPanel
 		
 		this.grid.setOpaque(false);
 		
+		// MouseListener hinzufügen
 		this.mml = new MyMouseListener(this.grid);
 		this.grid.addMouseListener(this.mml);
 		
@@ -182,6 +183,13 @@ public class Checkerboard extends JPanel
 		return row;
 	}
 	
+	/**
+	 * Methode, die Tabellenzeile und -spalte in die von anderen gewünschte
+	 * Feldnummerierung von 1 bis 64 umrechnet.
+	 * @param row Tabellenzeile
+	 * @param column Tabellenspalte
+	 * @return Feldnummer
+	 */
 	public static int convertIntoFieldNumber(int row, int column)
 	{
 		int fieldNumber = (((8 - row) - 1) * 8) + (column + 1); 
@@ -198,7 +206,6 @@ public class Checkerboard extends JPanel
 		// wer zieht wohin, geschmissen?, Sonderfall: PawnPromotion, Schach?, Schachmatt? 
 		
 		this.move = move;
-		System.out.println("halsdk");
 		// wenn der Bauer umgewandelt werden soll
 		if (this.move.isPawnPromotion()) {
 			Gui.getInstance().pawnPromotionGUI();
@@ -209,6 +216,7 @@ public class Checkerboard extends JPanel
 		this.fieldFromColumn = fieldNumberConverterColumn(this.fieldFrom);
 		this.fieldFromRow = fieldNumberConverterRow(this.fieldFrom);
 		
+		// aktuelle Figur zwischenspeichern
 		this.figure = Field.getInstance().getFigureAt(this.fieldFrom);
 		
 		// erst Zeile 
@@ -256,8 +264,9 @@ public class Checkerboard extends JPanel
 		Gui.getInstance().validate();
 		
 		if (this.move.isCheck() && this.move.isCheckMate()) {
-			javax.swing.JOptionPane.showMessageDialog(this,"Schachmatt! Spiel vorbei!", "Schachmatt", JOptionPane.INFORMATION_MESSAGE);
-			// Result
+			javax.swing.JOptionPane.showMessageDialog(this,"Schachmatt! Spiel vorbei!", 
+					"Schachmatt", JOptionPane.INFORMATION_MESSAGE);
+			// wer gewonnen hat
 			if (this.figure.getColor() == ChessfigureConstants.BLACK) {
 				this.blackWon = true;
 			} else {
@@ -267,17 +276,27 @@ public class Checkerboard extends JPanel
 		}
 		
 		if (this.move.isCheck() && !this.move.isCheckMate()) {
-			javax.swing.JOptionPane.showMessageDialog(this,"Schach!", "Schach", JOptionPane.INFORMATION_MESSAGE);
+			javax.swing.JOptionPane.showMessageDialog(this,"Schach!", "Schach", 
+					JOptionPane.INFORMATION_MESSAGE);
 		}
 		
 	}
 	
+	/**
+	 * Methode, die ausgeführt wird, wenn die Kamera den Zug nicht richtig
+	 * erkennen konnte. Der Benutzer kann entweder über klicken am Schachfeld 
+	 * einen normalen Zug auswählen oder einfach die entsprechende
+	 * Rochade auswählen.
+	 * @return ArrayList mit den Feldnummern
+	 */
 	public ArrayList<Integer> manualMove()
 	{
 		this.manualMove = true;
 		System.out.println("lksdf");
 		MoveGUI.getInstance();
 		System.out.println("lksdasdgfadsfasff");
+		
+		// welche Rochadenart oder normaler Zug
 		if (MoveGUI.getInstance().isKingsideCastling()) {
 			// kurze Rochade 
 			// a =  5 7 8 6
@@ -293,36 +312,55 @@ public class Checkerboard extends JPanel
 			this.a.add(1);
 			this.a.add(4);
 		} else {
-			
-			
 			// Feldnummern von den angeklickten Feldern
-//			a.add();
-//			a.add();
+			this.a = this.getArrayList();
 		}
-		System.out.println("Tabea" + this.a);
+		System.out.println("Tabea: " + this.a);
 		return this.a;
 	}
 
+	/**
+	 * Methode, die die ArrayList setzt.
+	 * @param a ArrayList
+	 */
 	public void setArrayList(ArrayList<Integer> a)
 	{
 		this.a = a;
 	}
 	
+	/**
+	 * Getter für die ArrayList.
+	 * @return entsprechende ArrayList
+	 */
 	public ArrayList<Integer> getArrayList()
 	{
 		return this.a;
 	}
 	
+	/**
+	 * Getter für die booleansche Variable, ob Schwarz oder Weiß
+	 * gewonnen hat.
+	 * @return blackWon true oder false
+	 */
 	public boolean hasBlackWon() 
 	{
 		return this.blackWon;
 	}
 	
+	/**
+	 * Getter für die booleansche Variable, ob der Zug manuell eingegeben
+	 * werden muss oder nicht.
+	 * @return manualMove true oder false
+	 */
 	public boolean isManualMove() 
 	{
 		return this.manualMove;
 	}
 	
+	/**
+	 * Setter für die booleansche Variable manualMove.
+	 * @param manualMove true oder false
+	 */
 	public void setManualMove(boolean manualMove)
 	{
 		this.manualMove = manualMove;

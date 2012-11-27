@@ -97,12 +97,10 @@ public class PawnPromotionGUI extends JFrame implements ActionListener
 		this.add(this.forOkButton, BorderLayout.SOUTH);
 		
 		this.forText.setOpaque(false);
-//		this.forText.setBackground(new Color(41, 15, 5, 100));
 		this.forText.add(this.text);
 		
 		this.text.setOpaque(false);
 		this.text.setFont(new Font("Arial", Font.BOLD, 13));
-//		this.text.setBackground(null);
 		this.text.setEditable(false);
 		this.text.setEnabled(false);
 		this.text.setDisabledTextColor(Color.black);
@@ -183,6 +181,7 @@ public class PawnPromotionGUI extends JFrame implements ActionListener
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
+		// erst wenn ein Radiobutton ausgew‰hlt wurde, darf man best‰tigen
 		if (e.getActionCommand() == "radiobutton_queen") {
 			this.okButton.setEnabled(true);
 		}
@@ -195,10 +194,13 @@ public class PawnPromotionGUI extends JFrame implements ActionListener
 		if (e.getActionCommand() == "radiobutton_rook") {
 			this.okButton.setEnabled(true);
 		}
+		
+		// wenn OK geklickt wird, werden die Informationen weitergegeben
 		if (e.getActionCommand() == "button_ok") {
 			Gui.getInstance().pawnPromotionInformation(this.queen.isSelected(), 
 					this.bishop.isSelected(), this.knight.isSelected(), 
 					this.rook.isSelected());
+			// Fenster schlieﬂen
 			this.setVisible(false);
 			this.dispose();	
 		}

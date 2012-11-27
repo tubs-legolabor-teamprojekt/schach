@@ -21,6 +21,12 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.InsetsUIResource;
 
+/**
+ * Klasse, die ein Fenster repräsentiert, das angezeigt wird, wenn der 
+ * Benutzer seinen Zug manuell eingeben soll. 
+ * @author Tabea
+ *
+ */
 public class MoveGUI extends JFrame implements ActionListener
 {
 
@@ -31,7 +37,6 @@ public class MoveGUI extends JFrame implements ActionListener
 					forText_NM = new JPanel(),
 					forText_C = new JPanel(),
 					forExplanationtext = new JPanel(),
-					forCoordinates = new JPanel(),
 					forRadioButtons = new JPanel(),
 					forButton_NM = new JPanel(),
 					forButton_C = new JPanel();
@@ -43,9 +48,6 @@ public class MoveGUI extends JFrame implements ActionListener
 	private JLabel	from = new JLabel("Von Feld "),
 					to = new JLabel("nach");
 	
-	private JTextField 	forFrom = new JTextField(3),
-						forTo = new JTextField(3);
-	
 	private JRadioButton 	kingsideCastling = new JRadioButton("Kurze Rochade"), // kurze Rochade
 							queensideCastling = new JRadioButton("Lange Rochade"); // lange Rochade
 	
@@ -54,6 +56,10 @@ public class MoveGUI extends JFrame implements ActionListener
 	
 	private boolean isKingsideCastling = false;
 	
+	/**
+	 * Privater Konstruktor, der den Titel setzt und alle weitern
+	 * Einstellungen aufruft.
+	 */
 	private MoveGUI()
 	{
 		this.setTitle("Manuelle Zugeingabe");
@@ -61,6 +67,10 @@ public class MoveGUI extends JFrame implements ActionListener
 		this.makeLayout();	
 	}
 	
+	/**
+	 * Gibt die MoveGUI-Instanz zurück.
+	 * @return MoveGUI-Instanz
+	 */
 	public static MoveGUI getInstance()
 	{
 		if (instance == null) {
@@ -69,6 +79,9 @@ public class MoveGUI extends JFrame implements ActionListener
 		return instance;
 	}
 	
+	/**
+	 * Methode, die die Fenstereigenschaften festlegt.
+	 */
 	public void startWindow()
 	{
 		this.setIconImage(new ImageIcon("gui/gui/checkerboard.png").getImage());
@@ -79,15 +92,18 @@ public class MoveGUI extends JFrame implements ActionListener
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 	
+	/**
+	 * Methode, die das Layout des Fensters erstellt. 
+	 */
 	public void makeLayout() 
 	{
 		this.toFront();
 //		this.setAlwaysOnTop(true);
 		
+		// Aussehen der JTabbedPane
 		UIManager.put("TabbedPane.contentOpaque", false);
 		UIManager.put("TabbedPane.background", new Color(251, 225, 172, 100));
 		UIManager.put("TabbedPane.selected", new Color(251, 225, 172));
-//		UIManager.put("TabbedPane.contentBorderInsets", new InsetsUIResource(0, 0, 0, 0));
 		JTabbedPane tabbedPane = new JTabbedPane();
 		tabbedPane.setOpaque(false);
 
@@ -99,11 +115,11 @@ public class MoveGUI extends JFrame implements ActionListener
 		tabbedPane.addTab("Normaler Zug", this.forNormalMove);
 		tabbedPane.addTab("Rochade", this.forCastling);		
 		
+		// alles transparent machen
 		this.forCastling.setOpaque(false);
 		this.forNormalMove.setOpaque(false);
 		this.forText_NM.setOpaque(false);
 		this.forText_C.setOpaque(false);
-//		this.forCoordinates.setOpaque(false);
 		this.forExplanationtext.setOpaque(false);
 		this.forRadioButtons.setOpaque(false);
 		this.forButton_NM.setOpaque(false);
@@ -118,12 +134,13 @@ public class MoveGUI extends JFrame implements ActionListener
 		this.makeCastling();
 	}
 	
+	/**
+	 * Methode, die das Layout des Tabs 'Normaler Zug' erstellt.
+	 */
 	public void makeNormalMove()
 	{
 		this.forNormalMove.setLayout(new GridLayout(3, 1));
-//		this.forNormalMove.setBackground(new Color(251, 225, 172));
 		this.forNormalMove.add(this.forText_NM);
-//		this.forNormalMove.add(this.forCoordinates);
 		this.forNormalMove.add(this.forExplanationtext);
 		this.forNormalMove.add(this.forButton_NM);
 		
@@ -144,21 +161,18 @@ public class MoveGUI extends JFrame implements ActionListener
 		this.explanationtext.setDisabledTextColor(Color.black);
 		this.explanationtext.setFont(new Font("Arial", Font.PLAIN, 14));		
 		
-//		this.forCoordinates.add(this.from);
-//		this.forCoordinates.add(this.forFrom);
-//		this.forCoordinates.add(this.to);
-//		this.forCoordinates.add(this.forTo);	
-		
 		this.forButton_NM.add(this.okButton_NM);
 		this.okButton_NM.addActionListener(this);
 		this.okButton_NM.setActionCommand("button_ok_NM");
 		
 	}
 	
+	/**
+	 * Methode, die das Layout des Tabs 'Rochade' erstellt.
+	 */
 	public void makeCastling()
 	{
 		this.forCastling.setLayout(new GridLayout(3, 1));
-//		this.forCastling.setBackground(new Color(251, 225, 172));
 		this.forCastling.add(this.forText_C);
 		this.forCastling.add(this.forRadioButtons);
 		this.forCastling.add(this.forButton_C);
@@ -180,6 +194,10 @@ public class MoveGUI extends JFrame implements ActionListener
 
 	}
 	
+	/**
+	 * Methode, die das Layout der Radiobuttons des Tabs 
+	 * 'Rochade' erstellt.
+	 */
 	public void makeRadioButtons() {
 		
 		// um die Radibuttons zu gruppieren
@@ -202,22 +220,36 @@ public class MoveGUI extends JFrame implements ActionListener
 		this.forRadioButtons.add(this.queensideCastling);
 	}
 	
+	/**
+	 * Getter für die booleansche Variable, ob eine kurze
+	 * oder lange Rochade gewählt wurde.
+	 * @return isKingsideCastling true oder false
+	 */
 	public boolean isKingsideCastling()
 	{
+		// true für kurze und false für lange Rochade
 		return this.isKingsideCastling;
 	}
 	
+	/**
+	 * Methode, die entsprechend auf die Eingaben reagiert. 
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) 
 	{
+		// wenn man einfach einen normalen Zug auswählen möchte
 		if (e.getActionCommand() == "button_ok_NM") {
 			this.setVisible(false);
 		}
 
+		// man kann erst auf OK klicken, wenn man einen Radiobutton ausgewählt hat
 		if (this.kingsideCastling.isSelected() || this.queensideCastling.isSelected()) {
 			this.okButton_C.setEnabled(true);
 		}
 		
+		// wenn OK geflickt wird, wird die die Variable isKingsideCastling entweder auf true 
+		// oder false gesetzt, je nach dem, ob der Radiobutton für die kurze Rochade ausgewählt 
+		// wurde oder nicht
 		if (e.getActionCommand() == "button_ok_C") {
 			this.isKingsideCastling = this.kingsideCastling.isSelected();
 			this.setVisible(false);
