@@ -48,6 +48,8 @@ public class Checkerboard extends JPanel
 					manualMove = false;
 	
 	private MyMouseListener mml;
+	
+	private ArrayList<Integer> a = new ArrayList<Integer>();
 
 	/**
 	 * Privater Konstruktor, der nur ein neues Objekt der Klasse erstellt.
@@ -182,7 +184,7 @@ public class Checkerboard extends JPanel
 	
 	public static int convertIntoFieldNumber(int row, int column)
 	{
-		int fieldNumber = (((8 - row) - 1) * 8) + (column + 1);
+		int fieldNumber = (((8 - row) - 1) * 8) + (column + 1); 
 		return fieldNumber;
 	}
 	
@@ -272,34 +274,43 @@ public class Checkerboard extends JPanel
 	
 	public ArrayList<Integer> manualMove()
 	{
-		
 		this.manualMove = true;
-		
+		System.out.println("lksdf");
 		MoveGUI.getInstance();
-		
-		ArrayList<Integer> a = new ArrayList<Integer>();
-		
-		
+		System.out.println("lksdasdgfadsfasff");
 		if (MoveGUI.getInstance().isKingsideCastling()) {
 			// kurze Rochade 
 			// a =  5 7 8 6
-			a.add(5);
-			a.add(7);
-			a.add(8);
-			a.add(6);
+			this.a.add(5);
+			this.a.add(7);
+			this.a.add(8);
+			this.a.add(6);
 		} else if (!MoveGUI.getInstance().isKingsideCastling()) {
 			// lange Rochade
 			// a = 5 3 1 4
-			a.add(5);
-			a.add(3);
-			a.add(1);
-			a.add(4);
+			this.a.add(5);
+			this.a.add(3);
+			this.a.add(1);
+			this.a.add(4);
 		} else {
+			
+			
 			// Feldnummern von den angeklickten Feldern
 //			a.add();
 //			a.add();
 		}
-		return a;
+		System.out.println("Tabea" + this.a);
+		return this.a;
+	}
+
+	public void setArrayList(ArrayList<Integer> a)
+	{
+		this.a = a;
+	}
+	
+	public ArrayList<Integer> getArrayList()
+	{
+		return this.a;
 	}
 	
 	public boolean hasBlackWon() 
@@ -310,6 +321,11 @@ public class Checkerboard extends JPanel
 	public boolean isManualMove() 
 	{
 		return this.manualMove;
+	}
+	
+	public void setManualMove(boolean manualMove)
+	{
+		this.manualMove = manualMove;
 	}
 	
 	/**

@@ -212,7 +212,6 @@ public class MoveGUI extends JFrame implements ActionListener
 	{
 		if (e.getActionCommand() == "button_ok_NM") {
 			this.setVisible(false);
-			
 		}
 
 		if (this.kingsideCastling.isSelected() || this.queensideCastling.isSelected()) {
