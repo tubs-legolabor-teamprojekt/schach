@@ -123,22 +123,22 @@ public class GameCoordinator
 	 */
 	public boolean receiveMove(Move newMove, boolean checkThisMove)
 	{
-		// Zug soll ausgefuehrt werden
-		// Zug ueberpruefen
-		if (!this.rules.checkMove(this.field, newMove)) {
-			// Fehlermeldung anzeigen (GUI)
-			this.gui.showWarning("Ungueltiger Zug!");
-			System.out.println("Ungueltiger Zug laut Rules.checkMove()");
-			return false;
-		} else {
-			// currentMove aktualisieren
-			this.currentMove = newMove;
-			// Figurtyp bestimmen
-			this.currentMove.setFigure();
-			// Aktuellen Zug hinzufuegen
-			this.moves.add(this.currentMove);
-			return true;
+		if (checkThisMove) {
+			if (!this.rules.checkMove(this.field, newMove)) {
+				// Fehlermeldung anzeigen (GUI)
+				this.gui.showWarning("Ungueltiger Zug!");
+				System.out.println("Ungueltiger Zug laut Rules.checkMove()");
+				return false;
+			}
 		}
+		
+		// currentMove aktualisieren
+		this.currentMove = newMove;
+		// Figurtyp bestimmen
+		this.currentMove.setFigure();
+		// Aktuellen Zug hinzufuegen
+		this.moves.add(this.currentMove);
+		return true;
 	}
 	
 	/**
