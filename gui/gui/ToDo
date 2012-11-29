@@ -1,9 +1,11 @@
 ToDo
 ------
-- Gui für manuelle Zugeingabe: 	* ActionListener
-								* Methode manualMove
+
 - Fenster schließen --> Spiel beendet
 - PawnPromotion testen, also ob die richtigen Werte auch bei Flo ankommen
 - testen, ob man den Benutzer korrekt wechseln kann
+
+- bei manueller Zugeingabe angeklickte Felder farblich hervorheben
+- bei manueller Zugeingabe ermöglich durch zweimal Klicken auf das gleiche Feld, Auswahl zurücknehmen
 
 - abgespeicherte Spiele in einheitlichem Format --> Texteditor mach chinesische Zeichen, eclipse nicht

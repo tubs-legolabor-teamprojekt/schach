@@ -54,7 +54,8 @@ public class MoveGUI extends JFrame implements ActionListener
 	private JButton okButton_NM = new JButton("Ok"),
 					okButton_C = new JButton("Fertig");
 	
-	private boolean isKingsideCastling = false;
+	private boolean isKingsideCastling = false,
+					normalButtonPressed = false;
 	
 	/**
 	 * Privater Konstruktor, der den Titel setzt und alle weitern
@@ -89,7 +90,8 @@ public class MoveGUI extends JFrame implements ActionListener
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
 		this.setVisible(true);
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		
 	}
 	
 	/**
@@ -240,6 +242,7 @@ public class MoveGUI extends JFrame implements ActionListener
 		// wenn man einfach einen normalen Zug auswählen möchte
 		if (e.getActionCommand() == "button_ok_NM") {
 			this.setVisible(false);
+			this.normalButtonPressed = true;
 		}
 
 		// man kann erst auf OK klicken, wenn man einen Radiobutton ausgewählt hat
@@ -252,12 +255,22 @@ public class MoveGUI extends JFrame implements ActionListener
 		// wurde oder nicht
 		if (e.getActionCommand() == "button_ok_C") {
 			this.isKingsideCastling = this.kingsideCastling.isSelected();
+			Checkerboard.getInstance().setMmIsReady(true);
 			this.setVisible(false);
 			this.dispose();	
 		}
 		
 	}
 	
+	/**
+	 * Getter für die booleansche Variable, ob der Ok-Button für den 
+	 * normalen Zug geklickt wurde.
+	 * @return
+	 */
+	public boolean isNormalButtonPressed() 
+	{
+		return this.normalButtonPressed;
+	}
 	
 	public static void main(String[] args)
 	{

@@ -45,7 +45,8 @@ public class Checkerboard extends JPanel
 				fieldToRow = 0;
 	
 	private boolean blackWon = false,
-					manualMove = false;
+					manualMove = false,
+					mmIsReady = false;
 	
 	private MyMouseListener mml;
 	
@@ -292,33 +293,53 @@ public class Checkerboard extends JPanel
 	public ArrayList<Integer> manualMove()
 	{
 		this.manualMove = true;
-		System.out.println("lksdf");
 		MoveGUI.getInstance();
-		System.out.println("lksdasdgfadsfasff");
 		
-		// welche Rochadenart oder normaler Zug
-		if (MoveGUI.getInstance().isKingsideCastling()) {
-			// kurze Rochade 
-			// a =  5 7 8 6
-			this.a.add(5);
-			this.a.add(7);
-			this.a.add(8);
-			this.a.add(6);
-		} else if (!MoveGUI.getInstance().isKingsideCastling()) {
-			// lange Rochade
-			// a = 5 3 1 4
-			this.a.add(5);
-			this.a.add(3);
-			this.a.add(1);
-			this.a.add(4);
-		} else {
+		while(!this.mmIsReady) {
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}		
+		
+		if (MoveGUI.getInstance().isNormalButtonPressed()) {
 			// Feldnummern von den angeklickten Feldern
 			this.a = this.getArrayList();
-		}
+		} else {
+			// welche Rochadenart
+			if (MoveGUI.getInstance().isKingsideCastling()) {
+				// kurze Rochade 
+				// a =  5 7 8 6
+				this.a.clear();
+				this.a.add(5);
+				this.a.add(7);
+				this.a.add(8);
+				this.a.add(6);
+			} else {
+				// lange Rochade
+				// a = 5 3 1 4
+				this.a.clear();
+				this.a.add(5);
+				this.a.add(3);
+				this.a.add(1);
+				this.a.add(4);
+			}
+		}		
 		System.out.println("Tabea: " + this.a);
 		return this.a;
 	}
 
+	/**
+	 * Setter für die booleansche Variable, ob die manuelle Zugeingabe 
+	 * erfolgreich beendet wurde.
+	 * @param mmIsReady
+	 */
+	public void setMmIsReady(boolean mmIsReady)
+	{
+		this.mmIsReady = mmIsReady;
+	}
+	
 	/**
 	 * Methode, die die ArrayList setzt.
 	 * @param a ArrayList

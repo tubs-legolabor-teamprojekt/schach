@@ -1,5 +1,6 @@
 package gui;
 
+import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -50,7 +51,11 @@ public class MyMouseListener extends MouseAdapter
 			// Feldnummer errechnen und zur ArrayList hinzufügen
 			int fieldnumber = Checkerboard.convertIntoFieldNumber(this.row, this.column);
 			this.a.add(fieldnumber);
-			System.out.println(this.counter);
+			
+//			CheckerboardPanel cb = (CheckerboardPanel)this.grid.getValueAt(this.row, this.column);
+//			cb.label.setBackground(new Color(0, 0, 0, 100));
+//			Gui.getInstance().repaint();
+//			Gui.getInstance().validate();			
 			
 			// wenn man beide Felder ausgewählt hat Abfrage, ob korrekt
 			// wenn ja, weiter im Programm, ansonsten erneute Abfrage
@@ -62,6 +67,7 @@ public class MyMouseListener extends MouseAdapter
 				if (reply == JOptionPane.YES_OPTION) {
 					Checkerboard.getInstance().setArrayList(this.a);
 					Checkerboard.getInstance().setManualMove(false);
+					Checkerboard.getInstance().setMmIsReady(true);
 				} else {
 					this.a.clear();
 					javax.swing.JOptionPane.showMessageDialog(Gui.getInstance(),"Bitte erneute Zueingabe!", 
