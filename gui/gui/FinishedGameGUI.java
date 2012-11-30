@@ -285,6 +285,7 @@ public class FinishedGameGUI extends JFrame implements ActionListener
 			this.counter++;
 			if (this.counter == 1) {
 				StAXWriter s = new StAXWriter();
+				// überprüfen, ob das Spiel auch im pgn-Format abgespeichert werden konnte
 				if (s.makeFile()) {
 					javax.swing.JOptionPane.showMessageDialog(this,"Das Spiel wurde erfolgreich " +
 							"in den Order 'saveGame' gespeichert.", "Gespeichert!", JOptionPane.INFORMATION_MESSAGE);
@@ -297,6 +298,7 @@ public class FinishedGameGUI extends JFrame implements ActionListener
 						"gespeichert!", "Fehler", JOptionPane.INFORMATION_MESSAGE);
 			}
 		}
+		// Benutzerwechsel --> zurück zum Startbildschirm
 		if (e.getActionCommand() == "userButton") {
 			Field f = Field.getInstance();
 			f.resetField();
@@ -308,9 +310,6 @@ public class FinishedGameGUI extends JFrame implements ActionListener
 			this.setVisible(false);
 			this.dispose();
 			StartWindow.getInstance().reset();
-			/*
-			 * hier soll der Benutzername geändert werden
-			 */
 		}
 		if (e.getActionCommand() == "endButton") {
 			// alle noch geöffneten Fenster werden geschlossen

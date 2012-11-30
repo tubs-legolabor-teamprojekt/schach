@@ -386,9 +386,11 @@ public class Rules {
    */
   private boolean isCheck(Field currentField, Move move, boolean castling, int position)
   {
+  //TODO: hier entferne ich die Figur auf dem Zieldfeld
       if(move.isCaptured()){
           currentField.removeFigureAt(move.getFieldTo());
       }
+      //TODO: hier setze ich die Figur
       currentField.moveFigure(move.getFieldFrom(), move.getFieldTo());
       
       byte colour = /*move.getFigure().getColor()*/ currentField.getFigureAt(move.getFieldTo()).getColor();
@@ -405,6 +407,8 @@ public class Rules {
           if(fig == null){
               continue;
           }
+          //Diese Richtung muss nicht weiter überprüft werden,
+          //wenn der König durch eine eigene Figur geschützt ist
           if((fig.getColor() == colour && i != move.getFieldTo()) || i == move.getFieldTo()){
               break;
           }

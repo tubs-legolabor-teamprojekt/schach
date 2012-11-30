@@ -16,7 +16,8 @@ coding guidelines
 - Geschweifte Klammern:
 	- bei Klassen/Methoden: neue Zeile
 	- bei if, while etc.: gleiche Zeile
-- Keine Sonderzeichen (ä,ö,ü,ß) im gesamten Code, auch nicht in Kommentaren, verwenden 
+- Keine Sonderzeichen (ä,ö,ü,ß) im gesamten Code, auch nicht in Kommentaren, verwenden ODER in Eclipse umstellen: Window(bzw. Eclipse unter Mac) -> Preferences(Einstellungen) -> General -> Content Types -> Text; 
+unten unter "Default Encoding" folgendes eingeben: "UTF8" und mit Update übernehmen.
 
 coding guidelines bei eclipse einstellen
 -----------------------------------------

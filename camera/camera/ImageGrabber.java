@@ -8,6 +8,9 @@ import java.awt.image.BufferedImage;
 import com.googlecode.javacv.OpenCVFrameGrabber;
 import com.googlecode.javacv.cpp.opencv_core.IplImage;
 
+/*
+ * Laed Bilder von der Webcam
+ */
 public final class ImageGrabber
 {
 	private IplImage img;
@@ -28,10 +31,8 @@ public final class ImageGrabber
 		try {
 			img = grabber.grab();
 			if (img != null) {
-				
 				cvSaveImage(i+"capture.jpg", img);
 				i++;
-				//cvFlip(img, img, 1);// l-r = 90_degrees_steps_anti_clockwise
 				return img.getBufferedImage();
 			}
 

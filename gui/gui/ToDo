@@ -1,13 +1,9 @@
 ToDo
 ------
-- kommentieren
+- Gui für manuelle Zugeingabe: 	* ActionListener
+								* Methode manualMove
+- Fenster schließen --> Spiel beendet
+- PawnPromotion testen, also ob die richtigen Werte auch bei Flo ankommen
+- testen, ob man den Benutzer korrekt wechseln kann
+
 - abgespeicherte Spiele in einheitlichem Format --> Texteditor mach chinesische Zeichen, eclipse nicht
-
-
-
-- Benutzername:	* wenn man ein neues Spiel starten will, Benutzernamen beibehalten (dafür neuer Test notwendig)
-
-- falschen Zug anzeigen
-- PGN-Format: 	* Ergebnis
-- Fenster schließen: 	* bei allen Fenstern WindowListener?
-						* Flo beendet alles?

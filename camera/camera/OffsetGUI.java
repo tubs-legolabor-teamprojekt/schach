@@ -5,6 +5,13 @@ import java.awt.image.BufferedImage;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+/*
+ * @author Marcel Schubert
+ * 
+ * Fuer die Bestimmung des Offsets
+ * (welcher Abschnitt des Bildes ist das Schachfeld)
+ * Sowie die Bestimmung 
+ */
 public class OffsetGUI extends JFrame implements MouseListener
 {
 	/**
@@ -17,6 +24,15 @@ public class OffsetGUI extends JFrame implements MouseListener
 	private ImageLoader im;
 	private boolean offset = true;
 
+	/*
+	 * Es wird entweder der offset berechnet (also exakte koordinaten des schachfelds)
+	 * oder die Punkte fuer den Vektor uebergeben, welche fuer die Winkelberechnung
+	 * zustaendig sind
+	 * 
+	 * @param bu Bild, welches zur Bearbeitung uebergeben wird
+	 * @param im ImageLoaderinstanz, an welche berechneten Werte uebergeben werden sollen
+	 * @param offset Modus, ob offset oder winkel berechnet werde soll
+	 */
 	public OffsetGUI(BufferedImage bu, ImageLoader im, boolean offset) {
 		this.offset = offset;
 		this.im = im;
@@ -53,22 +69,22 @@ public class OffsetGUI extends JFrame implements MouseListener
 		// erster Klick, offset oben links, zweiter Klick, offset oben rechts
 		switch (state) {
 		case '1':
-			if(offset) {
+			if(offset) {					//Modus:offset wird bestimmt
 				offsetX1 = e.getX();
 				offsetY1 = e.getY();
 			}
-			else {
+			else {							//Modus:winkel wird bestimmt
 				im.setVecA(e.getX(), e.getY());
 			}
 			state = '2';
 			break;
 		case '2':
-			if(offset) {
+			if(offset) {					//modus: offset
 				offsetX2 = e.getX();
 				offsetY2 = e.getY();
 				im.setOffset(offsetX1, offsetY1, offsetX2, offsetY2);
 			}
-			else {
+			else {							//modus: winkel
 				im.setVecB(e.getX(), e.getY());
 			}
 			state = 'n';

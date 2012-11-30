@@ -25,16 +25,12 @@ public class CheckerboardPanel extends JPanel
 	}
 	
 	/**
-	 * Methode, die das entsprechende Icon entweder anzeigen oder ausblenden soll. 
+	 * Methode, die das entsprechende Icon anzeigt. 
 	 * @param figure Figure-Objekt
-	 * @param show anzeigen oder nicht
 	 */
-	public void showIcon(Figure figure, boolean show)
+	public void showIcon(Figure figure)
 	{
-		if(show) {
-			this.label.setIcon(figure.getIcon());
-		}
-//		this.label.setBorder(new EmptyBorder(-3, 0, 0, 0));
-		this.label.setVisible(show);
+		this.label.setIcon(figure.getIcon());
+		this.label.setVisible(true);
 	}
 }
