@@ -128,10 +128,9 @@ public class Rules {
       }
       
       if(legalMove){
-          return true;
-//          return !isCheck(currentField, move, false,
-//                  //TODO: siehe oben
-//                          currentField.getKingPosition(currentField.getFigureAt(move.getFieldFrom()).getColor() /*move.getFigure().getColor()*/));
+          return !isCheck(currentField, move, false,
+                  //TODO: siehe oben
+                          currentField.getKingPosition(currentField.getFigureAt(move.getFieldFrom()).getColor() /*move.getFigure().getColor()*/));
       }
       else{
           return false;
@@ -371,11 +370,10 @@ public class Rules {
           return true;
       }
       //Rochade
-      return false;
-//      if(currentY == y && Math.abs(currentX - x) == 2){
-//          return isCheck(currentField, move, true, move.getFieldFrom());
-//      }
-//      return isCheck(currentField, move, false, move.getFieldFrom());
+      if(currentY == y && Math.abs(currentX - x) == 2){
+          return isCheck(currentField, move, true, move.getFieldFrom());
+      }
+      return isCheck(currentField, move, false, move.getFieldFrom());
   }
 
   /**

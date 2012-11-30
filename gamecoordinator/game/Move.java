@@ -261,7 +261,7 @@ public class Move
 	 */
 	public void setFigure()
 	{
-		Figure f = Field.getInstance().getFigureAt(this.getFieldFrom());
+		Figure f = Field.getInstance().getFigureAt(this.getFieldTo());
 		if (f != null)
 			this.figureLetter = f.getFigureLetter();
 		else
@@ -315,10 +315,10 @@ public class Move
 	{
 		String str = "";
 		// Farbe
-		str += ChessfigureConstants.getFigureColor(Field.getInstance().getFigureAt(this.getFieldFrom()).getColor()) + "er ";
+		str += ChessfigureConstants.getFigureColor(Field.getInstance().getFigureAt(this.getFieldTo()).getColor()) + "er ";
 		
 		// Figur
-		str += ChessfigureConstants.getFigureName(Field.getInstance().getFigureAt(this.getFieldFrom()).getFigureType()) + " ";
+		str += ChessfigureConstants.getFigureName(Field.getInstance().getFigureAt(this.getFieldTo()).getFigureType()) + " ";
 		
 		// Von
 		str += "zieht von " + Field.getFieldName(this.fieldFrom) + " ";
@@ -350,7 +350,7 @@ public class Move
 	public String toString()
 	{
 		return "Move [fieldFrom=" + fieldFrom + ", fieldTo=" + fieldTo
-				+ ", figure=" + Field.getInstance().getFigureAt(this.getFieldFrom()) + ", captured=" + captured
+				+ ", figure=" + Field.getInstance().getFigureAt(this.getFieldTo()) + ", captured=" + captured
 				+ ", pawnPromotion=" + pawnPromotion + ", pawnPromotedTo="
 				+ pawnPromotedTo + ", check=" + check + ", checkMate="
 				+ checkMate + ", toString()=" + super.toString() + "]";

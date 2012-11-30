@@ -90,12 +90,12 @@ public class GameCoordinator
 			System.out.println(this.currentMove.getMoveAsText());
 		
 		// Wurde geschmissen?
-		if (this.currentMove.isCaptured()) {
+		/*if (this.currentMove.isCaptured()) {
 			// Geschmissene Figur vom Feld entfernen
 			this.field.removeFigureAt(this.currentMove.getFieldTo());
 			
 			// TODO Roboter soll Figur entfernen
-		}
+		}*/
 		
 		// TODO Roboter soll Figur bewegen
 		
@@ -107,7 +107,7 @@ public class GameCoordinator
 		/*this.gui.getCheckerboard().setCheckerboardInformation(this.currentMove);*/
 		
 		// Figur soll Zug durchfuehren
-		this.field.moveFigure(this.currentMove.getFieldFrom(), this.currentMove.getFieldTo());
+		//this.field.moveFigure(this.currentMove.getFieldFrom(), this.currentMove.getFieldTo());
 		
 		// War es der letzte Zug?
 		this.lastMove = this.currentMove.isCheckMate();
