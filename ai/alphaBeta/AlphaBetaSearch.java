@@ -1,4 +1,4 @@
-package alphBeta;
+package alphaBeta;
 
 import java.util.LinkedList;
 

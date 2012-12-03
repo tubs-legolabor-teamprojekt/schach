@@ -7,6 +7,8 @@ import java.util.Random;
  * um die Funktionalitaet der Datenstruktur im Vorhinein testen zu koennen.
  * Diese Bewertung kann zum besseren Testeinsatz einen Random-Wert zurückgeben. 
  * 
+ * Klasse sollte instanziierbar bleiben, um mehrere threads versorgen zu können.
+ * 
  * @author tobi
  *
  */
@@ -21,7 +23,7 @@ public class Rating {
 	 * @param situation
 	 * @return
 	 */
-	public static byte ratePositiv(short[] situation, byte player){
+	public byte ratePositiv(short[] situation, byte player){
 		
 		return (byte)rand.nextInt(255);
 		
@@ -32,7 +34,7 @@ public class Rating {
 	 * @param situation
 	 * @return
 	 */
-	public static byte rate(short[] situation){
+	public byte rate(short[] situation){
 		
 		Vorzeichen = rand.nextBoolean();
 		
