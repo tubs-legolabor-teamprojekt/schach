@@ -101,12 +101,12 @@ public class Chess
 				// zwei Werte (0: from, 1: to)
 				// oder
 				// vier Werte (0: from, 1: to, 2: from (Rochade), 3: to (Rochade)
-				// wobei der Rochade-Zug auch als erstes Ÿbergeben werden kann
+				// wobei der Rochade-Zug auch als erstes ï¿½bergeben werden kann
 				List<Integer> listOfChangedPositions = im.getChangedPositions();
 				
-				// Konnte Kamera ZŸge ermitteln?
+				// Konnte Kamera Zï¿½ge ermitteln?
 				if (listOfChangedPositions.size() == 0) {
-					// Manuelles Einlesen der ZŸge durch die GUI
+					// Manuelles Einlesen der Zï¿½ge durch die GUI
 					moves = this.getMovesFromManualInputOrCamera(Checkerboard.getInstance().manualMove());
 				} else {
 					moves = this.getMovesFromManualInputOrCamera(listOfChangedPositions);
@@ -122,7 +122,7 @@ public class Chess
 				moves.add(newMove);
 			}
 			
-<<<<<<< HEAD
+
 			// Wenn Zug gueltig, ausfuehren
 			if(this.gameCoordinator.receiveMove(newMove)) {
 				// Zug ausfuehren
@@ -130,11 +130,7 @@ public class Chess
 			} else {
 				// TODO Was wird getan, wenn ein ungueltiger Zug vorliegt?
 			    System.exit(0);
-=======
-			// ZŸge ausfŸhren
-			for (Move move : moves) {
-				this.sendAndExecuteMove(move, false);
->>>>>>> branch 'master' of local repository
+
 			}
 			
 			if (moveCounter >= this.simulatedMoves.size()) {
@@ -175,13 +171,13 @@ public class Chess
 	}
 	
 	/**
-	 * Ermittelt (hoffentlich) aus 2 oder 4 gegebenen Werten die ZŸge.
+	 * Ermittelt (hoffentlich) aus 2 oder 4 gegebenen Werten die Zï¿½ge.
 	 * Dazu muss die Reihenfolge angepasst werden (die Reihenfolge der Werte,
 	 * die die Kamera ermittelt hat, ist durcheinander).
 	 * 2 Werte: 1 Zug
 	 * 4 Werte: Kurze oder Lange Rochade
 	 * @param listOfChangedPositions
-	 * @return Liste der auszufŸhrenden ZŸge (ohne RegelprŸfung)
+	 * @return Liste der auszufï¿½hrenden Zï¿½ge (ohne Regelprï¿½fung)
 	 */
 	private List<Move> getMovesFromManualInputOrCamera(List<Integer> listOfChangedPositions)
 	{
