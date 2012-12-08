@@ -473,7 +473,7 @@ public class Field
 	}
 	
 	/**
-	 * Berechnet aus der Zeile und Spalte die Feldnummer (1-64)
+	 * Berechnet aus der Zeile und Spalte die Feldnummer.
 	 * @param column Spalte
 	 * @param row Zeile
 	 * @return Feldnummer

@@ -1,7 +1,5 @@
 package game;
 
-import gui.Checkerboard;
-
 import java.util.ArrayList;
 import java.util.List;
 
