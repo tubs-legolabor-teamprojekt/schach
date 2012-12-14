@@ -58,8 +58,7 @@ public class ImageLoader {
         this.offsetX2 = offsetX2;
         this.offsetY1 = offsetY1;
         this.offsetY2 = offsetY2;
-        System.out.println(offsetX1 + " " + offsetY1 + " " + offsetX2 + " "
-                + offsetY2);
+        System.out.println(offsetX1 + " " + offsetY1 + " " + offsetX2 + " " + offsetY2);
     }
 
     /*
@@ -120,8 +119,7 @@ public class ImageLoader {
         boolean rochadePossible = true;
         // Rochade nur auf der obersten o. untersten Reihe moeglich
         for (int i = 0; i < 4 && rochadePossible; i++) {
-            if (sortedList.get(i).getPosition() > 7
-                    && sortedList.get(i).getPosition() < 56) {
+            if (sortedList.get(i).getPosition() > 7 && sortedList.get(i).getPosition() < 56) {
                 rochadePossible = false;
             }
         }
@@ -134,8 +132,7 @@ public class ImageLoader {
         // mittelwert
         // liegen. Wenn ja, dann ist eine Rochade sehr wahrscheinlich.
         if (rochadePossible) {
-            if ((sortedList.get(2).getValue() > (average + 1 * stDev))
-                    && (sortedList.get(3).getValue() > (average + 1 * stDev))) {
+            if ((sortedList.get(2).getValue() > (average + 1 * stDev)) && (sortedList.get(3).getValue() > (average + 1 * stDev))) {
                 l.add(sortedList.get(2).getPosition());
                 l.add(sortedList.get(3).getPosition());
             }
@@ -154,8 +151,7 @@ public class ImageLoader {
         System.out.println();
         System.out.println(l.size());
         for (int i = 0; i < l.size(); i++) {
-            System.out.println("Nummer " + l.get(i).getPosition() + " Wert: "
-                    + l.get(i).getValue());
+            System.out.println("Nummer " + l.get(i).getPosition() + " Wert: " + l.get(i).getValue());
         }
         return l;
     }
@@ -165,11 +161,9 @@ public class ImageLoader {
      * sie in einer Liste als Typ "Field".
      */
     private void setFieldDiff() {
-        if (r1 != null && r2 != null && g1 != null && g2 != null && b1 != null
-                && b2 != null) {
+        if (r1 != null && r2 != null && g1 != null && g2 != null && b1 != null && b2 != null) {
             for (int i = 0; i < FIELDS; i++) {
-                Field a = new Field(i, (int) Math.abs(getPositionAverage(i, 1)
-                        - getPositionAverage(i, 2)));
+                Field a = new Field(i, (int) Math.abs(getPositionAverage(i, 1) - getPositionAverage(i, 2)));
                 rgbFieldDiff.add(a);
                 if (i % 8 == 0) {
                     System.out.println();
@@ -224,8 +218,7 @@ public class ImageLoader {
             }
         }
 
-        System.out
-                .println("\n Toleranz:" + average + "  stdabweichung" + stDev);
+        System.out.println("\n Toleranz:" + average + "  stdabweichung" + stDev);
     }
 
     /*
@@ -256,17 +249,13 @@ public class ImageLoader {
         for (int y = startY; y < endY; y++) {
             for (int x = startX; x < endX; x++) {
                 if (image == 1) {
-                    value = value + r1.get(y * width + x)
-                            + g1.get(y * width + x) + b1.get(y * width + x);
+                    value = value + r1.get(y * width + x) + g1.get(y * width + x) + b1.get(y * width + x);
                     // value = value + g1.get(y * width + x);
                 } else if (image == 2) {
-                    value = value + r2.get(y * width + x)
-                            + g2.get(y * width + x) + b2.get(y * width + x);
+                    value = value + r2.get(y * width + x) + g2.get(y * width + x) + b2.get(y * width + x);
                     // value = value + g2.get(y * width + x);
                 } else {
-                    value = value + diffR.get(y * width + x)
-                            + diffG.get(y * width + x)
-                            + diffB.get(y * width + x);
+                    value = value + diffR.get(y * width + x) + diffG.get(y * width + x) + diffB.get(y * width + x);
                     // value = value + diffG.get(y * width + x);
                 }
 
