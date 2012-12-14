@@ -67,6 +67,12 @@ public class Move
 		this.setFieldFrom(fieldFrom);
 		this.setFieldTo(fieldTo);
 	}
+	public Move(int fieldFrom, int fieldTo, boolean captured)
+    {
+        this.setFieldFrom(fieldFrom);
+        this.setFieldTo(fieldTo);
+        this.setCaptured(captured);
+    }
 	
 	/**
 	 * Konstruktor mit Standard- zusaetzlichen Informationen.
@@ -344,7 +350,7 @@ public class Move
 	public String toString()
 	{
 		return "Move [fieldFrom=" + fieldFrom + ", fieldTo=" + fieldTo
-				+ ", figure=" + Field.getInstance().getFigureAt(this.getFieldFrom()) + ", captured=" + captured
+				+ ", figure=" + Field.getInstance().getFigureAt(this.getFieldTo()) + ", captured=" + captured
 				+ ", pawnPromotion=" + pawnPromotion + ", pawnPromotedTo="
 				+ pawnPromotedTo + ", check=" + check + ", checkMate="
 				+ checkMate + ", toString()=" + super.toString() + "]";
