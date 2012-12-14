@@ -22,7 +22,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.InsetsUIResource;
 
 /**
- * Klasse, die ein Fenster reprï¿½sentiert, das angezeigt wird, wenn der 
+ * Klasse, die ein Fenster repräsentiert, das angezeigt wird, wenn der 
  * Benutzer seinen Zug manuell eingeben soll. 
  * @author Tabea
  *
@@ -54,7 +54,8 @@ public class MoveGUI extends JFrame implements ActionListener
 	private JButton okButton_NM = new JButton("Ok"),
 					okButton_C = new JButton("Fertig");
 	
-	private boolean isKingsideCastling = false;
+	private boolean isKingsideCastling = false,
+					normalButtonPressed = false;
 	
 	/**
 	 * Privater Konstruktor, der den Titel setzt und alle weitern
@@ -68,7 +69,7 @@ public class MoveGUI extends JFrame implements ActionListener
 	}
 	
 	/**
-	 * Gibt die MoveGUI-Instanz zurï¿½ck.
+	 * Gibt die MoveGUI-Instanz zurück.
 	 * @return MoveGUI-Instanz
 	 */
 	public static MoveGUI getInstance()
@@ -89,7 +90,8 @@ public class MoveGUI extends JFrame implements ActionListener
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
 		this.setVisible(true);
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		
 	}
 	
 	/**
@@ -178,7 +180,7 @@ public class MoveGUI extends JFrame implements ActionListener
 		this.forCastling.add(this.forButton_C);
 		
 		this.forText_C.add(this.text_C);
-		this.text_C.setText("Bitte Rochade auswï¿½hlen!");
+		this.text_C.setText("Bitte Rochade auswählen!");
 		this.text_C.setEnabled(false);
 		this.text_C.setEditable(false);
 		this.text_C.setDisabledTextColor(Color.black);
@@ -221,13 +223,13 @@ public class MoveGUI extends JFrame implements ActionListener
 	}
 	
 	/**
-	 * Getter fï¿½r die booleansche Variable, ob eine kurze
-	 * oder lange Rochade gewï¿½hlt wurde.
+	 * Getter für die booleansche Variable, ob eine kurze
+	 * oder lange Rochade gewählt wurde.
 	 * @return isKingsideCastling true oder false
 	 */
 	public boolean isKingsideCastling()
 	{
-		// true fï¿½r kurze und false fï¿½r lange Rochade
+		// true für kurze und false für lange Rochade
 		return this.isKingsideCastling;
 	}
 	
@@ -237,31 +239,45 @@ public class MoveGUI extends JFrame implements ActionListener
 	@Override
 	public void actionPerformed(ActionEvent e) 
 	{
-		// wenn man einfach einen normalen Zug auswï¿½hlen mï¿½chte
+		// wenn man einfach einen normalen Zug auswählen möchte
 		if (e.getActionCommand() == "button_ok_NM") {
 			this.setVisible(false);
+			this.normalButtonPressed = true;
 		}
 
-		// man kann erst auf OK klicken, wenn man einen Radiobutton ausgewï¿½hlt hat
+		// man kann erst auf OK klicken, wenn man einen Radiobutton ausgewählt hat
 		if (this.kingsideCastling.isSelected() || this.queensideCastling.isSelected()) {
 			this.okButton_C.setEnabled(true);
 		}
 		
 		// wenn OK geflickt wird, wird die die Variable isKingsideCastling entweder auf true 
-		// oder false gesetzt, je nach dem, ob der Radiobutton fï¿½r die kurze Rochade ausgewï¿½hlt 
+		// oder false gesetzt, je nach dem, ob der Radiobutton für die kurze Rochade ausgewählt 
 		// wurde oder nicht
 		if (e.getActionCommand() == "button_ok_C") {
 			this.isKingsideCastling = this.kingsideCastling.isSelected();
+			Checkerboard.getInstance().setMmIsReady(true);
 			this.setVisible(false);
 			this.dispose();	
 		}
 		
 	}
 	
+	/**
+	 * Getter für die booleansche Variable, ob der Ok-Button für den 
+	 * normalen Zug geklickt wurde.
+	 * @return
+	 */
+	public boolean isNormalButtonPressed() 
+	{
+		return this.normalButtonPressed;
+	}
 	
 	public static void main(String[] args)
 	{
 		MoveGUI.getInstance();
 	}
+
+	
+	
 	
 }
