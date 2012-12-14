@@ -90,12 +90,13 @@ public class GameCoordinator
 			System.out.println(this.currentMove.getMoveAsText());
 		
 		// Wurde geschmissen?
-		/*if (this.currentMove.isCaptured()) {
+		// FIXME wer ermittelt ob geschmissen wurde
+		if (this.currentMove.isCaptured()) {
 			// Geschmissene Figur vom Feld entfernen
 			this.field.removeFigureAt(this.currentMove.getFieldTo());
 			
 			// TODO Roboter soll Figur entfernen
-		}*/
+		}
 		
 		// TODO Roboter soll Figur bewegen
 		
@@ -104,10 +105,10 @@ public class GameCoordinator
 		// Informationen des Feldes (fieldFrom) zugreift.
 		// Wuerde Field zuerst aktualisiert werden, koennte die Gui nicht
 		// mehr auf die zu versetzende Figur zugreifen!
-		/*this.gui.getCheckerboard().setCheckerboardInformation(this.currentMove);*/
+		this.gui.getCheckerboard().setCheckerboardInformation(this.currentMove);
 		
 		// Figur soll Zug durchfuehren
-		//this.field.moveFigure(this.currentMove.getFieldFrom(), this.currentMove.getFieldTo());
+		this.field.moveFigure(this.currentMove.getFieldFrom(), this.currentMove.getFieldTo());
 		
 		// War es der letzte Zug?
 		this.lastMove = this.currentMove.isCheckMate();
@@ -127,7 +128,7 @@ public class GameCoordinator
 		// Zug ueberpruefen
 		if (!this.rules.checkMove(this.field, newMove)) {
 			// Fehlermeldung anzeigen (GUI)
-			/*this.gui.showWarning("Ungueltiger Zug!");*/
+			this.gui.showWarning("Ungueltiger Zug!");
 			System.out.println("Ungueltiger Zug laut Rules.checkMove()");
 			return false;
 		} else {

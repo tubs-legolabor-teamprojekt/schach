@@ -29,6 +29,7 @@ public class TestingChess
 //		 */
 	      Move move1 = new Move(Field.getFieldNumber("e7"), Field.getFieldNumber("e5"));
 	      moves.add(move1);
+	      
 	      Move move2 = new Move(Field.getFieldNumber("h2"), Field.getFieldNumber("h3"));
 	      moves.add(move2);
 	      Move move3 = new Move(Field.getFieldNumber("d7"), Field.getFieldNumber("d6"));
@@ -41,7 +42,7 @@ public class TestingChess
           moves.add(move6);
           Move move7 = new Move(Field.getFieldNumber("b8"), Field.getFieldNumber("c6"));
           moves.add(move7);
-          Move move8 = new Move(Field.getFieldNumber("b4"), Field.getFieldNumber("b5"));
+         /* Move move8 = new Move(Field.getFieldNumber("b4"), Field.getFieldNumber("b5"));
           moves.add(move8);
           Move move9 = new Move(Field.getFieldNumber("c6"), Field.getFieldNumber("d4"));
           moves.add(move9);
@@ -63,6 +64,7 @@ public class TestingChess
           moves.add(move17);
           Move move18 = new Move(Field.getFieldNumber("c3"), Field.getFieldNumber("c4"));
           moves.add(move18);
+          */
 //		Move move1a = new Move(Field.getFieldNumber("b3"), Field.getFieldNumber("b4"));
 //		moves.add(move1a);
 //		

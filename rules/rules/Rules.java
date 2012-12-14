@@ -386,7 +386,9 @@ public class Rules {
    */
   private boolean isCheck(Field currentField, Move move, boolean castling, int position)
   {
+	  Figure capturedF = null;
       if(move.isCaptured()){
+    	  capturedF = currentField.getFigureAt(move.getFieldTo());
           currentField.removeFigureAt(move.getFieldTo());
       }
       currentField.moveFigure(move.getFieldFrom(), move.getFieldTo());
@@ -643,7 +645,12 @@ public class Rules {
           }
       }
       System.out.println("FAIL 20");
-      
+      //Feld wieder in Ausgangsstellung bringen
+      currentField.moveFigure(move.getFieldTo(), move.getFieldFrom());
+      if(move.isCaptured()){
+    	  currentField.putFigureAt(move.getFieldTo(), capturedF);
+      }     
+      System.out.println("FLO");
       return false;
   }
   

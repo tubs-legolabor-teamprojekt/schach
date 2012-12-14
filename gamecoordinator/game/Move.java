@@ -261,7 +261,7 @@ public class Move
 	 */
 	public void setFigure()
 	{
-		Figure f = Field.getInstance().getFigureAt(this.getFieldTo());
+		Figure f = Field.getInstance().getFigureAt(this.getFieldFrom());
 		if (f != null)
 			this.figureLetter = f.getFigureLetter();
 		else
@@ -315,10 +315,10 @@ public class Move
 	{
 		String str = "";
 		// Farbe
-		str += ChessfigureConstants.getFigureColor(Field.getInstance().getFigureAt(this.getFieldTo()).getColor()) + "er ";
+		str += ChessfigureConstants.getFigureColor(Field.getInstance().getFigureAt(this.getFieldFrom()).getColor()) + "er ";
 		
 		// Figur
-		str += ChessfigureConstants.getFigureName(Field.getInstance().getFigureAt(this.getFieldTo()).getFigureType()) + " ";
+		str += ChessfigureConstants.getFigureName(Field.getInstance().getFigureAt(this.getFieldFrom()).getFigureType()) + " ";
 		
 		// Von
 		str += "zieht von " + Field.getFieldName(this.fieldFrom) + " ";
