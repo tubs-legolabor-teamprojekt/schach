@@ -9,8 +9,7 @@ import java.util.ArrayList;
  * @author tobi
  * 
  */
-public class GameTree extends Thread
-{
+public class GameTree extends Thread {
 
     /*
      * hierin werden die sub-Bume abgelegt
@@ -60,8 +59,7 @@ public class GameTree extends Thread
     }
 
     /**
-     * Stellt die run-Methode dar. Die startet einen nicht-nebenlufigen
-     * Thread.
+     * Stellt die run-Methode dar. Die startet einen nicht-nebenlufigen Thread.
      * 
      * @param white
      */

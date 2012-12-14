@@ -7,8 +7,7 @@ package gameTree;
  * @author tobi
  * 
  */
-public class ValidMove2
-{
+public class ValidMove2 {
 
     protected static short[] ValMove(short[] situation, boolean white) {
 

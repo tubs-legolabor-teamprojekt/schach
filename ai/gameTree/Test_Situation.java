@@ -8,16 +8,13 @@ import util.ChessfigureConstants;
  * @author tobi
  * 
  */
-public class Test_Situation
-{
+public class Test_Situation {
 
     /**
      * Array-Of-Short, dass das Spielfeld beschreibt
      */
-    public static final short[] TEST_SITUATION = {
-            97, // weißer Bauer e2
+    public static final short[] TEST_SITUATION = { 97, // weißer Bauer e2
             416, // weißer König e1
-            ChessfigureConstants.makeFigureShort(ChessfigureConstants.BLACK,
-                    ChessfigureConstants.QUEEN, 4, 3) };
+            ChessfigureConstants.makeFigureShort(ChessfigureConstants.BLACK, ChessfigureConstants.QUEEN, 4, 3) };
 
 }

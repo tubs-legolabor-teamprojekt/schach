@@ -7,8 +7,7 @@ package gameTree;
  * @author tobi
  * 
  */
-public class StandardSituation
-{
+public class StandardSituation {
 
     /**
      * Array-Of-Short, dass das Spielfeld beschreibt

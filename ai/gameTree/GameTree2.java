@@ -9,8 +9,7 @@ import java.util.ArrayList;
  * @author tobi
  * 
  */
-public class GameTree2 extends Thread
-{
+public class GameTree2 extends Thread {
 
     /*
      * hierin werden die sub-Bume abgelegt
@@ -97,8 +96,7 @@ public class GameTree2 extends Thread
 
             for (byte i = 0; i < List.size(); i++) {
 
-                List.get(i).build_Tree_Rek((byte) (depth + 1), !white,
-                        situation);
+                List.get(i).build_Tree_Rek((byte) (depth + 1), !white, situation);
 
             }
 
