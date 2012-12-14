@@ -12,9 +12,9 @@ import components.Figure;
 public class MoveGenerator
 {
 
-    /*private LinkedList<HashMap>(HashMap<Integer, Figure> field, byte colour){
+    private LinkedList<HashMap<Integer, Figure>> tschu_tschu_MOTHERFUCKERS (HashMap<Integer, Figure> field, byte colour){
         
         return null;
-    }*/
+    }
 
 }
