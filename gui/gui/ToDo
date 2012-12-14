@@ -5,6 +5,8 @@ ToDo
 - PawnPromotion testen, also ob die richtigen Werte auch bei Flo ankommen
 - testen, ob man den Benutzer korrekt wechseln kann
 
+- wenn Spiel vorbei, FinishedGameGUI wird nicht angezeigt
+
 - bei manueller Zugeingabe angeklickte Felder farblich hervorheben
 - bei manueller Zugeingabe ermöglich durch zweimal Klicken auf das gleiche Feld, Auswahl zurücknehmen
 
