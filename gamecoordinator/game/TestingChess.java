@@ -16,7 +16,7 @@ public class TestingChess {
 
     public static List<Move> getMoves() {
         List<Move> moves = new ArrayList<Move>();
-        GameParser g = new GameParser("FlorianF.txt");
+        GameParser g = new GameParser("Marcel.txt");
         g.read();
         LinkedList<String> readMoves = g.getMoves();
         
