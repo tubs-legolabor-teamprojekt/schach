@@ -98,7 +98,9 @@ public class Rules {
           
       case ChessfigureConstants.KING:
           legalMove = checkKingMove(currentField, move);
+          System.out.println("toast1");
           if(legalMove){
+              System.out.println("toast7");
               //TODO: siehe oben
               if(currentField.getFigureAt(move.getFieldFrom()).getColor() /*move.getFigure().getColor()*/ == ChessfigureConstants.WHITE){
                   whiteKingMoved = true;
@@ -120,6 +122,7 @@ public class Rules {
                   }
               }
           }
+          System.out.println("toast2");
           return legalMove;
           
       default:
@@ -371,9 +374,9 @@ public class Rules {
       }
       //Rochade
       if(currentY == y && Math.abs(currentX - x) == 2){
-          return isCheck(currentField, move, true, move.getFieldFrom());
+          return !isCheck(currentField, move, true, move.getFieldFrom());
       }
-      return isCheck(currentField, move, false, move.getFieldFrom());
+      return !isCheck(currentField, move, false, move.getFieldFrom());
   }
 
   /**
@@ -386,13 +389,17 @@ public class Rules {
    */
   private boolean isCheck(Field currentField, Move move, boolean castling, int position)
   {
+      //wenn der König versetzt wird, muss natürlich die Königsposition verändert werden
+      if(currentField.getFigureAt(move.getFieldFrom()).getFigureType() == ChessfigureConstants.KING){
+          position = move.getFieldTo();
+      }
+      //Zwischenspeichern der Figur, die geschlagen wird, um sie später wieder auf das Spielfeld zu stellen
 	  Figure capturedF = null;
       if(move.isCaptured()){
     	  capturedF = currentField.getFigureAt(move.getFieldTo());
           currentField.removeFigureAt(move.getFieldTo());
       }
       currentField.moveFigure(move.getFieldFrom(), move.getFieldTo());
-      
       byte colour = /*move.getFigure().getColor()*/ currentField.getFigureAt(move.getFieldTo()).getColor();
       Figure fig;
       byte figType;
