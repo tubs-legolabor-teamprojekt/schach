@@ -258,9 +258,10 @@ public class MoveGUI extends JFrame implements ActionListener
 		
 	}
 	
+	
 	public static void main(String[] args)
 	{
 		MoveGUI.getInstance();
 	}
-
+	
 }

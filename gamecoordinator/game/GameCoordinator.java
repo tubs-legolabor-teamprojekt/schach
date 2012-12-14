@@ -90,6 +90,7 @@ public class GameCoordinator
 			System.out.println(this.currentMove.getMoveAsText());
 		
 		// Wurde geschmissen?
+		// FIXME wer ermittelt ob geschmissen wurde
 		if (this.currentMove.isCaptured()) {
 			// Geschmissene Figur vom Feld entfernen
 			this.field.removeFigureAt(this.currentMove.getFieldTo());
@@ -121,24 +122,24 @@ public class GameCoordinator
 	 * @return True: Gueltiger Zug wurde gespeichert;
 	 * False: Ungueltiger Zug, Fehlermeldung anzeigen
 	 */
-	public boolean receiveMove(Move newMove, boolean checkThisMove)
+	public boolean receiveMove(Move newMove)
 	{
-		if (checkThisMove) {
-			if (!this.rules.checkMove(this.field, newMove)) {
-				// Fehlermeldung anzeigen (GUI)
-				this.gui.showWarning("Ungueltiger Zug!");
-				System.out.println("Ungueltiger Zug laut Rules.checkMove()");
-				return false;
-			}
+		// Zug soll ausgefuehrt werden
+		// Zug ueberpruefen
+		if (!this.rules.checkMove(this.field, newMove)) {
+			// Fehlermeldung anzeigen (GUI)
+			this.gui.showWarning("Ungueltiger Zug!");
+			System.out.println("Ungueltiger Zug laut Rules.checkMove()");
+			return false;
+		} else {
+			// currentMove aktualisieren
+			this.currentMove = newMove;
+			// Figurtyp bestimmen
+			this.currentMove.setFigure();
+			// Aktuellen Zug hinzufuegen
+			this.moves.add(this.currentMove);
+			return true;
 		}
-		
-		// currentMove aktualisieren
-		this.currentMove = newMove;
-		// Figurtyp bestimmen
-		this.currentMove.setFigure();
-		// Aktuellen Zug hinzufuegen
-		this.moves.add(this.currentMove);
-		return true;
 	}
 	
 	/**
