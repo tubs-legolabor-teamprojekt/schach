@@ -45,8 +45,17 @@ Windows:
 
 - (64 Bit)
 C:\opencv\build\common\tbb\intel64\vc10;C:\opencv\build\x64\vc10\bin;
+
 - (32 Bit)
 C:\opencv\build\common\tbb\ia32\vc10;C:\opencv\build\x86\vc10\bin;
+
+Microsoft Visual C++ installieren (nur EINE der beiden Versionen, je nachdem ob bereits 32 o. 64 Bit gewählt wurde)
+
+- (64 Bit)
+http://www.microsoft.com/en-us/download/details.aspx?id=14632 
+
+- (32 Bit)
+http://www.microsoft.com/en-us/download/details.aspx?id=5555
 
 - fertig.
 
