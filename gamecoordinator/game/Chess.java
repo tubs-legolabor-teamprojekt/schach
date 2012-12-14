@@ -82,6 +82,13 @@ public class Chess
                 // TODO Was wird getan, wenn ein ungueltiger Zug vorliegt?
                 System.exit(0);
             }
+            
+            // Warte 5 Sekunden und fuehre naechsten Zug aus
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+            }
+            
             if (moveCounter >= this.simulatedMoves.size()) {
                 System.out
                         .println("\n-----\nLetzten simulierten Zug beendet.\nSpiel vorbei.");
