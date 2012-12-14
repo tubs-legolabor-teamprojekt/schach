@@ -58,33 +58,10 @@ public class ABThread extends Thread{
 	 * Rekursive Methode zur Rückgabe einer Bewertung für die 
 	 */
 	public int alphaBeta(int spieler, int depth, int alpha, int beta){
-		if(depth == 0/* oder es gibt keine weitere KindSituationen (z.B. König matt) */){
-			/*
-			 * An dieser Stelle setzt die Bewertung ein
-			 */
-			return rate.ratePositiv(this.tree.situation, (byte)spieler);
+		
+		if(deph == 0){
+			return rate.rate(this.)
 		}
-		int maxValue = alpha;
-		
-		this.tree.liste = this.valid.move(this.tree.situation);
-		
-		while(!this.tree.liste.isEmpty()){
-			
-			int wert = -alphaBeta((spieler*-1), --depth, -beta, -maxValue);
-			if(wert > maxValue){
-				maxValue = wert;
-				if(maxValue >= beta){ // Alpha-Cut
-					break; //Oder Continue???
-				}
-				if(depth == this.depth){
-					/*
-					 * Methode verlassen. 
-					 */
-				}
-			}
-			
-		}		
-		return maxValue;
 	}
 	
 }

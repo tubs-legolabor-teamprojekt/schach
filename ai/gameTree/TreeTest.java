@@ -2,6 +2,9 @@ package gameTree;
 
 import java.util.LinkedList;
 
+import alphaBeta.ABThread;
+import alphaBeta.ABTree;
+
 import components.Field;
 
 import useful.Test_Situation;
@@ -16,19 +19,35 @@ public class TreeTest {
 		zeit  = System.currentTimeMillis();
 		//SYSTEM============================================================================================
 		
+		System.out.println("Situation erstellen");		
 		short[] sit = Test_Situation.TEST_SITUATION;
+		System.out.println("Situation erstellen fertig");
 		
-		LinkedList<short[]> children = ValidMove.pawnCheck(sit);
+		System.out.println("Spielbaum erstellen");
+		ABTree tree = new ABTree(sit);
+		System.out.println("Spielbaum erstellen fertig");
 		
-		// Alle neuen Situationen durchlaufen
-		for (short[] sh : children) {
-			System.out.println("Neue Situation:\n+++");
-			// Alle Figuren der neuen Situation durchlaufen
-			for(int i = 0; i < sh.length; i++) {
-				System.out.println(ExtractInformationFromBinary.getAllInfosFromShort(sh[i]));
-			}
-			System.out.println("ENDE+++");
+		System.out.println("Thread erstellen");
+		ABThread t1 = new ABThread();
+		System.out.println("Thread erstellen fertig");
+		
+		System.out.println("Spielbaum zuweisen");
+		t1.setTree(tree);
+		System.out.println("Spielbaum zuweisen fertig");
+		
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		
+		System.out.println("Thread starten");
+		t1.run();
+		System.out.println("Thread fertig");
+		
+		System.out.println("Wert "+tree.beta);
+		
 	
 		
 		

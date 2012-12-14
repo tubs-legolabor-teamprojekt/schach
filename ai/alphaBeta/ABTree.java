@@ -19,7 +19,7 @@ public class ABTree {
 	 * Bewertungsvariablen für die Realisierung der Alpha-Beta-Suche.
 	 * Sie werden im Baum gespeichert, um die Möglichkeit der einfachen Beschreibung zu gewährleisten
 	 */
-	short alpha=0, beta=0;
+	public short alpha=0, beta=0;
 	
 	/**
 	 * Konstruktor der Klasse ABTree
