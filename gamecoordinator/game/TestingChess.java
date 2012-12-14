@@ -18,10 +18,10 @@ public class TestingChess
         List<Move> moves = new ArrayList<Move>();
 
         /*
-         * Ein paar Test-Z�ge, ohne auf die Schachregeln zu achten
+         * Ein paar Test-Zuege, ohne auf die Schachregeln zu achten
          * 
-         * Momentan besteht die M�glichkeit, dass ein Spiel mitten drin
-         * abst�rzt
+         * Momentan besteht die Moeglichkeit, dass ein Spiel mitten drin
+         * abstuerzt
          */
 
         // /*
