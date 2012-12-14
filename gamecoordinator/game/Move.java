@@ -380,7 +380,7 @@ public class Move
 
     @Override
     public String toString() {
-        return "Move [fieldFrom=" + fieldFrom + ", fieldTo=" + fieldTo
+        return "Move [fieldFrom=" + Field.getFieldName(fieldFrom) + ", fieldTo=" + Field.getFieldName(fieldTo)
                 + ", figure="
                 + Field.getInstance().getFigureAt(this.getFieldTo())
                 + ", captured=" + captured + ", pawnPromotion=" + pawnPromotion

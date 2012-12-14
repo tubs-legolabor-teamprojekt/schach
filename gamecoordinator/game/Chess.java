@@ -85,7 +85,7 @@ public class Chess
             
             // Warte 5 Sekunden und fuehre naechsten Zug aus
             try {
-                Thread.sleep(5000);
+                Thread.sleep(500);
             } catch (InterruptedException e) {
             }
             
