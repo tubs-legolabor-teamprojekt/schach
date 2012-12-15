@@ -121,21 +121,26 @@ public class GameCoordinator
      *         Fehlermeldung anzeigen
      */
     public boolean receiveMove(Move newMove, boolean checkThisMove) {
+        
+        // Wurde geschmissen?
+        if (Field.getInstance().isFigureOnField(newMove.getFieldTo()))
+            newMove.setCaptured(true);
+        
         if (checkThisMove) {
             if (!this.rules.checkMove(this.field, newMove)) {
                 // Fehlermeldung anzeigen (GUI)
                 this.gui.showWarning("Ungueltiger Zug!");
                 System.out.println("Ungueltiger Zug laut Rules.checkMove()");
                 return false;
+            } else {
+                // currentMove aktualisieren
+                this.currentMove = newMove;
+                // Figurtyp bestimmen
+                this.currentMove.setFigure();
+                // Aktuellen Zug hinzufuegen
+                this.moves.add(this.currentMove);
             }
         }
-
-        // currentMove aktualisieren
-        this.currentMove = newMove;
-        // Figurtyp bestimmen
-        this.currentMove.setFigure();
-        // Aktuellen Zug hinzufuegen
-        this.moves.add(this.currentMove);
         return true;
     }
 
