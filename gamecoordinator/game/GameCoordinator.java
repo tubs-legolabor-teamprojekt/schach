@@ -20,7 +20,7 @@ import components.Figure;
 public class GameCoordinator
 {
     /**
-     * Private Variable, die die Instanz des GameCoordinators enthaelt.
+     * Private Variable, die die Instanz des GameCoordinators enthält.
      */
     private static GameCoordinator instance = null;
 
