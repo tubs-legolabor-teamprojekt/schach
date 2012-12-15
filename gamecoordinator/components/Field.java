@@ -45,7 +45,7 @@ public class Field
 	
 	/**
 	 * Privater Konstruktor, damit nur eine Field-Instanz moeglich ist.
-	 * Erstellt alle noetigen Figuren und positioniert sie auf dem Spielfeld.
+	 * Erstellt alle nötigen Figuren und positioniert sie auf dem Spielfeld.
 	 */
 	private Field()
 	{
