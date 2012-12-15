@@ -113,6 +113,7 @@ public class GameCoordinator
         this.lastMove = this.currentMove.isCheckMate();
 
         // TODO Wurde inzwischen die GUI beendet? => Spiel ist beendet
+        
     }
 
     /**
