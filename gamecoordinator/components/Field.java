@@ -169,7 +169,7 @@ public class Field
 	 * @param figure Die zu positionierende Figur
 	 * @return True: Figur konnte positioniert werden. False: Feld schon besetzt oder nicht vorhanden.
 	 */
-	private boolean putFigureAt(Integer fieldNumber, Figure figure)
+	public boolean putFigureAt(Integer fieldNumber, Figure figure)
 	{
 		if (	!this.isFigureOnField(fieldNumber) &&
 				fieldNumber > 0 &&
