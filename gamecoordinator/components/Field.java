@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 import util.ChessfigureConstants;
 
 /**
- * Repraesentiert das Spielfeld und enthaelt eine HashMap mit allen Figuren und ihrer aktuellen Position.
+ * Repräsentiert das Spielfeld und enthaelt eine HashMap mit allen Figuren und ihrer aktuellen Position.
  * @author Florian Franke
  *
  */
