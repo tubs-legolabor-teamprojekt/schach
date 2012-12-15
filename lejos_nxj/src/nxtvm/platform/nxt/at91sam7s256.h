@@ -170,7 +170,7 @@
   AT91_REG VREG_MR;		// Voltage Regulator Mode Register
 } AT91S_SYS, *AT91PS_SYS;
 
-
+
 // *****************************************************************************
 //              SOFTWARE API DEFINITION  FOR Advanced Interrupt Controller
 // *****************************************************************************
@@ -350,7 +350,7 @@
   AT91_REG PIO_OWSR;		// Output Write Status Register
 } AT91S_PIO, *AT91PS_PIO;
 
-
+
 // *****************************************************************************
 //              SOFTWARE API DEFINITION  FOR Clock Generator Controler
 // *****************************************************************************
