@@ -373,10 +373,12 @@ public class Rules {
           return true;
       }
       //Rochade
+      //TODO: Überprüfung, ob Felder zwischen Turm und König frei sind?!
       if(currentY == y && Math.abs(currentX - x) == 2){
-          return !isCheck(currentField, move, true, move.getFieldFrom());
+          
+          return !isCheck(currentField, move, true, move.getFieldTo());
       }
-      return !isCheck(currentField, move, false, move.getFieldFrom());
+      return !isCheck(currentField, move, false, move.getFieldTo());
   }
 
   /**
@@ -389,6 +391,8 @@ public class Rules {
    */
   private boolean isCheck(Field currentField, Move move, boolean castling, int position)
   {
+      //TODO: entsprechenden Turm bei Rochade versetzen
+      
       //wenn der König versetzt wird, muss natürlich die Königsposition verändert werden
       if(currentField.getFigureAt(move.getFieldFrom()).getFigureType() == ChessfigureConstants.KING){
           position = move.getFieldTo();
@@ -637,6 +641,8 @@ public class Rules {
       }
       System.out.println("FAIL 19");
       
+      //TODO:blackkingmoved etc. evtl. in die checkkingmove methode verlagern
+      // Position von isCheck entsprechend anpassen
       if(castling && x > currentX){
           if((colour == ChessfigureConstants.WHITE && !whiteKingMoved && !whiteRightRookMoved)
                   || (colour == ChessfigureConstants.BLACK && !blackKingMoved && !blackRightRookMoved)){
