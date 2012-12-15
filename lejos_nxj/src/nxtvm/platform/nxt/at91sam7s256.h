@@ -41,14 +41,16 @@
 
 #ifndef AT91SAM7S256_H
 #  define AT91SAM7S256_H
-typedef volatile unsigned int AT91_REG;	// Hardware register definition
+
+typedef volatile unsigned int AT91_REG;	// Hardware register definition
 
 
 // *****************************************************************************
 //              SOFTWARE API DEFINITION  FOR System Peripherals
 // *****************************************************************************
   typedef struct _AT91S_SYS {
-  AT91_REG AIC_SMR[32];	// Source Mode Register
+  
+AT91_REG AIC_SMR[32];	// Source Mode Register
   AT91_REG AIC_SVR[32];		// Source Vector Register
   AT91_REG AIC_IVR;		// IRQ Vector Register
   AT91_REG AIC_FVR;		// FIQ Vector Register
@@ -175,7 +177,8 @@
 //              SOFTWARE API DEFINITION  FOR Advanced Interrupt Controller
 // *****************************************************************************
   typedef struct _AT91S_AIC {
-  AT91_REG AIC_SMR[32];	// Source Mode Register
+  
+AT91_REG AIC_SMR[32];	// Source Mode Register
   AT91_REG AIC_SVR[32];		// Source Vector Register
   AT91_REG AIC_IVR;		// IRQ Vector Register
   AT91_REG AIC_FVR;		// FIQ Vector Register
@@ -218,7 +221,8 @@
 //              SOFTWARE API DEFINITION  FOR Peripheral DMA Controller
 // *****************************************************************************
   typedef struct _AT91S_PDC {
-  AT91_REG PDC_RPR;		// Receive Pointer Register
+  
+AT91_REG PDC_RPR;		// Receive Pointer Register
   AT91_REG PDC_RCR;		// Receive Counter Register
   AT91_REG PDC_TPR;		// Transmit Pointer Register
   AT91_REG PDC_TCR;		// Transmit Counter Register
@@ -242,7 +246,8 @@
 //              SOFTWARE API DEFINITION  FOR Debug Unit
 // *****************************************************************************
   typedef struct _AT91S_DBGU {
-  AT91_REG DBGU_CR;		// Control Register
+  
+AT91_REG DBGU_CR;		// Control Register
   AT91_REG DBGU_MR;		// Mode Register
   AT91_REG DBGU_IER;		// Interrupt Enable Register
   AT91_REG DBGU_IDR;		// Interrupt Disable Register
@@ -313,7 +318,8 @@
 //              SOFTWARE API DEFINITION  FOR Parallel Input Output Controler
 // *****************************************************************************
   typedef struct _AT91S_PIO {
-  AT91_REG PIO_PER;		// PIO Enable Register
+  
+AT91_REG PIO_PER;		// PIO Enable Register
   AT91_REG PIO_PDR;		// PIO Disable Register
   AT91_REG PIO_PSR;		// PIO Status Register
   AT91_REG Reserved0[1];	//
@@ -355,7 +361,8 @@
 //              SOFTWARE API DEFINITION  FOR Clock Generator Controler
 // *****************************************************************************
   typedef struct _AT91S_CKGR {
-  AT91_REG CKGR_MOR;		// Main Oscillator Register
+  
+AT91_REG CKGR_MOR;		// Main Oscillator Register
   AT91_REG CKGR_MCFR;		// Main Clock  Frequency Register
   AT91_REG Reserved0[1];	//
   AT91_REG CKGR_PLLR;		// PLL Register
@@ -389,7 +396,8 @@
 //              SOFTWARE API DEFINITION  FOR Power Management Controler
 // *****************************************************************************
   typedef struct _AT91S_PMC {
-  AT91_REG PMC_SCER;		// System Clock Enable Register
+  
+AT91_REG PMC_SCER;		// System Clock Enable Register
   AT91_REG PMC_SCDR;		// System Clock Disable Register
   AT91_REG PMC_SCSR;		// System Clock Status Register
   AT91_REG Reserved0[1];	//
@@ -452,7 +460,8 @@
 //              SOFTWARE API DEFINITION  FOR Reset Controller Interface
 // *****************************************************************************
   typedef struct _AT91S_RSTC {
-  AT91_REG RSTC_RCR;		// Reset Control Register
+  
+AT91_REG RSTC_RCR;		// Reset Control Register
   AT91_REG RSTC_RSR;		// Reset Status Register
   AT91_REG RSTC_RMR;		// Reset Mode Register
 } AT91S_RSTC, *AT91PS_RSTC;
@@ -485,7 +494,8 @@
 //              SOFTWARE API DEFINITION  FOR Real Time Timer Controller Interface
 // *****************************************************************************
   typedef struct _AT91S_RTTC {
-  AT91_REG RTTC_RTMR;		// Real-time Mode Register
+  
+AT91_REG RTTC_RTMR;		// Real-time Mode Register
   AT91_REG RTTC_RTAR;		// Real-time Alarm Register
   AT91_REG RTTC_RTVR;		// Real-time Value Register
   AT91_REG RTTC_RTSR;		// Real-time Status Register
@@ -509,7 +519,8 @@
 //              SOFTWARE API DEFINITION  FOR Periodic Interval Timer Controller Interface
 // *****************************************************************************
   typedef struct _AT91S_PITC {
-  AT91_REG PITC_PIMR;		// Period Interval Mode Register
+  
+AT91_REG PITC_PIMR;		// Period Interval Mode Register
   AT91_REG PITC_PISR;		// Period Interval Status Register
   AT91_REG PITC_PIVR;		// Period Interval Value Register
   AT91_REG PITC_PIIR;		// Period Interval Image Register
@@ -531,7 +542,8 @@
 //              SOFTWARE API DEFINITION  FOR Watchdog Timer Controller Interface
 // *****************************************************************************
   typedef struct _AT91S_WDTC {
-  AT91_REG WDTC_WDCR;		// Watchdog Control Register
+  
+AT91_REG WDTC_WDCR;		// Watchdog Control Register
   AT91_REG WDTC_WDMR;		// Watchdog Mode Register
   AT91_REG WDTC_WDSR;		// Watchdog Status Register
 } AT91S_WDTC, *AT91PS_WDTC;
@@ -557,7 +569,8 @@
 //              SOFTWARE API DEFINITION  FOR Voltage Regulator Mode Controller Interface
 // *****************************************************************************
   typedef struct _AT91S_VREG {
-  AT91_REG VREG_MR;		// Voltage Regulator Mode Register
+  
+AT91_REG VREG_MR;		// Voltage Regulator Mode Register
 } AT91S_VREG, *AT91PS_VREG;
 
 
@@ -568,7 +581,8 @@
 //              SOFTWARE API DEFINITION  FOR Memory Controller Interface
 // *****************************************************************************
   typedef struct _AT91S_MC {
-  AT91_REG MC_RCR;		// MC Remap Control Register
+  
+AT91_REG MC_RCR;		// MC Remap Control Register
   AT91_REG MC_ASR;		// MC Abort Status Register
   AT91_REG MC_AASR;		// MC Abort Address Status Register
   AT91_REG Reserved0[21];	//
@@ -649,7 +663,8 @@
 //              SOFTWARE API DEFINITION  FOR Serial Parallel Interface
 // *****************************************************************************
   typedef struct _AT91S_SPI {
-  AT91_REG SPI_CR;		// Control Register
+  
+AT91_REG SPI_CR;		// Control Register
   AT91_REG SPI_MR;		// Mode Register
   AT91_REG SPI_RDR;		// Receive Data Register
   AT91_REG SPI_TDR;		// Transmit Data Register
@@ -732,7 +747,8 @@
 //              SOFTWARE API DEFINITION  FOR Analog to Digital Convertor
 // *****************************************************************************
   typedef struct _AT91S_ADC {
-  AT91_REG ADC_CR;		// ADC Control Register
+  
+AT91_REG ADC_CR;		// ADC Control Register
   AT91_REG ADC_MR;		// ADC Mode Register
   AT91_REG Reserved0[2];	//
   AT91_REG ADC_CHER;		// ADC Channel Enable Register
@@ -840,7 +856,8 @@
 //              SOFTWARE API DEFINITION  FOR Synchronous Serial Controller Interface
 // *****************************************************************************
   typedef struct _AT91S_SSC {
-  AT91_REG SSC_CR;		// Control Register
+  
+AT91_REG SSC_CR;		// Control Register
   AT91_REG SSC_CMR;		// Clock Mode Register
   AT91_REG Reserved0[2];	//
   AT91_REG SSC_RCMR;		// Receive Clock ModeRegister
@@ -938,7 +955,8 @@
 //              SOFTWARE API DEFINITION  FOR Usart
 // *****************************************************************************
   typedef struct _AT91S_USART {
-  AT91_REG US_CR;		// Control Register
+  
+AT91_REG US_CR;		// Control Register
   AT91_REG US_MR;		// Mode Register
   AT91_REG US_IER;		// Interrupt Enable Register
   AT91_REG US_IDR;		// Interrupt Disable Register
@@ -1034,7 +1052,8 @@
 //              SOFTWARE API DEFINITION  FOR Two-wire Interface
 // *****************************************************************************
   typedef struct _AT91S_TWI {
-  AT91_REG TWI_CR;		// Control Register
+  
+AT91_REG TWI_CR;		// Control Register
   AT91_REG TWI_MMR;		// Master Mode Register
   AT91_REG Reserved0[1];	//
   AT91_REG TWI_IADR;		// Internal Address Register
@@ -1082,7 +1101,8 @@
 //              SOFTWARE API DEFINITION  FOR Timer Counter Channel Interface
 // *****************************************************************************
   typedef struct _AT91S_TC {
-  AT91_REG TC_CCR;		// Channel Control Register
+  
+AT91_REG TC_CCR;		// Channel Control Register
   AT91_REG TC_CMR;		// Channel Mode Register (Capture Mode / Waveform Mode)
   AT91_REG Reserved0[2];	//
   AT91_REG TC_CV;		// Counter Value
@@ -1214,7 +1234,8 @@
 //              SOFTWARE API DEFINITION  FOR Timer Counter Interface
 // *****************************************************************************
   typedef struct _AT91S_TCB {
-  AT91S_TC TCB_TC0;		// TC Channel 0
+  
+AT91S_TC TCB_TC0;		// TC Channel 0
   AT91_REG Reserved0[4];	//
   AT91S_TC TCB_TC1;		// TC Channel 1
   AT91_REG Reserved1[4];	//
@@ -1248,7 +1269,8 @@
 //              SOFTWARE API DEFINITION  FOR PWMC Channel Interface
 // *****************************************************************************
   typedef struct _AT91S_PWMC_CH {
-  AT91_REG PWMC_CMR;		// Channel Mode Register
+  
+AT91_REG PWMC_CMR;		// Channel Mode Register
   AT91_REG PWMC_CDTYR;		// Channel Duty Cycle Register
   AT91_REG PWMC_CPRDR;		// Channel Period Register
   AT91_REG PWMC_CCNTR;		// Channel Counter Register
@@ -1278,7 +1300,8 @@
 //              SOFTWARE API DEFINITION  FOR Pulse Width Modulation Controller Interface
 // *****************************************************************************
   typedef struct _AT91S_PWMC {
-  AT91_REG PWMC_MR;		// PWMC Mode Register
+  
+AT91_REG PWMC_MR;		// PWMC Mode Register
   AT91_REG PWMC_ENA;		// PWMC Enable Register
   AT91_REG PWMC_DIS;		// PWMC Disable Register
   AT91_REG PWMC_SR;		// PWMC Status Register
@@ -1320,7 +1343,8 @@
 //              SOFTWARE API DEFINITION  FOR USB Device Interface
 // *****************************************************************************
   typedef struct _AT91S_UDP {
-  AT91_REG UDP_NUM;		// Frame Number Register
+  
+AT91_REG UDP_NUM;		// Frame Number Register
   AT91_REG UDP_GLBSTATE;	// Global State Register
   AT91_REG UDP_FADDR;		// Function Address Register
   AT91_REG Reserved0[1];	//
