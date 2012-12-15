@@ -30,7 +30,7 @@ public class GameCoordinator
     public Field field;
 
     /**
-     * Enthaelt alle Züge des aktuellen Spiels
+     * Enthält alle Züge des aktuellen Spiels
      */
     private List<Move> moves = new ArrayList<Move>();
 
