@@ -41,14 +41,12 @@ public class GameParser {
      * 
      * Kann modifiziert werden fuer unterschiedliche Notationen ...
      */
-    private String splitLine(String line) {
-        String[] geteilt2, geteilt1;
-        geteilt1 = line.split("-");
-        geteilt2 = geteilt1[0].split(":");
-        stringList.addFirst(geteilt1[1].replaceAll(" ", ""));
-        stringList.addFirst(geteilt2[1].replaceAll(" ", ""));
-
-        return line + "\n";
+    private void splitLine(String line) {
+        String[] moveFrom, moveTo;
+        moveFrom = line.split("-");
+        moveTo = moveFrom[0].split(":");
+        stringList.addFirst(moveFrom[1].replaceAll(" ", ""));
+        stringList.addFirst(moveTo[1].replaceAll(" ", ""));
     }
 
     /*
