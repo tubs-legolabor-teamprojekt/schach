@@ -105,14 +105,12 @@ public class Chess
                 // wobei der Rochade-Zug auch als erstes �bergeben werden kann
                 List<Integer> listOfChangedPositions = im.getChangedPositions();
 
-                // Konnte Kamera Z�ge ermitteln?
+                // Konnte Kamera Züge ermitteln?
                 if (listOfChangedPositions.size() == 0) {
-                    // Manuelles Einlesen der Z�ge durch die GUI
-                    moves = this.getMovesFromManualInputOrCamera(Checkerboard
-                            .getInstance().manualMove());
+                    // Manuelles Einlesen der Zühe durch die GUI
+                    moves = this.getMovesFromManualInputOrCamera(Checkerboard.getInstance().manualMove());
                 } else {
-                    moves = this
-                            .getMovesFromManualInputOrCamera(listOfChangedPositions);
+                    moves = this.getMovesFromManualInputOrCamera(listOfChangedPositions);
                 }
 
             } else {
@@ -123,20 +121,12 @@ public class Chess
                 moves.add(newMove);
             }
 
-            // Z�ge ausf�hren
-            for (Move move : moves) {
-                // Warte 5 Sekunden und fuehre naechsten Zug aus
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                }
-                this.sendAndExecuteMove(move, false);
-            }
+            // Züge ausführen
+            this.execMultipleMoves(moves);
 
             if (moveCounter >= this.simulatedMoves.size()) {
                 System.out.println("Noch kurz ein manuellen Zug:");
-                this.getMovesFromManualInputOrCamera(Checkerboard.getInstance()
-                        .manualMove());
+                this.getMovesFromManualInputOrCamera(Checkerboard.getInstance().manualMove());
 
                 System.out
                         .println("\n-----\nLetzten simulierten Zug beendet.\nSpiel vorbei.");
@@ -157,6 +147,25 @@ public class Chess
                 this.gameCoordinator.getAllMoves()) // Zuege
                 );
     }
+    
+    /**
+     * Fuehrt mehrere Zuege aus.
+     * @param moves
+     *              Die auszufuehrenden Zuege
+     */
+    public void execMultipleMoves(List<Move> moves)
+    {
+        for (Move move : moves) {
+            // Warte 5 Sekunden und fuehre naechsten Zug aus
+            try {
+                Thread.sleep(GameSettings.timeBetweenMoves);
+            } catch (InterruptedException e) {
+            }
+            
+            // Zuege aus
+            this.sendAndExecuteMove(move, GameSettings.checkRules);
+        }
+    }
 
     /**
      * Laesst einen Zug ausfueren und optional vorher auf Gueltigkeit pruefen
@@ -172,18 +181,19 @@ public class Chess
             // Zug ausfuehren
             this.gameCoordinator.execMove();
         } else {
-            // TODO Was wird getan, wenn ein ungueltiger Zug vorliegt?
+            // FIXME funktioniert scheinbar noch nicht
+            this.execMultipleMoves(this.getMovesFromManualInputOrCamera(Checkerboard.getInstance().manualMove()));
         }
     }
 
     /**
-     * Ermittelt (hoffentlich) aus 2 oder 4 gegebenen Werten die Z�ge. Dazu muss
+     * Ermittelt (hoffentlich) aus 2 oder 4 gegebenen Werten die Züge. Dazu muss
      * die Reihenfolge angepasst werden (die Reihenfolge der Werte, die die
      * Kamera ermittelt hat, ist durcheinander). 2 Werte: 1 Zug 4 Werte: Kurze
      * oder Lange Rochade
      * 
      * @param listOfChangedPositions
-     * @return Liste der auszuf�hrenden Z�ge (ohne Regelpr�fung)
+     * @return Liste der auszuführenden Züge (ohne Regelprüfung)
      */
     private List<Move> getMovesFromManualInputOrCamera(
             List<Integer> listOfChangedPositions) {

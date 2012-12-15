@@ -6,8 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import rules.Rules;
+import util.ChessfigureConstants;
 
 import components.Field;
+import components.Figure;
 
 /**
  * Die "Hauptklasse" des Schachroboters, hier wird das Spiel gestartet.
@@ -122,25 +124,46 @@ public class GameCoordinator
      */
     public boolean receiveMove(Move newMove, boolean checkThisMove) {
         
+        
         // Wurde geschmissen?
-        if (Field.getInstance().isFigureOnField(newMove.getFieldTo()))
-            newMove.setCaptured(true);
+        // FIXME FEHLER: wird auch bei Rochade ausgefuehrt!!!
+        if (Field.getInstance().isFigureOnField(newMove.getFieldTo())) {
+            Field f = Field.getInstance();
+            Figure figureFrom = f.getFigureAt(newMove.getFieldFrom());
+            Figure figureTo = f.getFigureAt(newMove.getFieldTo());
+            // Rochade pruefen
+            boolean bothFiguresSameColor = (
+                    (figureFrom.getColor() == ChessfigureConstants.WHITE && figureTo.getColor() == ChessfigureConstants.WHITE) ||
+                    (figureFrom.getColor() == ChessfigureConstants.BLACK && figureTo.getColor() == ChessfigureConstants.BLACK)
+                    );
+            
+            boolean kingAndRookSelected = (
+                    (figureFrom.getFigureType() == ChessfigureConstants.KING && figureTo.getFigureType() == ChessfigureConstants.ROOK) ||
+                    (figureFrom.getFigureType() == ChessfigureConstants.ROOK && figureTo.getFigureType() == ChessfigureConstants.KING)
+                    );
+            
+            boolean rochade = f.isRochadeWhitePossible() && bothFiguresSameColor && kingAndRookSelected;
+            
+            // Es wird keine Figur geschmissen
+            if (!rochade) {
+                newMove.setCaptured(true);
+            }
+        }
         
         if (checkThisMove) {
             if (!this.rules.checkMove(this.field, newMove)) {
+                System.out.println("Ungueltiger Zug laut Rules.checkMove().\nZug: " + newMove.toString());
                 // Fehlermeldung anzeigen (GUI)
                 this.gui.showWarning("Ungueltiger Zug!");
-                System.out.println("Ungueltiger Zug laut Rules.checkMove()");
                 return false;
-            } else {
-                // currentMove aktualisieren
-                this.currentMove = newMove;
-                // Figurtyp bestimmen
-                this.currentMove.setFigure();
-                // Aktuellen Zug hinzufuegen
-                this.moves.add(this.currentMove);
             }
         }
+        // currentMove aktualisieren
+        this.currentMove = newMove;
+        // Figurtyp bestimmen
+        this.currentMove.setFigure();
+        // Aktuellen Zug hinzufuegen
+        this.moves.add(this.currentMove);
         return true;
     }
 

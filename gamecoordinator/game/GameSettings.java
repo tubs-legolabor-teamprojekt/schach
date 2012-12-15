@@ -10,9 +10,16 @@ public class GameSettings
 
     /**
      * Sollen simulierte Zuege durchgefuehrt werden? Kann zu Testzwecken
-     * tempor둹 eingeschaltet werden, damit keine Fotos per Webcam geschossen
+     * tempor채r eingeschaltet werden, damit keine Fotos per Webcam geschossen
      * werden.
      */
     public static final boolean simulateGame = true;
+    
+    /**
+     * Sollen die einzelnen Z체ge auf G체ltigkeit gepr체ft werden?
+     */
+    public static final boolean checkRules = true;
+    
+    public static final long timeBetweenMoves = 500;
 
 }
