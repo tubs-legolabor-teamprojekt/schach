@@ -307,26 +307,34 @@ public class Checkerboard extends JPanel
             // Feldnummern von den angeklickten Feldern
             this.a = this.getArrayList();
         } else {
-            // welche Rochadenart
-            if (MoveGUI.getInstance().isKingsideCastling()) {
-                // kurze Rochade
-                // a = 5 7 8 6
-                this.a.clear();
-                this.a.add(5);
-                this.a.add(7);
-                this.a.add(8);
-                this.a.add(6);
+            // darf schwarz bzw. weiß überhaupt eine Rochade ausführen?
+            if ((this.figure.getColor() == ChessfigureConstants.BLACK && 
+                    Field.getInstance().isRochadeBlackPossible()) || 
+                    (this.figure.getColor() == ChessfigureConstants.WHITE &&
+                    Field.getInstance().isRochadeWhitePossible())) {
+                // welche Rochadenart
+                if (MoveGUI.getInstance().isKingsideCastling()) {
+                    // kurze Rochade
+                    // a = 5 7 8 6
+                    this.a.clear();
+                    this.a.add(5);
+                    this.a.add(7);
+                    this.a.add(8);
+                    this.a.add(6);
+                } else {
+                    // lange Rochade
+                    // a = 5 3 1 4
+                    this.a.clear();
+                    this.a.add(5);
+                    this.a.add(3);
+                    this.a.add(1);
+                    this.a.add(4);
+                }
             } else {
-                // lange Rochade
-                // a = 5 3 1 4
-                this.a.clear();
-                this.a.add(5);
-                this.a.add(3);
-                this.a.add(1);
-                this.a.add(4);
+                javax.swing.JOptionPane.showMessageDialog(this, "Keine Rochade möglich!",
+                        "Rochade", JOptionPane.INFORMATION_MESSAGE);
             }
         }
-        System.out.println("Tabea: " + this.a);
         return this.a;
     }
 
