@@ -2,8 +2,11 @@ package game;
 
 import gui.Checkerboard;
 import gui.Gui;
+import gui.StartWindow;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -125,25 +128,33 @@ public class Chess
             this.execMultipleMoves(moves);
 
             if (moveCounter >= this.simulatedMoves.size()) {
-                System.out.println("Noch kurz ein manuellen Zug:");
-                this.getMovesFromManualInputOrCamera(Checkerboard.getInstance().manualMove());
-
-                System.out
-                        .println("\n-----\nLetzten simulierten Zug beendet.\nSpiel vorbei.");
+                System.out.println("\n-----\nLetzten simulierten Zug beendet.\nSpiel vorbei.");
                 break;
             }
         }
 
         // TODO Verbindung zum Roboter beenden
 
+        // Aktuelles Datum
+        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
+        
+        // Ergebnis bestimmen
+        String res = "";
+        if (moveCounter % 2 == 0) {
+            // Schwarz hat gewonnen, da gerade Anzahl an Zügen
+            res = "0-1";
+        } else {
+            res = "1-0";
+        }
+        
         // Exportieren
-        System.out.println(Exporter.exportMovesToPGN("Tabea testet", // Name des
-                                                                     // Spiels
+        System.out.println(Exporter.exportMovesToPGN(
+                "Schachspiel gegen den Legoroboter", // Name des Spiels
                 "Braunschweig", // Ort
-                "11-02-2012", // Datum
-                "Tabea", // Spieler weiss
-                "Florian", // Spieler schwarz
-                "1-0", // Ergebnis
+                sdf.format(new Date()), // Datum
+                StartWindow.getInstance().getUsername(), // Spieler weiss
+                "Computer", // Spieler schwarz
+                res, // Ergebnis
                 this.gameCoordinator.getAllMoves()) // Zuege
                 );
     }
