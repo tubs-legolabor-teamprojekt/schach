@@ -182,7 +182,7 @@ public class Chess
             this.gameCoordinator.execMove();
         } else {
             // FIXME funktioniert scheinbar noch nicht
-            this.execMultipleMoves(this.getMovesFromManualInputOrCamera(Checkerboard.getInstance().manualMove()));
+            this.execMultipleMoves(getMovesFromManualInputOrCamera(Checkerboard.getInstance().manualMove()));
         }
     }
 
@@ -195,9 +195,9 @@ public class Chess
      * @param listOfChangedPositions
      * @return Liste der auszuführenden Züge (ohne Regelprüfung)
      */
-    private List<Move> getMovesFromManualInputOrCamera(
+    public static List<Move> getMovesFromManualInputOrCamera(
             List<Integer> listOfChangedPositions) {
-        List<Move> moves = null;
+        List<Move> moves;
 
         // Zuege einlesen
         int cnt = 0, field1 = -1, field2 = -1, field3 = -1, field4 = -1;
@@ -336,14 +336,14 @@ public class Chess
             Move newMove = new Move(field1From, field1To, captured, false,
                     false);
 
-            this.sendAndExecuteMove(newMove, true);
+            moves.add(newMove);
         } else {
             // Bei Rochade muessen die Zuege nicht mehr geprueft werden.
             Move moveRochadeKing = new Move(field1From, field1To);
             Move moveRochadeRook = new Move(field2From, field2To);
 
-            this.sendAndExecuteMove(moveRochadeKing, false);
-            this.sendAndExecuteMove(moveRochadeRook, false);
+            moves.add(moveRochadeRook);
+            moves.add(moveRochadeKing);
         }
 
         return moves;
