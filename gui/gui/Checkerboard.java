@@ -330,6 +330,7 @@ public class Checkerboard extends JPanel
                     this.a.add(1);
                     this.a.add(4);
                 }
+            // wenn keine Rochade erlaubt
             } else {
                 javax.swing.JOptionPane.showMessageDialog(this, "Keine Rochade möglich!",
                         "Rochade", JOptionPane.INFORMATION_MESSAGE);
