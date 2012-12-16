@@ -21,10 +21,13 @@ public class TestingConvertFieldnumbersToMoves
         
         List<Integer> fieldnumbers = new LinkedList<Integer>();
         
-        fieldnumbers.add(Field.getFieldNumber("e1"));
-        fieldnumbers.add(Field.getFieldNumber("c1"));
-        fieldnumbers.add(Field.getFieldNumber("a1"));
-        fieldnumbers.add(Field.getFieldNumber("d1"));
+//        fieldnumbers.add(Field.getFieldNumber("e1"));
+//        fieldnumbers.add(Field.getFieldNumber("c1"));
+//        fieldnumbers.add(Field.getFieldNumber("a1"));
+//        fieldnumbers.add(Field.getFieldNumber("d1"));
+        
+        fieldnumbers.add(Field.getFieldNumber("a2"));
+        fieldnumbers.add(Field.getFieldNumber("a3"));
         
         List<Move> moves = convertFieldnumbersToMoves(ChessfigureConstants.WHITE, fieldnumbers);
         
@@ -44,7 +47,6 @@ public class TestingConvertFieldnumbersToMoves
             
             int fieldFrom = -1,
                 fieldTo = -1;
-            boolean captured = false;
             
             // Welches ist das From- und To-Feld?
             if (    f.isFigureOnField(fieldnumbers.get(0)) && // Figur auf fieldnumbers[0] vorhanden
@@ -62,14 +64,22 @@ public class TestingConvertFieldnumbersToMoves
             }
             
             // Wird geschmissen?
-            if (f.isFigureOnField(fieldTo) && // Figur auf To-Feld vorhanden?
-                f.getFigureAt(fieldTo).getColor() != colorOfPlayer // Gegner auf To-Feld?
+            if (f.isFigureOnField(fieldTo) // Figur auf To-Feld vorhanden?
                ) {
-                captured = true;
+                if (f.getFigureAt(fieldTo).getColor() != colorOfPlayer) // Gegner auf To-Feld?
+                {
+                    // Neues Zug erstellen und der Liste hinzufuegen
+                    moves.add(new Move(fieldFrom, fieldTo, true));
+                } else {
+                    // Eigene Figur kann nicht geschmissen werden
+                    System.out.println("Die eigene Figur kann nicht geschmissen werden!");
+                }
+                
+            } else {
+                moves.add(new Move(fieldFrom, fieldTo));
             }
             
-            // Neues Zug erstellen und der Liste hinzufuegen
-            moves.add(new Move(fieldFrom, fieldTo, captured));
+            
             
         } else if (fieldnumbers.size() == 4) {
             // Rochade-Zug
