@@ -24,7 +24,7 @@ public class TestingConvertFieldnumbersToMoves
         fieldnumbers.add(Field.getFieldNumber("e1"));
         fieldnumbers.add(Field.getFieldNumber("c1"));
         fieldnumbers.add(Field.getFieldNumber("a1"));
-        fieldnumbers.add(Field.getFieldNumber("e1"));
+        fieldnumbers.add(Field.getFieldNumber("d1"));
         
         List<Move> moves = convertFieldnumbersToMoves(ChessfigureConstants.WHITE, fieldnumbers);
         
