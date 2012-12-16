@@ -307,11 +307,9 @@ public class Checkerboard extends JPanel
             // Feldnummern von den angeklickten Feldern
             this.a = this.getArrayList();
         } else {
-            // darf schwarz bzw. weiß überhaupt eine Rochade ausführen?
-            if ((this.figure.getColor() == ChessfigureConstants.BLACK && 
-                    Field.getInstance().isRochadeBlackPossible()) || 
-                    (this.figure.getColor() == ChessfigureConstants.WHITE &&
-                    Field.getInstance().isRochadeWhitePossible())) {
+            // darf weiß überhaupt eine Rochade ausführen?
+            if (this.figure.getColor() == ChessfigureConstants.WHITE &&
+                    Field.getInstance().isRochadeWhitePossible()) {
                 // welche Rochadenart
                 if (MoveGUI.getInstance().isKingsideCastling()) {
                     // kurze Rochade
