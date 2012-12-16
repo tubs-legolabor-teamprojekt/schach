@@ -108,9 +108,9 @@ public class Chess
                 // Konnte Kamera Züge ermitteln?
                 if (listOfChangedPositions.size() == 0) {
                     // Manuelles Einlesen der Zühe durch die GUI
-                    moves = this.getMovesFromManualInputOrCamera(Checkerboard.getInstance().manualMove());
+                    moves = getMovesFromManualInputOrCamera(Checkerboard.getInstance().manualMove());
                 } else {
-                    moves = this.getMovesFromManualInputOrCamera(listOfChangedPositions);
+                    moves = getMovesFromManualInputOrCamera(listOfChangedPositions);
                 }
 
             } else {
@@ -125,11 +125,7 @@ public class Chess
             this.execMultipleMoves(moves);
 
             if (moveCounter >= this.simulatedMoves.size()) {
-                System.out.println("Noch kurz ein manuellen Zug:");
-                this.getMovesFromManualInputOrCamera(Checkerboard.getInstance().manualMove());
-
-                System.out
-                        .println("\n-----\nLetzten simulierten Zug beendet.\nSpiel vorbei.");
+                System.out.println("\n-----\nLetzten simulierten Zug beendet.\nSpiel vorbei.");
                 break;
             }
         }
@@ -192,15 +188,18 @@ public class Chess
      * Kamera ermittelt hat, ist durcheinander). 2 Werte: 1 Zug 4 Werte: Kurze
      * oder Lange Rochade
      * 
-     * @param listOfChangedPositions
-     * @return Liste der auszuführenden Züge (ohne Regelprüfung)
+     * @param listOfChangedPositions die eingelesenen Feldnummern
+     * @return Liste der auszuführenden Züge
      */
-    public static List<Move> getMovesFromManualInputOrCamera(
-            List<Integer> listOfChangedPositions) {
-        List<Move> moves;
+    public static List<Move> getMovesFromManualInputOrCamera(List<Integer> listOfChangedPositions) {
+        List<Move> moves = new LinkedList<Move>();
 
         // Zuege einlesen
-        int cnt = 0, field1 = -1, field2 = -1, field3 = -1, field4 = -1;
+        int     cnt = 0,
+                field1 = -1,
+                field2 = -1, 
+                field3 = -1,
+                field4 = -1;
         boolean rochade = false;
         for (Integer position : listOfChangedPositions) {
             if (cnt == 0) {
@@ -224,18 +223,20 @@ public class Chess
         boolean captured = false;
 
         // Alle Werte eingelesen, nun zuordnen
-        int field1From = -1, field1To = -1, field2From = -1, field2To = -1;
+        int     field1From = -1,
+                field1To = -1,
+                field2From = -1,
+                field2To = -1;
+        
         Field field = Field.getInstance();
         // Wurde der Koenig vom Spieler schon bewegt?
         if (!rochade && field.isRochadeWhitePossible()) {
             // ** Keine Rochade, also nur zwei Werte nutzen **
 
             // field1 besetzt
-            boolean field1Taken = (!field.isFigureOnField(field1) && field
-                    .isFigureOnField(field2));
+            boolean field1Taken = (!field.isFigureOnField(field1) && field.isFigureOnField(field2));
             // field2 besetzt
-            boolean field2Taken = (field.isFigureOnField(field1) && !field
-                    .isFigureOnField(field2));
+            boolean field2Taken = (field.isFigureOnField(field1) && !field.isFigureOnField(field2));
             // Beide besetzt
             boolean bothTaken = (field1Taken && field2Taken);
 
