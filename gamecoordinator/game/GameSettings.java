@@ -18,7 +18,7 @@ public class GameSettings
     /**
      * Zeit zwischen den simulierten Zügen
      */
-    public static final long timeBetweenMoves = 50;
+    public static final long timeBetweenMoves = 1000;
     
     /**
      * Sollen die einzelnen Züge auf Gültigkeit geprüft werden?
