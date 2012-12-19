@@ -365,7 +365,6 @@ public class Rules {
       //Rochade
       //TODO: Überprüfung, ob Felder zwischen Turm und König frei sind?!
       if(currentY == y && Math.abs(currentX - x) == 2){
-          
           return !isCheck(currentField, move, true, move.getFieldTo());
       }
       return !isCheck(currentField, move, false, move.getFieldTo());
