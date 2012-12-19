@@ -45,9 +45,7 @@ public class Rules {
       
       // false zur�ckgeben, wenn zu schlagende Figur eine eigene Figur ist oder dort keine steht
       if(move.isCaptured()){
-          if(!currentField.isFigureOnField(move.getFieldTo())
-                  //TODO: wird entfernt, da move-objekt kein figure-objekt enthalten wird/soll
-                  /*|| currentField.getFigureAt(move.getFieldTo()).getColor() == move.getFigure().getColor()*/){
+          if(!currentField.isFigureOnField(move.getFieldTo())){
                   return false;
           }
       // false zur�ckgeben, wenn eine Figur geschlagen werden w�rde    
@@ -59,9 +57,7 @@ public class Rules {
       }
       System.out.println("FAIL 2");
       // false zur�ckgeben, wenn zu bewegende Figur nicht existiert oder nicht die eigene Figur ist
-      if(!currentField.isFigureOnField(move.getFieldFrom())
-              //TODO: siehe weiter oben
-              /*|| currentField.getFigureAt(move.getFieldFrom()).getColor() != move.getFigure().getColor()*/){
+      if(!currentField.isFigureOnField(move.getFieldFrom())){
           return false;
       }
       System.out.println("FAIL 3");
@@ -74,8 +70,7 @@ public class Rules {
       x = Field.getXPositionFromFieldnumber(move.getFieldTo());
       y = Field.getYPositionFromFieldnumber(move.getFieldTo());
       
-      //TODO: siehe oben
-      switch(currentField.getFigureAt(move.getFieldFrom()).getFigureType() /*move.getFigure().getFigureType()*/) {
+      switch(currentField.getFigureAt(move.getFieldFrom()).getFigureType() ) {
       case ChessfigureConstants.PAWN:
           legalMove = checkPawnMove(currentField, move);
           break;
@@ -101,8 +96,7 @@ public class Rules {
           System.out.println("toast1");
           if(legalMove){
               System.out.println("toast7");
-              //TODO: siehe oben
-              if(currentField.getFigureAt(move.getFieldFrom()).getColor() /*move.getFigure().getColor()*/ == ChessfigureConstants.WHITE){
+              if(currentField.getFigureAt(move.getFieldFrom()).getColor() == ChessfigureConstants.WHITE){
                   whiteKingMoved = true;
                   if(currentY == y && currentX - x == 2){
                       whiteLeftRookMoved = true;
@@ -111,8 +105,7 @@ public class Rules {
                       whiteRightRookMoved = true;
                   }
               }
-              //TODO: siehe oben
-              else if(currentField.getFigureAt(move.getFieldFrom()).getColor() /*move.getFigure().getColor()*/ == ChessfigureConstants.BLACK){
+              else if(currentField.getFigureAt(move.getFieldFrom()).getColor() == ChessfigureConstants.BLACK){
                   blackKingMoved = true;
                   if(currentY == y && currentX - x == 2){
                       blackLeftRookMoved = true;
@@ -132,8 +125,7 @@ public class Rules {
       
       if(legalMove){
           return !isCheck(currentField, move, false,
-                  //TODO: siehe oben
-                          currentField.getKingPosition(currentField.getFigureAt(move.getFieldFrom()).getColor() /*move.getFigure().getColor()*/));
+                          currentField.getKingPosition(currentField.getFigureAt(move.getFieldFrom()).getColor()));
       }
       else{
           return false;
@@ -151,12 +143,10 @@ public class Rules {
   private boolean checkPawnMove(Field currentField, Move move)
   {
       int i;
-      //TODO: siehe oben
-      if(/*move.getFigure().getColor()*/ currentField.getFigureAt(move.getFieldFrom()).getColor() == ChessfigureConstants.BLACK){
+      if(currentField.getFigureAt(move.getFieldFrom()).getColor() == ChessfigureConstants.BLACK){
           i = 1;
       }
-      //TODO: siehe oben
-      else if(/*move.getFigure().getColor()*/ currentField.getFigureAt(move.getFieldFrom()).getColor()== ChessfigureConstants.WHITE){
+      else if(currentField.getFigureAt(move.getFieldFrom()).getColor()== ChessfigureConstants.WHITE){
           i = -1;
       }
       else{
@@ -582,8 +572,8 @@ public class Rules {
           }
       }
       System.out.println("FAIL 11");
-      //Springer pr�fen
-      //TODO: �bersichtlicher gestallten???????????
+      //Springer prüfen
+      //TODO:übersichtlicher gestallten???????????
       if(xAxis + 2 < 9 && yAxis + 1 < 9){
           fig = currentField.getFigureAt(Field.getFieldNumber(xAxis + 2, yAxis + 1));
           if(fig != null && fig.getColor() != colour && fig.getFigureType() == ChessfigureConstants.KNIGHT){
