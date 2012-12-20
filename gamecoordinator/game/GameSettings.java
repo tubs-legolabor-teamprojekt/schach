@@ -16,10 +16,13 @@ public class GameSettings
     public static final boolean simulateGame = true;
     
     /**
+     * Zeit zwischen den simulierten Zügen
+     */
+    public static final long timeBetweenMoves = 1000;
+    
+    /**
      * Sollen die einzelnen Züge auf Gültigkeit geprüft werden?
      */
     public static final boolean checkRules = true;
-    
-    public static final long timeBetweenMoves = 500;
 
 }
