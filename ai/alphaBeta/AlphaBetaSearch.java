@@ -47,7 +47,4 @@ public class AlphaBetaSearch{ // Nacht erster Ueberlegung nicht Multi-Thread-fae
 		return 0;// TODO Größter Wert
 	}
 	// ############################################# Weitere Methoden
-	public void setSituation(HashMap<Integer, String> sit){
-		this.situation = sit;
-	}
 }
