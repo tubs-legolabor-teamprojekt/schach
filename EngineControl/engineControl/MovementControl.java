@@ -67,6 +67,7 @@ public class MovementControl {
         int concatenatedCoords = this.createIntForSending();
         
         System.out.println(concatenatedCoords);     
+/*
         this.con_Nxt25 = new ConnServ("NXT_25");
         
         int i = 0;
@@ -87,6 +88,7 @@ public class MovementControl {
             
             //m.gameExists = false;
         }
+*/
     }
     
     public int createIntForSending() {
@@ -127,8 +129,6 @@ public class MovementControl {
     public void setGameExists(boolean gameExists) {
         this.gameExists = gameExists;
     }
-    
-    public 
 
     public void setMovefigure(Move movefigure) {
         this.movefigure = movefigure;
