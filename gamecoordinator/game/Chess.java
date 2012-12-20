@@ -117,8 +117,8 @@ public class Chess
                 // Simulierten Zug holen
                 Move newMove = this.simulatedMoves.get(moveCounter);
                 moveCounter++;
-
-                moves.add(newMove);
+                               
+                Checkerboard.getInstance().manualMove();
             }
 
             // Züge ausführen
