@@ -52,7 +52,7 @@ public class MoveGUI extends JFrame implements ActionListener
     private JRadioButton    kingsideCastling = new JRadioButton("Kurze Rochade"), // kurze Rochade                                                                           // Rochade
                             queensideCastling = new JRadioButton("Lange Rochade"); // lange Rochade
 
-    private JButton okButton_NM = new JButton("Ok"), 
+    private JButton okButton_NM = new JButton("OK"), 
                     okButton_C = new JButton("Fertig");
 
     private boolean isKingsideCastling = false, 
@@ -97,7 +97,7 @@ public class MoveGUI extends JFrame implements ActionListener
      */
     public void makeLayout() {
         this.toFront();
-        // this.setAlwaysOnTop(true);
+        this.setAlwaysOnTop(true);
 
         // Aussehen der JTabbedPane
         UIManager.put("TabbedPane.contentOpaque", false);
@@ -162,6 +162,7 @@ public class MoveGUI extends JFrame implements ActionListener
         this.forButton_NM.add(this.okButton_NM);
         this.okButton_NM.addActionListener(this);
         this.okButton_NM.setActionCommand("button_ok_NM");
+        this.getRootPane().setDefaultButton(this.okButton_NM);
 
     }
 
@@ -175,7 +176,7 @@ public class MoveGUI extends JFrame implements ActionListener
         this.forCastling.add(this.forButton_C);
 
         this.forText_C.add(this.text_C);
-        this.text_C.setText("Bitte Rochade ausw�hlen!");
+        this.text_C.setText("Bitte Rochade auswählen!");
         this.text_C.setEnabled(false);
         this.text_C.setEditable(false);
         this.text_C.setDisabledTextColor(Color.black);
