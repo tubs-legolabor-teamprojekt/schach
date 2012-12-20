@@ -162,6 +162,7 @@ public class MoveGUI extends JFrame implements ActionListener
         this.forButton_NM.add(this.okButton_NM);
         this.okButton_NM.addActionListener(this);
         this.okButton_NM.setActionCommand("button_ok_NM");
+        this.getRootPane().setDefaultButton(this.okButton_NM);
 
     }
 
