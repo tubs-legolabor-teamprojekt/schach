@@ -19,17 +19,28 @@ public class MovementControl {
     private ConnServ con_Nxt25;
     private ConnServ con_Nxt23;
     private Move movefigure;
+    private static MovementControl instance = null;
     
+    private MovementControl() {
+        
+    }
+    public static MovementControl getInstance() {
+        if (instance == null) {
+            instance = new MovementControl();
+            
+        }
+        return instance;
+    }
 
     public static void main(String[] args) {
 
-        MovementControl m = new MovementControl();
+        MovementControl m = MovementControl.getInstance();
         //m.con_Nxt25 = new ConnServ("NXT_25");
         //m.con_Nxt23 = new ConnServ("NXT_23");
 
-        int concatenatedCoords = m.createIntForSending();
+        //int concatenatedCoords = m.createIntForSending();
         
-        System.out.println(concatenatedCoords);
+        //System.out.println(concatenatedCoords);
         /*
         int i = 0;
         while (m.gameExists) {
