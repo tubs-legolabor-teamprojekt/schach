@@ -27,20 +27,26 @@ public class AlphaBetaSearch{ // Nacht erster Ueberlegung nicht Multi-Thread-fae
 	// ############################################# Alpha-Beta-Cut-Off
 
 	public int alphaBeta( HashMap<Integer, String> situation, int tiefe, int alpha, int beta ) {
-		
+		System.out.println(tiefe);
 		if (tiefe == 0 /* || keineZuegeMehr(spieler)*/ ){
 			return rate.rate(situation);
 		}
 		
-		int best = -9999999;
+		int bestValue = -9999999;
 		
 		LinkedList<HashMap<Integer, String>> liste = move.move(situation);	// TODO Liste mit Werten füllen
 		
 		// TODO zur Optimierung: Felder sortieren
 		
 		while( !liste.isEmpty() /* TODO Noch Kindsituationen vorhanden*/){
-			int Wert = -alphaBeta(liste.pollFirst(), tiefe-1, -beta, -alpha);
-			
+			int Value = -alphaBeta(liste.pollFirst(), tiefe-1, -beta, -alpha);
+			if(Value > bestValue){
+				bestValue = Value;
+				if(bestValue >= beta){ //Beta-CutOff
+					System.out.println("Cut");
+					break;
+				}
+			}
 		}
 		
 		return 0;// TODO Größter Wert

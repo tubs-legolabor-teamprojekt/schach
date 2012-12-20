@@ -1,5 +1,9 @@
 package gameTree;
 
+import java.util.*;
+
+import alphaBeta.AlphaBetaSearch;
+
 public class AlphaBetaTest {
 
 	public static void main(String[] args) {
@@ -8,9 +12,16 @@ public class AlphaBetaTest {
 		zeit  = System.currentTimeMillis();
 		//SYSTEM============================================================================================
 		
+		AlphaBetaSearch Search = new AlphaBetaSearch();
+		
 		/*
 		 * Hier ensteht der Test
 		 */
+		HashMap<Integer, String> map = new HashMap<Integer, String>();
+		
+		int Wert = Search.alphaBeta(map, 2, 9999, 9999);
+		
+		System.out.println("gefundener Wert: "+Wert);
 		
 		//SYSTEM=ENDE=======================================================================================
 		System.out.println(rt.totalMemory()/1000000+" available <==> "+ (rt.totalMemory() - rt.freeMemory())/1000000 +" used <==> "+ rt.freeMemory()/1000000 +" free");
