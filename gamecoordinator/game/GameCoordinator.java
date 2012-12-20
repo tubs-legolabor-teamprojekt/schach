@@ -129,11 +129,14 @@ public class GameCoordinator
      * @return True: Gueltiger Zug wurde gespeichert; False: Ungueltiger Zug,
      *         Fehlermeldung anzeigen
      */
-    public boolean receiveMove(Move newMove, boolean checkThisMove) {
-        
+    public boolean receiveMove(Move newMove, boolean checkThisMove)
+    {
+        // 
         
         // Wurde geschmissen?
         // FIXME FEHLER: wird auch bei Rochade ausgefuehrt!!!
+        
+        // UNFUG?! Weil wenn Rochade, dann ist getFieldTo() -1
         if (Field.getInstance().isFigureOnField(newMove.getFieldTo())) {
             Field f = Field.getInstance();
             Figure figureFrom = f.getFigureAt(newMove.getFieldFrom());
