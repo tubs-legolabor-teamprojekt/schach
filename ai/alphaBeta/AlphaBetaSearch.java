@@ -3,9 +3,8 @@ package alphaBeta;
 import java.util.LinkedList;
 import java.util.*;
 
-import rating.Rating;
-import rating.Rating.*;
-import useful.pseudoValidMove;
+import rating.PseudoRating;
+import useful.PseudoValidMove;
 
 /**
  * Dieses ist der erste Test zum Aplha-Beta-CutOff zur Generierung des Spielbaumes.
@@ -17,8 +16,8 @@ public class AlphaBetaSearch{ // Nacht erster Ueberlegung nicht Multi-Thread-fae
 
 	// ############################################# Instanzvariablen
 	
-	Rating rate = new Rating();
-	pseudoValidMove move = new pseudoValidMove();
+	PseudoRating rate = new PseudoRating();
+	PseudoValidMove move = new PseudoValidMove();
 	
 	/*
 	 * Maximale Tiefe. Diese Tiefe ist ausschlaggebend für die Staerke der KI verantwortlich. Je groeßer, desto besser.

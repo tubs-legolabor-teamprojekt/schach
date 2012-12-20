@@ -13,7 +13,7 @@ import java.util.Random;
  * @author tobi
  *
  */
-public class Rating {
+public class PseudoRating {
 
 	boolean Vorzeichen;
 	Random rand = new Random();

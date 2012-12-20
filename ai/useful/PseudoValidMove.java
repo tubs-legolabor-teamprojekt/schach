@@ -11,7 +11,7 @@ import java.util.LinkedList;
  * @author tobi
  *
  */
-public class pseudoValidMove {
+public class PseudoValidMove {
 
 	/**
 	 * Gibt eine Lite mit 40 identischen Elementen zurück...
