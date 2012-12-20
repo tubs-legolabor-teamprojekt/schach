@@ -1,11 +1,13 @@
 package gui;
 
 import java.awt.Color;
+import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
@@ -27,7 +29,9 @@ public class MyMouseListener extends MouseAdapter
 
     private int row = 0, 
                 column = 0, 
-                counter = 0;
+                counter = 0,
+                field_row_1 = 0,
+                field_column_1 = 0;
 
     /**
      * Konstruktor, der ein neues Objekt der Klasse erstellt und die Tabelle/das
@@ -53,18 +57,21 @@ public class MyMouseListener extends MouseAdapter
             this.row = this.grid.rowAtPoint(e.getPoint());
             this.column = this.grid.columnAtPoint(e.getPoint());
             
-            System.out.println("zeile: " + this.row + ", spalte: " + this.column);
+            // Werte des zuerst angeklickten Feldes zwischenspeichern
+            if (this.counter == 1) {
+                this.field_row_1 = this.row;
+                this.field_column_1 = this.column;
+            }
+            
+            // ausgwähltes Feld farblich hervorheben
             CheckerboardPanel cbp = (CheckerboardPanel) this.grid.getValueAt(this.row, this.column);
-            System.out.println(cbp.getBackground());
-//            cbp.setBackground(new Color(41, 15, 5, 170));
-            cbp.setBorder(BorderFactory.createMatteBorder(5, 5, 5, 5, new Color(255, 0, 0, 255)));
+            cbp.setBackground(new Color(154, 205, 50, 100));
             Gui.getInstance().repaint();
             Gui.getInstance().validate();
             
             // Feldnummer errechnen und zur ArrayList hinzufügen
             int fieldnumber = Checkerboard.convertIntoFieldNumber(this.row, this.column);
             this.a.add(fieldnumber);
-            System.out.println(this.counter);
       
             // wenn man beide Felder ausgewählt hat Abfrage, ob korrekt
             // wenn ja, weiter im Programm, ansonsten erneute Abfrage
@@ -84,6 +91,39 @@ public class MyMouseListener extends MouseAdapter
                             Gui.getInstance(), "Bitte erneute Zueingabe!",
                             "Normaler Zug", JOptionPane.INFORMATION_MESSAGE);
                 }
+                
+                // farbliche Hervorhebung wieder rückgängig machen
+                cbp = (CheckerboardPanel) this.grid.getValueAt(this.field_row_1, this.field_column_1);
+                if (this.field_row_1 % 2 == 0) {
+                    if (this.field_column_1 % 2 == 0) {
+                        cbp.setBackground(new Color(41, 15, 5, 100));
+                    } else {
+                        cbp.setBackground(new Color(251, 225, 172, 100));
+                    }
+                } else {
+                    if (this.field_column_1 % 2 == 0) {
+                        cbp.setBackground(new Color(251, 225, 172, 100));
+                    } else {
+                        cbp.setBackground(new Color(41, 15, 5, 100));
+                    }
+                }
+                cbp = (CheckerboardPanel) this.grid.getValueAt(this.row, this.column);
+                if (this.row % 2 == 0) {
+                    if (this.column % 2 == 0) {
+                        cbp.setBackground(new Color(41, 15, 5, 100));
+                    } else {
+                        cbp.setBackground(new Color(251, 225, 172, 100));
+                    }
+                } else {
+                    if (this.column % 2 == 0) {
+                        cbp.setBackground(new Color(251, 225, 172, 100));
+                    } else {
+                        cbp.setBackground(new Color(41, 15, 5, 100));
+                    }
+                }
+                
+                Gui.getInstance().repaint();
+                Gui.getInstance().validate();
 
             }
         } else {
