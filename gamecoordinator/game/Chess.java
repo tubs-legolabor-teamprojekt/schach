@@ -26,7 +26,7 @@ public class Chess
     private GameCoordinator gameCoordinator;
     
     
-    private MovementControl movementControl = new MovementControl();
+    private MovementControl movementControl = MovementControl.getInstance();
 
     /**
      * Liste an Zuegen, falls ein Spiel simuliert werden soll.
@@ -140,6 +140,7 @@ public class Chess
         }
 
         // TODO Verbindung zum Roboter beenden
+        movementControl.setGameExists(false);
 
         // Exportieren
         System.out.println(Exporter.exportMovesToPGN("Tabea testet", // Name des

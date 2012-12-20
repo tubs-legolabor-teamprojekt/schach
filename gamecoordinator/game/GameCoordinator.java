@@ -53,7 +53,7 @@ public class GameCoordinator
     /**
      * Roboter-Bewegung
      */
-    private MovementControl movementControl = new MovementControl();
+    private MovementControl movementControl = MovementControl.getInstance();
 
     /**
      * Ist der aktuelle Zug der letzte?
