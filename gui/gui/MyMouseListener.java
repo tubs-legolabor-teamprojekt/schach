@@ -85,6 +85,7 @@ public class MyMouseListener extends MouseAdapter
                 if (reply == JOptionPane.YES_OPTION) {
                     Checkerboard.getInstance().setArrayList(this.a);
                     Checkerboard.getInstance().setManualMove(false);
+                    Checkerboard.getInstance().setMmIsReady(true);
                 } else {
                     this.a.clear();
                     javax.swing.JOptionPane.showMessageDialog(

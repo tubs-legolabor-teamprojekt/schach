@@ -373,6 +373,7 @@ public class Checkerboard extends JPanel
      */
     public ArrayList<Integer> manualMove() {
         this.manualMove = true;
+        
         MoveGUI.getInstance();
 
         while (!this.mmIsReady) {

@@ -75,8 +75,16 @@ public class MoveGUI extends JFrame implements ActionListener
     public static MoveGUI getInstance() {
         if (instance == null) {
             instance = new MoveGUI();
+        } else {
+            instance.resetMoveGui();
         }
         return instance;
+    }
+    
+    public void resetMoveGui() {
+        this.normalButtonPressed = false;
+        this.okButton_C.setEnabled(false);
+        instance.setVisible(true);
     }
 
     /**

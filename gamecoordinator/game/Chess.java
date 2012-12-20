@@ -116,17 +116,23 @@ public class Chess
 
                 // Konnte Kamera Züge ermitteln?
                 if (listOfChangedPositions.size() == 0) {
-                    // Manuelles Einlesen der Zühe durch die GUI
+                    // Manuelles Einlesen der Züge durch die GUI
                     move = convertFieldnumbersToMoves(currentPlayer, Checkerboard.getInstance().manualMove());
                 } else {
                     move = convertFieldnumbersToMoves(currentPlayer, listOfChangedPositions);
                 }
 
             } else {
-                // Simulierten Zug holen
-                Move newMove = this.simulatedMoves.get(moveCounter);
-                moveCounter++;
-                move = newMove;
+                if (moveCounter == 4) {
+                    // Beim vierten Durchlauf eine fehlerhafte Eingabe simulieren
+                    move = convertFieldnumbersToMoves(currentPlayer, Checkerboard.getInstance().manualMove());
+                    moveCounter++;
+                } else {
+                    // Simulierten Zug holen
+                    Move newMove = this.simulatedMoves.get(moveCounter);
+                    moveCounter++;
+                    move = newMove;
+                }
             }
 
             // Züge ausführen
