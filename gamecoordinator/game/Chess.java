@@ -13,7 +13,7 @@ import camera.ImageLoader;
 import components.Field;
 
 /**
- * Startet das Spiel
+ * Startet das Spiel...
  * 
  * @author Florian Franke 31.10.2012
  * 
