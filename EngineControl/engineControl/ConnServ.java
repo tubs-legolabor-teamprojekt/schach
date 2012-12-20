@@ -57,7 +57,7 @@ public class ConnServ{
     try {
       this.dos.writeInt(i);
       this.dos.flush();
-      System.out.println("Wert?uebertragen");
+      System.out.println("Wertuebertragen");
     } catch (IOException e) {
       // Do nothing
     }

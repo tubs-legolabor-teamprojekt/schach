@@ -3,6 +3,7 @@ package engineControl;
 
 import lejos.nxt.Button;
 import lejos.nxt.Motor;
+import lejos.nxt.Sound;
 import lejos.robotics.navigation.TachoPilot;
 
 
@@ -42,7 +43,24 @@ public class MoveTest {
     t1.con = new ConnAg();
     
     while(gameExists) {
-        
+        int coordinates = t1.con.getInt();
+       
+        if (coordinates != 5) {
+            try {
+                Thread.sleep(400);
+                System.out.println(coordinates);
+                
+                
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+            }
+            continue;
+        }
+        else if (coordinates == 5) {
+            t1.moveToRowFrom();
+            gameExists = false;
+        }
+            
             
     }
     
