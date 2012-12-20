@@ -39,6 +39,10 @@ public class Move
      * In welche Figur wurde der Bauer umgewandelt?
      */
     private char pawnPromotedTo;
+    
+    private boolean kingSideCastling = false;
+    private boolean queenSideCastling = false;
+    private byte colorOfPlayer = -1;
 
     /**
      * Ist der gegnerische Koenig durch diesen Zug im Schach?
@@ -293,8 +297,78 @@ public class Move
      * 
      * @return
      */
-    public char getFigureLetter() {
+    public char getFigureLetter()
+    {
         return this.figureLetter;
+    }
+    
+    /**
+     * Ist dieser Zug ist eine kurze Rochade?
+     * @param kingSideCastling
+     */
+    public void setKingSideCastling(boolean kingSideCastling)
+    {
+        if (kingSideCastling) {
+            if (this.isQueenSideCastling()) {
+                this.setQueenSideCastling(false);
+            }
+            this.kingSideCastling = true;
+        } else {
+            this.kingSideCastling = false;
+        }
+    }
+    
+    /**
+     * Kurze Rochade?
+     * @return
+     */
+    public boolean isKingSideCastling()
+    {
+        return this.kingSideCastling;
+    }
+    
+    /**
+     * Ist dieser Zug ist eine lange Rochade?
+     * @param queenSideCastling
+     */
+    public void setQueenSideCastling(boolean queenSideCastling)
+    {
+        if (queenSideCastling) {
+            if (this.isKingSideCastling()) {
+                this.setKingSideCastling(false);
+            }
+            this.queenSideCastling = true;
+        } else {
+            this.queenSideCastling = false;
+        }
+    }
+    
+    /**
+     * Lange Rochade?
+     * @return
+     */
+    public boolean isQueenSideCastling()
+    {
+        return this.queenSideCastling;
+    }
+    
+    /**
+     * Setzt die Spielerfarbe (nur bei Rochade benoetigt, bisher)
+     * @param color
+     */
+    public void setPlayerColor(byte color)
+    {
+        if (ChessfigureConstants.isValidColor(color))
+            this.colorOfPlayer = color;
+    }
+    
+    /**
+     * Gibt die Farbe des Spielers dieses Zugs zurueck
+     * @return
+     */
+    public byte getPlayerColor()
+    {
+        return this.colorOfPlayer;
     }
 
     /**
@@ -337,55 +411,72 @@ public class Move
      */
     public String getMoveAsText() {
         String str = "";
-        // Farbe
-        str += ChessfigureConstants.getFigureColor(Field.getInstance()
-                .getFigureAt(this.getFieldFrom()).getColor())
-                + "er ";
-
-        // Figur
-        str += ChessfigureConstants.getFigureName(Field.getInstance()
-                .getFigureAt(this.getFieldFrom()).getFigureType())
-                + " ";
-
-        // Von
-        str += "zieht von " + Field.getFieldName(this.fieldFrom) + " ";
-
-        // Nach
-        str += "nach " + Field.getFieldName(this.fieldTo) + " ";
-
-        // Sschmeissen
-        if (this.isCaptured())
-            str += "und schmeisst eine gegnerische Figur ";
-
-        // Schach(matt)
-        if (this.isCheckMate())
-            str += "und der Gegner ist Schachmatt ";
-        else if (this.isCheck())
-            str += "und der Gegner ist Schach ";
-
-        // Bauer-Umwandlung
-        if (this.isPawnPromotion())
-            str += "und erreicht die Grundlinie des Gegners und wandelt sich in "
-                    + ChessfigureConstants
-                            .getFigureName( // Figurtyp => Name
-                            ChessfigureConstants
-                                    .getFigureTypeFromLetter(this.pawnPromotedTo) // Kuerzel
-                                                                                  // =>
-                                                                                  // Figurtyp
-                                                                                  // (byte)
-                            );
+        
+        if (this.isKingSideCastling()) {
+            str = "Kurze " + ChessfigureConstants.getFigureColor(this.getPlayerColor()) + "e Rochade";
+        } else if (this.isQueenSideCastling()) {
+            str = "Lange " + ChessfigureConstants.getFigureColor(this.getPlayerColor()) + "e Rochade";
+        } else {
+            // Farbe
+            str += ChessfigureConstants.getFigureColor(Field.getInstance()
+                    .getFigureAt(this.getFieldFrom()).getColor())
+                    + "er ";
+    
+            // Figur
+            str += ChessfigureConstants.getFigureName(Field.getInstance()
+                    .getFigureAt(this.getFieldFrom()).getFigureType())
+                    + " ";
+    
+            // Von
+            str += "zieht von " + Field.getFieldName(this.fieldFrom) + " ";
+    
+            // Nach
+            str += "nach " + Field.getFieldName(this.fieldTo) + " ";
+    
+            // Sschmeissen
+            if (this.isCaptured())
+                str += "und schmeisst eine gegnerische Figur ";
+    
+            // Schach(matt)
+            if (this.isCheckMate())
+                str += "und der Gegner ist Schachmatt ";
+            else if (this.isCheck())
+                str += "und der Gegner ist Schach ";
+    
+            // Bauer-Umwandlung
+            if (this.isPawnPromotion())
+                str += "und erreicht die Grundlinie des Gegners und wandelt sich in "
+                        + ChessfigureConstants
+                                .getFigureName( // Figurtyp => Name
+                                ChessfigureConstants
+                                        .getFigureTypeFromLetter(this.pawnPromotedTo) // Kuerzel
+                                                                                      // =>
+                                                                                      // Figurtyp
+                                                                                      // (byte)
+                                );
+        }
 
         return str;
     }
 
     @Override
     public String toString() {
-        return "Move [fieldFrom=" + Field.getFieldName(fieldFrom) + ", fieldTo=" + Field.getFieldName(fieldTo)
-                + ", figure="
-                + Field.getInstance().getFigureAt(this.getFieldTo())
-                + ", captured=" + captured + ", pawnPromotion=" + pawnPromotion
-                + ", pawnPromotedTo=" + pawnPromotedTo + ", check=" + check
-                + ", checkMate=" + checkMate + ", toString()="
-                + super.toString() + "]";
+        String str = "";
+        
+        if (this.isKingSideCastling()) {
+            str = "Move [Kurze " + ChessfigureConstants.getFigureColor(this.getPlayerColor()) + "e Rochade]";
+        } else if (this.isQueenSideCastling()) {
+            str = "Move [Lange " + ChessfigureConstants.getFigureColor(this.getPlayerColor()) + "e Rochade]";
+        } else {
+            str =  "Move [fieldFrom=" + Field.getFieldName(fieldFrom) + ", fieldTo=" + Field.getFieldName(fieldTo)
+                    + ", figure="
+                    + Field.getInstance().getFigureAt(this.getFieldFrom())
+                    + ", captured=" + captured + ", pawnPromotion=" + pawnPromotion
+                    + ", pawnPromotedTo=" + pawnPromotedTo + ", check=" + check
+                    + ", checkMate=" + checkMate + ", toString()="
+                    + super.toString() + "]";
+        }
+        
+        return str;
     }
 }

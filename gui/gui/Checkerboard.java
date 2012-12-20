@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
@@ -21,6 +22,7 @@ import util.ChessfigureConstants;
 
 import components.Field;
 import components.Figure;
+import components.FigureKing;
 
 /**
  * Klasse, die das Schachbrett darstellt.
@@ -52,6 +54,11 @@ public class Checkerboard extends JPanel
     private MyMouseListener mml;
 
     private ArrayList<Integer> a = new ArrayList<Integer>();
+    
+    private ImageIcon   icon_king_black = new FigureKing(ChessfigureConstants.BLACK).getIcon(),
+                        icon_king_white = new FigureKing(ChessfigureConstants.WHITE).getIcon(),
+                        icon_rook_black = new FigureKing(ChessfigureConstants.BLACK).getIcon(),
+                        icon_rook_white = new FigureKing(ChessfigureConstants.WHITE).getIcon();
 
     /**
      * Privater Konstruktor, der nur ein neues Objekt der Klasse erstellt. Ruft
@@ -211,52 +218,125 @@ public class Checkerboard extends JPanel
         this.fieldFrom = this.move.getFieldFrom();
         this.fieldFromColumn = fieldNumberConverterColumn(this.fieldFrom);
         this.fieldFromRow = fieldNumberConverterRow(this.fieldFrom);
-
-        // aktuelle Figur zwischenspeichern
-        this.figure = Field.getInstance().getFigureAt(this.fieldFrom);
-
-        // erst Zeile
-        for (int i = 0; i < 8; i++) {
-            if (i == this.fieldFromRow) {
-                // dann Spalte
-                for (int j = 0; j < 8; j++) {
-                    if (j == this.fieldFromColumn) {
-                        // entfernt die entsprechende Figur auf dem zugehörigen
-                        // Feld
-                        CheckerboardPanel cbp = (CheckerboardPanel) this.grid
-                                .getValueAt(i, j);
-                        cbp.label.setVisible(false);
-                        Gui.getInstance().repaint();
-                        Gui.getInstance().validate();
-                    }
-                }
-            }
-        }
-
+        
         // Umrechnung der FieldTo-Nummer
         this.fieldTo = this.move.getFieldTo();
         this.fieldToColumn = fieldNumberConverterColumn(this.fieldTo);
         this.fieldToRow = fieldNumberConverterRow(this.fieldTo);
 
-        // Zeile
-        for (int i = 0; i < 8; i++) {
-            if (i == this.fieldToRow) {
-                // dann Spalte
-                for (int j = 0; j < 8; j++) {
-                    if (j == this.fieldToColumn) {
-                        CheckerboardPanel cbp = (CheckerboardPanel) this.grid
-                                .getValueAt(i, j);
-                        // falls dort eine Schachfigur geschlagen wurde
-                        if (this.move.isCaptured()) {
+        // aktuelle Figur zwischenspeichern
+        this.figure = Field.getInstance().getFigureAt(this.fieldFrom);
+
+        if (!this.move.isKingSideCastling() && !this.move.isQueenSideCastling()) {        
+            // ganz normaler Zug
+            
+            // erst Zeile
+            for (int i = 0; i < 8; i++) {
+                if (i == this.fieldFromRow) {
+                    // dann Spalte
+                    for (int j = 0; j < 8; j++) {
+                        if (j == this.fieldFromColumn) {
+                            // entfernt die entsprechende Figur auf dem zugehörigen Feld
+                            CheckerboardPanel cbp = (CheckerboardPanel) this.grid
+                                    .getValueAt(i, j);
                             cbp.label.setVisible(false);
+                            Gui.getInstance().repaint();
+                            Gui.getInstance().validate();
                         }
-                        // zeigt die entsprechende Figur auf dem zugehörigen
-                        // Feld an
-                        cbp.showIcon(this.figure);
-                        Gui.getInstance().repaint();
-                        Gui.getInstance().validate();
                     }
                 }
+            }
+    
+            // erst Zeile
+            for (int i = 0; i < 8; i++) {
+                if (i == this.fieldToRow) {
+                    // dann Spalte
+                    for (int j = 0; j < 8; j++) {
+                        if (j == this.fieldToColumn) {
+                            CheckerboardPanel cbp = (CheckerboardPanel) this.grid
+                                    .getValueAt(i, j);
+                            // falls dort eine Schachfigur geschlagen wurde
+                            if (this.move.isCaptured()) {
+                                cbp.label.setVisible(false);
+                            }
+                            // zeigt die entsprechende Figur auf dem zugehörigen Feld an
+                            cbp.showIcon(this.figure);
+                            Gui.getInstance().repaint();
+                            Gui.getInstance().validate();
+                        }
+                    }
+                }
+            }
+
+        } else if (this.move.isKingSideCastling() && !this.move.isQueenSideCastling()) {
+            // kurze Rochade
+            if (this.move.getPlayerColor() == ChessfigureConstants.BLACK) {
+                // Ke8-g8 und Th8-f8 (kurze schwarze Rochade)
+                // König: 0/4 - 0/6, Turm: 0/7 - 0/5
+                
+                // König weg
+                CheckerboardPanel cbp = (CheckerboardPanel) this.grid.getValueAt(0, 4);
+                cbp.label.setVisible(false);
+                // König hin
+                cbp = (CheckerboardPanel) this.grid.getValueAt(0, 6);
+                cbp.label.setIcon(this.icon_king_black);
+                // Turm weg
+                cbp = (CheckerboardPanel) this.grid.getValueAt(0, 7);
+                cbp.label.setVisible(false);
+                // Turm hin
+                cbp = (CheckerboardPanel) this.grid.getValueAt(0, 5);
+                cbp.label.setIcon(this.icon_rook_black);
+            } else {
+                // Ke1-g1 und Th1-f1 (kurze weiße Rochade)
+                // König: 7/4 - 7/6, Turm: 7/7 - 7/5
+                
+                // König weg
+                CheckerboardPanel cbp = (CheckerboardPanel) this.grid.getValueAt(7, 4);
+                cbp.label.setVisible(false);
+                // König hin
+                cbp = (CheckerboardPanel) this.grid.getValueAt(7, 6);
+                cbp.label.setIcon(this.icon_king_white);
+                // Turm weg
+                cbp = (CheckerboardPanel) this.grid.getValueAt(7, 7);
+                cbp.label.setVisible(false);
+                // Turm hin
+                cbp = (CheckerboardPanel) this.grid.getValueAt(7, 5);
+                cbp.label.setIcon(this.icon_rook_white);
+            }
+        } else {
+            // lange Rochade
+            if (this.move.getPlayerColor() == ChessfigureConstants.BLACK) {
+                // Ke8-c8 und Ta8-d8 (lange schwarze Rochade)
+                // König: 0/4 - 0/2, Turm: 0/0 - 0/3
+                
+                // König weg
+                CheckerboardPanel cbp = (CheckerboardPanel) this.grid.getValueAt(0, 4);
+                cbp.label.setVisible(false);
+                // König hin
+                cbp = (CheckerboardPanel) this.grid.getValueAt(0, 2);
+                cbp.label.setIcon(this.icon_king_black);
+                // Turm weg
+                cbp = (CheckerboardPanel) this.grid.getValueAt(0, 0);
+                cbp.label.setVisible(false);
+                // Turm hin
+                cbp = (CheckerboardPanel) this.grid.getValueAt(0, 3);
+                cbp.label.setIcon(this.icon_rook_black);
+            } else {
+                // Ke1-c1 und Ta1-d1 (lange weiße Rochade)
+                // König: 7/4 - 7/2, Turm: 7/0 - 7/3
+                
+                // König weg
+                CheckerboardPanel cbp = (CheckerboardPanel) this.grid.getValueAt(7, 4);
+                cbp.label.setVisible(false);
+                // König hin
+                cbp = (CheckerboardPanel) this.grid.getValueAt(7, 2);
+                cbp.label.setIcon(this.icon_king_white);
+                // Turm weg
+                cbp = (CheckerboardPanel) this.grid.getValueAt(7, 0);
+                cbp.label.setVisible(false);
+                // Turm hin
+                cbp = (CheckerboardPanel) this.grid.getValueAt(7, 3);
+                cbp.label.setIcon(this.icon_rook_white);
             }
         }
 
@@ -307,26 +387,33 @@ public class Checkerboard extends JPanel
             // Feldnummern von den angeklickten Feldern
             this.a = this.getArrayList();
         } else {
-            // welche Rochadenart
-            if (MoveGUI.getInstance().isKingsideCastling()) {
-                // kurze Rochade
-                // a = 5 7 8 6
-                this.a.clear();
-                this.a.add(5);
-                this.a.add(7);
-                this.a.add(8);
-                this.a.add(6);
+            // darf weiß überhaupt eine Rochade ausführen?
+            if (this.figure.getColor() == ChessfigureConstants.WHITE &&
+                    Field.getInstance().isRochadeWhitePossible()) {
+                // welche Rochadenart
+                if (MoveGUI.getInstance().isKingsideCastling()) {
+                    // kurze Rochade
+                    // a = 5 7 8 6
+                    this.a.clear();
+                    this.a.add(5);
+                    this.a.add(7);
+                    this.a.add(8);
+                    this.a.add(6);
+                } else {
+                    // lange Rochade
+                    // a = 5 3 1 4
+                    this.a.clear();
+                    this.a.add(5);
+                    this.a.add(3);
+                    this.a.add(1);
+                    this.a.add(4);
+                }
+            // wenn keine Rochade erlaubt
             } else {
-                // lange Rochade
-                // a = 5 3 1 4
-                this.a.clear();
-                this.a.add(5);
-                this.a.add(3);
-                this.a.add(1);
-                this.a.add(4);
+                javax.swing.JOptionPane.showMessageDialog(this, "Keine Rochade möglich!",
+                        "Rochade", JOptionPane.INFORMATION_MESSAGE);
             }
         }
-        System.out.println("Tabea: " + this.a);
         return this.a;
     }
 

@@ -155,7 +155,7 @@ public class GameCoordinator
             if (!this.rules.checkMove(this.field, newMove)) {
                 System.out.println("Ungueltiger Zug laut Rules.checkMove().\nZug: " + newMove.toString());
                 // Fehlermeldung anzeigen (GUI)
-                this.gui.showWarning("Ungueltiger Zug!");
+                this.gui.showWarning("Ungültiger Zug!");
                 return false;
             }
         }
