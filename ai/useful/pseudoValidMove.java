@@ -1,5 +1,6 @@
 package useful;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 
 import alphaBeta.ABTree;
@@ -20,19 +21,20 @@ public class pseudoValidMove {
 	 * @param list
 	 * @return
 	 */
-	public LinkedList<ABTree> move(short[] list){
+	public LinkedList<HashMap<Integer, String>> move (HashMap<Integer, String> list){
 		
 		/*
 		 * Erstellt eine neue Liste, die vom generischen Typen ABTree ist
 		 */
-		LinkedList<ABTree> liste = new LinkedList<ABTree>();
+		LinkedList<HashMap<Integer, String>> liste = new LinkedList<HashMap<Integer, String>>();
+		
+		HashMap<Integer, String> map = new HashMap<Integer, String>();
 		
 		/*
 		 * die übergebene Situation wird vervielfältigt und in die neue Liste gespeichert 
 		 */
 		for(int i = 0 ; i < 40 ; i++){
-			ABTree tree = new ABTree(list);
-			liste.add(tree);
+			liste.add(map);
 		}
 		
 		/*

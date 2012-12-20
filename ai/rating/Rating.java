@@ -1,5 +1,6 @@
 package rating;
 
+import java.util.HashMap;
 import java.util.Random;
 
 /**
@@ -23,7 +24,7 @@ public class Rating {
 	 * @param situation
 	 * @return
 	 */
-	public byte ratePositiv(short[] situation, byte player){
+	public byte ratePositiv(HashMap<Integer, String> situation, byte player){
 		
 		return (byte)rand.nextInt(255);
 		
@@ -34,7 +35,7 @@ public class Rating {
 	 * @param situation
 	 * @return
 	 */
-	public byte rate(short[] situation){
+	public byte rate(HashMap<Integer, String> situation){
 		
 		Vorzeichen = rand.nextBoolean();
 		
