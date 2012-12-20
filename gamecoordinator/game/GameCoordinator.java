@@ -1,5 +1,6 @@
 package game;
 
+import engineControl.MovementControl;
 import gui.Gui;
 
 import java.util.ArrayList;
@@ -48,6 +49,11 @@ public class GameCoordinator
      * Rules-Objekt
      */
     private Rules rules = new Rules();
+    
+    /**
+     * Roboter-Bewegung
+     */
+    private MovementControl movementControl = new MovementControl();
 
     /**
      * Ist der aktuelle Zug der letzte?
@@ -92,11 +98,11 @@ public class GameCoordinator
         if (this.currentMove.isCaptured()) {
             // Geschmissene Figur vom Feld entfernen
             this.field.removeFigureAt(this.currentMove.getFieldTo());
-
-            // TODO Roboter soll Figur entfernen
         }
 
-        // TODO Roboter soll Figur bewegen
+        // Roboter soll Figur bewegen
+        movementControl.setMovefigure(this.currentMove);
+        movementControl.MoveRobot();
 
         // Gui soll Figur bewegen
         // Gui muss zuerst den Zug grafisch ausfuehren, da sie auf die

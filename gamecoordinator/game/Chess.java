@@ -1,5 +1,6 @@
 package game;
 
+import engineControl.MovementControl;
 import gui.Checkerboard;
 import gui.Gui;
 
@@ -23,6 +24,9 @@ public class Chess
      * Objekt des GameCoordinators
      */
     private GameCoordinator gameCoordinator;
+    
+    
+    private MovementControl movementControl = new MovementControl();
 
     /**
      * Liste an Zuegen, falls ein Spiel simuliert werden soll.
