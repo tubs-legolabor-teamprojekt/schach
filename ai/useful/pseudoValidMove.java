@@ -3,8 +3,6 @@ package useful;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-import alphaBeta.ABTree;
-
 /**
  * Pseudoklasse zur ValidMove
  * 
