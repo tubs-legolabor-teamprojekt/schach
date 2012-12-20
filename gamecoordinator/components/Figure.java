@@ -5,8 +5,8 @@ import javax.swing.ImageIcon;
 import util.ChessfigureConstants;
 
 /**
- * Abstrakte Klasse für eine Schachfigur. Es darf keine Instanz dieser Klasse
- * gebildet werden, da eine Figur immer von einem Typ (König, Dame...) sein
+ * Abstrakte Klasse f√ºr eine Schachfigur. Es darf keine Instanz dieser Klasse
+ * gebildet werden, da eine Figur immer von einem Typ (K√∂nig, Dame...) sein
  * muss.
  * 
  * @author Florian Franke
@@ -76,7 +76,7 @@ public abstract class Figure
     protected abstract void setIcon();
 
     /**
-     * Gibt das Icon der entsprechenden Figur zurück
+     * Gibt das Icon der entsprechenden Figur zur√ºck
      * 
      * @return Icon
      */
