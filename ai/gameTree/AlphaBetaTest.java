@@ -2,9 +2,6 @@ package gameTree;
 
 import java.util.LinkedList;
 
-import alphaBeta.ABThread;
-import alphaBeta.ABTree;
-
 import components.Field;
 
 import useful.Test_Situation;
