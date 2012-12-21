@@ -135,6 +135,7 @@ public class Chess
                     Move newMove = this.simulatedMoves.get(moveCounter);
                     moveCounter++;
                     move = newMove;
+                    move = additionalInformationForMove(currentPlayer, move);
                 //}
             }
 
@@ -240,22 +241,9 @@ public class Chess
                 System.out.println("Felder konnten nicht zugeordnet werden!");
             }
             
-            // Wird geschmissen?
-            if (f.isFigureOnField(fieldTo) // Figur auf To-Feld vorhanden?
-               ) {
-                if (f.getFigureAt(fieldTo).getColor() != colorOfPlayer) // Gegner auf To-Feld?
-                {
-                    // Neues Zug erstellen und der Liste hinzufuegen
-                    move = new Move(fieldFrom, fieldTo, true);
-                } else {
-                    // Eigene Figur kann nicht geschmissen werden
-                    System.out.println("Die eigene Figur kann nicht geschmissen werden!");
-                }
-                
-            } else {
-                move = new Move(fieldFrom, fieldTo);
-            }
-            
+            move = new Move(fieldFrom, fieldTo);
+            // Informationen hinzufügen (geschmissen?)
+            move = additionalInformationForMove(colorOfPlayer, move);
             
             
         } else if (fieldnumbers.size() == 4) {
@@ -286,6 +274,33 @@ public class Chess
             }
         } else {
             System.out.println("Ungueltige Anzahl an uebergebenen Feldnummern");
+        }
+        
+        return move;
+    }
+    
+    /**
+     * Erweitert das Move-Objekt um Informationen, wie z.B. ob bei dem Zug geschmissen wird.
+     * @param colorOfPlayer
+     * @param move
+     * @return
+     */
+    public static Move additionalInformationForMove(byte colorOfPlayer, Move move)
+    {
+        Field f = Field.getInstance();
+        
+     // Wird geschmissen?
+        if (f.isFigureOnField(move.getFieldTo()) // Figur auf To-Feld vorhanden?
+           ) {
+            if (f.getFigureAt(move.getFieldTo()).getColor() != colorOfPlayer) // Gegner auf To-Feld?
+            {
+                // Neuen Zug erstellen und der Liste hinzufügen
+                move.setCaptured(true);
+            } else {
+                // Eigene Figur kann nicht geschmissen werden
+                System.out.println("Die eigene Figur kann nicht geschmissen werden!");
+            }
+            
         }
         
         return move;
