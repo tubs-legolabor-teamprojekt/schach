@@ -1,5 +1,5 @@
 package rules;
-
+//TEST
 import game.Move;
 import components.Field;
 import components.Figure;
