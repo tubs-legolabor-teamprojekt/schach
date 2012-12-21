@@ -1,5 +1,5 @@
 package rules;
-//TEST
+
 import game.Move;
 import components.Field;
 import components.Figure;
@@ -7,7 +7,7 @@ import components.Figure;
 import util.*;
 
 /**
- * Klasse zur �berpr�fung der Regeln.
+ * Klasse zur ï¿½berprüfung der Regeln.
  * @author Florian Hallensleben
  *
  */
@@ -23,11 +23,11 @@ public class Rules {
   private byte x;
   private byte y;
   /**
-   * Diese Methode �berpr�ft, ob ein Schachzug g�ltig ist oder nicht.
+   * Diese Methode ï¿½berprüft, ob ein Schachzug gï¿½ltig ist oder nicht.
    * @param currentField Das aktuelle Spielfeld.
-   * @param move Der Schachzug, der �berpr�ft werden soll.
-   * @return True: G�ltiger Schachzug
-   *         False: Ung�ltiger Schachzug
+   * @param move Der Schachzug, der ï¿½berprüft werden soll.
+   * @return True: Gï¿½ltiger Schachzug
+   *         False: Ungï¿½ltiger Schachzug
    */
   public boolean checkMove(Field currentField, Move move)
   {
@@ -36,21 +36,19 @@ public class Rules {
        */
       boolean legalMove;
       
-      // false zur�ckgeben, wenn Start- oder Zielfeld nicht existiert
+      // false zurï¿½ckgeben, wenn Start- oder Zielfeld nicht existiert
       if(!Field.isValidFieldnumber(move.getFieldFrom())
                   || !Field.isValidFieldnumber(move.getFieldTo())){
           return false;
       }
       System.out.println("FAIL 1");
       
-      // false zur�ckgeben, wenn zu schlagende Figur eine eigene Figur ist oder dort keine steht
+      // false zurï¿½ckgeben, wenn zu schlagende Figur eine eigene Figur ist oder dort keine steht
       if(move.isCaptured()){
-          if(!currentField.isFigureOnField(move.getFieldTo())
-                  //TODO: wird entfernt, da move-objekt kein figure-objekt enthalten wird/soll
-                  /*|| currentField.getFigureAt(move.getFieldTo()).getColor() == move.getFigure().getColor()*/){
+          if(!currentField.isFigureOnField(move.getFieldTo())){
                   return false;
           }
-      // false zur�ckgeben, wenn eine Figur geschlagen werden w�rde    
+      // false zurï¿½ckgeben, wenn eine Figur geschlagen werden wï¿½rde    
       }
       else{
           if(currentField.isFigureOnField(move.getFieldTo())){
@@ -58,10 +56,8 @@ public class Rules {
           }
       }
       System.out.println("FAIL 2");
-      // false zur�ckgeben, wenn zu bewegende Figur nicht existiert oder nicht die eigene Figur ist
-      if(!currentField.isFigureOnField(move.getFieldFrom())
-              //TODO: siehe weiter oben
-              /*|| currentField.getFigureAt(move.getFieldFrom()).getColor() != move.getFigure().getColor()*/){
+      // false zurï¿½ckgeben, wenn zu bewegende Figur nicht existiert oder nicht die eigene Figur ist
+      if(!currentField.isFigureOnField(move.getFieldFrom())){
           return false;
       }
       System.out.println("FAIL 3");
@@ -74,8 +70,7 @@ public class Rules {
       x = Field.getXPositionFromFieldnumber(move.getFieldTo());
       y = Field.getYPositionFromFieldnumber(move.getFieldTo());
       
-      //TODO: siehe oben
-      switch(currentField.getFigureAt(move.getFieldFrom()).getFigureType() /*move.getFigure().getFigureType()*/) {
+      switch(currentField.getFigureAt(move.getFieldFrom()).getFigureType() ) {
       case ChessfigureConstants.PAWN:
           legalMove = checkPawnMove(currentField, move);
           break;
@@ -101,8 +96,7 @@ public class Rules {
           System.out.println("toast1");
           if(legalMove){
               System.out.println("toast7");
-              //TODO: siehe oben
-              if(currentField.getFigureAt(move.getFieldFrom()).getColor() /*move.getFigure().getColor()*/ == ChessfigureConstants.WHITE){
+              if(currentField.getFigureAt(move.getFieldFrom()).getColor() == ChessfigureConstants.WHITE){
                   whiteKingMoved = true;
                   if(currentY == y && currentX - x == 2){
                       whiteLeftRookMoved = true;
@@ -111,8 +105,7 @@ public class Rules {
                       whiteRightRookMoved = true;
                   }
               }
-              //TODO: siehe oben
-              else if(currentField.getFigureAt(move.getFieldFrom()).getColor() /*move.getFigure().getColor()*/ == ChessfigureConstants.BLACK){
+              else if(currentField.getFigureAt(move.getFieldFrom()).getColor() == ChessfigureConstants.BLACK){
                   blackKingMoved = true;
                   if(currentY == y && currentX - x == 2){
                       blackLeftRookMoved = true;
@@ -132,8 +125,7 @@ public class Rules {
       
       if(legalMove){
           return !isCheck(currentField, move, false,
-                  //TODO: siehe oben
-                          currentField.getKingPosition(currentField.getFigureAt(move.getFieldFrom()).getColor() /*move.getFigure().getColor()*/));
+                          currentField.getKingPosition(currentField.getFigureAt(move.getFieldFrom()).getColor()));
       }
       else{
           return false;
@@ -142,27 +134,25 @@ public class Rules {
   }
   
   /**
-   * �berpr�ft, ob ein Bauernzug g�ltig ist.
+   * ï¿½berprüft, ob ein Bauernzug gï¿½ltig ist.
    * @param currentField aktuelles Spielfeld
-   * @param move auszuf�hrender Schachzug
+   * @param move auszufï¿½hrender Schachzug
    * @return True: Bauer darf dem Move-Objekt entsprechend bewegt werden
    *         False: Irgendwas stimmt hier nicht!
    */
   private boolean checkPawnMove(Field currentField, Move move)
   {
       int i;
-      //TODO: siehe oben
-      if(/*move.getFigure().getColor()*/ currentField.getFigureAt(move.getFieldFrom()).getColor() == ChessfigureConstants.BLACK){
+      if(currentField.getFigureAt(move.getFieldFrom()).getColor() == ChessfigureConstants.BLACK){
           i = 1;
       }
-      //TODO: siehe oben
-      else if(/*move.getFigure().getColor()*/ currentField.getFigureAt(move.getFieldFrom()).getColor()== ChessfigureConstants.WHITE){
+      else if(currentField.getFigureAt(move.getFieldFrom()).getColor()== ChessfigureConstants.WHITE){
           i = -1;
       }
       else{
           return false;
       }
-      // Bauer schl�gt nicht
+      // Bauer schlï¿½gt nicht
       if(currentX == x
               && !move.isCaptured()
               && !currentField.isFigureOnField(move.getFieldTo())){
@@ -177,7 +167,7 @@ public class Rules {
               return true;
           }
       }
-      // Bauer schl�gt
+      // Bauer schlï¿½gt
       else if(Math.abs(currentX - x) == 1
               && move.isCaptured()
               && currentField.isFigureOnField(move.getFieldTo())
@@ -189,9 +179,9 @@ public class Rules {
   }
   
   /**
-   * �berpr�ft, ob ein Turmzug g�ltig ist.
+   * ï¿½berprüft, ob ein Turmzug gï¿½ltig ist.
    * @param currentField aktuelles Spielfeld
-   * @param move auszuf�hrender Schachzug
+   * @param move auszufï¿½hrender Schachzug
    * @return True: Turm darf dem Move-Objekt entsprechend bewegt werden
    *         False: Irgendwas stimmt hier nicht!
    */
@@ -201,7 +191,7 @@ public class Rules {
       if(currentX == x
               && currentY != y){
           if(currentY - 1 > y){
-              //�berpr�fung, dass keine Figur zwischen Start- und Zielfeld steht
+              //ï¿½berprüfung, dass keine Figur zwischen Start- und Zielfeld steht
               for(int i = 1; currentY - i > y; i++){
                   if(currentField.isFigureOnField(Field.getFieldNumber(currentX, currentY - i))){
                       return false;
@@ -209,7 +199,7 @@ public class Rules {
               }
           }
           else if(currentY + 1 < y){
-            //�berpr�fung, dass keine Figur zwischen Start- und Zielfeld steht
+            //ï¿½berprüfung, dass keine Figur zwischen Start- und Zielfeld steht
               for(int i = 1; currentY + i < y; i++){
                   if(currentField.isFigureOnField(Field.getFieldNumber(currentX, currentY + i))){
                       return false;
@@ -222,7 +212,7 @@ public class Rules {
       else if(currentY == y
               && currentX != x){
           if(currentX - 1 > x){
-            //�berpr�fung, dass keine Figur zwischen Start- und Zielfeld steht
+            //ï¿½berprüfung, dass keine Figur zwischen Start- und Zielfeld steht
               for(int i = 1; currentX - i > x; i++){
                   if(currentField.isFigureOnField(Field.getFieldNumber(currentX - i, currentY))){
                       return false;
@@ -230,7 +220,7 @@ public class Rules {
               }
           }
           else if(currentX + 1 < x){
-            //�berpr�fung, dass keine Figur zwischen Start- und Zielfeld steht
+            //ï¿½berprüfung, dass keine Figur zwischen Start- und Zielfeld steht
               for(int i = 1; currentX + i < x; i++){
                   if(currentField.isFigureOnField(Field.getFieldNumber(currentX + i, currentY))){
                       return false;
@@ -238,7 +228,7 @@ public class Rules {
               }
           }
           //bewegt sich ein Turm, darf er nicht mehr Teil der Rochade sein
-          //da Damenbewegung auch �ber diese Methode �berpr�ft wird, darf die Dame hier nicht "reinpfuschen" :)
+          //da Damenbewegung auch ï¿½ber diese Methode ï¿½berprüft wird, darf die Dame hier nicht "reinpfuschen" :)
           if(/*move.getFigure().getFigureType()*/ currentField.getFigureAt(move.getFieldFrom()).getFigureType() != ChessfigureConstants.QUEEN){
               if(/*move.getFigure().getColor()*/ currentField.getFigureAt(move.getFieldFrom()).getColor() == ChessfigureConstants.BLACK){
                   if(move.getFieldFrom() == 57){
@@ -264,9 +254,9 @@ public class Rules {
   }
   
   /**
-   * �berpr�ft, ob ein Springerzug g�ltig ist.
+   * ï¿½berprüft, ob ein Springerzug gï¿½ltig ist.
    * @param currentField aktuelles Spielfeld
-   * @param move auszuf�hrender Schachzug
+   * @param move auszufï¿½hrender Schachzug
    * @return True: Springer darf dem Move-Objekt entsprechend bewegt werden
              False: Irgendwas stimmt hier nicht!
    */
@@ -282,17 +272,17 @@ public class Rules {
   }
   
   /**
-   * �berpr�ft, ob ein L�ufernzug g�ltig ist.
+   * ï¿½berprüft, ob ein Lï¿½ufernzug gï¿½ltig ist.
    * @param currentField aktuelles Spielfeld
-   * @param move auszuf�hrender Schachzug
-   * @return True: L�ufer darf dem Move-Objekt entsprechend bewegt werden
+   * @param move auszufï¿½hrender Schachzug
+   * @return True: Lï¿½ufer darf dem Move-Objekt entsprechend bewegt werden
    *         False: Irgendwas stimmt hier nicht!
    */
   private boolean checkBishopMove(Field currentField, Move move)
   {
       int xDif = currentX - x;
       int yDif = currentY - y;
-      //L�ufer bewegt sich schr�g
+      //Lï¿½ufer bewegt sich schräg
       if(Math.abs(xDif) == Math.abs(yDif)
               && xDif != 0){
           //nach unten
@@ -333,16 +323,16 @@ public class Rules {
                   }
               }
           }
-          //keine Figur im Weg oder L�ufer hat sich nur ein Feld bewegt
+          //keine Figur im Weg oder Lï¿½ufer hat sich nur ein Feld bewegt
           return true;
       }
       return false;
   }
   
   /**
-   * �berpr�ft, ob ein Damenzug g�ltig ist.
+   * ï¿½berprüft, ob ein Damenzug gï¿½ltig ist.
    * @param currentField aktuelles Spielfeld
-   * @param move auszuf�hrender Schachzug
+   * @param move auszufï¿½hrender Schachzug
    * @return True: Dame darf dem Move-Objekt entsprechend bewegt werden
    *         False: Irgendwas stimmt hier nicht!
    */
@@ -352,10 +342,10 @@ public class Rules {
   }
   
   /**
-   * �berpr�ft, ob ein K�nigszug g�ltig ist.
+   * ï¿½berprüft, ob ein Königszug gï¿½ltig ist.
    * @param currentField aktuelles Spielfeld
-   * @param move auszuf�hrender Schachzug
-   * @return True: K�nig darf dem Move-Objekt entsprechend bewegt werden
+   * @param move auszufï¿½hrender Schachzug
+   * @return True: König darf dem Move-Objekt entsprechend bewegt werden
              False: Irgendwas stimmt hier nicht!
    */
   private boolean checkKingMove(Field currentField, Move move)
@@ -373,45 +363,74 @@ public class Rules {
           return true;
       }
       //Rochade
-      //TODO: Überprüfung, ob Felder zwischen Turm und König frei sind?!
       if(currentY == y && Math.abs(currentX - x) == 2){
-          
+    	  //sind die Felder zwischen Turm und König frei
+          if(currentX > x && currentField.getFigureAt(Field.getFieldNumber(1, currentY)).getFigureType() == ChessfigureConstants.ROOK){
+        	  for(int i = currentX - 1; i > 1; i--){
+        		  if(currentField.isFigureOnField(Field.getFieldNumber(i, y))){
+        			  return false;
+        		  }
+        	  } 
+          }
+          else if(currentX < x && currentField.getFigureAt(Field.getFieldNumber(8, currentY)).getFigureType() == ChessfigureConstants.ROOK){
+        	  for(int i = currentX + 1; i < 8; i++){
+        		  if(currentField.isFigureOnField(Field.getFieldNumber(i, y))){
+        			  return false;
+        		  }
+        	  }
+          //Falls kein Turm zur Rochade vorhanden ist
+          }
+          else{
+        	  return false;
+          }
           return !isCheck(currentField, move, true, move.getFieldTo());
       }
       return !isCheck(currentField, move, false, move.getFieldTo());
   }
 
   /**
-   * �berpr�ft, ob sich der K�nig im Schach befindet.
+   * überprüft, ob sich der König im Schach befindet.
    * @param currentField aktuelles Spielfeld
-   * @param move auszuf�hrender Schachzug
-   * @param castling soll eine Rochade �berpr�ft werden?
-   * @return False: der eigene K�nig steht nicht im Schach
-             True: Der eigene K�nig ist durch den Zug gef�hrdet.
+   * @param move auszuführender Schachzug
+   * @param castling soll eine Rochade überprüft werden?
+   * @return False: der eigene König steht nicht im Schach
+             True: Der eigene König ist durch den Zug gefï¿½hrdet.
    */
   private boolean isCheck(Field currentField, Move move, boolean castling, int position)
   {
       //TODO: entsprechenden Turm bei Rochade versetzen
       
-      //wenn der König versetzt wird, muss natürlich die Königsposition verändert werden
-      if(currentField.getFigureAt(move.getFieldFrom()).getFigureType() == ChessfigureConstants.KING){
-          position = move.getFieldTo();
-      }
       //Zwischenspeichern der Figur, die geschlagen wird, um sie später wieder auf das Spielfeld zu stellen
 	  Figure capturedF = null;
       if(move.isCaptured()){
     	  capturedF = currentField.getFigureAt(move.getFieldTo());
           currentField.removeFigureAt(move.getFieldTo());
       }
+      //Figur versetzen
       currentField.moveFigure(move.getFieldFrom(), move.getFieldTo());
-      byte colour = /*move.getFigure().getColor()*/ currentField.getFigureAt(move.getFieldTo()).getColor();
+      
+      //wenn der König versetzt wird, muss natürlich die Königsposition verändert werden, aber nicht bei der Rochade
+      if(currentField.getFigureAt(move.getFieldTo()).getFigureType() == ChessfigureConstants.KING && !castling){
+          position = move.getFieldTo();
+      }
+      //Turm bei Rochade versetzen
+      if(castling){
+    	  if(currentX > x){
+    		  currentField.moveFigure(Field.getFieldNumber(1, y), Field.getFieldNumber(4, y));
+    	  }
+    	  else if(currentX < x){
+    		  currentField.moveFigure(Field.getFieldNumber(8, y), Field.getFieldNumber(6, y));
+    	  }
+      }
+      
+      byte colour = currentField.getFigureAt(move.getFieldTo()).getColor();
       Figure fig;
       byte figType;
       byte xAxis = Field.getXPositionFromFieldnumber(position);
       byte yAxis = Field.getYPositionFromFieldnumber(position);
-      //x-Achse pr�fen
+      //x-Achse prüfen
       //Bewegung nach rechts
-      //ein Feld neben dem K�nig anfangen, solange das Feld in der gleichen Zeile ist
+      //ein Feld neben dem König anfangen, solange das Feld in der gleichen Zeile ist
       for(int i = position + 1; (i - 1)/8 == (position - 1)/8; i++){
           fig = currentField.getFigureAt(i);
 
@@ -452,7 +471,7 @@ public class Rules {
           }
       }
       System.out.println("FAIL 5");
-      //y-Achse pr�fen
+      //y-Achse prüfen
       //nach oben
       for(int i = position + 8; i > 0 && i <= 64; i += 8){
           fig = currentField.getFigureAt(i);
@@ -495,7 +514,7 @@ public class Rules {
           }
       }
       System.out.println("FAIL 7");
-      //schr�g pr�fen
+      //schräg prüfen
       //nach rechts oben
       int fieldNo;
       for(int i = 1; xAxis + i < 9 && yAxis < 9; i++){
@@ -582,8 +601,8 @@ public class Rules {
           }
       }
       System.out.println("FAIL 11");
-      //Springer pr�fen
-      //TODO: �bersichtlicher gestallten???????????
+      //Springer prÃ¼fen
+      //TODO:Ã¼bersichtlicher gestallten???????????
       if(xAxis + 2 < 9 && yAxis + 1 < 9){
           fig = currentField.getFigureAt(Field.getFieldNumber(xAxis + 2, yAxis + 1));
           if(fig != null && fig.getColor() != colour && fig.getFigureType() == ChessfigureConstants.KNIGHT){
@@ -640,8 +659,25 @@ public class Rules {
           }
       }
       System.out.println("FAIL 19");
+
+      //Feld wieder in Ausgangsstellung bringen
+      currentField.moveFigure(move.getFieldTo(), move.getFieldFrom());
+      if(move.isCaptured()){
+    	  currentField.putFigureAt(move.getFieldTo(), capturedF);
+      }
       
-      //TODO:blackkingmoved etc. evtl. in die checkkingmove methode verlagern
+      //Falls Rochade, Turm zurücksetzen
+      if(castling){
+    	  if(currentX > x){
+    		  currentField.moveFigure(Field.getFieldNumber(4, y), Field.getFieldNumber(1, y));
+    	  }
+    	  else if(currentX < x){
+    		  currentField.moveFigure(Field.getFieldNumber(6, y), Field.getFieldNumber(8, y));
+    	  }
+      }
+      System.out.println("FLO");
+      
+    //TODO:blackkingmoved etc. evtl. in die checkkingmove methode verlagern
       // Position von isCheck entsprechend anpassen
       if(castling && x > currentX){
           if((colour == ChessfigureConstants.WHITE && !whiteKingMoved && !whiteRightRookMoved)
@@ -657,13 +693,7 @@ public class Rules {
                       && isCheck(currentField, move, false, position - 2);
           }
       }
-      System.out.println("FAIL 20");
-      //Feld wieder in Ausgangsstellung bringen
-      currentField.moveFigure(move.getFieldTo(), move.getFieldFrom());
-      if(move.isCaptured()){
-    	  currentField.putFigureAt(move.getFieldTo(), capturedF);
-      }     
-      System.out.println("FLO");
+      
       return false;
   }
   
