@@ -131,10 +131,10 @@ public class GameCoordinator
      */
     public boolean receiveMove(Move newMove, boolean checkThisMove) {
         
-        
         // Wurde geschmissen?
         // FIXME FEHLER: wird auch bei Rochade ausgefuehrt!!!
         if (Field.getInstance().isFigureOnField(newMove.getFieldTo())) {
+            
             Field f = Field.getInstance();
             Figure figureFrom = f.getFigureAt(newMove.getFieldFrom());
             Figure figureTo = f.getFigureAt(newMove.getFieldTo());

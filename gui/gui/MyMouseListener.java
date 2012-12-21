@@ -48,7 +48,7 @@ public class MyMouseListener extends MouseAdapter
     @Override
     public void mouseClicked(MouseEvent e) {
         this.counter++;
-
+        
         // es wird nur etwas gemacht, wenn man auch seinen Zug manuell eingeben
         // soll und nicht mehr als zweimal geklickt hat
         if (Checkerboard.getInstance().isManualMove() && this.counter < 3) {
@@ -83,8 +83,11 @@ public class MyMouseListener extends MouseAdapter
                                 "Normaler Zug", JOptionPane.YES_NO_OPTION);
                 this.counter = 0;
                 if (reply == JOptionPane.YES_OPTION) {
-                    Checkerboard.getInstance().setArrayList(this.a);
+                    ArrayList<Integer> al = new ArrayList<Integer>(this.a);
+                    Checkerboard.getInstance().setArrayList(al);
                     Checkerboard.getInstance().setManualMove(false);
+                    Checkerboard.getInstance().setMmIsReady(true);
+                    this.a.clear();
                 } else {
                     this.a.clear();
                     javax.swing.JOptionPane.showMessageDialog(
