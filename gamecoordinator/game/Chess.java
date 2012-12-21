@@ -209,7 +209,7 @@ public class Chess
      * Die Feldnummern werden entweder ueber die Kamera oder die GUI eingelesen.
      * @param colorOfPlayer Farbe des Spielers
      * @param fieldnumbers Die zwei oder vier betroffenen Feldnummern
-     * @return
+     * @return Move-Objekt
      */
     public static Move convertFieldnumbersToMoves(byte colorOfPlayer, List<Integer> fieldnumbers)
     {

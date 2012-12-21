@@ -126,40 +126,14 @@ public class GameCoordinator
      * Neuer Zug wird dem aktuellen Spielverlauf hinzugefuegt. Entweder ein vom
      * Spieler ausgefuerter Zug oder von der AI.
      * 
+     * @param newMove Der auszuführende Zug, er beinhaltet schon die Eigenschaften
+     *  ob geschmissen wurde, ob eine Rochade stattfindet etc.
+     * @param checkThisMove Soll der uebergebene Zug auf Regeln geprüft werden?
      * @return True: Gueltiger Zug wurde gespeichert; False: Ungueltiger Zug,
      *         Fehlermeldung anzeigen
      */
     public boolean receiveMove(Move newMove, boolean checkThisMove)
     {
-        // 
-        
-        // Wurde geschmissen?
-        // FIXME FEHLER: wird auch bei Rochade ausgefuehrt!!!
-        
-        // UNFUG?! Weil wenn Rochade, dann ist getFieldTo() -1
-        if (Field.getInstance().isFigureOnField(newMove.getFieldTo())) {
-            Field f = Field.getInstance();
-            Figure figureFrom = f.getFigureAt(newMove.getFieldFrom());
-            Figure figureTo = f.getFigureAt(newMove.getFieldTo());
-            // Rochade pruefen
-            boolean bothFiguresSameColor = (
-                    (figureFrom.getColor() == ChessfigureConstants.WHITE && figureTo.getColor() == ChessfigureConstants.WHITE) ||
-                    (figureFrom.getColor() == ChessfigureConstants.BLACK && figureTo.getColor() == ChessfigureConstants.BLACK)
-                    );
-            
-            boolean kingAndRookSelected = (
-                    (figureFrom.getFigureType() == ChessfigureConstants.KING && figureTo.getFigureType() == ChessfigureConstants.ROOK) ||
-                    (figureFrom.getFigureType() == ChessfigureConstants.ROOK && figureTo.getFigureType() == ChessfigureConstants.KING)
-                    );
-            
-            boolean rochade = f.isRochadeWhitePossible() && bothFiguresSameColor && kingAndRookSelected;
-            
-            // Es wird keine Figur geschmissen
-            if (!rochade) {
-                newMove.setCaptured(true);
-            }
-        }
-        
         if (checkThisMove) {
             if (!this.rules.checkMove(this.field, newMove)) {
                 System.out.println("Ungueltiger Zug laut Rules.checkMove().\nZug: " + newMove.toString());
