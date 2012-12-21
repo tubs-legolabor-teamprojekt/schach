@@ -1,20 +1,19 @@
 package game;
 
-import engineControl.MovementControl;
-import gui.Checkerboard;
-import gui.Gui;
-import gui.StartWindow;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 import util.ChessfigureConstants;
 import camera.ImageLoader;
 
 import components.Field;
+
+import engineControl.MovementControl;
+import gui.Checkerboard;
+import gui.Gui;
+import gui.StartWindow;
 
 /**
  * Startet das Spiel
@@ -120,17 +119,23 @@ public class Chess
 
                 // Konnte Kamera Züge ermitteln?
                 if (listOfChangedPositions.size() == 0) {
-                    // Manuelles Einlesen der Zühe durch die GUI
+                    // Manuelles Einlesen der Züge durch die GUI
                     move = convertFieldnumbersToMoves(currentPlayer, Checkerboard.getInstance().manualMove());
                 } else {
                     move = convertFieldnumbersToMoves(currentPlayer, listOfChangedPositions);
                 }
 
             } else {
-                // Simulierten Zug holen
-                Move newMove = this.simulatedMoves.get(moveCounter);
-                moveCounter++;
-                move = newMove;
+                if (moveCounter == 4) {
+                    // Beim vierten Durchlauf eine fehlerhafte Eingabe simulieren
+                    move = convertFieldnumbersToMoves(currentPlayer, Checkerboard.getInstance().manualMove());
+                    moveCounter++;
+                } else {
+                    // Simulierten Zug holen
+                    Move newMove = this.simulatedMoves.get(moveCounter);
+                    moveCounter++;
+                    move = newMove;
+                }
             }
 
             // Züge ausführen
@@ -200,6 +205,7 @@ public class Chess
             this.gameCoordinator.execMove();
         } else {
             // FIXME funktioniert scheinbar noch nicht
+//            MoveGUI.getInstance().resetMoveGui();
             this.execMove(player, convertFieldnumbersToMoves(player, Checkerboard.getInstance().manualMove()));
         }
     }
@@ -215,7 +221,6 @@ public class Chess
     {
         Move move = null;
         Field f = Field.getInstance();
-        
         if (fieldnumbers.size() == 2) {
             // Normaler Zug
             
