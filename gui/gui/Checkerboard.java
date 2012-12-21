@@ -373,8 +373,15 @@ public class Checkerboard extends JPanel
      */
     public ArrayList<Integer> manualMove() {
         this.manualMove = true;
+        this.mmIsReady = false;
         
+        System.out.println("öasfjölasjföasjfölasfölasjföajsföjasfökasj");
+        System.out.println("Checkerboard vor reset:"+instance.getArrayList());
+        MoveGUI.getInstance().resetMoveGui();
+
+        System.out.println("Checkerboard nach reset:"+instance.getArrayList());
         MoveGUI.getInstance();
+        System.out.println("Checkerboard nach movegui:"+instance.getArrayList());
 
         while (!this.mmIsReady) {
             try {
@@ -383,10 +390,14 @@ public class Checkerboard extends JPanel
                 e.printStackTrace();
             }
         }
+        
+        System.out.println("Checkerboard nach while:"+instance.getArrayList());
 
+        
         if (MoveGUI.getInstance().isNormalButtonPressed()) {
             // Feldnummern von den angeklickten Feldern
-            this.a = this.getArrayList();
+            System.out.println("geh ich hier rein???: a: " + this.a);
+            return this.a;
         } else {
             // darf weiß überhaupt eine Rochade ausführen?
             if (this.figure.getColor() == ChessfigureConstants.WHITE &&
@@ -400,6 +411,7 @@ public class Checkerboard extends JPanel
                     this.a.add(7);
                     this.a.add(8);
                     this.a.add(6);
+                    return this.a;
                 } else {
                     // lange Rochade
                     // a = 5 3 1 4
@@ -408,6 +420,7 @@ public class Checkerboard extends JPanel
                     this.a.add(3);
                     this.a.add(1);
                     this.a.add(4);
+                    return this.a;
                 }
             // wenn keine Rochade erlaubt
             } else {
@@ -415,7 +428,7 @@ public class Checkerboard extends JPanel
                         "Rochade", JOptionPane.INFORMATION_MESSAGE);
             }
         }
-        return this.a;
+        return new ArrayList<Integer>();
     }
 
     /**

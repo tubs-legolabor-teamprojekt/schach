@@ -75,9 +75,8 @@ public class MoveGUI extends JFrame implements ActionListener
     public static MoveGUI getInstance() {
         if (instance == null) {
             instance = new MoveGUI();
-        } else {
-            instance.resetMoveGui();
         }
+        
         return instance;
     }
     
@@ -105,7 +104,7 @@ public class MoveGUI extends JFrame implements ActionListener
      */
     public void makeLayout() {
         this.toFront();
-        this.setAlwaysOnTop(true);
+//        this.setAlwaysOnTop(true);
 
         // Aussehen der JTabbedPane
         UIManager.put("TabbedPane.contentOpaque", false);
@@ -273,10 +272,6 @@ public class MoveGUI extends JFrame implements ActionListener
      */
     public boolean isNormalButtonPressed() {
         return this.normalButtonPressed;
-    }
-
-    public static void main(String[] args) {
-        MoveGUI.getInstance();
     }
 
 }

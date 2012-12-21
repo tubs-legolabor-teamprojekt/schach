@@ -3,6 +3,7 @@ package game;
 import engineControl.MovementControl;
 import gui.Checkerboard;
 import gui.Gui;
+import gui.MoveGUI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -190,6 +191,7 @@ public class Chess
             this.gameCoordinator.execMove();
         } else {
             // FIXME funktioniert scheinbar noch nicht
+//            MoveGUI.getInstance().resetMoveGui();
             this.execMove(player, convertFieldnumbersToMoves(player, Checkerboard.getInstance().manualMove()));
         }
     }
@@ -205,7 +207,7 @@ public class Chess
     {
         Move move = null;
         Field f = Field.getInstance();
-        
+        System.out.println("!!!!!: " + fieldnumbers.size());
         if (fieldnumbers.size() == 2) {
             // Normaler Zug
             
