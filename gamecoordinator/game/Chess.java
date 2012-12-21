@@ -126,16 +126,16 @@ public class Chess
                 }
 
             } else {
-                if (moveCounter == 4) {
+                /*if (moveCounter == 4) {
                     // Beim vierten Durchlauf eine fehlerhafte Eingabe simulieren
                     move = convertFieldnumbersToMoves(currentPlayer, Checkerboard.getInstance().manualMove());
                     moveCounter++;
-                } else {
+                } else {*/
                     // Simulierten Zug holen
                     Move newMove = this.simulatedMoves.get(moveCounter);
                     moveCounter++;
                     move = newMove;
-                }
+                //}
             }
 
             // Züge ausführen
@@ -204,8 +204,6 @@ public class Chess
             // Zug ausfuehren
             this.gameCoordinator.execMove();
         } else {
-            // FIXME funktioniert scheinbar noch nicht
-//            MoveGUI.getInstance().resetMoveGui();
             this.execMove(player, convertFieldnumbersToMoves(player, Checkerboard.getInstance().manualMove()));
         }
     }
