@@ -375,13 +375,9 @@ public class Checkerboard extends JPanel
         this.manualMove = true;
         this.mmIsReady = false;
         
-        System.out.println("öasfjölasjföasjfölasfölasjföajsföjasfökasj");
-        System.out.println("Checkerboard vor reset:"+instance.getArrayList());
         MoveGUI.getInstance().resetMoveGui();
 
-        System.out.println("Checkerboard nach reset:"+instance.getArrayList());
         MoveGUI.getInstance();
-        System.out.println("Checkerboard nach movegui:"+instance.getArrayList());
 
         while (!this.mmIsReady) {
             try {
@@ -391,12 +387,8 @@ public class Checkerboard extends JPanel
             }
         }
         
-        System.out.println("Checkerboard nach while:"+instance.getArrayList());
-
-        
         if (MoveGUI.getInstance().isNormalButtonPressed()) {
             // Feldnummern von den angeklickten Feldern
-            System.out.println("geh ich hier rein???: a: " + this.a);
             return this.a;
         } else {
             // darf weiß überhaupt eine Rochade ausführen?

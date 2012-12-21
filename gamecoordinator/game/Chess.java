@@ -207,7 +207,6 @@ public class Chess
     {
         Move move = null;
         Field f = Field.getInstance();
-        System.out.println("!!!!!: " + fieldnumbers.size());
         if (fieldnumbers.size() == 2) {
             // Normaler Zug
             

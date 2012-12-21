@@ -131,7 +131,6 @@ public class GameCoordinator
      */
     public boolean receiveMove(Move newMove, boolean checkThisMove) {
         
-        System.out.println("Hallihallohallöle: " + newMove);
         // Wurde geschmissen?
         // FIXME FEHLER: wird auch bei Rochade ausgefuehrt!!!
         if (Field.getInstance().isFigureOnField(newMove.getFieldTo())) {
@@ -163,7 +162,6 @@ public class GameCoordinator
                 System.out.println("Ungueltiger Zug laut Rules.checkMove().\nZug: " + newMove.toString());
                 // Fehlermeldung anzeigen (GUI)
                 this.gui.showWarning("Ungültiger Zug!");
-                System.out.println("Bin ich hier?`???");
                 return false;
             }
         }
