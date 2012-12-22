@@ -93,8 +93,6 @@ public class GameCoordinator
         if (this.logging)
             System.out.println(this.currentMove.getMoveAsText());
 
-        this.gui.getCheckerboard().setCheckerboardInformation(this.currentMove);
-        
         if (this.currentMove.isKingSideCastling()) {
             // Gui soll Figur bewegen
             this.gui.getCheckerboard().setCheckerboardInformation(this.currentMove);
