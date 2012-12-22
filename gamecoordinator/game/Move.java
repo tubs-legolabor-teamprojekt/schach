@@ -406,27 +406,35 @@ public class Move
      * @return String, der den Zug in algebraischer Schachnotation enthaelt.
      */
     public String getAlgebraicNotation() {
-        // Anfangsbuchstabe
-        String figureLetter = "";
-        if (getFigureLetter() != ' ')
-            figureLetter = "" + getFigureLetter();
-        // Zielfeld
-        String to = Field.getFieldName(this.fieldTo);
-        // Geschmissen
-        String captured = (this.isCaptured()) ? "x" : "";
-        // Schach oder Schachmatt
-        String checkOrCheckMate = "";
-        if (this.isCheckMate())
-            checkOrCheckMate = "#";
-        else if (this.isCheck())
-            checkOrCheckMate = "+";
-        // Bauer umgewandelt
-        String pawnPromotion = (this.isPawnPromotion()) ? "="
-                + this.getPawnPromotedTo() : "";
-
-        // Zusammensetzen
-        String move = figureLetter + captured + to + checkOrCheckMate
-                + pawnPromotion;
+        String move = "";
+        
+        if (isKingSideCastling()) {
+            move = "0-0";
+        } else if (isQueenSideCastling()) {
+            move = "0-0-0";
+        } else {
+            // Anfangsbuchstabe
+            String figureLetter = "";
+            if (getFigureLetter() != ' ')
+                figureLetter = "" + getFigureLetter();
+            // Zielfeld
+            String to = Field.getFieldName(this.fieldTo);
+            // Geschmissen
+            String captured = (this.isCaptured()) ? "x" : "";
+            // Schach oder Schachmatt
+            String checkOrCheckMate = "";
+            if (this.isCheckMate())
+                checkOrCheckMate = "#";
+            else if (this.isCheck())
+                checkOrCheckMate = "+";
+            // Bauer umgewandelt
+            String pawnPromotion = (this.isPawnPromotion()) ? "="
+                    + this.getPawnPromotedTo() : "";
+    
+            // Zusammensetzen
+            move = figureLetter + captured + to + checkOrCheckMate
+                    + pawnPromotion;
+        }
 
         return move;
     }

@@ -7,10 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import rules.Rules;
-import util.ChessfigureConstants;
 
 import components.Field;
-import components.Figure;
 
 /**
  * Die "Hauptklasse" des Schachroboters, hier wird das Spiel gestartet.

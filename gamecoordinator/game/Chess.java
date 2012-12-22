@@ -72,9 +72,6 @@ public class Chess
         // GUI uebergeben
         this.gameCoordinator.setGui(gui);
 
-        // TODO wie wird ermittelt, ob Spieler ggn Computer oder Computer ggn
-        // Computer
-
         int moveCounter = 0;
         byte currentPlayer = ChessfigureConstants.WHITE;
         while (!this.gameCoordinator.isEndOfGame()) {
@@ -148,7 +145,7 @@ public class Chess
             }
         }
 
-        // TODO Verbindung zum Roboter beenden
+        // Verbindung zum Roboter beenden
         movementControl.setGameExists(false);
 
         // Aktuelles Datum
@@ -391,8 +388,8 @@ public class Chess
     }
 
     /**
-     * Sofern das Spiel beendet ist, wird das Ergebnis zurueckgegeben. TODO Wie
-     * wird ermittelt, wer gewonnen hat?
+     * Sofern das Spiel beendet ist, wird das Ergebnis zurueckgegeben.
+     * TODO Wie wird ermittelt, wer gewonnen hat?
      * 
      * @return
      */
