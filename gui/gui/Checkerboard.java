@@ -229,7 +229,7 @@ public class Checkerboard extends JPanel
 
         if (!this.move.isKingSideCastling() && !this.move.isQueenSideCastling()) {        
             // ganz normaler Zug
-            
+            System.out.println("normal");
             // erst Zeile
             for (int i = 0; i < 8; i++) {
                 if (i == this.fieldFromRow) {
@@ -273,6 +273,7 @@ public class Checkerboard extends JPanel
             if (this.move.getPlayerColor() == ChessfigureConstants.BLACK) {
                 // Ke8-g8 und Th8-f8 (kurze schwarze Rochade)
                 // König: 0/4 - 0/6, Turm: 0/7 - 0/5
+                System.out.println("kurze schwarze rochade");
                 
                 // König weg
                 CheckerboardPanel cbp = (CheckerboardPanel) this.grid.getValueAt(0, 4);
@@ -289,26 +290,36 @@ public class Checkerboard extends JPanel
             } else {
                 // Ke1-g1 und Th1-f1 (kurze weiße Rochade)
                 // König: 7/4 - 7/6, Turm: 7/7 - 7/5
-                
+                System.out.println("kurze weiße rochade");
                 // König weg
                 CheckerboardPanel cbp = (CheckerboardPanel) this.grid.getValueAt(7, 4);
+                System.out.println("cbp vor könig weg: " + cbp.label.getIcon());
                 cbp.label.setVisible(false);
+                System.out.println("cbp nach könig weg: " + cbp.label.getIcon());
                 // König hin
                 cbp = (CheckerboardPanel) this.grid.getValueAt(7, 6);
+                System.out.println("cbp vor könig hin: " + cbp.label.getIcon());
                 cbp.label.setIcon(this.icon_king_white);
+                System.out.println("cbp nach könig hin: " + cbp.label.getIcon());
                 // Turm weg
                 cbp = (CheckerboardPanel) this.grid.getValueAt(7, 7);
+                System.out.println("cbp vor turm weg: " + cbp.label.getIcon());
                 cbp.label.setVisible(false);
+                System.out.println("cbp nach turm weg: " + cbp.label.getIcon());
                 // Turm hin
                 cbp = (CheckerboardPanel) this.grid.getValueAt(7, 5);
+                System.out.println("cbp vor turm hin: " + cbp.label.getIcon());
                 cbp.label.setIcon(this.icon_rook_white);
+                System.out.println("cbp nach turmm hin: " + cbp.label.getIcon());
+                Gui.getInstance().repaint();
+                Gui.getInstance().validate();
             }
         } else {
             // lange Rochade
             if (this.move.getPlayerColor() == ChessfigureConstants.BLACK) {
                 // Ke8-c8 und Ta8-d8 (lange schwarze Rochade)
                 // König: 0/4 - 0/2, Turm: 0/0 - 0/3
-                
+                System.out.println("lange schwarze rochade");
                 // König weg
                 CheckerboardPanel cbp = (CheckerboardPanel) this.grid.getValueAt(0, 4);
                 cbp.label.setVisible(false);
@@ -324,7 +335,7 @@ public class Checkerboard extends JPanel
             } else {
                 // Ke1-c1 und Ta1-d1 (lange weiße Rochade)
                 // König: 7/4 - 7/2, Turm: 7/0 - 7/3
-                
+                System.out.println("lange weiße rochade");
                 // König weg
                 CheckerboardPanel cbp = (CheckerboardPanel) this.grid.getValueAt(7, 4);
                 cbp.label.setVisible(false);
