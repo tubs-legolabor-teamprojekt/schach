@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import rules.Rules;
+import util.ChessfigureConstants;
 
 import components.Field;
 
@@ -92,26 +93,68 @@ public class GameCoordinator
         if (this.logging)
             System.out.println(this.currentMove.getMoveAsText());
 
-        // Wurde geschmissen?
-        if (this.currentMove.isCaptured()) {
-            // Geschmissene Figur vom Feld entfernen
-            this.field.removeFigureAt(this.currentMove.getFieldTo());
-        }
-
-        // Roboter soll Figur bewegen
-        movementControl.setMovefigure(this.currentMove);
-        movementControl.MoveRobot();
-
-        // Gui soll Figur bewegen
-        // Gui muss zuerst den Zug grafisch ausfuehren, da sie auf die
-        // Informationen des Feldes (fieldFrom) zugreift.
-        // Wuerde Field zuerst aktualisiert werden, koennte die Gui nicht
-        // mehr auf die zu versetzende Figur zugreifen!
         this.gui.getCheckerboard().setCheckerboardInformation(this.currentMove);
-
-        // Figur soll Zug durchfuehren
-        this.field.moveFigure(this.currentMove.getFieldFrom(),
-                this.currentMove.getFieldTo());
+        
+        if (this.currentMove.isKingSideCastling()) {
+            // Gui soll Figur bewegen
+            this.gui.getCheckerboard().setCheckerboardInformation(this.currentMove);
+            
+            if (this.currentMove.getColorOfPlayer() == ChessfigureConstants.WHITE) {
+                // Kurze weisse Rochade
+                
+                // König versetzen
+                this.field.moveFigure(Field.getFieldNumber("e1"), Field.getFieldNumber("g1"));
+                // Turm versetzen
+                this.field.moveFigure(Field.getFieldNumber("h1"), Field.getFieldNumber("f1"));
+            } else if (this.currentMove.getColorOfPlayer() == ChessfigureConstants.BLACK) {
+                // Kurze schwarze Rochade
+                
+                // König versetzen
+                this.field.moveFigure(Field.getFieldNumber("e8"), Field.getFieldNumber("g8"));
+                // Turm versetzen
+                this.field.moveFigure(Field.getFieldNumber("h8"), Field.getFieldNumber("f8"));
+            }
+        } else if (this.currentMove.isQueenSideCastling()) {
+            // Gui soll Figur bewegen
+            this.gui.getCheckerboard().setCheckerboardInformation(this.currentMove);
+            
+            if (this.currentMove.getColorOfPlayer() == ChessfigureConstants.WHITE) {
+                // Lange weisse Rochade
+                
+                // König versetzen
+                this.field.moveFigure(Field.getFieldNumber("e1"), Field.getFieldNumber("c1"));
+                // Turm versetzen
+                this.field.moveFigure(Field.getFieldNumber("a1"), Field.getFieldNumber("d1"));
+            } else if (this.currentMove.getColorOfPlayer() == ChessfigureConstants.BLACK) {
+                // Lange schwarze Rochade
+                
+                // König versetzen
+                this.field.moveFigure(Field.getFieldNumber("e8"), Field.getFieldNumber("c8"));
+                // Turm versetzen
+                this.field.moveFigure(Field.getFieldNumber("a8"), Field.getFieldNumber("d8"));
+            }
+        } else {
+            // Wurde geschmissen?
+            if (this.currentMove.isCaptured()) {
+                // Geschmissene Figur vom Feld entfernen
+                this.field.removeFigureAt(this.currentMove.getFieldTo());
+            }
+    
+            // Roboter soll Figur bewegen
+            movementControl.setMovefigure(this.currentMove);
+            movementControl.MoveRobot();
+    
+            // Gui soll Figur bewegen
+            // Gui muss zuerst den Zug grafisch ausfuehren, da sie auf die
+            // Informationen des Feldes (fieldFrom) zugreift.
+            // Wuerde Field zuerst aktualisiert werden, koennte die Gui nicht
+            // mehr auf die zu versetzende Figur zugreifen!
+            this.gui.getCheckerboard().setCheckerboardInformation(this.currentMove);
+    
+            // Figur soll Zug durchfuehren
+            this.field.moveFigure(this.currentMove.getFieldFrom(),
+                    this.currentMove.getFieldTo());
+        }
 
         // War es der letzte Zug?
         this.lastMove = this.currentMove.isCheckMate();
