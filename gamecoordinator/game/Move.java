@@ -23,6 +23,11 @@ public class Move
      * Feld nach dem Zug
      */
     private int fieldTo;
+    
+    /**
+     * Farbe des Spielers, der diesen Zug ausführt.
+     */
+    private byte colorOfPlayer = -1;
 
     /**
      * Wurde eine Figur geschmissen?
@@ -40,9 +45,15 @@ public class Move
      */
     private char pawnPromotedTo;
     
+    /**
+     * Dieser Zug ist eine kurze Rochade.
+     */
     private boolean kingSideCastling = false;
+    
+    /**
+     * Dieser Zug ist eine lange Rochade.
+     */
     private boolean queenSideCastling = false;
-    private byte colorOfPlayer = -1;
 
     /**
      * Ist der gegnerische Koenig durch diesen Zug im Schach?
@@ -70,14 +81,14 @@ public class Move
      * @param figure
      *            Figur, die den Zug macht
      */
-    public Move(int fieldFrom, int fieldTo) {
+    public Move(byte colorOfPlayer, int fieldFrom, int fieldTo) {
+        this.setColorOfPlayer(colorOfPlayer);
         this.setFieldFrom(fieldFrom);
         this.setFieldTo(fieldTo);
     }
 
-    public Move(int fieldFrom, int fieldTo, boolean captured) {
-        this.setFieldFrom(fieldFrom);
-        this.setFieldTo(fieldTo);
+    public Move(byte colorOfPlayer, int fieldFrom, int fieldTo, boolean captured) {
+        this(colorOfPlayer, fieldFrom, fieldTo);
         this.setCaptured(captured);
     }
 
@@ -100,12 +111,29 @@ public class Move
      * @param checkMate
      *            Schachmatt
      */
-    public Move(int fieldFrom, int fieldTo, boolean captured, boolean check,
+    public Move(byte colorOfPlayer, int fieldFrom, int fieldTo, boolean captured, boolean check,
             boolean checkMate) {
-        this(fieldFrom, fieldTo);
+        this(colorOfPlayer, fieldFrom, fieldTo);
         this.setCaptured(captured);
         this.setCheck(check);
         this.setCheckMate(checkMate);
+    }
+    
+    /**
+     * Gibt die Farbe des Spielers zurück, der den Zug ausführt.
+     * @return Farbe des Spielers
+     */
+    public byte getColorOfPlayer() {
+       return this.colorOfPlayer;
+    }
+    
+    /**
+     * Setzt die Farbe des Spielers
+     * @param color
+     */
+    public void setColorOfPlayer(byte color) {
+        if (ChessfigureConstants.isValidColor(color))
+            this.colorOfPlayer = color;
     }
 
     /**

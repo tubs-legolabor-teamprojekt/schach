@@ -241,7 +241,7 @@ public class Chess
                 System.out.println("Felder konnten nicht zugeordnet werden!");
             }
             
-            move = new Move(fieldFrom, fieldTo);
+            move = new Move(colorOfPlayer, fieldFrom, fieldTo);
             // Informationen hinzufügen (geschmissen?)
             move = additionalInformationForMove(colorOfPlayer, move);
             
@@ -256,13 +256,13 @@ public class Chess
                 // Spieler spielt Rochade
                 if (isKingSideCastling(colorOfPlayer, fieldnumbers)) {
                     // Kurzen Rochade-Zug erstellen und der Liste hinzufuegen
-                    Move kscMove = new Move(1, 1); // Unwichtige Werte
+                    Move kscMove = new Move(colorOfPlayer, 1, 1); // Unwichtige Werte
                     kscMove.setKingSideCastling(true);
                     kscMove.setPlayerColor(colorOfPlayer);
                     move = kscMove;
                 } else if (isQueenSideCastling(colorOfPlayer, fieldnumbers)) {
                     // Langen Rochade-Zug erstellen und der Liste hinzufuegen
-                    Move qscMove = new Move(1, 1); // Unwichtige Werte
+                    Move qscMove = new Move(colorOfPlayer, 1, 1); // Unwichtige Werte
                     qscMove.setQueenSideCastling(true);
                     qscMove.setPlayerColor(colorOfPlayer);
                     move = qscMove;
