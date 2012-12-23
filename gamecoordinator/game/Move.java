@@ -341,6 +341,15 @@ public class Move
                 this.setQueenSideCastling(false);
             }
             this.kingSideCastling = true;
+            
+            // from/to-Werte auf den Zug des Köenigs einstellen
+            if (this.colorOfPlayer == ChessfigureConstants.WHITE) {
+                this.fieldFrom = Field.getFieldNumber("e1");
+                this.fieldTo = Field.getFieldNumber("g1");
+            } else if (this.colorOfPlayer == ChessfigureConstants.BLACK) {
+                this.fieldFrom = Field.getFieldNumber("e8");
+                this.fieldTo = Field.getFieldNumber("g8");
+            }
         } else {
             this.kingSideCastling = false;
         }
@@ -366,6 +375,15 @@ public class Move
                 this.setKingSideCastling(false);
             }
             this.queenSideCastling = true;
+            
+            // from/to-Werte auf den Zug des Köenigs einstellen
+            if (this.colorOfPlayer == ChessfigureConstants.WHITE) {
+                this.fieldFrom = Field.getFieldNumber("e1");
+                this.fieldTo = Field.getFieldNumber("c1");
+            } else if (this.colorOfPlayer == ChessfigureConstants.BLACK) {
+                this.fieldFrom = Field.getFieldNumber("e8");
+                this.fieldTo = Field.getFieldNumber("c8");
+            }
         } else {
             this.queenSideCastling = false;
         }
