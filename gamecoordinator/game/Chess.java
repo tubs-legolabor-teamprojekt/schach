@@ -28,34 +28,36 @@ public class Chess
      */
     private GameCoordinator gameCoordinator;
     
-    
+    /**
+     * Roboter-Steuerung
+     */
     private MovementControl movementControl = MovementControl.getInstance();
 
     /**
      * Liste an Zuegen, falls ein Spiel simuliert werden soll.
      */
     private List<Move> simulatedMoves = new ArrayList<Move>();
-
+    
     /**
      * Leerer Konstruktor
      */
-    public Chess() {
-    }
-
+    public Chess()
+    {}
+    
     /**
      * Konstruktor, mit Zuegen fuer ein simuliertes Spiel
-     * 
-     * @param moves
-     *            Zuege des simulierten Spiels
+     * @param moves Zuege des simulierten Spiels
      */
-    public Chess(List<Move> moves) {
+    public Chess(List<Move> moves)
+    {
         this.simulatedMoves = moves;
     }
-
+    
     /**
      * Startet das Spiel
      */
-    public void startGame() {
+    public void startGame()
+    {
         // GUI initialisieren, Start-Button wird angezeigt
         Gui gui = Gui.getInstance();
         // Warten, bis Benutzer das Spiel gestartet hat
@@ -247,8 +249,8 @@ public class Chess
             // Rochade-Zug
             
             // Darf der Spieler noch eine Rochade spielen?
-            if ( (colorOfPlayer == ChessfigureConstants.WHITE && f.isRochadeWhitePossible()) ||
-                 (colorOfPlayer == ChessfigureConstants.BLACK && f.isRochadeBlackPossible())
+            if ( (colorOfPlayer == ChessfigureConstants.WHITE && f.isCastlingWhitePossible()) ||
+                 (colorOfPlayer == ChessfigureConstants.BLACK && f.isCastlingBlackPossible())
                 ) {
                 // Spieler spielt Rochade
                 if (isKingSideCastling(colorOfPlayer, fieldnumbers)) {

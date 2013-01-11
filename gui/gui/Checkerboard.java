@@ -393,7 +393,7 @@ public class Checkerboard extends JPanel
         } else {
             // darf weiß überhaupt eine Rochade ausführen?
             if (this.figure.getColor() == ChessfigureConstants.WHITE &&
-                    Field.getInstance().isRochadeWhitePossible()) {
+                    Field.getInstance().isCastlingWhitePossible()) {
                 // welche Rochadenart
                 if (MoveGUI.getInstance().isKingsideCastling()) {
                     // kurze Rochade

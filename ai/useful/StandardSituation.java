@@ -1,4 +1,4 @@
-package gameTree;
+package useful;
 
 /**
  * Diese Klasse beinhaltet die StandardSituation (zu Beginn eines Spieles) als

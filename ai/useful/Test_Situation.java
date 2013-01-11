@@ -1,4 +1,4 @@
-package gameTree;
+package useful;
 
 import util.ChessfigureConstants;
 
