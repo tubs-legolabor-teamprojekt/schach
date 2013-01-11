@@ -26,15 +26,27 @@ public class ChessField extends HashMap<Integer, Short>
         return value;
     }
 
-    public ArrayList<Integer> getPositionsOfFigureType(byte figureType)
+    /**
+     * Ermittelt die Feldnummer(n), auf denen die übergebene Figur steht.
+     * @param figureType Figurtyp
+     * @param figureColor Farbe der Figur
+     * @return Liste von Feldnummern
+     */
+    public ArrayList<Integer> getPositionsOfFigureType(byte figureType, byte figureColor)
     {
+        // Liste für die Feldnummern
         ArrayList<Integer> positionsOfFigureType = new ArrayList<Integer>();
         
+        // Iteriere über alle Figuren der Map
         Iterator<Entry<Integer, Short>> it = map.entrySet().iterator();
         while (it.hasNext()) {
+            // Aktuelles Key/Value-Paar
             Map.Entry<Integer, Short> pair = (Map.Entry<Integer, Short>)it.next();
             
-            if (ExtractInformationFromBinary.getFigure(pair.getValue()) == figureType) {
+            // Entpspricht die aktuelle Figur der gesuchten?
+            if (    ExtractInformationFromBinary.getFigure(pair.getValue()) == figureType &&
+                    ExtractInformationFromBinary.getColor(pair.getValue()) == figureColor) {
+                // Figur gefunden, Feldnummer hinzufügen
                 positionsOfFigureType.add(pair.getKey());
             }
             
