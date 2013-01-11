@@ -4,13 +4,14 @@ package engineControl;
 import lejos.nxt.Button;
 import lejos.nxt.Motor;
 import lejos.nxt.Sound;
+import lejos.nxt.remote.RemoteMotor;
 import lejos.robotics.navigation.TachoPilot;
 
 
-public class MoveTest {
+public class GetDistance {
   
   
-  final private float ROTATE_FOR_Z1 = -3.5f;
+  final private float ROTATE_FOR_Z1 = -3.1f;
   final private int ROTATE_FOR_Z4 = 25;
   
   private final TachoPilot MA1_MA2 = new TachoPilot(3.2f, 11.4f, Motor.A, Motor.C);
@@ -24,11 +25,11 @@ public class MoveTest {
   
   private ConnAg con;
   
-  public MoveTest() {
+  public GetDistance() {
     
   }
   
-  public MoveTest(int rowFrom, int rowTo) {
+  public GetDistance(int rowFrom, int rowTo) {
     this.rowFrom = rowFrom;
     this.rowTo = rowTo;
     
@@ -38,64 +39,19 @@ public class MoveTest {
   
   public static void main(String args[]) {
     
-    MoveTest t1 = new MoveTest(1,5);
-    boolean gameExists = true;
-    t1.con = new ConnAg();
+    GetDistance t1 = new GetDistance(1,7);
     
-    while(gameExists) {
-        int coordinates = t1.con.getInt();
-       
-        if (coordinates < 5) {
-            try {
-                Thread.sleep(400);
-                System.out.println(coordinates);
-                
-                
-            } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
-            }
-            continue;
-        }
-        else if (coordinates == 5) {
-            System.out.println(coordinates+"Beende");
-            t1.moveToRowFrom();
-            t1.moveToInit();
-            gameExists = false;
-        }
-        else {
-            System.out.println(coordinates+"le coord");
-            t1.setRowFrom(coordinates);
-            t1.setRowTo(coordinates);
-            
-            t1.moveToRowFrom();
-            
-            t1.grabfigure();
-            
-            t1.moveToRowTo();
-            
-            t1.dropfigure();
-            
-            t1.moveToInit();
-            
-        }
-            
-            
+    for(int i = 0;i < 5;i++) {
+        t1.moveToRowFrom();
+        if(i == 0) t1.grabfigure();
+        t1.moveToRowTo();
+        if(i == 4) t1.dropfigure(); 
+        t1.moveToInit();
+        
     }
     
     
     
-    /*
-    t1.moveToRowFrom();
-    
-    t1.grabfigure();
-    
-    t1.moveToRowTo();
-    
-    t1.dropfigure();
-    
-    t1.moveToInit();
-  
-    */
   }
   
   boolean moveToRowFrom() {

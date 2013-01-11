@@ -17,6 +17,8 @@ public class MoveTest2 {
   
   private int movedDistance;
   
+  private ConnAg con;
+  
   
   MoveTest2() {
     this.movedDistance = 0;
@@ -34,16 +36,34 @@ public class MoveTest2 {
     MoveTest2 t2 = new MoveTest2(1,5);
     t2.MB1_MB2.setSpeed(70);
     t2.MC1.setSpeed(70);
+    boolean gameExists = true;
+    t2.con = new ConnAg();
     
-    t2.moveToColumnFrom();
-    
-    t2.moveDown();
-    
-    t2.moveToColumnTo();
-    
-    t2.moveUp();
-    
-    t2.moveToInit();
+    while(gameExists) {
+        int coordinates = t2.con.getInt();
+       
+        if (coordinates < 5) {
+            try {
+                Thread.sleep(400);
+                System.out.println(coordinates);
+                
+                
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+            }
+            continue;
+        }
+        else if (coordinates == 5) {
+            System.out.println(coordinates+"Beende");       
+            gameExists = false;
+        }
+        else {
+            System.out.println(coordinates+"le coord");
+        
+        }
+            
+            
+    }
   }
   
   boolean moveToColumnFrom() {

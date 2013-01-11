@@ -22,7 +22,9 @@ public class MovementControl {
     private static MovementControl instance = null;
     
     private MovementControl() {
-        
+        this.con_Nxt25 = new ConnServ("NXT_25");
+        //this.con_Nxt23 = new ConnServ("NXT_23");
+         
     }
     public static MovementControl getInstance() {
         if (instance == null) {
@@ -34,45 +36,48 @@ public class MovementControl {
 
     public static void main(String[] args) {
 
-        MovementControl m = MovementControl.getInstance();
-        //m.con_Nxt25 = new ConnServ("NXT_25");
-        //m.con_Nxt23 = new ConnServ("NXT_23");
-
-        //int concatenatedCoords = m.createIntForSending();
-        
-        //System.out.println(concatenatedCoords);
         /*
-        int i = 0;
-        while (m.gameExists) {
-            m.con_Nxt25.sendInt(i);
-            try {
-                Thread.sleep(800);
-            } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            if (i == 5) {
-                m.gameExists = false;
-            }
-            i++;
-            
-            
-            
-            //m.gameExists = false;
-        }
-        */
+         * Erstelle Instanz der Klasse zum testen
+         */
+        
+        MovementControl m = MovementControl.getInstance();
+        
+        //Künstliches Move Objekt
+        Move testmove1 = new Move((byte)1,9,25,false);
+        m.setMovefigure(testmove1);
+        
+        m.MoveRobot();
+        
+        Move testmove2 = new Move((byte) 1,2,13,false);
+        
+        m.setMovefigure(testmove2);
+        m.MoveRobot();
+        
+        
+        
+
+       
+        
     }
     
     public void MoveRobot() {
         int concatenatedCoords = this.createIntForSending();
         
-        System.out.println(concatenatedCoords);     
-/*
-        this.con_Nxt25 = new ConnServ("NXT_25");
+        this.con_Nxt25.sendInt(concatenatedCoords);
         
+       
+        
+        /*
         int i = 0;
         while (this.gameExists) {
-            this.con_Nxt25.sendInt(i);
+            if (i != 1) {
+                this.con_Nxt25.sendInt(i);
+                //this.con_Nxt23.sendInt(i);
+            }
+            else {
+                this.con_Nxt25.sendInt(concatenatedCoords);
+                //this.con_Nxt23.sendInt(concatenatedCoords);
+            }
             try {
                 Thread.sleep(800);
             } catch (InterruptedException e) {
@@ -88,7 +93,7 @@ public class MovementControl {
             
             //m.gameExists = false;
         }
-*/
+        */
     }
     
     public int createIntForSending() {
@@ -100,20 +105,20 @@ public class MovementControl {
         
         if (FieldFrom % 8 == 0) {
           x_y[0] = 8;
-          x_y[1] = FieldFrom / (8 - (FieldFrom % 8));
+          x_y[1] = (int) Math.ceil(FieldFrom / 8.0);
         }
         else  {
           x_y[0] = FieldFrom % 8;
-          x_y[1] = FieldFrom / (8 - (FieldFrom % 8));
+          x_y[1] = (int) Math.ceil(FieldFrom / 8.0);
         }
         
         if (FieldTo % 8 == 0) {
           x_y[2] = 8;
-          x_y[3] = FieldTo / (8 - (FieldTo % 8));
+          x_y[3] = (int) Math.ceil(FieldTo / 8.0);
         }
         else  {
           x_y[2] = FieldTo % 8;
-          x_y[3] = FieldTo / (8 - (FieldTo % 8));
+          x_y[3] = (int) Math.ceil(FieldTo / 8.0);
         }
         
           
