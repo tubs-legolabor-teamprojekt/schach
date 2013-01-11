@@ -18,16 +18,19 @@ public class AlphaBetaSearch{ // Nacht erster Ueberlegung nicht Multi-Thread-fae
 	
 	PseudoRating rate = new PseudoRating();
 	PseudoValidMove move = new PseudoValidMove();
+	int count = 0;
 		
 	// ############################################# Alpha-Beta-Cut-Off
 
 	public int alphaBeta( HashMap<Integer, String> situation, int tiefe, int alpha, int beta ) {
 
-	    // System.out.println("tiefe "+tiefe);
+	     System.out.println("tiefe "+tiefe);
 
 		if (tiefe == 0 /* || keineZuegeMehr(spieler)*/ ){
+		    count++;
 			byte rating = rate.rate(situation);
-			// System.out.println(" bewertung "+rating);
+			 System.out.println(" bewertung "+rating);
+			//System.out.println("zähler "+count);
 		    return (int)rating;
 		}
 		
