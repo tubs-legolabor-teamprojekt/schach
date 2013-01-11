@@ -348,19 +348,17 @@ public class Field
 			// Key/Value-Paar speichern
 			Map.Entry<Integer, Figure> pair = it.next();
 			
-			// Position der Figur steht im Key
-			Integer i = pair.getKey();
 			// value-Objekt
 			Figure f = pair.getValue();
 			
 			// Farbe, Figurtyp, X/Y-Position der aktuellen Figur ermitteln
 			byte color		= f.getColor();
 			byte figureType	= f.getFigureType();
-			byte positionX	= getXPositionFromFieldnumber(i);
-			byte positionY	= getYPositionFromFieldnumber(i);
+			boolean figureMoved = f.isMoved();
 			
 			// Short-Wert mit ermittelten Werten berechnen
-			short s = ChessfigureConstants.makeFigureShort(color, figureType, positionX, positionY);
+			// TODO wie ermitteln, ob die Figur schon bewegt wurde 
+			short s = ChessfigureConstants.makeFigureByte(color, figureType, figureMoved);
 			
 			// neuen Short-Wert dem ShortArray hinzufuegen
 			shortArray[arrayPosition] = s;
