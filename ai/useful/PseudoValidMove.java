@@ -14,7 +14,7 @@ import java.util.LinkedList;
 public class PseudoValidMove {
 
 	/**
-	 * Gibt eine Lite mit 40 identischen Elementen zurück...
+	 * Gibt eine Lite mit 10 identischen Elementen zurück...
 	 * Nur zum Test der Alpha-Beta-Suche
 	 * @param list
 	 * @return
@@ -31,12 +31,12 @@ public class PseudoValidMove {
 		/*
 		 * die übergebene Situation wird vervielfältigt und in die neue Liste gespeichert 
 		 */
-		for(int i = 0 ; i < 40 ; i++){
+		for(int i = 0 ; i < 10 ; i++){
 			liste.add(map);
 		}
 		
 		/*
-		 * Die nun gefülte Liste mit 40 identischen Situationen wird 
+		 * Die nun gefülte Liste mit 10 identischen Situationen wird 
 		 * an die aufrufende Methode zurückgegeben
 		 */
 		return liste;

@@ -18,16 +18,11 @@ public class AlphaBetaSearch{ // Nacht erster Ueberlegung nicht Multi-Thread-fae
 	
 	PseudoRating rate = new PseudoRating();
 	PseudoValidMove move = new PseudoValidMove();
-	
-	/*
-	 * Maximale Tiefe. Diese Tiefe ist ausschlaggebend für die Staerke der KI verantwortlich. Je groeßer, desto besser.
-	 */
-	static final byte DEPTH = 3;
-	
+		
 	// ############################################# Alpha-Beta-Cut-Off
 
 	public int alphaBeta( HashMap<Integer, String> situation, int tiefe, int alpha, int beta ) {
-		System.out.println(tiefe);
+		//System.out.println(tiefe);
 		if (tiefe == 0 /* || keineZuegeMehr(spieler)*/ ){
 			return rate.rate(situation);
 		}
