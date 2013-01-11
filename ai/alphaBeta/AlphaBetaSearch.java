@@ -22,29 +22,31 @@ public class AlphaBetaSearch{ // Nacht erster Ueberlegung nicht Multi-Thread-fae
 	// ############################################# Alpha-Beta-Cut-Off
 
 	public int alphaBeta( HashMap<Integer, String> situation, int tiefe, int alpha, int beta ) {
-		//System.out.println(tiefe);
+	    // System.out.println("tiefe "+tiefe);
 		if (tiefe == 0 /* || keineZuegeMehr(spieler)*/ ){
-			return rate.rate(situation);
+			byte rating = rate.rate(situation);
+			// System.out.println(" bewertung "+rating);
+		    return (int)rating;
 		}
 		
-		int bestValue = -9999999;
+		int maxValue = alpha;
 		
 		LinkedList<HashMap<Integer, String>> liste = move.move(situation);	// TODO Liste mit Werten füllen
 		
 		// TODO zur Optimierung: Felder sortieren
 		
-		while( !liste.isEmpty() /* TODO Noch Kindsituationen vorhanden*/){
-			int Value = -alphaBeta(liste.pollFirst(), tiefe-1, -beta, -alpha);
-			if(Value > bestValue){
-				bestValue = Value;
-				if(bestValue >= beta){ //Beta-CutOff
-					System.out.println("Cut");
+		while( !liste.isEmpty() ){                                            /* TODO Noch Kindsituationen vorhanden*/
+			int value = -alphaBeta(liste.pollFirst(), tiefe-1, -beta, -maxValue);
+			if(value > maxValue){
+				maxValue = value;
+				if(maxValue >= beta){ //Beta-CutOff
+					System.out.println("Cut in Tiefe "+tiefe);
 					break;
 				}
 			}
 		}
-		
-		return 0;// TODO Größter Wert
+		//System.out.println("maxValue: "+maxValue);
+		return maxValue;// TODO Größter Wert
 	}
 	// ############################################# Weitere Methoden
 }
