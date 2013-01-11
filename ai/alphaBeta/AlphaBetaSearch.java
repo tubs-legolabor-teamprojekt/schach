@@ -22,12 +22,12 @@ public class AlphaBetaSearch{ // Nacht erster Ueberlegung nicht Multi-Thread-fae
 	// ############################################# Alpha-Beta-Cut-Off
 
 	public int alphaBeta( HashMap<Integer, String> situation, int tiefe, int alpha, int beta ) {
-		//System.out.println(tiefe);
+		System.out.println(tiefe);
 		if (tiefe == 0 /* || keineZuegeMehr(spieler)*/ ){
 			return rate.rate(situation);
 		}
 		
-		int bestValue = -9999999;
+		int bestValue = alpha;
 		
 		LinkedList<HashMap<Integer, String>> liste = move.move(situation);	// TODO Liste mit Werten füllen
 		
