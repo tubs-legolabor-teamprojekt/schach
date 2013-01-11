@@ -23,6 +23,6 @@ public class GameSettings
     /**
      * Sollen die einzelnen Züge auf Gültigkeit geprüft werden?
      */
-    public static final boolean checkRules = false;
+    public static final boolean checkRules = true;
 
 }
