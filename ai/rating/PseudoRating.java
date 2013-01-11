@@ -2,6 +2,7 @@ package rating;
 
 import java.util.HashMap;
 import java.util.Random;
+import java.util.LinkedList;
 
 /**
  * Diese Klasse stellt eine Pseudobewertende Funktion bereit, 
@@ -15,6 +16,7 @@ import java.util.Random;
  */
 public class PseudoRating {
 
+    LinkedList<Integer> values = new LinkedList<Integer>();
 	boolean Vorzeichen;
 	Random rand = new Random();
 	
@@ -36,10 +38,20 @@ public class PseudoRating {
 	 * @return
 	 */
 	public byte rate(HashMap<Integer, String> situation){
+		values.add(4);
+		values.add(12);
+		values.add(7);
+		values.add(10);
+		values.add(5);
+		values.add(6);
+		values.add(1);
+		values.add(2);
+		values.add(3);
 		
 		Vorzeichen = rand.nextBoolean();
 		
-		return Vorzeichen ? (byte)(rand.nextInt(255)) : (byte)-(rand.nextInt(255)); 
+		//return Vorzeichen ? (byte)(rand.nextInt(10)) : (byte)-(rand.nextInt(10));
+		return (byte)(int)values.pollFirst();
 		
 	}
 	
