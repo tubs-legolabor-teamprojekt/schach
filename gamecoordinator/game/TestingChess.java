@@ -1,5 +1,7 @@
 package game;
 
+import game.GameSettings.GameType;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -11,14 +13,40 @@ import components.Field;
 public class TestingChess {
 
     public static void main(String[] args) {
-        // Simulierte Zuege erstellen
-        Chess game = new Chess(getMoves());
-        game.startGame();
+        
+        /*
+         * Startet das Spiel nach den aktuellen Einstellungen.
+         * Die Einstellungen werden aus der Klasse GameSettings
+         * übernommen.
+         */
+        startGame();
+        
+    }
+    
+    /**
+     * Startet ein Spiel je nach Einstellungen der GameSettings-Klasse
+     */
+    public static void startGame()
+    {
+        if (GameSettings.currentGameType == GameType.Simulated &&
+                GameSettings.simulatedGameMoves.length() > 0) {
+            // Simulierte Zuege erstellen
+            Chess game = new Chess(getMoves());
+            game.startGame();
+        } else if (GameSettings.currentGameType == GameType.PlayerVsComputer ||
+                GameSettings.currentGameType == GameType.ComputerVsComputer) {
+            Chess game = new Chess();
+            game.startGame();
+        }
     }
 
+    /**
+     * Erstellt simulierte Züge
+     * @return
+     */
     public static List<Move> getMoves() {
         List<Move> moves = new ArrayList<Move>();
-        GameParser g = new GameParser("FlorianF.txt");
+        GameParser g = new GameParser(GameSettings.simulatedGameMoves);
         g.read();
         LinkedList<String> readMoves = g.getMoves();
         

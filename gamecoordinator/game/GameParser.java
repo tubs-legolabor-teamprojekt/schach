@@ -3,7 +3,7 @@ package game;
 import java.io.*;
 import java.util.LinkedList;
 
-/*
+/**
  * @author Marcel Schubert
  * 
  * Klasse für schnelles einlesen von gespielten Spielen 

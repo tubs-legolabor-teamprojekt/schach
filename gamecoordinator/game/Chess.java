@@ -11,6 +11,7 @@ import camera.ImageLoader;
 import components.Field;
 
 import engineControl.MovementControl;
+import game.GameSettings.GameType;
 import gui.Checkerboard;
 import gui.Gui;
 import gui.StartWindow;
@@ -84,9 +85,10 @@ public class Chess
                 currentPlayer = ChessfigureConstants.BLACK;
 
             Move move = null;
-
-            if (!GameSettings.simulateGame) {
-
+            
+            if (GameSettings.currentGameType ==  GameSettings.GameType.PlayerVsComputer) {
+                // Spieltyp: Spieler gegen Computer
+                
                 // Zug von Webcam ermitteln
                 ImageLoader im = new ImageLoader();
 
@@ -108,12 +110,6 @@ public class Chess
                 im.takePhoto2();
 
                 // Veraenderte Positionen holen
-                // Entweder
-                // zwei Werte (0: from, 1: to)
-                // oder
-                // vier Werte (0: from, 1: to, 2: from (Rochade), 3: to
-                // (Rochade)
-                // wobei der Rochade-Zug auch als erstes uebergeben werden kann
                 List<Integer> listOfChangedPositions = im.getChangedPositions();
 
                 // Konnte Kamera Züge ermitteln?
@@ -124,7 +120,9 @@ public class Chess
                     move = convertFieldnumbersToMoves(currentPlayer, listOfChangedPositions);
                 }
 
-            } else {
+            } else if (GameSettings.currentGameType ==  GameSettings.GameType.Simulated) {
+                // Spieltyp: Simuliertes Spiel wird durchgeführt
+                
                 /*if (moveCounter == 4) {
                     // Beim vierten Durchlauf eine fehlerhafte Eingabe simulieren
                     move = convertFieldnumbersToMoves(currentPlayer, Checkerboard.getInstance().manualMove());
@@ -136,6 +134,15 @@ public class Chess
                     move = newMove;
                     move = additionalInformationForMove(currentPlayer, move);
                 //}
+            } else if (GameSettings.currentGameType ==  GameSettings.GameType.ComputerVsComputer) {
+                // Spieltyp: Computer vs. Computer (lernen)
+                // TODO Computer gegen Computer möglich machen
+                
+                // hole Züge von der KI
+            } else {
+                // Spieltyp: Fehlerhafte Angabe
+                System.out.println("Fehlerhafte Spieltyp!");
+                System.exit(0);
             }
 
             // Züge ausführen
@@ -175,9 +182,9 @@ public class Chess
     }
     
     /**
-     * Fuehrt mehrere Zuege aus.
-     * @param moves
-     *              Die auszufuehrenden Zuege
+     * Führt einen Zug aus
+     * @param player Spieler, der den Zug ausführt
+     * @param move Der auszuführende Zug
      */
     public void execMove(byte player, Move move)
     {
@@ -185,22 +192,9 @@ public class Chess
             Thread.sleep(GameSettings.timeBetweenMoves);
         } catch (InterruptedException e) {
         }
-            
-        // Zug ausfuehren
-        this.sendAndExecuteMove(player, move, GameSettings.checkRules);
-    }
-
-    /**
-     * Laesst einen Zug ausfueren und optional vorher auf Gueltigkeit pruefen
-     * 
-     * @param move
-     *            Der auszufuehrende Zug
-     * @param checkThisMove
-     *            Soll der Zug vor Ausfuehrung geprueft werden?
-     */
-    public void sendAndExecuteMove(byte player, Move move, boolean checkThisMove) {
+        
         // Wenn Zug gueltig, ausfuehren
-        if (this.gameCoordinator.receiveMove(move, checkThisMove)) {
+        if (this.gameCoordinator.receiveMove(move, GameSettings.checkRules)) {
             // Zug ausfuehren
             this.gameCoordinator.execMove();
         } else {
