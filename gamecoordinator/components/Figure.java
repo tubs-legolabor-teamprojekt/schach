@@ -5,8 +5,8 @@ import javax.swing.ImageIcon;
 import util.ChessfigureConstants;
 
 /**
- * Abstrakte Klasse für eine Schachfigur. Es darf keine Instanz dieser Klasse gebildet werden,
- * da eine Figur immer von einem Typ (König, Dame...) sein muss.
+ * Abstrakte Klasse f√ºr eine Schachfigur. Es darf keine Instanz dieser Klasse gebildet werden,
+ * da eine Figur immer von einem Typ (K√∂nig, Dame...) sein muss.
  * 
  * @author Florian Franke
  *
@@ -32,6 +32,11 @@ public abstract class Figure
 	 * Buchstabe der Figur fuer die Ausgabe in Schachnotation.
 	 */
 	protected char figureLetter;
+	
+	/**
+	 * Wurde die Figur schon bewegt?
+	 */
+	protected boolean moved;
 
 	/**
 	 * Erstellt eine Figur
@@ -74,7 +79,7 @@ public abstract class Figure
 	protected abstract void setIcon();
 	
 	/**
-	 * Gibt das Icon der entsprechenden Figur zurück
+	 * Gibt das Icon der entsprechenden Figur zur√ºck
 	 * @return Icon
 	 */
 	public ImageIcon getIcon()
@@ -114,6 +119,24 @@ public abstract class Figure
 	public char getFigureLetter()
 	{
 		return this.figureLetter; 
+	}
+	
+	/**
+	 * Setzen, ob die Figur schon bewegt wurde
+	 * @param moved
+	 */
+	public void setMoved(boolean moved)
+	{
+	    this.moved = moved;
+	}
+	
+	/**
+	 * Wurde die Figur schon bewegt?
+	 * @return
+	 */
+	public boolean isMoved()
+	{
+	    return this.moved;
 	}
 	
 	@Override

@@ -27,16 +27,14 @@ public class Field
 	/**
 	 * Gibt an, ob noch eine weisse Rochade moeglich ist 
 	 */
-	private boolean rochadeWhitePossible = true;
-	private boolean whiteRook1Moved = false;
-	private boolean whiteRook2Moved = false;
+	private boolean kingSideCastlingWhitePossible = true;
+	private boolean queenSideCastlingWhitePossible = true;
 	
 	/**
 	 * Gibt an, ob noch eine schwarze Rochade moeglich ist 
 	 */
-	private boolean rochadeBlackPossible = true;
-	private boolean blackRook1Moved = false;
-	private boolean blackRook2Moved = false;
+	private boolean kingSideCastlingBlackPossible = true;
+	private boolean queenSideCastlingBlackPossible = true;
 	
 	/**
 	 * Private Variable, in der die Instanz dieser Klasse gespeichert ist.
@@ -210,44 +208,34 @@ public class Field
 			switch (fromFieldNumber) {
 			case 4: // Field.getFieldNumber("e1") geht nicht!
 				// Weissen Koenig bewegt
-				this.rochadeWhitePossible = false;
+				this.kingSideCastlingWhitePossible = false;
+				this.queenSideCastlingWhitePossible = false;
 				break;
 				
 			case 61:
 				// Schwarzen Koenig bewegt
-				this.rochadeBlackPossible = false;
+				this.kingSideCastlingBlackPossible = false;
+				this.queenSideCastlingBlackPossible = false;
 				break;
 				
 			case 8:
 				// Weisser Turm auf h1 bewegt
-				this.whiteRook2Moved = true;
-				// Wenn anderer Turm schon bewegt, keine Rochade mehr moeglich
-				if (this.whiteRook1Moved)
-					this.rochadeWhitePossible = false;
+				this.kingSideCastlingWhitePossible = false;
 				break;
 				
 			case 1:
 				// Weisser Turm auf a1 bewegt
-				this.whiteRook1Moved = true;
-				// Wenn anderer Turm schon bewegt, keine Rochade mehr moeglich
-				if (this.whiteRook2Moved)
-					this.rochadeWhitePossible = false;
+				this.queenSideCastlingWhitePossible = false;
 				break;
 				
 			case 64:
 				// Schwarzer Turm auf h8 bewegt
-				this.blackRook2Moved = true;
-				// Wenn anderer Turm schon bewegt, keine Rochade mehr moeglich
-				if (this.blackRook1Moved)
-					this.rochadeBlackPossible = false;
+				this.kingSideCastlingBlackPossible = false;
 				break;
 				
 			case 57:
 				// Schwarzer Turm auf a8 bewegt
-				this.blackRook1Moved = true;
-				// Wenn anderer Turm schon bewegt, keine Rochade mehr moeglich
-				if (this.blackRook2Moved)
-					this.rochadeBlackPossible = false;
+				this.queenSideCastlingBlackPossible = false;
 				break;
 				
 			default:
@@ -261,6 +249,8 @@ public class Field
 			this.removeFigureAt(fromFieldNumber);
 			// Figur auf neues Feld setzen
 			this.putFigureAt(toFieldNumber, figure);
+			// Figur wurde bewegt
+			figure.setMoved(true);
 			
 			// Zug erfolgreich
 			ret = true;
@@ -333,10 +323,10 @@ public class Field
 	 * in ein Short-Array
 	 * @return Das Short-Array mit allen Short-Werten der Figuren
 	 */
-	public short[] exportToShortArray()
+	public byte[] exportToShortArray()
 	{
 		// short-array anlegen. die groesse entspricht der anzahl der figuren
-		short[] shortArray = new short[this.figures.size()];
+		byte[] byteArray = new byte[this.figures.size()];
 		
 		// Iterator erstellen, der ueber alle Figuren iteriert
 		Iterator<Entry<Integer, Figure>> it = this.figures.entrySet().iterator();
@@ -348,28 +338,25 @@ public class Field
 			// Key/Value-Paar speichern
 			Map.Entry<Integer, Figure> pair = it.next();
 			
-			// Position der Figur steht im Key
-			Integer i = pair.getKey();
 			// value-Objekt
 			Figure f = pair.getValue();
 			
 			// Farbe, Figurtyp, X/Y-Position der aktuellen Figur ermitteln
 			byte color		= f.getColor();
 			byte figureType	= f.getFigureType();
-			byte positionX	= getXPositionFromFieldnumber(i);
-			byte positionY	= getYPositionFromFieldnumber(i);
+			boolean figureMoved = f.isMoved();
 			
 			// Short-Wert mit ermittelten Werten berechnen
-			short s = ChessfigureConstants.makeFigureShort(color, figureType, positionX, positionY);
+			byte by = ChessfigureConstants.makeFigureByte(color, figureType, figureMoved);
 			
 			// neuen Short-Wert dem ShortArray hinzufuegen
-			shortArray[arrayPosition] = s;
+			byteArray[arrayPosition] = by;
 			
 			// zaehler erhoehen
 			arrayPosition++;
 		}
 		
-		return shortArray;
+		return byteArray;
 	}
 	
 	/**
@@ -407,20 +394,54 @@ public class Field
 	
 	
 	/**
-	 * Ist eine schwarze Rochade moeglich?
-	 * @return True: Ja; False: Nein
-	 */
-	public boolean isRochadeWhitePossible() {
-		return this.rochadeWhitePossible;
-	}
+     * Ist eine weisse kurze Rochade moeglich?
+     * @return True: Ja; False: Nein
+     */
+    public boolean isKingSideCastlingWhitePossible() {
+        return this.kingSideCastlingWhitePossible;
+    }
+    
+    /**
+     * Ist eine weisse lange Rochade moeglich?
+     * @return True: Ja; False: Nein
+     */
+    public boolean isQueenSideCastlingWhitePossible() {
+        return this.queenSideCastlingWhitePossible;
+    }
 	
-	/**
-	 * Ist eine schwarze Rochade moeglich?
-	 * @return True: Ja; False: Nein
-	 */
-	public boolean isRochadeBlackPossible() {
-		return this.rochadeBlackPossible;
-	}
+    /**
+     * Ist eine schwarze kurze Rochade moeglich?
+     * @return True: Ja; False: Nein
+     */
+    public boolean isKingSideCastlingBlackPossible() {
+        return this.kingSideCastlingBlackPossible;
+    }
+    
+    /**
+     * Ist eine schwarze lange Rochade moeglich?
+     * @return True: Ja; False: Nein
+     */
+    public boolean isQueenSideCastlingBlackPossible() {
+        return this.queenSideCastlingBlackPossible;
+    }
+    
+    /**
+     * Ist eine weisse Rochade moeglich?
+     * @return
+     */
+    public boolean isCastlingWhitePossible()
+    {
+        return (this.isQueenSideCastlingWhitePossible() || this.isKingSideCastlingWhitePossible());
+    }
+    
+    /**
+     * Ist eine schwarze Rochade moeglich?
+     * @return
+     */
+    public boolean isCastlingBlackPossible()
+    {
+        return (this.isQueenSideCastlingBlackPossible() || this.isKingSideCastlingBlackPossible());
+    }
 	
 	/**
 	 * Setzt das Feld in den Startzustand zurueck

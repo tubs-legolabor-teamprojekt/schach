@@ -10,14 +10,14 @@ import util.ExtractInformationFromBinary;
 
 
 @SuppressWarnings("serial")
-public class ChessField extends HashMap<Integer, Short>
+public class ChessField extends HashMap<Integer, Byte>
 {
-    private HashMap<Integer, Short> map = new HashMap<Integer, Short>();
+    private HashMap<Integer, Byte> map = new HashMap<Integer, Byte>();
     
     
     
     @Override
-    public Short put(Integer key, Short value) {
+    public Byte put(Integer key, Byte value) {
         if (key < 1 || key > 64)
             throw new IllegalArgumentException("Wert nicht zwischen 1 und 64.");
         
@@ -38,10 +38,10 @@ public class ChessField extends HashMap<Integer, Short>
         ArrayList<Integer> positionsOfFigureType = new ArrayList<Integer>();
         
         // Iteriere über alle Figuren der Map
-        Iterator<Entry<Integer, Short>> it = map.entrySet().iterator();
+        Iterator<Entry<Integer, Byte>> it = map.entrySet().iterator();
         while (it.hasNext()) {
             // Aktuelles Key/Value-Paar
-            Map.Entry<Integer, Short> pair = (Map.Entry<Integer, Short>)it.next();
+            Map.Entry<Integer, Byte> pair = (Map.Entry<Integer, Byte>)it.next();
             
             // Entpspricht die aktuelle Figur der gesuchten?
             if (    ExtractInformationFromBinary.getFigure(pair.getValue()) == figureType &&
