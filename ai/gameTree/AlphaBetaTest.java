@@ -19,7 +19,7 @@ public class AlphaBetaTest {
 		 */
 		HashMap<Integer, String> map = new HashMap<Integer, String>();
 		
-		int depth = 5;
+		int depth = 3;
 		
 		int Wert = Search.alphaBeta(map, depth, -20, 20);
 
