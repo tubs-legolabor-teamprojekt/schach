@@ -25,6 +25,8 @@ public class AlphaBetaSearch { // Nacht erster Ueberlegung nicht
 
     // ############################################# Alpha-Beta-Cut-Off
 
+    
+    
     /*
      * Da NegaMax Variante: Tiefenabhängig. Bewertungen ungerader tiefe:
      * negativ, Bewertungen gerader Tiefe: positiv.
@@ -52,7 +54,7 @@ public class AlphaBetaSearch { // Nacht erster Ueberlegung nicht
         // TODO zur Optimierung: Felder sortieren
 
         while (!liste.isEmpty()) { /* TODO Noch Kindsituationen vorhanden */
-            int value = -alphaBeta(liste.pollFirst(), depth - 1, -player, -beta, -maxValue);
+            int value = -alphaBeta(liste.pollFirst(), depth - 1, player, -beta, -maxValue);
             if (value > maxValue) { // hier nicht ">=", weil: Wenn es keine
                                     // Verbesserung ist, brauch ich nicht
                                     // schauen...
