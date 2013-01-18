@@ -1,7 +1,6 @@
 package util;
 
 import components.Field;
-import components.Figure;
 import components.FigureException;
 
 /**
