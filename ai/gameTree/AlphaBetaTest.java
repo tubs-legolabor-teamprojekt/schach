@@ -13,7 +13,8 @@ public class AlphaBetaTest {
 		//SYSTEM============================================================================================
 		
 		AlphaBetaSearch Search = new AlphaBetaSearch();
-		
+		LinkedList<Integer> liste = new LinkedList<Integer>();
+		System.out.println(liste.pollFirst());
 		/*
 		 * Hier ensteht der Test
 		 */
