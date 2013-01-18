@@ -22,7 +22,7 @@ public class AlphaBetaTest {
          */
         HashMap<Integer, String> map = new HashMap<Integer, String>();
 
-        int Wert = search.alphaBeta(map, DEPTH, PLAYER, -10, 10);
+        int Wert = search.alphaBeta(map, DEPTH, PLAYER, -20, 20);
 
         System.out.println("Tiefe: " + DEPTH);
         System.out.println("gefundener Wert: " + Wert);
