@@ -8,6 +8,8 @@ import dataStructure.ChessField;
 
 import util.ChessfigureConstants;
 
+import dataStructure.ChessField;
+
 /**
  * Pseudoklasse zur ValidMove
  * 
@@ -19,8 +21,10 @@ import util.ChessfigureConstants;
  */
 public class PseudoValidMove {
     
+
     LinkedList<Byte> figures = new LinkedList<Byte>();
     LinkedList<Byte> position = new LinkedList<Byte>();
+    public static final int NUMBEROFCHILDS = 30;
     /**
      * Gibt eine Lite mit 10 identischen Elementen zurück... Nur zum Test der
      * Alpha-Beta-Suche
@@ -108,23 +112,24 @@ public class PseudoValidMove {
     
     
     
-    public LinkedList<ChessField> move(ChessField list, int value) {
+    public LinkedList<ChessField> move(ChessField list, int numberOfFigures) {
 
         /*
          * Erstellt eine neue Liste, die vom generischen Typen ABTree ist
          */
         LinkedList<ChessField> liste = new LinkedList<ChessField>();
 
-        HashMap<Integer, String> map = new HashMap<Integer, String>();
+        ChessField map = new ChessField();
+        map.equipStartField();
 
         /*
          * die übergebene Situation wird vervielfältigt und in die neue Liste
          * gespeichert
          */
 
-        for (int i = 0; i < 3; i++) {
+        for (int i = 1; i <= NUMBEROFCHILDS; i++) {
 
-            liste.add(getValidMove(value));
+            liste.add(getValidMove(numberOfFigures));
         }
 
         /*

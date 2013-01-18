@@ -4,6 +4,9 @@ import java.util.*;
 
 import dataStructure.ChessField;
 
+import dataStructure.ChessField;
+
+import rating.PrimitivRating;
 import rating.PseudoRating;
 import useful.PseudoValidMove;
 
@@ -18,7 +21,10 @@ import useful.PseudoValidMove;
 public class AlphaBetaSearch { // Nacht erster Ueberlegung nicht
                                // Multi-Thread-faehig!!
 
-    PseudoRating rate = new PseudoRating();
+    // ############################################# Instanzvariablen
+
+
+    PrimitivRating rate = new PrimitivRating();
     PseudoValidMove move = new PseudoValidMove();
     public double count = 0;
     public static final int NUMBERFIGURES = 6;
@@ -35,15 +41,16 @@ public class AlphaBetaSearch { // Nacht erster Ueberlegung nicht
 
         if (depth == 0 /* || keineZuegeMehr(spieler) */) {
             count++;
-            byte rating = rate.rate(situation, player);
+            //int rating = rate.primRate(situation);
+            int rating = rate.rate(situation);
             //System.out.println(" bewertung " + rating);
             //System.out.println("zähler "+count);
-            return (int) rating;
+            return rating;
         }
 
         int maxValue = alpha;
 
-        LinkedList<HashMap<Integer, String>> liste = move.move(situation, NUMBERFIGURES); // TODO
+        LinkedList<ChessField> liste = move.move(situation, NUMBERFIGURES); // TODO
                                                                            // Liste
                                                                            // mit
                                                                            // Werten
@@ -52,7 +59,7 @@ public class AlphaBetaSearch { // Nacht erster Ueberlegung nicht
         // TODO zur Optimierung: Felder sortieren
 
         while (!liste.isEmpty()) { /* TODO Noch Kindsituationen vorhanden */
-            int value = -alphaBeta(liste.pollFirst(), depth - 1, player, -beta, -maxValue);
+            int value = -alphaBeta( (ChessField)liste.pollFirst(), depth - 1, player, -beta, -maxValue);
             if (value > maxValue) { // hier nicht ">=", weil: Wenn es keine
                                     // Verbesserung ist, brauch ich nicht
                                     // schauen...

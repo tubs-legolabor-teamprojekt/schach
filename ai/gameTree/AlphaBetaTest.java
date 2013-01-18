@@ -2,11 +2,15 @@ package gameTree;
 
 import java.util.*;
 
+import useful.PseudoValidMove;
+import util.ChessfigureConstants;
+import dataStructure.ChessField;
+
 import alphaBeta.AlphaBetaSearch;
 
 public class AlphaBetaTest {
 
-    final static int DEPTH = 2;
+    final static int DEPTH = 5;
     final static int PLAYER = 1;
 
     public static void main(String[] args) {
@@ -14,20 +18,22 @@ public class AlphaBetaTest {
         long zeit = 0, zeit2 = 0;
         zeit = System.currentTimeMillis();
         // SYSTEM============================================================================================
-
+        
+        ChessField field = new ChessField();
+        
+        field.equipStartField();
+        
+        
         AlphaBetaSearch search = new AlphaBetaSearch();
-
-        /*
-         * Hier ensteht der Test
-         */
-        HashMap<Integer, String> map = new HashMap<Integer, String>();
-
-        int Wert = search.alphaBeta(map, DEPTH, PLAYER, -100, 100);
-
-        System.out.println("Tiefe: " + DEPTH);
+        
+        int Wert = search.alphaBeta(field, DEPTH, PLAYER, -100, 100);
+        
         System.out.println("gefundener Wert: " + Wert);
         System.out.println("Knoten durchsucht "+search.count);
-
+        System.out.println("Verhältnis (real/max): "+ (search.count/(Math.pow(PseudoValidMove.anzahl, DEPTH)))*100);
+        System.out.println("Tiefe: " + DEPTH);
+        
+        
         // SYSTEM=ENDE=======================================================================================
         System.out.println(rt.totalMemory() / 1000000 + " available <==> " + (rt.totalMemory() - rt.freeMemory()) / 1000000 + " used <==> " + rt.freeMemory()
                 / 1000000 + " free");
