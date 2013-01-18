@@ -3,6 +3,8 @@ package useful;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+import dataStructure.ChessField;
+
 /**
  * Pseudoklasse zur ValidMove
  * 
@@ -13,7 +15,8 @@ import java.util.LinkedList;
  * 
  */
 public class PseudoValidMove {
-
+    
+    public static final int anzahl = 30;
     /**
      * Gibt eine Lite mit 10 identischen Elementen zurück... Nur zum Test der
      * Alpha-Beta-Suche
@@ -21,21 +24,22 @@ public class PseudoValidMove {
      * @param list
      * @return
      */
-    public LinkedList<HashMap<Integer, String>> move(HashMap<Integer, String> list) {
+    public LinkedList<ChessField> move(ChessField list) {
 
         /*
          * Erstellt eine neue Liste, die vom generischen Typen ABTree ist
          */
-        LinkedList<HashMap<Integer, String>> liste = new LinkedList<HashMap<Integer, String>>();
+        LinkedList<ChessField> liste = new LinkedList<ChessField>();
 
-        HashMap<Integer, String> map = new HashMap<Integer, String>();
+        ChessField map = new ChessField();
+        map.equipStartField();
 
         /*
          * die übergebene Situation wird vervielfältigt und in die neue Liste
          * gespeichert
          */
 
-        for (int i = 0; i < 3; i++) {
+        for (int i = 1; i <= anzahl; i++) {
 
             liste.add(map);
         }

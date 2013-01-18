@@ -40,7 +40,8 @@ public class AlphaBetaSearch { // Nacht erster Ueberlegung nicht
 
         if (depth == 0 /* || keineZuegeMehr(spieler) */) {
             count++;
-            int rating = rate.primRate(situation);
+            //int rating = rate.primRate(situation);
+            int rating = rate.rate(situation);
             //System.out.println(" bewertung " + rating);
             //System.out.println("zähler "+count);
             return rating;
@@ -48,7 +49,7 @@ public class AlphaBetaSearch { // Nacht erster Ueberlegung nicht
 
         int maxValue = alpha;
 
-        LinkedList<HashMap<Integer, String>> liste = move.move(situation); // TODO
+        LinkedList liste = move.move(situation); // TODO
                                                                            // Liste
                                                                            // mit
                                                                            // Werten
@@ -57,7 +58,7 @@ public class AlphaBetaSearch { // Nacht erster Ueberlegung nicht
         // TODO zur Optimierung: Felder sortieren
 
         while (!liste.isEmpty()) { /* TODO Noch Kindsituationen vorhanden */
-            int value = -alphaBeta(liste.pollFirst(), depth - 1, player, -beta, -maxValue);
+            int value = -alphaBeta( (ChessField)liste.pollFirst(), depth - 1, player, -beta, -maxValue);
             if (value > maxValue) { // hier nicht ">=", weil: Wenn es keine
                                     // Verbesserung ist, brauch ich nicht
                                     // schauen...

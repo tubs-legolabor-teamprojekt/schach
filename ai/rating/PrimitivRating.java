@@ -3,12 +3,15 @@ package rating;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Random;
 
 import util.ChessfigureConstants;
 import util.ExtractInformationFromBinary;
 import dataStructure.ChessField;
 
 public class PrimitivRating {
+    
+    Random ran = new Random();
 
     public int primRate(ChessField field){
         int value = 0;
@@ -47,17 +50,10 @@ public class PrimitivRating {
         
     }
     
-    public static void main(String[] args) {
-        ChessField field = new ChessField();
+    public int rate(ChessField situation){
         
-        field.put(3, ChessfigureConstants.makeFigureByte(ChessfigureConstants.WHITE, ChessfigureConstants.PAWN, false));
-        field.put(4, ChessfigureConstants.makeFigureByte(ChessfigureConstants.WHITE, ChessfigureConstants.QUEEN, false));
-        field.put(5, ChessfigureConstants.makeFigureByte(ChessfigureConstants.WHITE, ChessfigureConstants.KING, false));
-        field.put(6, ChessfigureConstants.makeFigureByte(ChessfigureConstants.BLACK, ChessfigureConstants.PAWN, false));
-        field.put(7, ChessfigureConstants.makeFigureByte(ChessfigureConstants.BLACK, ChessfigureConstants.BISHOP, false));
-        field.put(8, ChessfigureConstants.makeFigureByte(ChessfigureConstants.BLACK, ChessfigureConstants.KING, false));
-        PrimitivRating rate = new PrimitivRating();
-        System.out.println(rate.primRate(field));
+        boolean bool = ran.nextBoolean();
+        return bool ? ran.nextInt(40) : -ran.nextInt(40);
     }
     
 }
