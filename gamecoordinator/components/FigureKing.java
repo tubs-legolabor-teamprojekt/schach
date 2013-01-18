@@ -8,34 +8,34 @@ import util.ChessfigureConstants;
  * Stellt einen Koenig dar.
  * 
  * @author Florian Franke
- *
+ * 
  */
-public class FigureKing extends Figure
-{
+public class FigureKing extends Figure {
 
-	/**
-	 * Erstellt einen Koenig.
-	 * @param color Farbe des Koenigs
-	 */
-	public FigureKing(byte color) {
-		super(color);
-		this.setIcon();
-		this.setFigureType(ChessfigureConstants.KING);
-		this.figureLetter = ChessfigureConstants.KING_LETTER;
-	}
+    /**
+     * Erstellt einen Koenig.
+     * 
+     * @param color
+     *            Farbe des Koenigs
+     */
+    public FigureKing(byte color) {
+        super(color);
+        this.setIcon();
+        this.setFigureType(ChessfigureConstants.KING);
+        this.figureLetter = ChessfigureConstants.KING_LETTER;
+    }
 
-	@Override
-	protected void setIcon() {
-		if (this.color == util.ChessfigureConstants.BLACK) {
-			this.icon = new ImageIcon("images/icons/king_black_70x70.png");
-		} else {
-			this.icon = new ImageIcon("images/icons/king_white_70x70.png");
-		}
-	}
-	
-	@Override
-	public String toString() {
-		return "FigureKing [color=" + util.ChessfigureConstants.getFigureColor(super.getColor()) + "," +
-				" icon=" + this.icon.toString() + "]";
-	}
+    @Override
+    protected void setIcon() {
+        if (this.color == util.ChessfigureConstants.BLACK) {
+            this.icon = new ImageIcon("images/icons/king_black_70x70.png");
+        } else {
+            this.icon = new ImageIcon("images/icons/king_white_70x70.png");
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "FigureKing [color=" + util.ChessfigureConstants.getFigureColor(super.getColor()) + "," + " icon=" + this.icon.toString() + "]";
+    }
 }

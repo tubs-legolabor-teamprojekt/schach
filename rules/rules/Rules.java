@@ -23,11 +23,11 @@ public class Rules {
   private byte x;
   private byte y;
   /**
-   * Diese Methode �berpr�ft, ob ein Schachzug g�ltig ist oder nicht.
+   * Diese Methode ueberprueft, ob ein Schachzug gueltig ist oder nicht.
    * @param currentField Das aktuelle Spielfeld.
-   * @param move Der Schachzug, der �berpr�ft werden soll.
-   * @return True: G�ltiger Schachzug
-   *         False: Ung�ltiger Schachzug
+   * @param move Der Schachzug, der ueberprueft werden soll.
+   * @return True: Gueltiger Schachzug
+   *         False: Ungueltiger Schachzug
    */
   public boolean checkMove(Field currentField, Move move)
   {
@@ -43,21 +43,21 @@ public class Rules {
       }
       
       
-      // false zur�ckgeben, wenn zu schlagende Figur eine eigene Figur ist oder dort keine steht
+      // false zurueckgeben, wenn zu schlagende Figur eine eigene Figur ist oder dort keine steht
       if(move.isCaptured()){
           if(!currentField.isFigureOnField(move.getFieldTo())
                   //TODO: wird entfernt, da move-objekt kein figure-objekt enthalten wird/soll
                   /*|| currentField.getFigureAt(move.getFieldTo()).getColor() == move.getFigure().getColor()*/){
                   return false;
           }
-      // false zur�ckgeben, wenn eine Figur geschlagen werden w�rde    
+      // false zurueckgeben, wenn eine Figur geschlagen werden wuerde    
       }
       else{
           if(currentField.isFigureOnField(move.getFieldTo())){
               return false;
           }
       }
-      // false zur�ckgeben, wenn zu bewegende Figur nicht existiert oder nicht die eigene Figur ist
+      // false zurueckgeben, wenn zu bewegende Figur nicht existiert oder nicht die eigene Figur ist
       if(!currentField.isFigureOnField(move.getFieldFrom())
               //TODO: siehe weiter oben
               /*|| currentField.getFigureAt(move.getFieldFrom()).getColor() != move.getFigure().getColor()*/){

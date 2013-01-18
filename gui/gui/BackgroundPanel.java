@@ -7,36 +7,35 @@ import java.awt.MediaTracker;
 import javax.swing.JPanel;
 
 /**
- * Klasse, die das Hintergrundbild für die Frames darstellt.
+ * Klasse, die das Hintergrundbild fï¿½r die Frames darstellt.
+ * 
  * @author Tabea
- *
+ * 
  */
-public class BackgroundPanel extends JPanel
-{
-		
-	private Image img;
-	
-	/**
-	 * Konstruktor, der das Bild einfügt.
-	 */
-	public BackgroundPanel()
-	{
-		// Hintergrundbild
-		img = getToolkit().createImage("gui/gui/background.jpg");
+public class BackgroundPanel extends JPanel {
 
-		MediaTracker mt = new MediaTracker(this);
-		mt.addImage(img, 1);
-		try {
-			mt.waitForAll();
-		} catch(InterruptedException e) {}
-	}
-	
-	/**
-	 * Methode, die das Bild zeichnet.
-	 */
-	@Override
-	protected void paintComponent(Graphics g) 
-	{
-		g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
-	}
+    private Image img;
+
+    /**
+     * Konstruktor, der das Bild einfï¿½gt.
+     */
+    public BackgroundPanel() {
+        // Hintergrundbild
+        img = getToolkit().createImage("gui/gui/background.jpg");
+
+        MediaTracker mt = new MediaTracker(this);
+        mt.addImage(img, 1);
+        try {
+            mt.waitForAll();
+        } catch (InterruptedException e) {
+        }
+    }
+
+    /**
+     * Methode, die das Bild zeichnet.
+     */
+    @Override
+    protected void paintComponent(Graphics g) {
+        g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
+    }
 }
