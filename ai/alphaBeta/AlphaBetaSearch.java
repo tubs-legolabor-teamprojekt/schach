@@ -1,8 +1,10 @@
 package alphaBeta;
 
-import java.util.LinkedList;
 import java.util.*;
 
+import dataStructure.ChessField;
+
+import rating.PrimitivRating;
 import rating.PseudoRating;
 import useful.PseudoValidMove;
 
@@ -19,7 +21,8 @@ public class AlphaBetaSearch { // Nacht erster Ueberlegung nicht
 
     // ############################################# Instanzvariablen
 
-    PseudoRating rate = new PseudoRating();
+
+    PrimitivRating rate = new PrimitivRating();
     PseudoValidMove move = new PseudoValidMove();
     public double count = 0;
 
@@ -31,16 +34,16 @@ public class AlphaBetaSearch { // Nacht erster Ueberlegung nicht
      * Da NegaMax Variante: Tiefenabhängig. Bewertungen ungerader tiefe:
      * negativ, Bewertungen gerader Tiefe: positiv.
      */
-    public int alphaBeta(HashMap<Integer, String> situation, int depth, int player, int alpha, int beta) {
+    public int alphaBeta(ChessField situation, int depth, int player, int alpha, int beta) {
 
         //System.out.println("tiefe " + depth /* +" alpha: "+alpha+" beta: "+beta */);
 
         if (depth == 0 /* || keineZuegeMehr(spieler) */) {
             count++;
-            byte rating = rate.rate(situation, player);
+            int rating = rate.primRate(situation);
             //System.out.println(" bewertung " + rating);
             //System.out.println("zähler "+count);
-            return (int) rating;
+            return rating;
         }
 
         int maxValue = alpha;

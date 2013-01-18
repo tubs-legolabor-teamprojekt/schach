@@ -2,6 +2,9 @@ package gameTree;
 
 import java.util.*;
 
+import util.ChessfigureConstants;
+import dataStructure.ChessField;
+
 import alphaBeta.AlphaBetaSearch;
 
 public class AlphaBetaTest {
@@ -14,15 +17,18 @@ public class AlphaBetaTest {
         long zeit = 0, zeit2 = 0;
         zeit = System.currentTimeMillis();
         // SYSTEM============================================================================================
-
+        ChessField field = new ChessField();
+        
+        field.put(3, ChessfigureConstants.makeFigureByte(ChessfigureConstants.WHITE, ChessfigureConstants.PAWN, false));
+        field.put(4, ChessfigureConstants.makeFigureByte(ChessfigureConstants.WHITE, ChessfigureConstants.QUEEN, false));
+        field.put(5, ChessfigureConstants.makeFigureByte(ChessfigureConstants.WHITE, ChessfigureConstants.KING, false));
+        field.put(6, ChessfigureConstants.makeFigureByte(ChessfigureConstants.BLACK, ChessfigureConstants.PAWN, false));
+        field.put(7, ChessfigureConstants.makeFigureByte(ChessfigureConstants.BLACK, ChessfigureConstants.BISHOP, false));
+        field.put(8, ChessfigureConstants.makeFigureByte(ChessfigureConstants.BLACK, ChessfigureConstants.KING, false));
+        
         AlphaBetaSearch search = new AlphaBetaSearch();
-
-        /*
-         * Hier ensteht der Test
-         */
-        HashMap<Integer, String> map = new HashMap<Integer, String>();
-
-        int Wert = search.alphaBeta(map, DEPTH, PLAYER, -100, 100);
+        
+        int Wert = search.alphaBeta(field, DEPTH, PLAYER, -100, 100);
 
         System.out.println("Tiefe: " + DEPTH);
         System.out.println("gefundener Wert: " + Wert);

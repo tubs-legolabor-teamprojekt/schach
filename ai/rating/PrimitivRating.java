@@ -10,7 +10,7 @@ import dataStructure.ChessField;
 
 public class PrimitivRating {
 
-    public static int primRate(ChessField field){
+    public int primRate(ChessField field){
         int value = 0;
         int actValue = 0;
         Iterator<Entry<Integer, Byte>> it = field.entrySet().iterator();
@@ -56,8 +56,8 @@ public class PrimitivRating {
         field.put(6, ChessfigureConstants.makeFigureByte(ChessfigureConstants.BLACK, ChessfigureConstants.PAWN, false));
         field.put(7, ChessfigureConstants.makeFigureByte(ChessfigureConstants.BLACK, ChessfigureConstants.BISHOP, false));
         field.put(8, ChessfigureConstants.makeFigureByte(ChessfigureConstants.BLACK, ChessfigureConstants.KING, false));
-        
-        System.out.println(primRate(field));
+        PrimitivRating rate = new PrimitivRating();
+        System.out.println(rate.primRate(field));
     }
     
 }
