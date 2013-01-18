@@ -6,34 +6,36 @@ import alphaBeta.AlphaBetaSearch;
 
 public class AlphaBetaTest {
 
-	public static void main(String[] args) {
-		Runtime rt = Runtime.getRuntime();
-		long zeit=0, zeit2 = 0;
-		zeit  = System.currentTimeMillis();
-		//SYSTEM============================================================================================
-		
-		AlphaBetaSearch Search = new AlphaBetaSearch();
-		LinkedList<Integer> liste = new LinkedList<Integer>();
-		System.out.println(liste.pollFirst());
-		/*
-		 * Hier ensteht der Test
-		 */
-		HashMap<Integer, String> map = new HashMap<Integer, String>();
-		
-		int depth = 5;
-		
-		int Wert = Search.alphaBeta(map, depth, -20, 20);
+    final static int DEPTH = 3;
+    final static int PLAYER = 1;
 
-		System.out.println("Tiefe: "+depth);
-		System.out.println("gefundener Wert: "+Wert);
-		
-		//SYSTEM=ENDE=======================================================================================
-		System.out.println(rt.totalMemory()/1000000+" available <==> "+ (rt.totalMemory() - rt.freeMemory())/1000000 +" used <==> "+ rt.freeMemory()/1000000 +" free");
-		
-		zeit2  = System.currentTimeMillis();
-		
-		System.out.println("gebrauchte Zeit: "+(zeit2 - zeit) +" ms");
+    public static void main(String[] args) {
+        Runtime rt = Runtime.getRuntime();
+        long zeit = 0, zeit2 = 0;
+        zeit = System.currentTimeMillis();
+        // SYSTEM============================================================================================
 
-	}
+        AlphaBetaSearch search = new AlphaBetaSearch();
+
+        /*
+         * Hier ensteht der Test
+         */
+        HashMap<Integer, String> map = new HashMap<Integer, String>();
+
+        int Wert = search.alphaBeta(map, DEPTH, PLAYER, -10, 10);
+
+        System.out.println("Tiefe: " + DEPTH);
+        System.out.println("gefundener Wert: " + Wert);
+        System.out.println("Knoten durchsucht "+search.count);
+
+        // SYSTEM=ENDE=======================================================================================
+        System.out.println(rt.totalMemory() / 1000000 + " available <==> " + (rt.totalMemory() - rt.freeMemory()) / 1000000 + " used <==> " + rt.freeMemory()
+                / 1000000 + " free");
+
+        zeit2 = System.currentTimeMillis();
+
+        System.out.println("gebrauchte Zeit: " + (zeit2 - zeit) + " ms");
+
+    }
 
 }
