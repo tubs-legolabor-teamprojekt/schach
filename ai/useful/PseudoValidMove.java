@@ -3,11 +3,8 @@ package useful;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Random;
-
 import dataStructure.ChessField;
-
 import util.ChessfigureConstants;
-
 import dataStructure.ChessField;
 
 /**
@@ -35,6 +32,8 @@ public class PseudoValidMove {
     
     
     public PseudoValidMove() {
+        
+        //Erzeugen von Figurenpool, damit keine Figuren unueblicher Anzahl auf das Feld koennen
         for(int i=0; i<8; i++) {
             figures.add(ChessfigureConstants.makeFigureByte(ChessfigureConstants.WHITE, ChessfigureConstants.PAWN, false));
             figures.add(ChessfigureConstants.makeFigureByte(ChessfigureConstants.BLACK, ChessfigureConstants.PAWN, false));
@@ -60,17 +59,19 @@ public class PseudoValidMove {
             figures.add(ChessfigureConstants.makeFigureByte(ChessfigureConstants.BLACK, ChessfigureConstants.ROOK, false));
         }
         
+        //Erzeugen Positionenpool, damit keine Figur doppelt auf Feld ist
         for(int i=1; i<=64; i++) {
             position.add((byte)i);
         }
     }
     
-    public ChessField getValidMove(int value) {
+    
+    private ChessField getValidMove(int numberOfFigures) {
         ChessField field = new ChessField();
-        if(value>32) 
-            value=32;
-        else if(value<3)
-            value=3;
+        if(numberOfFigures>32) 
+            numberOfFigures=32;
+        else if(numberOfFigures<3)
+            numberOfFigures=3;
         
         int random;
         Random pos = new Random();
@@ -93,7 +94,7 @@ public class PseudoValidMove {
         }
         
         //uebrige Felder auffuellen
-        for(int i=0; i<value-2; i++) {
+        for(int i=0; i<numberOfFigures-2; i++) {
             random = pos.nextInt(position.size());
             key = position.get(random);
             position.remove(random);
@@ -106,12 +107,7 @@ public class PseudoValidMove {
         }
         return field;
     }
-    
-    
-    
-    
-    
-    
+
     public LinkedList<ChessField> move(ChessField list, int numberOfFigures) {
 
         /*
@@ -137,6 +133,14 @@ public class PseudoValidMove {
          * aufrufende Methode zurückgegeben
          */
         return liste;
+    }
+    
+    public static void main(String[] args) {
+        PseudoValidMove move = new PseudoValidMove();
+        ChessField field = new ChessField();
+        field.equipStartField();
+        LinkedList<ChessField> list = move.move(field, 10);
+        list.toString();
     }
 
 }
