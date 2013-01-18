@@ -70,8 +70,11 @@ public class PseudoRating {
 
         // Vorzeichen = rand.nextBoolean();
 
-        return (byte) (player * (rand.nextInt(100)));
-        // return (byte)(int)values.pollFirst();
+        values.add(-3); values.add(5); values.add(-8);
+        values.add(3); values.add(1); values.add(7);
+        values.add(-7); values.add(10); values.add(15);
+        //return (byte) (player * (rand.nextInt(100)));
+        return (byte)(int)values.pollFirst();
 
     }
 

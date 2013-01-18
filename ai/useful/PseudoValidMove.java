@@ -35,7 +35,7 @@ public class PseudoValidMove {
          * gespeichert
          */
 
-        for (int i = 0; i < 40; i++) {
+        for (int i = 0; i < 3; i++) {
 
             liste.add(map);
         }
