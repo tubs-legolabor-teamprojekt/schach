@@ -1,7 +1,8 @@
 package alphaBeta;
 
-import java.util.LinkedList;
 import java.util.*;
+
+import dataStructure.ChessField;
 
 import rating.PseudoRating;
 import useful.PseudoValidMove;
@@ -17,13 +18,10 @@ import useful.PseudoValidMove;
 public class AlphaBetaSearch { // Nacht erster Ueberlegung nicht
                                // Multi-Thread-faehig!!
 
-    // ############################################# Instanzvariablen
-
     PseudoRating rate = new PseudoRating();
     PseudoValidMove move = new PseudoValidMove();
     public double count = 0;
-
-    // ############################################# Alpha-Beta-Cut-Off
+    public static final int NUMBERFIGURES = 6;
 
     
     
@@ -31,7 +29,7 @@ public class AlphaBetaSearch { // Nacht erster Ueberlegung nicht
      * Da NegaMax Variante: Tiefenabhängig. Bewertungen ungerader tiefe:
      * negativ, Bewertungen gerader Tiefe: positiv.
      */
-    public int alphaBeta(HashMap<Integer, String> situation, int depth, int player, int alpha, int beta) {
+    public int alphaBeta(ChessField situation, int depth, int player, int alpha, int beta) {
 
         //System.out.println("tiefe " + depth /* +" alpha: "+alpha+" beta: "+beta */);
 
@@ -45,7 +43,7 @@ public class AlphaBetaSearch { // Nacht erster Ueberlegung nicht
 
         int maxValue = alpha;
 
-        LinkedList<HashMap<Integer, String>> liste = move.move(situation); // TODO
+        LinkedList<HashMap<Integer, String>> liste = move.move(situation, NUMBERFIGURES); // TODO
                                                                            // Liste
                                                                            // mit
                                                                            // Werten
