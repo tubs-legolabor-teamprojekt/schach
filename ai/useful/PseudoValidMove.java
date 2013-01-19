@@ -78,7 +78,6 @@ public class PseudoValidMove {
         }
     }
 
-
     public ChessField getValidMove(int numberOfFigures) {
         ChessField field = new ChessField();
 
@@ -92,25 +91,20 @@ public class PseudoValidMove {
         int key;
         byte figure;
 
-        // Koenig hinzufügen
+        // Koenig hinzufügen, muss auf jedem Fall auf dem Feld sein
         for (int i = 0; i < 2; i++) {
             random = pos.nextInt(position.size());
             key = position.get(random);
             position.remove(random);
             if (i == 0) {
                 figure = ChessfigureConstants.makeFigureByte(ChessfigureConstants.WHITE, ChessfigureConstants.KING, false);
-//                System.out.print(figure);
-//                System.out.println(" "+ChessfigureConstants.getFigureName(ChessfigureConstants.makeFigureFromByte(figure).getFigureType()));
-//                System.out.println();
             } else {
                 figure = ChessfigureConstants.makeFigureByte(ChessfigureConstants.BLACK, ChessfigureConstants.KING, false);
-//                System.out.print(figure);
-//                System.out.println(" "+ChessfigureConstants.getFigureName(ChessfigureConstants.makeFigureFromByte(figure).getFigureType()));
             }
             field.put(key, figure);
         }
 
-        // uebrige Felder auffuellen
+        // uebrige Felder auffuellen mit Figuren und Feldern aus dem Pool
         for (int i = 0; i < numberOfFigures - 2; i++) {
             random = pos.nextInt(position.size());
             key = position.get(random);
@@ -118,8 +112,6 @@ public class PseudoValidMove {
 
             random = pos.nextInt(figures.size());
             figure = figures.get(random);
-//            System.out.print(figure);
-//            System.out.println(" "+ChessfigureConstants.getFigureName(ChessfigureConstants.makeFigureFromByte(figure).getFigureType()));
             figures.remove(random);
 
             field.put(key, figure);
@@ -142,7 +134,7 @@ public class PseudoValidMove {
         for (int i = 1; i <= NUMBER_OF_CHILDS; i++) {
             reset();
             liste.add(getValidMove(numberOfFigures));
-//            System.out.println("\n");
+            // System.out.println("\n");
         }
 
         /*
@@ -151,15 +143,4 @@ public class PseudoValidMove {
          */
         return liste;
     }
-
-    public static void main(String[] args) {
-        PseudoValidMove move = new PseudoValidMove();
-        ChessField field = move.getValidMove(10);
-        for (int i = 1; i <= 64; i++) {
-            if (field.get(i) != null) {
-                System.out.println(i + " " + ChessfigureConstants.getFigureName(ChessfigureConstants.makeFigureFromByte(field.get(i)).getFigureType()));
-            }
-        }
-    }
-
 }
