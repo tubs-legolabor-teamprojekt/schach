@@ -10,18 +10,18 @@ import util.ExtractInformationFromBinary;
 import dataStructure.ChessField;
 
 public class PrimitivRating {
-    
+
     Random ran = new Random();
 
-    public int primRate(ChessField field){
+    public int primRate(ChessField field) {
         int value = 0;
         int actValue = 0;
         Iterator<Entry<Integer, Byte>> it = field.entrySet().iterator();
         while (it.hasNext()) {
             // Aktuelles Key/Value-Paar
-            Map.Entry<Integer, Byte> pair = (Map.Entry<Integer, Byte>)it.next();
-            
-            switch ( ExtractInformationFromBinary.getFigure(pair.getValue()) ) {
+            Map.Entry<Integer, Byte> pair = (Map.Entry<Integer, Byte>) it.next();
+
+            switch (ExtractInformationFromBinary.getFigure(pair.getValue())) {
             case ChessfigureConstants.PAWN:
                 actValue = 1;
                 break;
@@ -36,24 +36,23 @@ public class PrimitivRating {
                 actValue = 9999;
                 break;
             }
-            
+
             if (ExtractInformationFromBinary.getColor(pair.getValue()) == ChessfigureConstants.BLACK) {
-                    // Schwarz
+                // Schwarz
                 value -= actValue;
-            } else { 
-                    // Weiss
+            } else {
+                // Weiss
                 value += actValue;
             }
             it.remove(); // avoids a ConcurrentModificationException
         }
         return value;
-        
     }
-    
-    public int rate(ChessField situation){
-        
+
+    public int randomRate(ChessField situation) {
+
         boolean bool = ran.nextBoolean();
         return bool ? ran.nextInt(40) : -ran.nextInt(40);
     }
-    
+
 }

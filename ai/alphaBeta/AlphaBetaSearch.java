@@ -27,7 +27,7 @@ public class AlphaBetaSearch { // Nacht erster Ueberlegung nicht
     PrimitivRating rate = new PrimitivRating();
     PseudoValidMove move = new PseudoValidMove();
     public double count = 0;
-    public static final int NUMBERFIGURES = 6;
+    public static final int NUMBER_OF_FIGURES = 10;
 
     
     
@@ -37,44 +37,34 @@ public class AlphaBetaSearch { // Nacht erster Ueberlegung nicht
      */
     public int alphaBeta(ChessField situation, int depth, int player, int alpha, int beta) {
 
-        //System.out.println("tiefe " + depth /* +" alpha: "+alpha+" beta: "+beta */);
+//        System.out.println("tiefe " + depth /* +" alpha: "+alpha+" beta: "+beta */);
 
         if (depth == 0 /* || keineZuegeMehr(spieler) */) {
             count++;
-            //int rating = rate.primRate(situation);
-            int rating = rate.rate(situation);
-            //System.out.println(" bewertung " + rating);
-            //System.out.println("zähler "+count);
+//            int rating = rate.primRate(situation);
+            int rating = rate.primRate(situation);
+//            System.out.println(" bewertung " + rating);
+//              System.out.println("zähler "+count);
             return rating;
         }
 
         int maxValue = alpha;
 
-        LinkedList<ChessField> liste = move.move(situation, NUMBERFIGURES); // TODO
-                                                                           // Liste
-                                                                           // mit
-                                                                           // Werten
-                                                                           // füllen
+        LinkedList<ChessField> liste = move.getMoves(situation, NUMBER_OF_FIGURES); 
+//        TODO Liste mit Werten fuellen
+//        TODO zur Optimierung: Felder sortieren
 
-        // TODO zur Optimierung: Felder sortieren
-
-        while (!liste.isEmpty()) { /* TODO Noch Kindsituationen vorhanden */
+        while (!liste.isEmpty()) {          // TODO Noch Kindsituationen vorhanden 
             int value = -alphaBeta( (ChessField)liste.pollFirst(), depth - 1, player, -beta, -maxValue);
-            if (value > maxValue) { // hier nicht ">=", weil: Wenn es keine
-                                    // Verbesserung ist, brauch ich nicht
-                                    // schauen...
+            if (value > maxValue) { 
                 maxValue = value;
-                if (maxValue >= beta) { // Beta-CutOff //hier ">=", weil: hier
-                                        // kann ich abbrechen, bei gleichheit.
-                                        // bei value>=maxvalue hätte zuvor ein
-                                        // cutoff stattgefunden
-                    //System.out.println("Cut in Tiefe " + depth);
+                if (maxValue >= beta) { 
+                                            // System.out.println("Cut in Tiefe " + depth);
                     break;
                 }
             }
         }
-        // System.out.println("maxValue: "+maxValue);
-        return maxValue;// TODO Größter Wert
+//        System.out.println("maxValue: "+maxValue);
+        return maxValue;                    // TODO Größter Wert
     }
-    // ############################################# Weitere Methoden
 }

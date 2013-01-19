@@ -10,7 +10,7 @@ import alphaBeta.AlphaBetaSearch;
 
 public class AlphaBetaTest {
 
-    final static int DEPTH = 5;
+    final static int DEPTH = 3;
     final static int PLAYER = 1;
 
     public static void main(String[] args) {
@@ -26,16 +26,16 @@ public class AlphaBetaTest {
         
         AlphaBetaSearch search = new AlphaBetaSearch();
         
-        int Wert = search.alphaBeta(field, DEPTH, PLAYER, -100, 100);
+        int Wert = search.alphaBeta(field, DEPTH, PLAYER, -10, 10);
         
         System.out.println("gefundener Wert: " + Wert);
         System.out.println("Knoten durchsucht "+search.count);
-        System.out.println("Verhältnis (real/max): "+ (search.count/(Math.pow(PseudoValidMove.anzahl, DEPTH)))*100);
+        System.out.println("Verhältnis (real/max): "+ Math.floor((search.count/(Math.pow(PseudoValidMove.NUMBER_OF_CHILDS, DEPTH)))*10000)/100.);
         System.out.println("Tiefe: " + DEPTH);
         
         
         // SYSTEM=ENDE=======================================================================================
-        System.out.println(rt.totalMemory() / 1000000 + " available <==> " + (rt.totalMemory() - rt.freeMemory()) / 1000000 + " used <==> " + rt.freeMemory()
+        System.out.println(rt.totalMemory() / 1000000 + " verfuegbar <==> " + (rt.totalMemory() - rt.freeMemory()) / 1000000 + " benutzt <==> " + rt.freeMemory()
                 / 1000000 + " free");
 
         zeit2 = System.currentTimeMillis();
