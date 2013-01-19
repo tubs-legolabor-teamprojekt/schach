@@ -23,7 +23,7 @@ public class PseudoValidMove {
 
     LinkedList<Byte> figures = new LinkedList<Byte>();
     LinkedList<Byte> position = new LinkedList<Byte>();
-    public static final int NUMBER_OF_CHILDS = 3;
+    public static final int NUMBER_OF_CHILDS = 40;
 
     /**
      * Gibt eine Lite mit 10 identischen Elementen zurück... Nur zum Test der
@@ -99,11 +99,15 @@ public class PseudoValidMove {
             position.remove(random);
             if (i == 0) {
                 figure = ChessfigureConstants.makeFigureByte(ChessfigureConstants.WHITE, ChessfigureConstants.KING, false);
+//                System.out.print(figure);
+//                System.out.println(" "+ChessfigureConstants.getFigureName(ChessfigureConstants.makeFigureFromByte(figure).getFigureType()));
+//                System.out.println();
             } else {
                 figure = ChessfigureConstants.makeFigureByte(ChessfigureConstants.BLACK, ChessfigureConstants.KING, false);
+//                System.out.print(figure);
+//                System.out.println(" "+ChessfigureConstants.getFigureName(ChessfigureConstants.makeFigureFromByte(figure).getFigureType()));
             }
             field.put(key, figure);
-
         }
 
         // uebrige Felder auffuellen
@@ -114,6 +118,8 @@ public class PseudoValidMove {
 
             random = pos.nextInt(figures.size());
             figure = figures.get(random);
+//            System.out.print(figure);
+//            System.out.println(" "+ChessfigureConstants.getFigureName(ChessfigureConstants.makeFigureFromByte(figure).getFigureType()));
             figures.remove(random);
 
             field.put(key, figure);
@@ -136,6 +142,7 @@ public class PseudoValidMove {
         for (int i = 1; i <= NUMBER_OF_CHILDS; i++) {
             reset();
             liste.add(getValidMove(numberOfFigures));
+//            System.out.println("\n");
         }
 
         /*

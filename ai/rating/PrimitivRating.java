@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
 
+import components.Figure;
+
 import util.ChessfigureConstants;
 import util.ExtractInformationFromBinary;
 import dataStructure.ChessField;
@@ -21,12 +23,18 @@ public class PrimitivRating {
             // Aktuelles Key/Value-Paar
             Map.Entry<Integer, Byte> pair = (Map.Entry<Integer, Byte>) it.next();
 
-            switch (ExtractInformationFromBinary.getFigure(pair.getValue())) {
+            byte figureValue = pair.getValue();
+            Figure figure = ChessfigureConstants.makeFigureFromByte(figureValue);
+            byte figureType = figure.getFigureType();
+
+            switch (figureType) {
             case ChessfigureConstants.PAWN:
                 actValue = 1;
                 break;
-            case ChessfigureConstants.BISHOP:
+            case ChessfigureConstants.ROOK:
+                actValue = 5;
             case ChessfigureConstants.KNIGHT:
+            case ChessfigureConstants.BISHOP:
                 actValue = 3;
                 break;
             case ChessfigureConstants.QUEEN:
@@ -50,7 +58,6 @@ public class PrimitivRating {
     }
 
     public int randomRate(ChessField situation) {
-
         boolean bool = ran.nextBoolean();
         return bool ? ran.nextInt(40) : -ran.nextInt(40);
     }

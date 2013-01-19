@@ -18,53 +18,104 @@ import useful.PseudoValidMove;
  * @author tobi
  * 
  */
-public class AlphaBetaSearch { // Nacht erster Ueberlegung nicht
-                               // Multi-Thread-faehig!!
-
-    // ############################################# Instanzvariablen
-
+public class AlphaBetaSearch {
 
     PrimitivRating rate = new PrimitivRating();
     PseudoValidMove move = new PseudoValidMove();
     public double count = 0;
-    public static final int NUMBER_OF_FIGURES = 10;
+    public static final int NUMBER_OF_FIGURES = 6;
 
-    
-    
     /*
-     * Da NegaMax Variante: Tiefenabhängig. Bewertungen ungerader tiefe:
-     * negativ, Bewertungen gerader Tiefe: positiv.
+     * Implementierung der AlphaBeta Suche als NegaMax Variante.
+     * @param situation aktuelles Spielfeld; davon ausgehend wird gesucht
+     * @param depth Anzahl der Zuege, welche im vorraus berechnet werden sollen
+     * @param player Welcher Spieler gerade am Zug ist (nicht benoetigt?)
+     * @param alpha untere Grenze für den Cut
+     * @param beta obere Grenze für den Cut
      */
-    public int alphaBeta(ChessField situation, int depth, int player, int alpha, int beta) {
+    public int negaMax(ChessField situation, int depth, int player, int alpha, int beta) {
 
-//        System.out.println("tiefe " + depth /* +" alpha: "+alpha+" beta: "+beta */);
+        // System.out.println("tiefe " + depth /*
+        // +" alpha: "+alpha+" beta: "+beta */);
 
         if (depth == 0 /* || keineZuegeMehr(spieler) */) {
             count++;
-//            int rating = rate.primRate(situation);
+            // int rating = rate.primRate(situation);
             int rating = rate.primRate(situation);
-//            System.out.println(" bewertung " + rating);
-//              System.out.println("zähler "+count);
+            // System.out.println(" bewertung " + rating);
+            // System.out.println("zähler "+count);
             return rating;
         }
 
         int maxValue = alpha;
 
-        LinkedList<ChessField> liste = move.getMoves(situation, NUMBER_OF_FIGURES); 
-//        TODO Liste mit Werten fuellen
-//        TODO zur Optimierung: Felder sortieren
+        LinkedList<ChessField> liste = move.getMoves(situation, NUMBER_OF_FIGURES);
+        // TODO Liste mit Werten fuellen
+        // TODO zur Optimierung: Felder sortieren
 
-        while (!liste.isEmpty()) {          // TODO Noch Kindsituationen vorhanden 
-            int value = -alphaBeta( (ChessField)liste.pollFirst(), depth - 1, player, -beta, -maxValue);
-            if (value > maxValue) { 
+        while (!liste.isEmpty()) { // TODO Noch Kindsituationen vorhanden
+            int value = -negaMax((ChessField) liste.pollFirst(), depth - 1, player, -beta, -maxValue);
+            if (value > maxValue) {
                 maxValue = value;
-                if (maxValue >= beta) { 
-                                            // System.out.println("Cut in Tiefe " + depth);
+                if (maxValue >= beta) {
+                    // System.out.println("Cut in Tiefe " + depth);
                     break;
                 }
             }
         }
-//        System.out.println("maxValue: "+maxValue);
-        return maxValue;                    // TODO Größter Wert
+        // System.out.println("maxValue: "+maxValue);
+        return maxValue; // TODO Größter Wert
     }
+
+    /*
+     * Normale implementierung der AlphaBeta-Suche
+     */
+    public int min(ChessField situation, int depth, int player, int alpha, int beta) {
+
+        if (depth == 0 /* || keineZuegeMehr(spieler) */) {
+            count++;
+            int rating = rate.primRate(situation);
+            return rating;
+        }
+
+        int minValue = beta;
+
+        LinkedList<ChessField> liste = move.getMoves(situation, NUMBER_OF_FIGURES);
+
+        while (!liste.isEmpty()) {
+            int value = max((ChessField) liste.pollFirst(), depth - 1, player, alpha, minValue);
+            if (value < minValue) {
+                minValue = value;
+                if (minValue <= alpha) {
+                    break;
+                }
+            }
+        }
+        return minValue;
+    }
+
+    public int max(ChessField situation, int depth, int player, int alpha, int beta) {
+
+        if (depth == 0 /* || keineZuegeMehr(spieler) */) {
+            count++;
+            int rating = rate.primRate(situation);
+            return rating;
+        }
+
+        int maxValue = alpha;
+
+        LinkedList<ChessField> liste = move.getMoves(situation, NUMBER_OF_FIGURES);
+
+        while (!liste.isEmpty()) {
+            int value = min((ChessField) liste.pollFirst(), depth - 1, player, -beta, -maxValue);
+            if (value > maxValue) {
+                maxValue = value;
+                if (maxValue >= beta) {
+                    break;
+                }
+            }
+        }
+        return maxValue;
+    }
+
 }
