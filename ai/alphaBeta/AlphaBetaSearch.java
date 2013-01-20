@@ -1,13 +1,9 @@
 package alphaBeta;
 
 import java.util.*;
-
 import dataStructure.ChessField;
-
 import dataStructure.ChessField;
-
 import rating.PrimitivRating;
-import rating.PseudoRating;
 import useful.PseudoValidMove;
 
 /**
@@ -23,7 +19,7 @@ public class AlphaBetaSearch {
     PrimitivRating rate = new PrimitivRating();
     PseudoValidMove move = new PseudoValidMove();
     public double count = 0;
-    public static final int NUMBER_OF_FIGURES = 6;
+    public static final int NUMBER_OF_FIGURES = 20;
 
     /*
      * Implementierung der AlphaBeta Suche als NegaMax Variante.

@@ -3,9 +3,7 @@ package useful;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Random;
-
 import components.Figure;
-
 import dataStructure.ChessField;
 import util.ChessfigureConstants;
 import dataStructure.ChessField;
@@ -23,7 +21,7 @@ public class PseudoValidMove {
 
     LinkedList<Byte> figures = new LinkedList<Byte>();
     LinkedList<Byte> position = new LinkedList<Byte>();
-    public static final int NUMBER_OF_CHILDS = 40;
+    public static final int NUMBER_OF_CHILDS = 20;
 
     /**
      * Gibt eine Lite mit 10 identischen Elementen zurück... Nur zum Test der
