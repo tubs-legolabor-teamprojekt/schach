@@ -21,11 +21,14 @@ public class MovementControl {
     private Move movefigure;
     private static MovementControl instance = null;
     
+    //Singleton-Contructor creates connection to nxt25 and nxt23 when used
     private MovementControl() {
         this.con_Nxt25 = new ConnServ("NXT_25");
         //this.con_Nxt23 = new ConnServ("NXT_23");
          
     }
+    
+    
     public static MovementControl getInstance() {
         if (instance == null) {
             instance = new MovementControl();
@@ -42,7 +45,8 @@ public class MovementControl {
         
         MovementControl m = MovementControl.getInstance();
         
-        //Künstliches Move Objekt
+        //Künstliche Move Objekte, welche nacheinander abgearbeitet werden
+        //Simulation von richtigem spiel
         Move testmove1 = new Move((byte)1,9,25,false);
         m.setMovefigure(testmove1);
         
@@ -60,41 +64,26 @@ public class MovementControl {
         
     }
     
+    /*
+     * Methode zur Roboterbewegung des aktuellen move objektes
+     * Sendet den Koordianten Integer an die beiden NXT-Bloecke
+     * 
+     */
+    
     public void MoveRobot() {
         int concatenatedCoords = this.createIntForSending();
         
+        
+        System.out.println("Sending: "+concatenatedCoords);
         this.con_Nxt25.sendInt(concatenatedCoords);
         
-       
         
-        /*
-        int i = 0;
-        while (this.gameExists) {
-            if (i != 1) {
-                this.con_Nxt25.sendInt(i);
-                //this.con_Nxt23.sendInt(i);
-            }
-            else {
-                this.con_Nxt25.sendInt(concatenatedCoords);
-                //this.con_Nxt23.sendInt(concatenatedCoords);
-            }
-            try {
-                Thread.sleep(800);
-            } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            if (i == 5) {
-                this.gameExists = false;
-            }
-            i++;
-            
-            
-            
-            //m.gameExists = false;
-        }
-        */
     }
+    
+    /*
+     * Uses the Move-Object to convert the coordinates in one integer value
+     * 
+     */
     
     public int createIntForSending() {
         int[] x_y = new int[4];
@@ -130,11 +119,21 @@ public class MovementControl {
         
         return concatenatedCoords;
       }
+    
+    /* 
+     * Method for setting the existence of the game
+     * when false then the robot will stop
+     */
 
     public void setGameExists(boolean gameExists) {
         this.gameExists = gameExists;
     }
 
+    
+    /* 
+     * setting the current move as the attribute
+     * 
+     */
     public void setMovefigure(Move movefigure) {
         this.movefigure = movefigure;
     }

@@ -25,7 +25,9 @@ public class MoveTest {
   private ConnAg con;
   
   public MoveTest() {
-    
+      
+      
+    this.movedDistance = 0;
   }
   
   public MoveTest(int rowFrom, int rowTo) {
@@ -35,35 +37,45 @@ public class MoveTest {
     this.movedDistance = 0;
   }
   
-  
+  /*
+   * main methode läuft als schleife auf nxt solange bis gameExists false ist
+   * 
+   * 
+   */
   public static void main(String args[]) {
     
-    MoveTest t1 = new MoveTest(1,5);
+    //Erstelle MoveTest Objekt  
+    MoveTest t1 = new MoveTest();
+   
     boolean gameExists = true;
+    
+    //Erstelle ConnAg Objekt, Warte auf Verbindung
     t1.con = new ConnAg();
     
+    
+    //While schleife solange spiel existiert
     while(gameExists) {
+        //Nehme gesendete Coordinaten in Empfang
         int coordinates = t1.con.getInt();
        
-        if (coordinates < 5) {
-            try {
-                Thread.sleep(400);
-                System.out.println(coordinates);
-                
-                
-            } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
-            }
-            continue;
+        
+        //Wenn keine Koordinaten mehr kommen, d.h -1 übertragen wird beende schleife
+        if (coordinates == -1) {
+            
+                System.out.println(coordinates+" Beende weil keine coords mehr kommen");
+                try {
+                  Thread.sleep(2000);
+                }
+                catch(Exception e) {
+                    System.out.println("fehler 37");
+                }
+                gameExists = false;
+                //break;
         }
-        else if (coordinates == 5) {
-            System.out.println(coordinates+"Beende");
-            t1.moveToRowFrom();
-            t1.moveToInit();
-            gameExists = false;
-        }
+        
+        //Anderenfalls führe bewegung aus und warte auf nächste koordinate
         else {
-            System.out.println(coordinates+"le coord");
+            System.out.println(coordinates+" le coord");
             t1.setRowFrom(coordinates);
             t1.setRowTo(coordinates);
             
@@ -82,20 +94,6 @@ public class MoveTest {
             
     }
     
-    
-    
-    /*
-    t1.moveToRowFrom();
-    
-    t1.grabfigure();
-    
-    t1.moveToRowTo();
-    
-    t1.dropfigure();
-    
-    t1.moveToInit();
-  
-    */
   }
   
   boolean moveToRowFrom() {
