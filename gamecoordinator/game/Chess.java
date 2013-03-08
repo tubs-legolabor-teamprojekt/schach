@@ -39,6 +39,9 @@ public class Chess
      */
     private List<Move> simulatedMoves = new ArrayList<Move>();
     
+    private ImageLoader im = new ImageLoader();
+    private boolean isImInit = false;
+    
     /**
      * Leerer Konstruktor
      */
@@ -186,13 +189,16 @@ public class Chess
     {
         Move move = null;
         // Zug von Webcam ermitteln
-        ImageLoader im = new ImageLoader();
 
-        // Winkel setzen
-        im.setAngle(im.calcAngle());
+        if (!this.isImInit) {
+            // Winkel setzen
+            this.im.setAngle(im.calcAngle());
+            this.im.calcOffset();
+            this.isImInit = true;
+        }
 
         // erste Vergleichsfoto
-        im.takePhoto1();
+        this.im.takePhoto1();
 
         // FIXME Warten bis Zug vom Benutzer durchgefuehrt wurde
         System.out.println("Foto1 taken");
@@ -203,10 +209,10 @@ public class Chess
         }
 
         // 2te Vergleichsfoto nehmen
-        im.takePhoto2();
+        this.im.takePhoto2();
 
         // Veraenderte Positionen holen
-        List<Integer> listOfChangedPositions = im.getChangedPositions();
+        List<Integer> listOfChangedPositions = this.im.getChangedPositions();
 
         // Konnte Kamera Züge ermitteln?
         if (listOfChangedPositions.size() == 0) {
