@@ -106,14 +106,17 @@ public class Chess
                 
                 // hole Züge von der KI
             } else if (GameSettings.currentGameType == GameSettings.GameType.PlayerVsSimulatedComputer) {
-                // Spieltyp: Spielerzug wird von der Kamera eingelesen und spielt gegen vordefinierte Computerzüge
+                System.out.println("Zug #" + (moveCounter+1));
+            	// Spieltyp: Spielerzug wird von der Kamera eingelesen und spielt gegen vordefinierte Computerzüge
                 if (currentPlayer == ChessfigureConstants.WHITE) {
                     // von Kamera einlesen
                     move = this.getMoveFromCamera(currentPlayer);
+                    
+                    moveCounter++;
                 } else {
                     // Simulierten Zug holen
                     Move newMove = this.simulatedMoves.get(moveCounter);
-                    moveCounter+=2;
+                    moveCounter++;
                     move = newMove;
                     move = additionalInformationForMove(currentPlayer, move);
                 }
@@ -170,7 +173,6 @@ public class Chess
             Thread.sleep(GameSettings.timeBetweenMoves);
         } catch (InterruptedException e) {
         }
-        
         // Wenn Zug gueltig, ausfuehren
         if (this.gameCoordinator.receiveMove(move, GameSettings.checkRules)) {
             // Zug ausfuehren
@@ -210,11 +212,13 @@ public class Chess
 
         // 2te Vergleichsfoto nehmen
         this.im.takePhoto2();
+        System.out.println("Foto2 taken");
 
         // Veraenderte Positionen holen
         List<Integer> listOfChangedPositions = this.im.getChangedPositions();
 
         // Konnte Kamera Züge ermitteln?
+        System.out.println("Anzahl an veränderten Feldern: "+ listOfChangedPositions.size());
         if (listOfChangedPositions.size() == 0) {
             // Manuelles Einlesen der Züge durch die GUI
             move = convertFieldnumbersToMoves(currentPlayer, Checkerboard.getInstance().manualMove());

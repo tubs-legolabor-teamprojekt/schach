@@ -19,6 +19,16 @@ public class ImageLoader {
     private List<Field> rgbFieldDiff = new ArrayList<Field>();
     private Vec2f a, b;
     private float angle = 0;
+    
+    //mein internes system auf die andere Nummerierung anpassen
+    private int[] fieldConversion = {57,58,59,60,61,62,63,64,
+    								 49,50,51,52,53,54,55,56,
+    								 41,42,43,44,45,46,47,48,
+    								 33,34,35,36,37,38,39,40,
+    								 25,26,27,28,29,30,31,32,
+    								 17,18,19,20,21,22,23,24,
+    								  9,10,11,12,13,14,15,16,
+    								  1, 2, 3, 4, 5, 6, 7, 8};
     ImageRotator ir;
 
     ImageGrabber grabber;
@@ -58,7 +68,7 @@ public class ImageLoader {
         this.offsetX2 = offsetX2;
         this.offsetY1 = offsetY1;
         this.offsetY2 = offsetY2;
-        System.out.println(offsetX1 + " " + offsetY1 + " " + offsetX2 + " " + offsetY2);
+     //   System.out.println(offsetX1 + " " + offsetY1 + " " + offsetX2 + " " + offsetY2);
     }
 
     /*
@@ -123,9 +133,12 @@ public class ImageLoader {
                 rochadePossible = false;
             }
         }
-
-        l.add(sortedList.get(0).getPosition());
-        l.add(sortedList.get(1).getPosition());
+        //+1 weil schachsystem von 1-64 felder
+        System.out.println("FELD1"+fieldConversion[sortedList.get(0).getPosition()]);
+        System.out.println("FELD2"+fieldConversion[sortedList.get(1).getPosition()]);
+        
+        l.add(fieldConversion[sortedList.get(0).getPosition()]);
+        l.add(fieldConversion[sortedList.get(1).getPosition()]);
 
         // wenn rochade moeglich ist, dann wird noch geprueft, ob
         // die werte der felder ausserhalb der 2fachen standardabweichung vom
@@ -133,8 +146,8 @@ public class ImageLoader {
         // liegen. Wenn ja, dann ist eine Rochade sehr wahrscheinlich.
         if (rochadePossible) {
             if ((sortedList.get(2).getValue() > (average + 1 * stDev)) && (sortedList.get(3).getValue() > (average + 1 * stDev))) {
-                l.add(sortedList.get(2).getPosition());
-                l.add(sortedList.get(3).getPosition());
+                l.add(fieldConversion[sortedList.get(2).getPosition()]);
+                l.add(fieldConversion[sortedList.get(3).getPosition()]);
             }
         }
 
@@ -148,10 +161,10 @@ public class ImageLoader {
      */
     private List<Field> sortList(List<Field> l) {
         Collections.sort(l);
-        System.out.println();
-        System.out.println(l.size());
+        //System.out.println();
+        //System.out.println(l.size());
         for (int i = 0; i < l.size(); i++) {
-            System.out.println("Nummer " + l.get(i).getPosition() + " Wert: " + l.get(i).getValue());
+          //  System.out.println("Nummer " + l.get(i).getPosition() + " Wert: " + l.get(i).getValue());
         }
         return l;
     }
@@ -166,11 +179,11 @@ public class ImageLoader {
                 Field a = new Field(i, (int) Math.abs(getPositionAverage(i, 1) - getPositionAverage(i, 2)));
                 rgbFieldDiff.add(a);
                 if (i % 8 == 0) {
-                    System.out.println();
+         //           System.out.println();
                 }
             }
         } else {
-            System.out.println("Erst 2 Fotos machen");
+       //     System.out.println("Erst 2 Fotos machen");
         }
     }
 
@@ -186,39 +199,39 @@ public class ImageLoader {
 
         for (int i = 0; i < FIELDS; i++) {
             if (i % 8 == 0) {
-                System.out.println();
+       //         System.out.println();
             }
-            System.out.print("\t" + getPositionAverage(i, 1));
+       //     System.out.print("\t" + getPositionAverage(i, 1));
         }
 
         System.out.println();
         for (int i = 0; i < FIELDS; i++) {
             if (i % 8 == 0) {
-                System.out.println();
+         //       System.out.println();
             }
-            System.out.print("\t" + getPositionAverage(i, 2));
+         //   System.out.print("\t" + getPositionAverage(i, 2));
         }
-        System.out.println();
+       // System.out.println();
         for (int i = 0; i < FIELDS; i++) {
             if (i % 8 == 0) {
-                System.out.println();
+           //     System.out.println();
             }
-            System.out.print("\t" + rgbFieldDiff.get(i).getValue());
+       //     System.out.print("\t" + rgbFieldDiff.get(i).getValue());
         }
 
-        System.out.println();
+       // System.out.println();
         for (int i = 0; i < FIELDS; i++) {
             if (i % 8 == 0) {
-                System.out.println();
+         //       System.out.println();
             }
             if (rgbFieldDiff.get(i).getValue() > average + stDev) {
-                System.out.print("\t" + "1");
+           //     System.out.print("\t" + "1");
             } else {
-                System.out.print("\t" + "0");
+           //     System.out.print("\t" + "0");
             }
         }
 
-        System.out.println("\n Toleranz:" + average + "  stdabweichung" + stDev);
+   //     System.out.println("\n Toleranz:" + average + "  stdabweichung" + stDev);
     }
 
     /*
@@ -295,7 +308,7 @@ public class ImageLoader {
         }
         this.width = offsetX2 - offsetX1;
         this.height = offsetY2 - offsetY1;
-        System.out.println("breite:" + this.width + " hoehe " + this.height);
+   //     System.out.println("breite:" + this.width + " hoehe " + this.height);
     }
 
     /*
@@ -363,6 +376,7 @@ public class ImageLoader {
      * @param file Pfad zum Foto
      */
     public boolean takePhoto1() {
+    	rgbFieldDiff.clear();
         loadRGB(true);
         return true;
     }
@@ -378,7 +392,7 @@ public class ImageLoader {
     }
 
     /*
-     * Laed die RGB Werte eines Biles in die ArrayListen r1,g1,b1 bzw. r2,g2,b2
+     * Laed die RGB Werte eines Bildes in die ArrayListen r1,g1,b1 bzw. r2,g2,b2
      * 
      * @param file Pfad des Biles
      * 
@@ -433,7 +447,7 @@ public class ImageLoader {
 
         // nachfolgend nur fuer Tests (damit ich zeit habe
         // Figuren umzusetzen
-        System.out.println("Foto1 taken");
+      //  System.out.println("Foto1 taken");
         try {
             Thread.sleep(10000);
         } catch (Exception e) {
@@ -447,10 +461,10 @@ public class ImageLoader {
         List<Integer> l = im.getChangedPositions();
 
         // irrelevant
-        System.out.println("AUSGABE");
+     //   System.out.println("AUSGABE");
         for (int i = 0; i < l.size(); i++) {
-            System.out.println(l.get(i));
-            System.out.println(im.numberToRaster(l.get(i)));
+     //       System.out.println(l.get(i));
+     //       System.out.println(im.numberToRaster(l.get(i)));
         }
         im.compareFields();
 
