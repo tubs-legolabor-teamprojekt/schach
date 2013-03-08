@@ -21,10 +21,10 @@ public class MovementControl {
     private Move movefigure;
     private static MovementControl instance = null;
     
-    //Singleton-Contructor creates connection to nxt25 and nxt23 when used
+    //Singleton-Constructor creates connection to nxt25 and nxt23 when used
     private MovementControl() {
         this.con_Nxt25 = new ConnServ("NXT_25");
-        //this.con_Nxt23 = new ConnServ("NXT_23");
+        this.con_Nxt23 = new ConnServ("NXT_23");
          
     }
     
@@ -52,11 +52,11 @@ public class MovementControl {
         
         m.MoveRobot();
         
-        Move testmove2 = new Move((byte) 1,2,13,false);
+        /* Move testmove2 = new Move((byte) 1,2,13,false);
         
         m.setMovefigure(testmove2);
         m.MoveRobot();
-        
+        */
         
         
 
@@ -71,10 +71,19 @@ public class MovementControl {
      */
     
     public void MoveRobot() {
+        
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+           
+            e.printStackTrace();
+        }
+        
         int concatenatedCoords = this.createIntForSending();
         
         
         System.out.println("Sending: "+concatenatedCoords);
+        this.con_Nxt23.sendInt(concatenatedCoords);
         this.con_Nxt25.sendInt(concatenatedCoords);
         
         
