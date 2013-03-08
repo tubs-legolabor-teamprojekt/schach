@@ -28,8 +28,9 @@ public class TestingChess {
      */
     public static void startGame()
     {
-        if (GameSettings.currentGameType == GameType.Simulated &&
-                GameSettings.simulatedGameMoves.length() > 0) {
+        if ((   GameSettings.currentGameType == GameType.Simulated ||
+                GameSettings.currentGameType == GameType.PlayerVsSimulatedComputer) &&
+            GameSettings.simulatedGameMoves.length() > 0) {
             // Simulierte Zuege erstellen
             Chess game = new Chess(getMoves());
             game.startGame();
@@ -50,7 +51,6 @@ public class TestingChess {
         g.read();
         LinkedList<String> readMoves = g.getMoves();
         
-
         byte colorOfPlayer = ChessfigureConstants.WHITE;
         int i = 0;
         while(!readMoves.isEmpty()) {

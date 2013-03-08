@@ -88,57 +88,32 @@ public class Chess
             
             if (GameSettings.currentGameType ==  GameSettings.GameType.PlayerVsComputer) {
                 // Spieltyp: Spieler gegen Computer
-                
-                // Zug von Webcam ermitteln
-                ImageLoader im = new ImageLoader();
-
-                // Winkel setzen
-                im.setAngle(im.calcAngle());
-
-                // erste Vergleichsfoto
-                im.takePhoto1();
-
-                // FIXME Warten bis Zug vom Benutzer durchgefuehrt wurde
-                System.out.println("Foto1 taken");
-                try {
-                    Thread.sleep(10000);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                // 2te Vergleichsfoto nehmen
-                im.takePhoto2();
-
-                // Veraenderte Positionen holen
-                List<Integer> listOfChangedPositions = im.getChangedPositions();
-
-                // Konnte Kamera Züge ermitteln?
-                if (listOfChangedPositions.size() == 0) {
-                    // Manuelles Einlesen der Züge durch die GUI
-                    move = convertFieldnumbersToMoves(currentPlayer, Checkerboard.getInstance().manualMove());
-                } else {
-                    move = convertFieldnumbersToMoves(currentPlayer, listOfChangedPositions);
-                }
+                move = this.getMoveFromCamera(currentPlayer);
 
             } else if (GameSettings.currentGameType ==  GameSettings.GameType.Simulated) {
                 // Spieltyp: Simuliertes Spiel wird durchgeführt
-                
-                /*if (moveCounter == 4) {
-                    // Beim vierten Durchlauf eine fehlerhafte Eingabe simulieren
-                    move = convertFieldnumbersToMoves(currentPlayer, Checkerboard.getInstance().manualMove());
-                    moveCounter++;
-                } else {*/
-                    // Simulierten Zug holen
-                    Move newMove = this.simulatedMoves.get(moveCounter);
-                    moveCounter++;
-                    move = newMove;
-                    move = additionalInformationForMove(currentPlayer, move);
-                //}
+                // Simulierten Zug holen
+                Move newMove = this.simulatedMoves.get(moveCounter);
+                moveCounter++;
+                move = newMove;
+                move = additionalInformationForMove(currentPlayer, move);
             } else if (GameSettings.currentGameType ==  GameSettings.GameType.ComputerVsComputer) {
                 // Spieltyp: Computer vs. Computer (lernen)
                 // TODO Computer gegen Computer möglich machen
                 
                 // hole Züge von der KI
+            } else if (GameSettings.currentGameType == GameSettings.GameType.PlayerVsSimulatedComputer) {
+                // Spieltyp: Spielerzug wird von der Kamera eingelesen und spielt gegen vordefinierte Computerzüge
+                if (currentPlayer == ChessfigureConstants.WHITE) {
+                    // von Kamera einlesen
+                    move = this.getMoveFromCamera(currentPlayer);
+                } else {
+                    // Simulierten Zug holen
+                    Move newMove = this.simulatedMoves.get(moveCounter);
+                    moveCounter+=2;
+                    move = newMove;
+                    move = additionalInformationForMove(currentPlayer, move);
+                }
             } else {
                 // Spieltyp: Fehlerhafte Angabe
                 System.out.println("Fehlerhafte Spieltyp!");
@@ -200,6 +175,47 @@ public class Chess
         } else {
             this.execMove(player, convertFieldnumbersToMoves(player, Checkerboard.getInstance().manualMove()));
         }
+    }
+    
+    /**
+     * Ermittelt den vom Spieler durchgeführten Zug.
+     * @param currentPlayer Der aktuelle Spieler
+     * @return Der durchgeführte Zug
+     */
+    public Move getMoveFromCamera(byte currentPlayer)
+    {
+        Move move = null;
+        // Zug von Webcam ermitteln
+        ImageLoader im = new ImageLoader();
+
+        // Winkel setzen
+        im.setAngle(im.calcAngle());
+
+        // erste Vergleichsfoto
+        im.takePhoto1();
+
+        // FIXME Warten bis Zug vom Benutzer durchgefuehrt wurde
+        System.out.println("Foto1 taken");
+        try {
+            Thread.sleep(10000);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // 2te Vergleichsfoto nehmen
+        im.takePhoto2();
+
+        // Veraenderte Positionen holen
+        List<Integer> listOfChangedPositions = im.getChangedPositions();
+
+        // Konnte Kamera Züge ermitteln?
+        if (listOfChangedPositions.size() == 0) {
+            // Manuelles Einlesen der Züge durch die GUI
+            move = convertFieldnumbersToMoves(currentPlayer, Checkerboard.getInstance().manualMove());
+        } else {
+            move = convertFieldnumbersToMoves(currentPlayer, listOfChangedPositions);
+        }
+        return move;
     }
 
     /**
@@ -282,7 +298,7 @@ public class Chess
     {
         Field f = Field.getInstance();
         
-     // Wird geschmissen?
+        // Wird geschmissen?
         if (f.isFigureOnField(move.getFieldTo()) // Figur auf To-Feld vorhanden?
            ) {
             if (f.getFigureAt(move.getFieldTo()).getColor() != colorOfPlayer) // Gegner auf To-Feld?
