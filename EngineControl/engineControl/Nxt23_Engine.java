@@ -13,26 +13,26 @@ public class Nxt23_Engine {
     
     //Wert für ein Feld
   final private float ROTATE_BACKWARD_AND_FORWARD = -3.028571428f;
-  
-  final private int ROTATE_LEFT_RIGHT = -660;
+  //Wert für Hoch- und Runterbewegung 
+  final private int ROTATE_UP_AND_DOWN = 220; 
+ 
   
  
   //Motoren-deklaration
   private final TachoPilot Motors_back_and_forward = new TachoPilot(3.2f, 11.4f, Motor.A, Motor.C);
-  private final Motor Motor_left_right = Motor.B;
+  private final Motor Motor_up_and_down = Motor.B;
 
   
   //Koordinaten (1-8) von und bis zu welchem Feld
   private int rowFrom;
   private int rowTo;
   
-  private int columnFrom;
-  private int columnTo;
+
   
   
   //Speichert bereits zurückgelegte Strecke um wieder zu INIT zurückzukehren
   private int movedDistance_forward_backward;
-  private int movedDistance_left_right;
+
   
   //Verbindung auf NXT-Block
   private ConnAg con;
@@ -44,9 +44,8 @@ public class Nxt23_Engine {
       
       
     this.movedDistance_forward_backward = 0;
-    this.movedDistance_left_right = 0; 
     
-    this.Motor_left_right.setSpeed(150);
+    this.Motor_up_and_down.setSpeed(150); 
     this.Motors_back_and_forward.setSpeed(200);
   }
   
@@ -59,7 +58,7 @@ public class Nxt23_Engine {
     this.rowTo = rowTo;
     
     this.movedDistance_forward_backward = 0;
-    this.movedDistance_left_right = 0;
+
   }
   
   /*
@@ -80,49 +79,74 @@ public class Nxt23_Engine {
     
     //While schleife solange spiel existiert
     while(gameExists) {
-        //Nehme gesendete Coordinaten in Empfang
-        int coordinates = t1.con.getInt();
-       
-        System.out.println("Koordinaten sind: "+coordinates);
-        //Wenn keine Koordinaten mehr kommen, d.h -1 übertragen wird beende schleife
-        if (coordinates == -1) {
-            
-                System.out.println(coordinates+" Beende weil keine coords mehr kommen");
-                try {
-                    //Kurz warten damit ich die ausgabe lesen kann ;D
-                  Thread.sleep(2000);
-                }
-                catch(Exception e) {
-                    System.out.println("fehler 37");
-                }
-                gameExists = false;
-                //break;
-        }
+        //Variable, welche die Koordinate und die Art der Bewegung enthält muss noch aufgeteilt werden
         
-        //Anderenfalls führe bewegung aus und warte auf nächste koordinate
-        else {
-            System.out.println(coordinates+" le coord");
-            t1.setRowFrom(coordinates);
-            t1.setRowTo(coordinates);
-            t1.setColumnFrom(coordinates);
-            t1.setColumnTo(coordinates);
+        System.out.println("Warte auf Eingabe...");
+        int which_move = t1.con.getInt();
+        
+        System.out.println("Eingabe ist angekommen: "+which_move);
+        
+        if (which_move == -1) {
             
-            t1.moveToRowFrom();
-            t1.moveToColumnFrom();
-            
-            t1.moveToRowTo();
-            t1.moveToColumnTo();
-            
-            t1.moveToInit();
-            
-            
-            
+            System.out.println(which_move+" Fehlerhafte Übertragung");
+            try {
+                //Kurz warten damit ich die ausgabe lesen kann ;D
+              Thread.sleep(2000);
+            }
+            catch(Exception e) {
+                System.out.println("Thread unterbrochen");
+            }
+            Button.waitForPress();
+            gameExists = false;
+
+    }
+        
+        int coordinate = which_move/10;
+        which_move %= 10 ;
+        
+        
+        switch(which_move) {
+            case 1: 
+                System.out.println("Bewege mich zur 'Von-Reihe': "+coordinate);
+                t1.rowFrom = coordinate+3;            
+                if(t1.moveToRowFrom()) t1.con.sendInt(1);
+                break;
+            case 2:
+                System.out.println("Bewege mich zur 'Zu-Reihe': "+coordinate);
+                t1.rowTo = coordinate+3;            
+                if(t1.moveToRowTo()) t1.con.sendInt(1);
+                break;
+            case 3:
+                System.out.println("Senke Greifarm");
+                if(t1.moveDown()) t1.con.sendInt(1);
+                break;
+            case 4:
+                System.out.println("Fahre Greifarm wieder hoch");
+                if(t1.moveUp()) t1.con.sendInt(1);
+                break;
+            case 5:
+                System.out.println("Fahre zum Start");
+                if(t1.moveToInit()) t1.con.sendInt(1);
+                break;
+            default: 
+                System.out.println("Irgendwas ist schief gelaufen "+which_move);
+                break;
         }
             
             
     }
     
   }
+  
+  boolean moveDown() {
+      this.Motor_up_and_down.rotate(-ROTATE_UP_AND_DOWN);
+      return true;
+    }
+    
+    boolean moveUp() {
+      this.Motor_up_and_down.rotate(ROTATE_UP_AND_DOWN);
+      return true;
+    }
   
   boolean moveToRowFrom() {
     int distance = this.rowFrom - this.movedDistance_forward_backward;
@@ -141,53 +165,14 @@ public class Nxt23_Engine {
 
     return true;
   }
-  
-  void setColumnFrom(int coordinates) {
-      this.columnFrom = coordinates/10000;
-  }
-  
-  void setColumnTo(int coordinates) {
-      this.columnTo = (coordinates/100)%10;
-  }
-  
-  boolean moveToColumnFrom() {
-      int distance = this.columnFrom - this.movedDistance_left_right;
       
-      this.Motor_left_right.rotate(distance*(this.ROTATE_LEFT_RIGHT/7));
-      this.movedDistance_left_right += distance;
-      
-      return true;
-    }
-    
-    boolean moveToColumnTo() {
-      int distance = this.columnTo - this.movedDistance_left_right;
-      
-      this.Motor_left_right.rotate(distance*(this.ROTATE_LEFT_RIGHT/7));
-      this.movedDistance_left_right += distance;
-        
-      return true;
-    }
-  
- 
-  
-    
   boolean moveToInit() {
     this.Motors_back_and_forward.travel(-this.movedDistance_forward_backward*ROTATE_BACKWARD_AND_FORWARD);
-    this.Motor_left_right.rotate(-this.movedDistance_left_right*(this.ROTATE_LEFT_RIGHT/7));
-    
-    
-    this.movedDistance_left_right = 0;
+
     this.movedDistance_forward_backward = 0;
     return true;
   }
   
-  void setRowFrom(int coordinates) {
-      this.rowFrom = (coordinates/1000)%10;
-  }
-  
-  void setRowTo(int coordinates) {
-      this.rowTo = (coordinates/10)%10;
-  }
-  
+
 
 }

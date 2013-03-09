@@ -44,9 +44,9 @@ public class ConnAg{
    * @return
    */
   public int getInt(){
-    try {
+    try { 
       return this.dis.readInt();
-    } catch (IOException e) {
+    } catch (IOException e) {  
       return -1; // Fail!!!!!!
     }
   }

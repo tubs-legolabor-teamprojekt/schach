@@ -47,7 +47,7 @@ public class MovementControl {
         
         //Künstliche Move Objekte, welche nacheinander abgearbeitet werden
         //Simulation von richtigem spiel
-        Move testmove1 = new Move((byte)1,9,25,false);
+        Move testmove1 = new Move((byte)1,1,64,false);
         m.setMovefigure(testmove1);
         
         m.MoveRobot();
@@ -72,19 +72,113 @@ public class MovementControl {
     
     public void MoveRobot() {
         
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-           
-            e.printStackTrace();
-        }
         
         int concatenatedCoords = this.createIntForSending();
         
         
-        System.out.println("Sending: "+concatenatedCoords);
-        this.con_Nxt23.sendInt(concatenatedCoords);
-        this.con_Nxt25.sendInt(concatenatedCoords);
+        System.out.println("Konkatenierte Koordinaten: "+concatenatedCoords);
+        
+        /* 
+         * Zu Erst werden die rowFrom und ColumnFrom Koordinaten an beide NXT Blöcke versand, 
+         * damit gleichzeitig links rechts und vorwärts Bewegung ausgeführt wird 
+         */
+        int rowFrom = (concatenatedCoords/1000)%10;
+        int columnFrom = concatenatedCoords/10000;
+                
+        int rowTo = (concatenatedCoords/10)%10;
+        int columnTo = (concatenatedCoords/100)%10;
+        
+        
+        rowFrom = rowFrom*10+1;
+        columnFrom = columnFrom*10+1;
+        
+        rowTo = rowTo*10+2;
+        columnTo = columnTo*10+1;
+        
+        System.out.println("rowFrom = "+rowFrom);
+        System.out.println("columnFrom = "+columnFrom);
+        
+        
+        try {
+            System.out.println("Warte 8 Sekunden vor dem Senden...");
+            Thread.sleep(8000);            
+        } catch (InterruptedException e) {
+           System.out.println("Thread_Sleep wurde unterbrochen");
+        }
+        
+        
+        
+        System.out.println("Sende Koordinaten...");
+        this.con_Nxt23.sendInt(rowFrom);
+        this.con_Nxt25.sendInt(columnFrom);
+        
+        
+        System.out.println("Warte auf Antwort...");        
+        int doneRow = this.con_Nxt23.getInt();
+        int doneColumn = this.con_Nxt25.getInt();
+        
+        
+        if (doneRow != 1 && doneColumn != 1) {
+            System.out.println("Es wurde nicht der richtige Wert zurückgegeben, Bewegung unerfolgreich");
+        }
+        System.out.println("Wenn hier 1 1 steht ist alles richtig gelaufen: "+doneRow+" "+doneColumn);
+        doneRow = 0;
+        doneColumn = 0;
+        
+        
+        //Bewege Runter
+        this.con_Nxt23.sendInt(13);
+        if(this.con_Nxt23.getInt() == -1) System.out.println("Fehler Bewege Runter");
+        
+        //Greife Figur
+        this.con_Nxt25.sendInt(13);
+        if (this.con_Nxt25.getInt()==-1) System.out.println("Fehler Greife Figur") ;
+        
+        
+        //Bewege Hoch
+        this.con_Nxt23.sendInt(14);
+        if (this.con_Nxt23.getInt()==-1) System.out.println("Fehler Bewege Hoch");
+        
+        //Fahre zur 2.Koordinate
+        System.out.println("Sende Koordinaten2...");
+        this.con_Nxt23.sendInt(rowTo);
+        this.con_Nxt25.sendInt(columnTo);
+        
+        System.out.println("Warte auf Antwort...");        
+        doneRow = this.con_Nxt23.getInt();
+        doneColumn = this.con_Nxt25.getInt();
+        
+        if (doneRow != 1 && doneColumn != 1) {
+            System.out.println("Es wurde nicht der richtige Wert zurückgegeben, Bewegung unerfolgreich");
+        }
+        System.out.println("Wenn hier 1 1 steht ist alles richtig gelaufen: "+doneRow+" "+doneColumn);
+        doneRow = 0;
+        doneColumn = 0;
+        
+        //Fahre Runter
+        this.con_Nxt23.sendInt(13);
+        if(this.con_Nxt23.getInt()==-1) System.out.println("Fehler Bewege Runter");
+        
+        //Lasse Figur los
+        this.con_Nxt25.sendInt(14);
+        if(this.con_Nxt25.getInt()==-1) System.out.println("Fehler Figur loslassen");
+        
+        
+        //Fahre hoch
+        this.con_Nxt23.sendInt(14);
+        if(this.con_Nxt23.getInt()==-1) System.out.println("Fehler Bewege Hoch");
+        
+        //Bewege zum start
+        this.con_Nxt23.sendInt(15);
+        this.con_Nxt25.sendInt(15); 
+        doneRow = this.con_Nxt23.getInt();
+        doneColumn = this.con_Nxt25.getInt();
+        
+        if (doneRow != 1 && doneColumn != 1) {
+            System.out.println("Es wurde nicht der richtige Wert zurückgegeben, Bewegung unerfolgreich");
+        }
+        System.out.println("Wenn hier 1 1 steht ist alles richtig gelaufen: "+doneRow+" "+doneColumn);
+        System.out.println("Zug beendet");
         
         
     }
