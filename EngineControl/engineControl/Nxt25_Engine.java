@@ -10,13 +10,13 @@ public class Nxt25_Engine {
   
   
   final private int ROTATE_FOR_GRABBING = 70;
-  final private int ROTATE_LEFT_RIGHT = -660;
+  final private float ROTATE_LEFT_RIGHT = 29.87f;
  
   
   
  
   private final Motor Motor_grabbing = Motor.C;
-  private final Motor Motor_left_right = Motor.B;
+  private final TachoPilot Motor_left_right = new TachoPilot(3.2f, 11.4f, Motor.A, Motor.B);
   
   
   private int columnFrom;
@@ -33,7 +33,7 @@ public class Nxt25_Engine {
       
       
       this.movedDistance_left_right = 0;
-      this.Motor_left_right.setSpeed(150);
+      this.Motor_left_right.setSpeed(210);
   
       Motor_grabbing.setSpeed(150);
   }
@@ -118,7 +118,7 @@ public class Nxt25_Engine {
       
       
       int distance = this.columnFrom - this.movedDistance_left_right;      
-      this.Motor_left_right.rotate(distance*(this.ROTATE_LEFT_RIGHT/7));
+      this.Motor_left_right.travel(distance*(this.ROTATE_LEFT_RIGHT/7));
       this.movedDistance_left_right += distance;
       
       return true;
@@ -129,7 +129,7 @@ public class Nxt25_Engine {
         
       int distance = this.columnTo - this.movedDistance_left_right;
       
-      this.Motor_left_right.rotate(distance*(this.ROTATE_LEFT_RIGHT/7));
+      this.Motor_left_right.travel(distance*(this.ROTATE_LEFT_RIGHT/7));
       this.movedDistance_left_right += distance;
         
       return true;
@@ -150,7 +150,7 @@ public class Nxt25_Engine {
  
     
     boolean moveToInit() {
-        this.Motor_left_right.rotate(-this.movedDistance_left_right*(this.ROTATE_LEFT_RIGHT/7));
+        this.Motor_left_right.travel(-this.movedDistance_left_right*(this.ROTATE_LEFT_RIGHT/7));
                 
         this.movedDistance_left_right = 0;
         return true;

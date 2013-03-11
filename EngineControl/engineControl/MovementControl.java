@@ -42,21 +42,38 @@ public class MovementControl {
         /*
          * Erstelle Instanz der Klasse zum testen
          */
+        Move testmove1;
+        Move testmove2;
+        Move testCapture;
         
-        MovementControl m = MovementControl.getInstance();
-        
-        //Künstliche Move Objekte, welche nacheinander abgearbeitet werden
-        //Simulation von richtigem spiel
-        Move testmove1 = new Move((byte)1,1,64,false);
-        m.setMovefigure(testmove1);
-        
-        m.MoveRobot();
-        
-        /* Move testmove2 = new Move((byte) 1,2,13,false);
-        
-        m.setMovefigure(testmove2);
-        m.MoveRobot();
-        */
+        for (int i = 0;i<1;i++) {
+            MovementControl m = MovementControl.getInstance();
+            
+            //Künstliche Move Objekte, welche nacheinander abgearbeitet werden
+            //Simulation von richtigem spiel
+            testmove1 = new Move((byte)1,1,64,false);
+            m.setMovefigure(testmove1);
+            
+            //m.moveRobot();
+            
+            testmove2 = new Move((byte)1,64,1,false);
+            m.setMovefigure(testmove2);
+            
+           // m.moveRobot();
+            
+            testCapture = new Move((byte)1,1,9,true);
+            m.setMovefigure(testCapture);
+            
+            m.moveRobot();
+            
+            /* Move testmove2 = new Move((byte) 1,2,13,false);
+            
+            m.setMovefigure(testmove2);
+            m.moveRobot();
+            */
+            
+            
+        }
         
         
 
@@ -70,11 +87,23 @@ public class MovementControl {
      * 
      */
     
-    public void MoveRobot() {
+    public void moveRobot() {
         
         
         int concatenatedCoords = this.createIntForSending();
         
+        if(this.movefigure.isKingSideCastling()) {
+            this.doKingSideCastling();
+            return;
+        }
+        
+        if(this.movefigure.isQueenSideCastling()) {
+            this.doQueenSideCastling();
+            return;
+            
+        }
+        
+       
         
         System.out.println("Konkatenierte Koordinaten: "+concatenatedCoords);
         
@@ -95,15 +124,18 @@ public class MovementControl {
         rowTo = rowTo*10+2;
         columnTo = columnTo*10+1;
         
-        System.out.println("rowFrom = "+rowFrom);
-        System.out.println("columnFrom = "+columnFrom);
         
-        
+
+                
         try {
             System.out.println("Warte 8 Sekunden vor dem Senden...");
             Thread.sleep(8000);            
         } catch (InterruptedException e) {
            System.out.println("Thread_Sleep wurde unterbrochen");
+        }
+        
+        if(this.movefigure.isCaptured()) {
+            this.removeCapturedFigure(rowTo, columnTo);
         }
         
         
@@ -180,8 +212,81 @@ public class MovementControl {
         System.out.println("Wenn hier 1 1 steht ist alles richtig gelaufen: "+doneRow+" "+doneColumn);
         System.out.println("Zug beendet");
         
+    }
+    
+    public void doKingSideCastling() {
+        
+        try {
+            System.out.println("Warte 8 Sekunden vor dem Senden...");
+            Thread.sleep(8000);            
+        } catch (InterruptedException e) {
+           System.out.println("Thread_Sleep wurde unterbrochen");
+        }
         
     }
+    
+    public void doQueenSideCastling() {
+        try {
+            System.out.println("Warte 8 Sekunden vor dem Senden...");
+            Thread.sleep(8000);            
+        } catch (InterruptedException e) {
+           System.out.println("Thread_Sleep wurde unterbrochen");
+        }
+    }
+    
+    public void removeCapturedFigure(int rowTo, int columnTo) {
+        int doneRow;
+        int doneColumn;
+        
+        this.con_Nxt23.sendInt(rowTo);
+        this.con_Nxt25.sendInt(columnTo);
+        
+        System.out.println("Warte auf Antwort...");        
+        doneRow = this.con_Nxt23.getInt();
+        doneColumn = this.con_Nxt25.getInt();
+        
+        if (doneRow != 1 && doneColumn != 1) {
+            System.out.println("Es wurde nicht der richtige Wert zurückgegeben, Bewegung unerfolgreich");
+        }
+        System.out.println("Wenn hier 1 1 steht ist alles richtig gelaufen: "+doneRow+" "+doneColumn);
+        doneRow = 0;
+        doneColumn = 0;
+        
+        //Bewege Runter
+        this.con_Nxt23.sendInt(13);
+        if(this.con_Nxt23.getInt() == -1) System.out.println("Fehler Bewege Runter");
+        
+        //Greife Figur
+        this.con_Nxt25.sendInt(13);
+        if (this.con_Nxt25.getInt()==-1) System.out.println("Fehler Greife Figur") ;
+        
+        
+        //Bewege Hoch
+        this.con_Nxt23.sendInt(14);
+        if (this.con_Nxt23.getInt()==-1) System.out.println("Fehler Bewege Hoch");
+        
+      //Bewege zum start
+        this.con_Nxt23.sendInt(15);
+        this.con_Nxt25.sendInt(15); 
+        doneRow = this.con_Nxt23.getInt();
+        doneColumn = this.con_Nxt25.getInt();
+        
+        if (doneRow != 1 && doneColumn != 1) {
+            System.out.println("Es wurde nicht der richtige Wert zurückgegeben, Bewegung unerfolgreich");
+        }
+        System.out.println("Wenn hier 1 1 steht ist alles richtig gelaufen: "+doneRow+" "+doneColumn);
+        doneRow = 0;
+        doneColumn = 0;
+        
+      //Lasse Figur los
+        this.con_Nxt25.sendInt(14);
+        if(this.con_Nxt25.getInt()==-1) System.out.println("Fehler Figur loslassen");
+        
+        
+         
+                
+    }
+    
     
     /*
      * Uses the Move-Object to convert the coordinates in one integer value

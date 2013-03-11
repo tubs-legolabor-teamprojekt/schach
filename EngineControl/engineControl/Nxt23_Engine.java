@@ -14,7 +14,7 @@ public class Nxt23_Engine {
     //Wert für ein Feld
   final private float ROTATE_BACKWARD_AND_FORWARD = -3.028571428f;
   //Wert für Hoch- und Runterbewegung 
-  final private int ROTATE_UP_AND_DOWN = 220; 
+  final private int ROTATE_UP_AND_DOWN = 260; 
  
   
  
@@ -26,6 +26,9 @@ public class Nxt23_Engine {
   //Koordinaten (1-8) von und bis zu welchem Feld
   private int rowFrom;
   private int rowTo;
+  
+  //Konstante für Anzahl der Felder vom Startpunkt des Roboters
+  private final int FIELDS_FROM_START = 4;
   
 
   
@@ -108,12 +111,12 @@ public class Nxt23_Engine {
         switch(which_move) {
             case 1: 
                 System.out.println("Bewege mich zur 'Von-Reihe': "+coordinate);
-                t1.rowFrom = coordinate+3;            
+                t1.rowFrom = coordinate+t1.FIELDS_FROM_START;            
                 if(t1.moveToRowFrom()) t1.con.sendInt(1);
                 break;
             case 2:
                 System.out.println("Bewege mich zur 'Zu-Reihe': "+coordinate);
-                t1.rowTo = coordinate+3;            
+                t1.rowTo = coordinate+t1.FIELDS_FROM_START;            
                 if(t1.moveToRowTo()) t1.con.sendInt(1);
                 break;
             case 3:
