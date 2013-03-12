@@ -9,7 +9,7 @@ public class GameSettings
 {
 
     /**
-     * M��gliche Spielvarianten
+     * Mögliche Spielvarianten
      */
     public static enum GameType {
         PlayerVsComputer, Simulated, ComputerVsComputer,PlayerVsSimulatedComputer
@@ -17,23 +17,23 @@ public class GameSettings
     
     /**
      * Sollen simulierte Zuege durchgefuehrt werden? Kann zu Testzwecken
-     * tempor��r eingeschaltet werden, damit keine Fotos per Webcam geschossen
+     * temporär eingeschaltet werden, damit keine Fotos per Webcam geschossen
      * werden.
      */
-    public static final GameType currentGameType = GameType.PlayerVsSimulatedComputer;
+    public static final GameType currentGameType = GameType.Simulated;
     
     /**
-     * Dateiname zur Textdatei, die die Z��ge eines simulierten Spiels enth��lt
+     * Dateiname zur Textdatei, die die Züge eines simulierten Spiels enthält
      */
-    public static final String simulatedGameMoves = "FlorianF.txt";
+    public static final String simulatedGameMoves = "TabeaSchach.txt";
     
     /**
-     * Zeit zwischen den simulierten Z��gen
+     * Zeit zwischen den simulierten Zügen
      */
-    public static final long timeBetweenMoves = 1000;
+    public static final long timeBetweenMoves = 100;
     
     /**
-     * Sollen die einzelnen Z��ge auf G��ltigkeit gepr��ft werden?
+     * Sollen die einzelnen Züge auf Gültigkeit geprüft werden?
      */
     public static final boolean checkRules = true;
 

@@ -302,6 +302,8 @@ public class Move
      *            nicht Schachmatt.
      */
     public void setCheckMate(boolean checkMate) {
+        if (checkMate)
+            this.setCheck(true);
         this.checkMate = checkMate;
     }
 

@@ -100,6 +100,9 @@ public class Chess
                 moveCounter++;
                 move = newMove;
                 move = additionalInformationForMove(currentPlayer, move);
+                if (moveCounter >= this.simulatedMoves.size()) {
+                    move.setCheckMate(true);
+                }
             } else if (GameSettings.currentGameType ==  GameSettings.GameType.ComputerVsComputer) {
                 // Spieltyp: Computer vs. Computer (lernen)
                 // TODO Computer gegen Computer möglich machen
@@ -119,6 +122,9 @@ public class Chess
                     moveCounter++;
                     move = newMove;
                     move = additionalInformationForMove(currentPlayer, move);
+                    if (moveCounter >= this.simulatedMoves.size()) {
+                        move.setCheckMate(true);
+                    }
                 }
             } else {
                 // Spieltyp: Fehlerhafte Angabe
