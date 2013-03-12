@@ -10,11 +10,22 @@ public class Test {
      */
     public static void main(String[] args) {
         
-        int ROTATE_UP_AND_DOWN = 260;
-        Motor Motor_up_and_down = Motor.B;
-        Motor_up_and_down.setSpeed(150); 
+        float ROTATE_BACKWARD_AND_FORWARD = -3.028571428f;
+        TachoPilot Motors_back_and_forward = new TachoPilot(3.2f, 11.4f, Motor.A, Motor.C);
+        Motors_back_and_forward.setSpeed(200); 
         
-        Motor_up_and_down.rotate(-ROTATE_UP_AND_DOWN);
+        Motors_back_and_forward.travel(ROTATE_BACKWARD_AND_FORWARD);
+        Motors_back_and_forward.travel(ROTATE_BACKWARD_AND_FORWARD);
+        Motors_back_and_forward.travel(ROTATE_BACKWARD_AND_FORWARD);
+        Motors_back_and_forward.travel(ROTATE_BACKWARD_AND_FORWARD);
+        Motors_back_and_forward.travel(ROTATE_BACKWARD_AND_FORWARD);
+        Motors_back_and_forward.travel(ROTATE_BACKWARD_AND_FORWARD);
+        Motors_back_and_forward.travel(ROTATE_BACKWARD_AND_FORWARD);
+        Motors_back_and_forward.travel(ROTATE_BACKWARD_AND_FORWARD);
+        Motors_back_and_forward.travel(ROTATE_BACKWARD_AND_FORWARD);
+        Motors_back_and_forward.travel(ROTATE_BACKWARD_AND_FORWARD);
+        Motors_back_and_forward.travel(ROTATE_BACKWARD_AND_FORWARD);
+        Motors_back_and_forward.travel(ROTATE_BACKWARD_AND_FORWARD);
         
         
         try{
@@ -23,7 +34,7 @@ public class Test {
             
         }
         
-        Motor_up_and_down.rotate(ROTATE_UP_AND_DOWN);
+        Motors_back_and_forward.travel(-12*ROTATE_BACKWARD_AND_FORWARD);
         
         
       

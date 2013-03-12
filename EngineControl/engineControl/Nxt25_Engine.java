@@ -17,22 +17,27 @@ public class Nxt25_Engine {
  
   private final Motor Motor_grabbing = Motor.C;
   private final TachoPilot Motor_left_right = new TachoPilot(3.2f, 11.4f, Motor.A, Motor.B);
-  
-  
-  private int columnFrom;
-  private int columnTo;
+
+
+  //Zielfeld
+  private int target_column;
   
   //Verbindung auf NXT-Block
   private ConnAg con;
+
+  //Entfernung zur Ausgangslage
+  private int distance_to_init;
   
-  private int movedDistance_left_right;
   
+  //Feld über dem der Roboter sich im moment befindet
+  private int current_field;
   
   
   Nxt25_Engine() {
       
       
-      this.movedDistance_left_right = 0;
+      this.current_field = 0;
+      this.distance_to_init = 0;
       this.Motor_left_right.setSpeed(210);
   
       Motor_grabbing.setSpeed(150);
@@ -82,15 +87,15 @@ public class Nxt25_Engine {
           
           switch(which_move) {
               case 1: 
-                  System.out.println("Bewege mich zur 'Von-Spalte': "+coordinate);
-                  t1.columnFrom = coordinate;
-                  if(t1.moveToColumnFrom()) t1.con.sendInt(1);
+                  System.out.println("Bewege mich zur Spalte: "+coordinate);
+                  t1.target_column = coordinate;
+                  if(t1.moveToColumn()) t1.con.sendInt(1);
                   break;
-              case 2:
+              /*case 2:
                   System.out.println("Bewege mich zur 'Zu-Spalte': "+coordinate);
                   t1.columnTo = coordinate;            
                   if(t1.moveToColumnTo()) t1.con.sendInt(1);
-                  break;
+                  break;*/
               case 3:
                   System.out.println("Greife Figur");
                   if(t1.grabfigure()) t1.con.sendInt(1);
@@ -114,25 +119,25 @@ public class Nxt25_Engine {
   
   
  
-  boolean moveToColumnFrom() {
-      
-      
-      int distance = this.columnFrom - this.movedDistance_left_right;      
-      this.Motor_left_right.travel(distance*(this.ROTATE_LEFT_RIGHT/7));
-      this.movedDistance_left_right += distance;
-      
-      return true;
-    }
-    
-    boolean moveToColumnTo() {
-       
+    /*
+     * Methode zur Links-Rechts-Bewegung
+     */
+  
+    boolean moveToColumn() {
+        //Distanz welche er zurücklegen soll, Zielfeld-momentanes Feld
+        int distance = this.target_column - this.current_field;
         
-      int distance = this.columnTo - this.movedDistance_left_right;
-      
-      this.Motor_left_right.travel(distance*(this.ROTATE_LEFT_RIGHT/7));
-      this.movedDistance_left_right += distance;
+        //derzeitiges Feld wird gespeichert
+        this.current_field = distance;
         
-      return true;
+        //Führe Bewegung aus
+        this.Motor_left_right.travel(distance*(this.ROTATE_LEFT_RIGHT/7));
+        
+        //Speichere Entfernung zur Startposistion
+        this.distance_to_init += distance;
+        
+        
+        return true;
     }
     
 
@@ -150,9 +155,9 @@ public class Nxt25_Engine {
  
     
     boolean moveToInit() {
-        this.Motor_left_right.travel(-this.movedDistance_left_right*(this.ROTATE_LEFT_RIGHT/7));
+        this.Motor_left_right.travel(-this.distance_to_init*(this.ROTATE_LEFT_RIGHT/7));
                 
-        this.movedDistance_left_right = 0;
+        this.distance_to_init = 0;
         return true;
       }
   

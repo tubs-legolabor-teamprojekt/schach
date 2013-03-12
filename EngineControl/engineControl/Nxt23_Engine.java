@@ -27,6 +27,9 @@ public class Nxt23_Engine {
   private int rowFrom;
   private int rowTo;
   
+  //Zielreihe
+  private int target_row;
+  
   //Konstante für Anzahl der Felder vom Startpunkt des Roboters
   private final int FIELDS_FROM_START = 4;
   
@@ -35,6 +38,7 @@ public class Nxt23_Engine {
   
   //Speichert bereits zurückgelegte Strecke um wieder zu INIT zurückzukehren
   private int movedDistance_forward_backward;
+  private int distance_to_init;
 
   
   //Verbindung auf NXT-Block
@@ -47,22 +51,14 @@ public class Nxt23_Engine {
       
       
     this.movedDistance_forward_backward = 0;
+    this.distance_to_init = 0;
+    
     
     this.Motor_up_and_down.setSpeed(150); 
     this.Motors_back_and_forward.setSpeed(200);
   }
   
-  /*
-   * Konstruktor mit Koordinatne als Parameter
-   */
-  
-  public Nxt23_Engine(int rowFrom, int rowTo) {
-    this.rowFrom = rowFrom;
-    this.rowTo = rowTo;
-    
-    this.movedDistance_forward_backward = 0;
 
-  }
   
   /*
    * main methode läuft als schleife auf nxt solange bis gameExists false ist
