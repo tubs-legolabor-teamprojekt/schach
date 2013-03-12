@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
+import java.util.HashMap;
 
 import components.Figure;
 
@@ -15,7 +16,8 @@ public class PrimitivRating {
 
     Random ran = new Random();
 
-    public int primRate(ChessField field) {
+    //Statt HashMap<Integer, Byte> kann auch Chessfield genommen werden
+    public int primRate(HashMap<Integer, Byte> field) {
         int value = 0;
         int actValue = 0;
         Iterator<Entry<Integer, Byte>> it = field.entrySet().iterator();

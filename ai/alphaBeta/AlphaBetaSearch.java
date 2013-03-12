@@ -1,10 +1,12 @@
 package alphaBeta;
 
 import java.util.*;
+import util.*;
 import dataStructure.ChessField;
 import dataStructure.ChessField;
 import rating.PrimitivRating;
 import useful.PseudoValidMove;
+import useful.MoveGenerator;
 
 /**
  * Dieses ist der erste Test zum Aplha-Beta-CutOff zur Generierung des
@@ -17,7 +19,8 @@ import useful.PseudoValidMove;
 public class AlphaBetaSearch {
 
     PrimitivRating rate = new PrimitivRating();
-    PseudoValidMove move = new PseudoValidMove();
+    //PseudoValidMove move = new PseudoValidMove(); //ausgedachte Züge
+    MoveGenerator move = new MoveGenerator();
     public double count = 0;
     public static final int NUMBER_OF_FIGURES = 20;
 
@@ -29,12 +32,13 @@ public class AlphaBetaSearch {
      * @param alpha untere Grenze für den Cut
      * @param beta obere Grenze für den Cut
      */
+   /*
+    
     public int negaMax(ChessField situation, int depth, int player, int alpha, int beta) {
+        // System.out.println("tiefe " + depth 
+        // +" alpha: "+alpha+" beta: "+beta );
 
-        // System.out.println("tiefe " + depth /*
-        // +" alpha: "+alpha+" beta: "+beta */);
-
-        if (depth == 0 /* || keineZuegeMehr(spieler) */) {
+        if (depth == 0 ) {
             count++;
             // int rating = rate.primRate(situation);
             int rating = rate.primRate(situation);
@@ -61,12 +65,14 @@ public class AlphaBetaSearch {
         }
         // System.out.println("maxValue: "+maxValue);
         return maxValue; // TODO Größter Wert
-    }
+    } */
 
+    
+    
     /*
      * Normale implementierung der AlphaBeta-Suche
      */
-    public int min(ChessField situation, int depth, int player, int alpha, int beta) {
+    public int min(HashMap<Integer,Byte> situation, int depth, int player, int alpha, int beta) {
 
         if (depth == 0 /* || keineZuegeMehr(spieler) */) {
             count++;
@@ -76,7 +82,9 @@ public class AlphaBetaSearch {
 
         int minValue = beta;
 
-        LinkedList<ChessField> liste = move.getMoves(situation, NUMBER_OF_FIGURES);
+        //LinkedList<ChessField> liste = move.getMoves(situation, NUMBER_OF_FIGURES);
+        LinkedList<HashMap<Integer, Byte>> liste = move.generateMoves(situation, ChessfigureConstants.WHITE);
+        
 
         while (!liste.isEmpty()) {
             int value = max((ChessField) liste.pollFirst(), depth - 1, player, alpha, minValue);
@@ -90,7 +98,7 @@ public class AlphaBetaSearch {
         return minValue;
     }
 
-    public int max(ChessField situation, int depth, int player, int alpha, int beta) {
+    public int max(HashMap<Integer,Byte> situation, int depth, int player, int alpha, int beta) {
 
         if (depth == 0 /* || keineZuegeMehr(spieler) */) {
             count++;
@@ -100,7 +108,7 @@ public class AlphaBetaSearch {
 
         int maxValue = alpha;
 
-        LinkedList<ChessField> liste = move.getMoves(situation, NUMBER_OF_FIGURES);
+        LinkedList<HashMap<Integer, Byte>> liste = move.generateMoves(situation, ChessfigureConstants.WHITE);
 
         while (!liste.isEmpty()) {
             int value = min((ChessField) liste.pollFirst(), depth - 1, player, -beta, -maxValue);
