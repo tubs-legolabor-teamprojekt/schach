@@ -66,21 +66,25 @@ public class NextMove {
          */
         
         //HashMap<Integer, Byte> zusammenbauen
-        //Alle Kindsituationen der ersten Generatino erstellen
         HashMap<Integer, Byte> map = new HashMap<Integer, Byte>();
-        byte value;
-        for (int i = 1; i <= 64; i++) {
-            value = 0;
-            if(field.getCurrentFieldAsHashMap().containsKey(i)){
-                value = field.getCurrentFieldAsHashMap().get(i).getFigureType();
-                value += (field.getCurrentFieldAsHashMap().get(i).getColor())*8; //Color=1 für Schwarz??
-                value += (field.getCurrentFieldAsHashMap().get(i).isMoved()) ? 16 : 0; 
-                map.put(i, value);
-            }
-        }
+        map = field.getCurrentFieldAsHashMapWithBytes();
+        
+//        byte value;
+//        for (int i = 1; i <= 64; i++) {
+//            value = 0;
+//            if(field.getCurrentFieldAsHashMap().containsKey(i)){
+//                value = field.get
+//                value = field.getCurrentFieldAsHashMap().get(i).getFigureType();
+//                value += (field.getCurrentFieldAsHashMap().get(i).getColor())*8; //Color=1 für Schwarz??
+//                value += (field.getCurrentFieldAsHashMap().get(i).isMoved()) ? 16 : 0; 
+//                map.put(i, value);
+//            }
+//        }
         
         //Bewertung der Kindgenerationen aus der Liste
-        liste = moveGen.generateMoves(map, (byte) (player==true?1:0) );        
+        liste = moveGen.generateMoves(map, (byte) (player==true?1:0) );
+        
+        //Bewertung der Kindgenerationen aus der Liste
         for (int i = 1; i < liste.size(); i++) {            
             rate.add(search.max(liste.get(i), 5, player?0:1, -100, 100));            
         }
