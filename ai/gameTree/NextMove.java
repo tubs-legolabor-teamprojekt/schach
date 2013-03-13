@@ -1,9 +1,12 @@
 package gameTree;
 
 import game.Move;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import useful.MoveGenerator;
+import util.ChessfigureConstants;
 import alphaBeta.AlphaBetaSearch;
 
 /**
@@ -18,13 +21,16 @@ public class NextMove {
 //################################################################################# Klassenvariable
     
     // Instanz der Alpha-Beta-Klasse
-    AlphaBetaSearch search;
+    private AlphaBetaSearch search;
     
     // Instanz der MoveGenerator-Klasse
-    MoveGenerator moveGen;
+    private MoveGenerator moveGen;
     
     // Instanz einer LinkesList, in der jeweils die erste Kindgeneration gespeichert ist
-    LinkedList<HashMap<Integer, Byte>> liste;
+    private LinkedList<HashMap<Integer, Byte>> liste;
+    
+    //Array zur Bewertung der einzelnen Einträge aus der Liste    
+    ArrayList<Integer> rate = new ArrayList<Integer>();
     
 //################################################################################# Konstruktor
     
@@ -59,25 +65,43 @@ public class NextMove {
          * -Beste Situation in Zug umwandeln und in "move" speichern
          */
         
-        liste = moveGen.generateMoves(field., (byte) (player==true?1:0) );
+        //HashMap<Integer, Byte> zusammenbauen
+        //Alle Kindsituationen der ersten Generatino erstellen
+        HashMap<Integer, Byte> map = new HashMap<Integer, Byte>();
+        byte value;
+        for (int i = 1; i <= 64; i++) {
+            value = 0;
+            if(field.getCurrentFieldAsHashMap().containsKey(i)){
+                value = field.getCurrentFieldAsHashMap().get(i).getFigureType();
+                value += (field.getCurrentFieldAsHashMap().get(i).getColor())*8; //Color=1 für Schwarz??
+                value += (field.getCurrentFieldAsHashMap().get(i).isMoved()) ? 16 : 0; 
+                map.put(i, value);
+            }
+        }
+        
+        //Bewertung der Kindgenerationen aus der Liste
+        liste = moveGen.generateMoves(map, (byte) (player==true?1:0) );        
+        for (int i = 1; i < liste.size(); i++) {            
+            rate.add(search.max(liste.get(i), 5, player?0:1, -100, 100));            
+        }
+        
+        //Stelle der am besten bewerteten Situation in der ArrayList
+        int help = rate.isEmpty() ? 0 : rate.get(0);
+        for (int i = 0; i < rate.size(); i++) {
+            if(rate.get(i)> help){
+                help=i;
+            }
+        }
+        
+        //Zug aus Feldern extrahieren
+        
+        
+        // Erstellung eines Move-Objektes zur rückgabe an die aufrufende Methode
+        move = new Move();
+        
         
         // Rückgabe des Move-Objektes
-        move = new Move(0,1);
         return move;
-    }
-    
-    /**
-     * Diese Methode soll ausschließlich die erste Generation der Kind-Generationen erstellen,
-     * die anschließend bewertet werden kann.
-     * @param feld
-     * @param player
-     * @return
-     */
-    public LinkedList<HashMap<Integer, Byte>> getChilds(HashMap<Integer, Byte> feld, boolean player){
-        
-        // Rückgabe der nächsten Generation;       Umwandlung von Boolean in byte
-        return moveGen.generateMoves(feld,  (byte) (player==true?1:0) );
-        
     }
     
 //################################################################################# Getter/Setter
