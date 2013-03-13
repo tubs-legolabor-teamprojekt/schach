@@ -292,6 +292,25 @@ public class Field
 	}
 	
 	/**
+	 * Gibt das aktuelle Feld als Hashmap aus, jedoch mit dem Byte-Wert der Figur.
+	 * @return HashMap<Integer, Byte>
+	 */
+	public HashMap<Integer, Byte> getCurrentFieldAsHashMapWithBytes()
+	{
+	    HashMap<Integer, Byte> map = new HashMap<Integer, Byte>();
+	    
+	    Iterator<Entry<Integer, Figure>> it = this.figures.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry<Integer, Figure> entry = (Map.Entry<Integer, Figure>)it.next();
+            Integer field = entry.getKey();
+            Byte figureByte = entry.getValue().getFigureType();
+            map.put(field, figureByte);
+        }
+        
+        return map;
+	}
+	
+	/**
 	 * Gibt das aktuelle Feld aus.
 	 * @return String mit dem aktuellen Feld
 	 */
@@ -698,8 +717,9 @@ public class Field
 		while (it.hasNext()) {
 			Figure f = (Figure) it.next().getValue();
 			if (i > 0)
-				str += ", ";
+				str += "\t";
 			str += f.toString();
+			str += "\n";
 			it.remove();
 			i++;
 		}
