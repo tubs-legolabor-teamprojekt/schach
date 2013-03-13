@@ -138,9 +138,11 @@ public class GameCoordinator
                 this.field.removeFigureAt(this.currentMove.getFieldTo());
             }
     
-            // Roboter soll Figur bewegen
-            movementControl.setMovefigure(this.currentMove);
-            movementControl.moveRobot();
+            if (GameSettings.currentGameType == GameSettings.GameType.SimulatedWithRobot) {
+                // Roboter soll Figur bewegen
+                movementControl.setMovefigure(this.currentMove);
+                movementControl.moveRobot();
+            }
     
             // Gui soll Figur bewegen
             // Gui muss zuerst den Zug grafisch ausfuehren, da sie auf die
@@ -156,8 +158,6 @@ public class GameCoordinator
 
         // War es der letzte Zug?
         this.lastMove = this.currentMove.isCheckMate();
-
-        // TODO Wurde inzwischen die GUI beendet? => Spiel ist beendet
         
     }
 

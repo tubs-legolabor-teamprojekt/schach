@@ -29,7 +29,8 @@ public class TestingChess {
     public static void startGame()
     {
         if ((   GameSettings.currentGameType == GameType.Simulated ||
-                GameSettings.currentGameType == GameType.PlayerVsSimulatedComputer) &&
+                GameSettings.currentGameType == GameType.PlayerVsSimulatedComputer ||
+                GameSettings.currentGameType == GameType.SimulatedWithRobot) &&
             GameSettings.simulatedGameMoves.length() > 0) {
             // Simulierte Zuege erstellen
             Chess game = new Chess(getMoves());
