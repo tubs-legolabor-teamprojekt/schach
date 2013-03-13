@@ -32,7 +32,7 @@ public class Chess
     /**
      * Roboter-Steuerung
      */
-    private MovementControl movementControl = MovementControl.getInstance();
+    private MovementControl movementControl;
 
     /**
      * Liste an Zuegen, falls ein Spiel simuliert werden soll.
@@ -62,6 +62,9 @@ public class Chess
      */
     public void startGame()
     {
+        if (GameSettings.currentGameType == GameSettings.GameType.SimulatedWithRobot) {
+            this.movementControl = MovementControl.getInstance();
+        }
         // GUI initialisieren, Start-Button wird angezeigt
         Gui gui = Gui.getInstance();
         // Warten, bis Benutzer das Spiel gestartet hat
@@ -126,6 +129,18 @@ public class Chess
                         move.setCheckMate(true);
                     }
                 }
+            } else if (GameSettings.currentGameType == GameSettings.GameType.SimulatedWithRobot) {
+                // Roboter soll Figur versetzen
+                Move newMove = this.simulatedMoves.get(moveCounter);
+                moveCounter++;
+                move = newMove;
+                move = additionalInformationForMove(currentPlayer, move);
+                if (moveCounter >= this.simulatedMoves.size()) {
+                    move.setCheckMate(true);
+                }
+                
+                // Roboter
+                
             } else {
                 // Spieltyp: Fehlerhafte Angabe
                 System.out.println("Fehlerhafte Spieltyp!");
@@ -141,8 +156,6 @@ public class Chess
             }
         }
 
-        // Verbindung zum Roboter beenden
-        movementControl.setGameExists(false);
 
         // Aktuelles Datum
         SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
