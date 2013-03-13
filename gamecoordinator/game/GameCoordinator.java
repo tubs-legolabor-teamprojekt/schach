@@ -140,7 +140,7 @@ public class GameCoordinator
     
             // Roboter soll Figur bewegen
             movementControl.setMovefigure(this.currentMove);
-            movementControl.MoveRobot();
+            movementControl.moveRobot();
     
             // Gui soll Figur bewegen
             // Gui muss zuerst den Zug grafisch ausfuehren, da sie auf die
