@@ -39,7 +39,7 @@ public class Chess
      */
     private List<Move> simulatedMoves = new ArrayList<Move>();
     
-    private ImageLoader im = new ImageLoader();
+    private ImageLoader im;
     private boolean isImInit = false;
     
     /**
