@@ -9,7 +9,7 @@ public class Nxt25_Engine {
 
   
   
-  final private int ROTATE_FOR_GRABBING = 70;
+  final private int ROTATE_FOR_GRABBING = 90;
   final private float ROTATE_LEFT_RIGHT = 29.87f;
  
   
@@ -25,9 +25,6 @@ public class Nxt25_Engine {
   //Verbindung auf NXT-Block
   private ConnAg con;
 
-  //Entfernung zur Ausgangslage
-  private int distance_to_init;
-  
   
   //Feld über dem der Roboter sich im moment befindet
   private int current_field;
@@ -37,7 +34,6 @@ public class Nxt25_Engine {
       
       
       this.current_field = 0;
-      this.distance_to_init = 0;
       this.Motor_left_right.setSpeed(210);
   
       Motor_grabbing.setSpeed(150);
@@ -81,14 +77,13 @@ public class Nxt25_Engine {
 
       }
           
-          int coordinate = which_move/10 -1;
+          t1.target_column = which_move/10 -1;
           which_move %= 10 ;
           
           
           switch(which_move) {
               case 1: 
-                  System.out.println("Bewege mich zur Spalte: "+coordinate);
-                  t1.target_column = coordinate;
+                  System.out.println("Bewege mich zur Spalte: "+t1.target_column);
                   if(t1.moveToColumn()) t1.con.sendInt(1);
                   break;
               /*case 2:
@@ -127,15 +122,12 @@ public class Nxt25_Engine {
         //Distanz welche er zurücklegen soll, Zielfeld-momentanes Feld
         int distance = this.target_column - this.current_field;
         
-        //derzeitiges Feld wird gespeichert
-        this.current_field = distance;
-        
+                
         //Führe Bewegung aus
         this.Motor_left_right.travel(distance*(this.ROTATE_LEFT_RIGHT/7));
         
-        //Speichere Entfernung zur Startposistion
-        this.distance_to_init += distance;
-        
+        //derzeitiges Feld wird gespeichert
+        this.current_field = this.target_column;
         
         return true;
     }
@@ -155,9 +147,9 @@ public class Nxt25_Engine {
  
     
     boolean moveToInit() {
-        this.Motor_left_right.travel(-this.distance_to_init*(this.ROTATE_LEFT_RIGHT/7));
+        this.Motor_left_right.travel(-this.current_field*(this.ROTATE_LEFT_RIGHT/7));
                 
-        this.distance_to_init = 0;
+       this.current_field = 0;
         return true;
       }
   

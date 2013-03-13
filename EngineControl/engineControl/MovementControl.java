@@ -9,26 +9,60 @@ import lejos.pc.comm.NXTCommBluecove;
 import lejos.pc.comm.NXTCommException;
 import lejos.pc.comm.NXTInfo;
 
+/**
+ * Die Klasse MovementControl ist für die Bewegung des Roboters zuständig
+ * Dabei handelt es sich um ein Singleton-Entwurfsmuster, damit nur eine Instanz der Klasse erstellt werden kann
+ * Beim erstellen der Instanz wird eine Bluetooth Verbindung zwischen Rechner und beiden NXT-Blöcken etabliert
+ * Bei Übergabe eines Move-Objektes und einem Aufruf von moveRobot wird die Bewegung ausgeführt
+ * 
+ * @author Rudolf Martin
+ *
+ */
+
 public class MovementControl {
 
     /**
-     * @param args
+     *  Verbindung zum NXT-25
      */
-
-    private boolean gameExists = true;
     private ConnServ con_Nxt25;
+    
+    /**
+     * Verbindung zum NXT-23
+     */
     private ConnServ con_Nxt23;
+    
+    /**
+     * 
+     */
+    private boolean gameExists = true;
+    
+    
+    /**
+     * Move-Objekt mit den Informationen über den aktuellen Zug
+     */
     private Move movefigure;
+    
+    /**
+     * Instanz der Klasse
+     */
+    
     private static MovementControl instance = null;
     
-    //Singleton-Constructor creates connection to nxt25 and nxt23 when used
+   /**
+    * Singleton Konstruktor
+    * Erstellt Verbindung zu NXT23 und 25
+    */
     private MovementControl() {
         this.con_Nxt25 = new ConnServ("NXT_25");
         this.con_Nxt23 = new ConnServ("NXT_23");
          
     }
     
-    
+    /**
+     * Erstellt eine Instanz der Klasse, falls bereits eine existiert wird auf diese verwiesen
+     * 
+     * @return MovementControl-Instanz
+     */
     public static MovementControl getInstance() {
         if (instance == null) {
             instance = new MovementControl();
@@ -36,43 +70,77 @@ public class MovementControl {
         }
         return instance;
     }
+    
+    /*
+     *Main-Methode dient nur zu Tests 
+     */
 
     public static void main(String[] args) {
 
         /*
          * Erstelle Instanz der Klasse zum testen
          */
-        Move testmove1;
-        Move testmove2;
-        Move testmove3;
-        Move testCapture;
+        //Move testmove1;
+        //Move testmove2;
+        //Move testmove3;
+        //Move testCapture;
+        Move testgame;
         
-        for (int i = 0;i<1;i++) {
+        for (int i = 0;i<11;i++) {
             MovementControl m = MovementControl.getInstance();
+            switch(i) {
+            case 0: 
+                testgame = new Move((byte)1,9,25,false);
+                m.setMovefigure(testgame);
+                break;
             
-            //Künstliche Move Objekte, welche nacheinander abgearbeitet werden
-            //Simulation von richtigem spiel
-            testmove1 = new Move((byte)1,1,64,false);
-            testmove1.setKingSideCastling(true);
-            m.setMovefigure(testmove1);
+            case 1: 
+                testgame = new Move((byte)1,13,29,false);
+                m.setMovefigure(testgame);
+                break;
+            case 2: 
+                testgame = new Move((byte)1,7,24,false);
+                m.setMovefigure(testgame);
+                break;
+            case 3: 
+                testgame = new Move((byte)1,5,32,false);
+                m.setMovefigure(testgame);
+                break;
+            case 4: 
+                testgame = new Move((byte)1,9,25,false);
+                testgame.setQueenSideCastling(true);
+                m.setMovefigure(testgame);
+                break;
+            case 5: 
+                testgame = new Move((byte)1,2,19,false);
+                m.setMovefigure(testgame);
+                break;
+            case 6: 
+                testgame = new Move((byte)1,3,10,true);
+                m.setMovefigure(testgame);
+                break;
+            case 7: 
+                testgame = new Move((byte)1,1,25,true);
+                m.setMovefigure(testgame);
+                break;
+            case 8: 
+                testgame = new Move((byte)1,25,57,false);
+                m.setMovefigure(testgame);
+                break;
+            case 9: 
+                testgame = new Move((byte)1,57,1,false);
+                m.setMovefigure(testgame);
+                break;
+            case 10: 
+                testgame = new Move((byte)1,32,60,false);
+                m.setMovefigure(testgame);
+                break;
+            
+                
+            }
+            
             
             m.moveRobot();
-            
-            testmove2 = new Move((byte)1,4,1,false);
-            m.setMovefigure(testmove2);
-            
-            //m.moveRobot();
-            
-            //testmove3 = new Move((byte)1,1,7,false);
-            //m.setMovefigure(testmove3);
-            
-           // m.moveRobot();
-            
-            
-            //testCapture = new Move((byte)1,1,9,true);
-            //m.setMovefigure(testCapture);
-            
-            //m.moveRobot();
             
         }
         
@@ -82,23 +150,33 @@ public class MovementControl {
         
     }
     
-    /*
+    /**
      * Methode zur Roboterbewegung des aktuellen move objektes
-     * Sendet den Koordianten Integer an die beiden NXT-Bloecke
+     * Sendet Koordinaten an die beiden NXT-Bloecke
      * 
+     * @return True bei erfolgreicher Bewegung
      */
     
     public boolean moveRobot() {
         
-        
+        /*
+         * @see createIntForSending
+         */
         int concatenatedCoords = this.createIntForSending();
+        
+        
+        /*
+         * Prüft ob es sich um eine kleine Rochade handelt und führt diese bei bedarf aus
+         */
         
         if(this.movefigure.isKingSideCastling()) {
             this.doKingSideCastling();
             return true;
         }
-        System.out.println("Hier soll ichn icht sein");
         
+        /*
+         * Prüft ob es sich um eine große Rochade handelt und führt diese bei bedarf aus
+         */
         if(this.movefigure.isQueenSideCastling()) {
             this.doQueenSideCastling();
             return true;
@@ -129,18 +207,20 @@ public class MovementControl {
        
                 
         try {
-            System.out.println("Warte 8 Sekunden vor dem Senden...");
-            Thread.sleep(8000);            
+            System.out.println("Warte 5 Sekunden vor dem Senden...");
+            Thread.sleep(5000);            
         } catch (InterruptedException e) {
            System.out.println("Thread_Sleep wurde unterbrochen");
         }
         
+        //Teste ob auf dem Zielfeld die Figur geschlagen wurde
+        //Wenn ja bringe sie erst weg bevor der Zug ausgeführt wird
         if(this.movefigure.isCaptured()) {
             this.removeCapturedFigure(rowTo, columnTo);
         }
         
         
-        
+        //Fahre zur ersten Koordinate
         System.out.println("Sende Koordinaten...");
         this.con_Nxt23.sendInt(rowFrom);
         this.con_Nxt25.sendInt(columnFrom);
@@ -161,16 +241,22 @@ public class MovementControl {
         
         //Bewege Runter
         this.con_Nxt23.sendInt(13);
-        if(this.con_Nxt23.getInt() == -1) System.out.println("Fehler Bewege Runter");
+        if(this.con_Nxt23.getInt() == -1) {
+            System.out.println("Fehler Bewege Runter");
+        }
         
         //Greife Figur
         this.con_Nxt25.sendInt(13);
-        if (this.con_Nxt25.getInt()==-1) System.out.println("Fehler Greife Figur") ;
+        if (this.con_Nxt25.getInt()==-1) {
+            System.out.println("Fehler Greife Figur");
+        }
         
         
         //Bewege Hoch
         this.con_Nxt23.sendInt(14);
-        if (this.con_Nxt23.getInt()==-1) System.out.println("Fehler Bewege Hoch");
+        if (this.con_Nxt23.getInt()==-1) {
+            System.out.println("Fehler Bewege Hoch");
+        }
         
         //Fahre zur 2.Koordinate
         System.out.println("Sende Koordinaten2...");
@@ -224,28 +310,39 @@ public class MovementControl {
      */
     public void doKingSideCastling() {
         
+        
+        //Koordinaten für die erste Bewegung (König von Feld  4 auf Feld 2)
         int rowFrom = 11;
         int columnFrom = 41;
                 
         int rowTo = 11;
         int columnTo = 21;
         
+        
+        //Rückgabewerte des NXT nach Beenden der Bewegung
         int doneRow;
         int doneColumn;
         
-                       
+        //Warte 8 Sekunden vorm Senden um sicherzustellen dass eine Verbindung vorhanden ist               
        try {
             System.out.println("Warte 8 Sekunden vor dem Senden...");
-            Thread.sleep(8000);            
+            Thread.sleep(5000);            
         } catch (InterruptedException e) {
            System.out.println("Thread_Sleep wurde unterbrochen");
         }
         
+       
+        /*
+         * In der Schleife wird zunächst der König bewegt, im zweiten Durchgang dann der Turm
+         * 
+         */
         for(int i = 0;i<2;i++) {   
             if  (i == 1) {
+                //Koordinaten um Turm von Feld 1 auf Feld 3 zu setzen 
                 columnFrom = 11;
                 columnTo = 31;
             }
+            //Fahre zur ersten Koordinate
             System.out.println("Sende Koordinaten...");
             this.con_Nxt23.sendInt(rowFrom);
             this.con_Nxt25.sendInt(columnFrom);
@@ -306,7 +403,8 @@ public class MovementControl {
             this.con_Nxt23.sendInt(14);
             if(this.con_Nxt23.getInt()==-1) System.out.println("Fehler Bewege Hoch");
         }    
-
+        
+        //Fahre zurück zum start
         this.con_Nxt23.sendInt(15);
         this.con_Nxt25.sendInt(15); 
         doneRow = this.con_Nxt23.getInt();
@@ -320,6 +418,7 @@ public class MovementControl {
     }
     
     /* 
+     * 
      * Methode für die große Rochade
      * Werte sind hart gecoded
      * 
@@ -327,35 +426,46 @@ public class MovementControl {
      */
     
     public void doQueenSideCastling() {
+      //Koordinaten für die erste Bewegung (König von Feld  4 auf Feld 6)
         int rowFrom = 11;
         int columnFrom = 41;
                 
         int rowTo = 11;
         int columnTo = 61;
         
-                       
+        
+        //Rückgabewerte des NXT nach Beenden der Bewegung
+        int doneRow;
+        int doneColumn;
+        
+        //Warte 8 Sekunden vorm Senden um sicherzustellen dass eine Verbindung vorhanden ist               
        try {
-            System.out.println("Warte 8 Sekunden vor dem Senden...");
-            Thread.sleep(8000);            
+            System.out.println("Warte 5 Sekunden vor dem Senden...");
+            Thread.sleep(5000);            
         } catch (InterruptedException e) {
            System.out.println("Thread_Sleep wurde unterbrochen");
         }
         
-        for(int i = 0;i<=2;i++) {
-            if(i==1) {
+       
+        /*
+         * In der Schleife wird zunächst der König bewegt, im zweiten Durchgang dann der Turm
+         * 
+         */
+        for(int i = 0;i<2;i++) {   
+            if  (i == 1) {
+                //Koordinaten um Turm von Feld 8 auf Feld 5 zu setzen 
                 columnFrom = 81;
                 columnTo = 51;
             }
-            
-        
+            //Fahre zur ersten Koordinate
             System.out.println("Sende Koordinaten...");
             this.con_Nxt23.sendInt(rowFrom);
             this.con_Nxt25.sendInt(columnFrom);
             
             
             System.out.println("Warte auf Antwort...");        
-            int doneRow = this.con_Nxt23.getInt();
-            int doneColumn = this.con_Nxt25.getInt();
+            doneRow = this.con_Nxt23.getInt();
+            doneColumn = this.con_Nxt25.getInt();
             
             
             if (doneRow != 1 && doneColumn != 1) {
@@ -407,24 +517,26 @@ public class MovementControl {
             //Fahre hoch
             this.con_Nxt23.sendInt(14);
             if(this.con_Nxt23.getInt()==-1) System.out.println("Fehler Bewege Hoch");
-            
-            //Bewege zum start
-            this.con_Nxt23.sendInt(15);
-            this.con_Nxt25.sendInt(15); 
-            doneRow = this.con_Nxt23.getInt();
-            doneColumn = this.con_Nxt25.getInt();
-            
-            if (doneRow != 1 && doneColumn != 1) {
-                System.out.println("Es wurde nicht der richtige Wert zurückgegeben, Bewegung unerfolgreich");
-            }
-            System.out.println("Wenn hier 1 1 steht ist alles richtig gelaufen: "+doneRow+" "+doneColumn);
-            
+        }    
+        
+        //Fahre zurück zum start
+        this.con_Nxt23.sendInt(15);
+        this.con_Nxt25.sendInt(15); 
+        doneRow = this.con_Nxt23.getInt();
+        doneColumn = this.con_Nxt25.getInt();
+        
+        if (doneRow != 1 && doneColumn != 1) {
+            System.out.println("Es wurde nicht der richtige Wert zurückgegeben, Bewegung unerfolgreich");
         }
-
-
+        System.out.println("Wenn hier 1 1 steht ist alles richtig gelaufen: "+doneRow+" "+doneColumn);
         System.out.println("Zug beendet");
     }
     
+    
+    /* 
+     * Methode, welche die geschlagene Figur auf Init-Pos schmeisst
+     * 
+     */
     public void removeCapturedFigure(int rowTo, int columnTo) {
         int doneRow;
         int doneColumn;
@@ -480,7 +592,8 @@ public class MovementControl {
     
     
     /*
-     * Uses the Move-Object to convert the coordinates in one integer value
+     * Liest FieldFrom und FieldTo aus dem Move Objekt raus und schreibt es in einen
+     * konkatenierten Integer Wert der Form: (RowFrom)+(ColumnFrom)+(RowTo)+(ColumnTo)+(Capture) 
      * 
      */
     
@@ -520,8 +633,7 @@ public class MovementControl {
       }
     
     /* 
-     * Method for setting the existence of the game
-     * when false then the robot will stop
+     * Set-Methode für das attribut gameExists
      */
 
     public void setGameExists(boolean gameExists) {
@@ -530,7 +642,7 @@ public class MovementControl {
 
     
     /* 
-     * setting the current move as the attribute
+     * Set-Methode für das Move-Objekt
      * 
      */
     public void setMovefigure(Move movefigure) {

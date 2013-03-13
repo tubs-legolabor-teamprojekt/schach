@@ -12,7 +12,7 @@ public class Nxt23_Engine {
   //Konstanten für die Bewegungen
     
     //Wert für ein Feld
-  final private float ROTATE_BACKWARD_AND_FORWARD = -3.028571428f;
+  final private float ROTATE_BACKWARD_AND_FORWARD = -3.03f;
   //Wert für Hoch- und Runterbewegung 
   final private int ROTATE_UP_AND_DOWN = 260; 
  
@@ -31,7 +31,7 @@ public class Nxt23_Engine {
   private int target_row;
   
   //Konstante für Anzahl der Felder vom Startpunkt des Roboters
-  private final int FIELDS_FROM_START = 4;
+  private final int FIELDS_FROM_START = 5;
   
 
   
@@ -166,7 +166,7 @@ public class Nxt23_Engine {
   }
       
   boolean moveToInit() {
-    this.Motors_back_and_forward.travel(-this.movedDistance_forward_backward*ROTATE_BACKWARD_AND_FORWARD);
+    this.Motors_back_and_forward.travel((-this.movedDistance_forward_backward*ROTATE_BACKWARD_AND_FORWARD)+0.2f);
 
     this.movedDistance_forward_backward = 0;
     return true;
