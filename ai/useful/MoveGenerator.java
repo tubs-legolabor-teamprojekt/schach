@@ -149,7 +149,7 @@ public class MoveGenerator
             //neues Feld hinzufügen, falls dadurch nicht in Schach geraten
             if(change && !isCheck(newField, colour)){
                 pawnMoves.add(newField);
-                System.out.println("added Pawn");
+//                System.out.println("added Pawn");
             }
         }
         
@@ -196,7 +196,7 @@ public class MoveGenerator
             //neues Feld hinzufügen, falls dadurch nicht in Schach geraten
             if(!isCheck(newField, colour)){
                 rookMoves.add(newField);
-                System.out.println("added Rook");
+//                System.out.println("added Rook");
             }
             //falls Figur geschlagen wurde, darf Schlagende Figur nicht weiterziehen
             if(captured){
@@ -231,7 +231,7 @@ public class MoveGenerator
             //neues Feld hinzufügen, falls dadurch nicht in Schach geraten
             if(!isCheck(newField, colour)){
                 rookMoves.add(newField);
-                System.out.println("added Rook");
+//                System.out.println("added Rook");
             }
             //falls Figur geschlagen wurde, darf Schlagende Figur nicht weiterziehen
             if(captured){
@@ -266,7 +266,7 @@ public class MoveGenerator
             //neues Feld hinzufügen, falls dadurch nicht in Schach geraten
             if(!isCheck(newField, colour)){
                 rookMoves.add(newField);
-                System.out.println("added Rook");
+//                System.out.println("added Rook");
             }
             //falls Figur geschlagen wurde, darf Schlagende Figur nicht weiterziehen
             if(captured){
@@ -301,7 +301,7 @@ public class MoveGenerator
             //neues Feld hinzufügen, falls dadurch nicht in Schach geraten
             if(!isCheck(newField, colour)){
                 rookMoves.add(newField);
-                System.out.println("added Rook");
+//                System.out.println("added Rook");
             }
             //falls Figur geschlagen wurde, darf Schlagende Figur nicht weiterziehen
             if(captured){
@@ -412,7 +412,7 @@ public class MoveGenerator
             //neues Feld hinzufügen, falls dadurch nicht in Schach geraten
             if(change != -1 && !isCheck(newField, colour)){
                 knightMoves.add(newField);
-                System.out.println("added Knight");
+//                System.out.println("added Knight");
             }
         }
         return knightMoves;
@@ -457,7 +457,7 @@ public class MoveGenerator
             //neues Feld hinzufügen, falls dadurch nicht in Schach geraten
             if(!isCheck(newField, colour)){
                 bishopMoves.add(newField);
-                System.out.println("added Bishop");
+//                System.out.println("added Bishop");
             }
             //falls Figur geschlagen wurde, darf Schlagende Figur nicht weiterziehen
             if(captured){
@@ -492,7 +492,7 @@ public class MoveGenerator
             //neues Feld hinzufügen, falls dadurch nicht in Schach geraten
             if(!isCheck(newField, colour)){
                 bishopMoves.add(newField);
-                System.out.println("added Bishop");
+//                System.out.println("added Bishop");
             }
             //falls Figur geschlagen wurde, darf Schlagende Figur nicht weiterziehen
             if(captured){
@@ -527,7 +527,7 @@ public class MoveGenerator
             //neues Feld hinzufügen, falls dadurch nicht in Schach geraten
             if(!isCheck(newField, colour)){
                 bishopMoves.add(newField);
-                System.out.println("added Bishop");
+//                System.out.println("added Bishop");
             }
             //falls Figur geschlagen wurde, darf Schlagende Figur nicht weiterziehen
             if(captured){
@@ -562,7 +562,7 @@ public class MoveGenerator
             //neues Feld hinzufügen, falls dadurch nicht in Schach geraten
             if(!isCheck(newField, colour)){
                 bishopMoves.add(newField);
-                System.out.println("added Bishop");
+//                System.out.println("added Bishop");
             }
             //falls Figur geschlagen wurde, darf Schlagende Figur nicht weiterziehen
             if(captured){
@@ -583,10 +583,10 @@ public class MoveGenerator
     private LinkedList<HashMap<Integer, Byte>> moveQueen(HashMap<Integer, Byte> field, int key, byte colour){
         LinkedList<HashMap<Integer, Byte>> queenMoves = new LinkedList<HashMap<Integer, Byte>>();
         //Königin kann solche Züge ausführen, die Turm und Läufer ausführen können
-        System.out.println("<Queen begin>");
+//        System.out.println("<Queen begin>");
         queenMoves.addAll(moveRook(field, key, colour));
         queenMoves.addAll(moveBishop(field, key, colour));
-        System.out.println("<Queen end>");
+//        System.out.println("<Queen end>");
         return queenMoves;
     }
 
@@ -686,7 +686,7 @@ public class MoveGenerator
             //neues Feld hinzufügen, falls dadurch nicht in Schach geraten
             if(change != 0 && !isCheck(newField, colour)){
                 kingMoves.add(newField);
-                System.out.println("added King");
+//                System.out.println("added King");
             }
         } 
         newField = (HashMap<Integer, Byte>)field.clone();
@@ -707,7 +707,7 @@ public class MoveGenerator
                 //neues Feld hinzufügen, falls dadurch nicht in Schach geraten
                 if(!isCheck(newField, colour)){
                     kingMoves.add(newField);
-                    System.out.println("added kingSideCastling");
+//                    System.out.println("added kingSideCastling");
                 }
             }
         }
@@ -731,7 +731,7 @@ public class MoveGenerator
                 //neues Feld hinzufügen, falls dadurch nicht in Schach geraten
                 if(!isCheck(newField, colour)){
                     kingMoves.add(newField);
-                    System.out.println("added queenSideCastling");
+//                    System.out.println("added queenSideCastling");
                 }
             }
         }

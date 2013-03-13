@@ -21,6 +21,8 @@ public class AlphaBetaTest {
         ChessField field = new ChessField();
         field.equipStartField();
         AlphaBetaSearch search = new AlphaBetaSearch();
+        
+        // Eigentliche Suche der Bewertung für ein Feld...
         int Wert = search.max(field, DEPTH, PLAYER, -100, 100);
 
         System.out.println("gefundener Wert: " + Wert);
