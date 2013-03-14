@@ -4,12 +4,8 @@ import java.util.*;
 import java.util.Map.Entry;
 
 public class TextChessField {
-	private String fieldArray[];
 	public TextChessField() {
-		fieldArray = new String [65];
-		for(int i=1;i<=64;i++) {
-			fieldArray[i] = "  ";
-		}
+
 		
 	}
 	
@@ -20,6 +16,13 @@ public class TextChessField {
  */
 	
 	public String fieldToString(HashMap<Integer, Byte> field) {
+		
+		String fieldArray[] = new String [65];
+		for(int i=1;i<=64;i++) {
+			fieldArray[i] = "  ";
+		}
+		
+		
 		Iterator<Entry<Integer,Byte>> it = field.entrySet().iterator();
 		
 		while(it.hasNext()) {
