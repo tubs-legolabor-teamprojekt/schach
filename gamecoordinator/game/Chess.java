@@ -27,20 +27,22 @@ public class Chess
     /**
      * Objekt des GameCoordinators
      */
-    private GameCoordinator gameCoordinator;
+    private GameCoordinator gameCoordinator = null;
     
     /**
      * Roboter-Steuerung
      */
-    private MovementControl movementControl;
+    private MovementControl movementControl = null;
 
     /**
      * Liste an Zuegen, falls ein Spiel simuliert werden soll.
      */
     private List<Move> simulatedMoves = new ArrayList<Move>();
     
-    private ImageLoader im;
-    private boolean isImInit = false;
+    /**
+     * Objekt zur Kommunikation mit der Kamera
+     */
+    private ImageLoader im = null;
     
     /**
      * Leerer Konstruktor
@@ -93,8 +95,21 @@ public class Chess
             Move move = null;
             
             if (GameSettings.currentGameType ==  GameSettings.GameType.PlayerVsComputer) {
-                // Spieltyp: Spieler gegen Computer
-                move = this.getMoveFromCamera(currentPlayer);
+             // Spieltyp: Spieler gegen Computer
+                if (currentPlayer == ChessfigureConstants.WHITE) {
+                    move = this.getMoveFromCamera(currentPlayer);
+                    moveCounter++;
+                } else if (currentPlayer == ChessfigureConstants.BLACK) {
+                    //TODO Züge ermitteln, bisher noch simulierte Züge
+                    // Simulierten Zug holen
+                    Move newMove = this.simulatedMoves.get(moveCounter);
+                    moveCounter++;
+                    move = newMove;
+                    move = additionalInformationForMove(currentPlayer, move);
+                    if (moveCounter >= this.simulatedMoves.size()) {
+                        move.setCheckMate(true);
+                    }
+                }
 
             } else if (GameSettings.currentGameType ==  GameSettings.GameType.Simulated) {
                 // Spieltyp: Simuliertes Spiel wird durchgeführt
@@ -209,13 +224,13 @@ public class Chess
     public Move getMoveFromCamera(byte currentPlayer)
     {
         Move move = null;
+        
         // Zug von Webcam ermitteln
-
-        if (!this.isImInit) {
+        if (this.im == null) {
+            this.im = new ImageLoader();
             // Winkel setzen
             this.im.setAngle(im.calcAngle());
             this.im.calcOffset();
-            this.isImInit = true;
         }
 
         // erste Vergleichsfoto

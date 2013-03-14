@@ -14,7 +14,7 @@ import com.googlecode.javacv.cpp.opencv_core.IplImage;
  */
 public final class ImageGrabber {
     private IplImage img;
-    private OpenCVFrameGrabber grabber = new OpenCVFrameGrabber(0);
+    private OpenCVFrameGrabber grabber = new OpenCVFrameGrabber(1);
     private static int i = 0;
 
     public ImageGrabber() {

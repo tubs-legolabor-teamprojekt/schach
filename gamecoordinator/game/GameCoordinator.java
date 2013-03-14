@@ -52,7 +52,7 @@ public class GameCoordinator
     /**
      * Roboter-Bewegung
      */
-    private MovementControl movementControl = MovementControl.getInstance();
+    private MovementControl movementControl = null;
 
     /**
      * Ist der aktuelle Zug der letzte?
@@ -138,10 +138,15 @@ public class GameCoordinator
                 this.field.removeFigureAt(this.currentMove.getFieldTo());
             }
     
-            if (GameSettings.currentGameType == GameSettings.GameType.SimulatedWithRobot) {
+            if (GameSettings.currentGameType == GameSettings.GameType.SimulatedWithRobot ||
+                    GameSettings.currentGameType == GameSettings.GameType.PlayerVsComputer) {
                 // Roboter soll Figur bewegen
-                movementControl.setMovefigure(this.currentMove);
-                movementControl.moveRobot();
+                if (this.movementControl == null) {
+                    this.movementControl = MovementControl.getInstance();
+                }
+                
+                this.movementControl.setMovefigure(this.currentMove);
+                this.movementControl.moveRobot();
             }
     
             // Gui soll Figur bewegen
@@ -152,8 +157,8 @@ public class GameCoordinator
             this.gui.getCheckerboard().setCheckerboardInformation(this.currentMove);
     
             // Figur soll Zug durchfuehren
-            this.field.moveFigure(this.currentMove.getFieldFrom(),
-                    this.currentMove.getFieldTo());
+            this.field.moveFigure(  this.currentMove.getFieldFrom(),
+                                    this.currentMove.getFieldTo());
         }
 
         // War es der letzte Zug?
