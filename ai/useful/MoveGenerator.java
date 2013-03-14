@@ -1095,6 +1095,9 @@ public class MoveGenerator
         test.put(63, (byte)11);
         test.put(64, (byte)10);
         MoveGenerator toast = new MoveGenerator();
+        //Grafische Darstellung Schachfeld für <Flo
+        TextChessField s = new TextChessField();
+        System.out.println(s.fieldToString(test));
         LinkedList<HashMap<Integer, Byte>> xyz = new LinkedList<HashMap<Integer, Byte>>();
         xyz = toast.generateMoves(test, (byte)1);
         System.out.println(xyz.size());
