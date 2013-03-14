@@ -166,7 +166,7 @@ public class Nxt23_Engine {
   }
       
   boolean moveToInit() {
-    this.Motors_back_and_forward.travel((-this.movedDistance_forward_backward*ROTATE_BACKWARD_AND_FORWARD)+0.2f);
+    this.Motors_back_and_forward.travel((-this.movedDistance_forward_backward*ROTATE_BACKWARD_AND_FORWARD)+0.25f);
 
     this.movedDistance_forward_backward = 0;
     return true;

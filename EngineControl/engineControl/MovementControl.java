@@ -150,6 +150,46 @@ public class MovementControl {
         
     }
     
+    private void moveDown() {
+        //An den NXT wird der befehl zur Runterbewegung gesendet
+        //Zehnerstelle ist unwichtig, die 3 sagt dem NXT welchen motor er ansprechen muss
+        this.con_Nxt23.sendInt(13);
+        if(this.con_Nxt23.getInt() == -1) {
+            System.out.println("Fehler Bewege Runter");
+            System.out.println("Es wurde nicht der richtige Rückgabewert übermittelt");
+        }        
+    }
+    
+    private void moveUp() {
+        //An den NXT wird der befehl zur Runterbewegung gesendet
+        //Zehnerstelle ist unwichtig, die 4 sagt dem NXT welchen motor er ansprechen muss
+        this.con_Nxt23.sendInt(14);
+        if(this.con_Nxt23.getInt() == -1) {
+            System.out.println("Fehler Bewege Hoch");
+            System.out.println("Es wurde nicht der richtige Rückgabewert übermittelt");
+        }
+    }
+    
+    private void grabFigure() {
+        
+    }
+    
+    private void dropFigure() {
+        
+    }
+    
+    private void moveToRow() {
+        
+    }
+    
+    private void moveToColumn() {
+        
+    }
+    
+    private void moveToInit() {
+        
+    }
+    
     /**
      * Methode zur Roboterbewegung des aktuellen move objektes
      * Sendet Koordinaten an die beiden NXT-Bloecke
@@ -163,7 +203,6 @@ public class MovementControl {
          * @see createIntForSending
          */
         int concatenatedCoords = this.createIntForSending();
-        
         
         /*
          * Prüft ob es sich um eine kleine Rochade handelt und führt diese bei bedarf aus
@@ -183,8 +222,6 @@ public class MovementControl {
             
         }
         
-       
-        
         System.out.println("Konkatenierte Koordinaten: "+concatenatedCoords);
         
         /* 
@@ -196,7 +233,6 @@ public class MovementControl {
                 
         int rowTo = (concatenatedCoords/10)%10;
         int columnTo = (concatenatedCoords/100)%10;
-        
         
         rowFrom = rowFrom*10+1;
         columnFrom = columnFrom*10+1;
@@ -253,6 +289,7 @@ public class MovementControl {
         
         
         //Bewege Hoch
+        this.moveUp();
         this.con_Nxt23.sendInt(14);
         if (this.con_Nxt23.getInt()==-1) {
             System.out.println("Fehler Bewege Hoch");
@@ -323,9 +360,9 @@ public class MovementControl {
         int doneRow;
         int doneColumn;
         
-        //Warte 8 Sekunden vorm Senden um sicherzustellen dass eine Verbindung vorhanden ist               
+        //Warte 5 Sekunden vorm Senden um sicherzustellen dass eine Verbindung vorhanden ist               
        try {
-            System.out.println("Warte 8 Sekunden vor dem Senden...");
+            System.out.println("Warte 5 Sekunden vor dem Senden...");
             Thread.sleep(5000);            
         } catch (InterruptedException e) {
            System.out.println("Thread_Sleep wurde unterbrochen");
@@ -438,7 +475,7 @@ public class MovementControl {
         int doneRow;
         int doneColumn;
         
-        //Warte 8 Sekunden vorm Senden um sicherzustellen dass eine Verbindung vorhanden ist               
+        //Warte 5 Sekunden vorm Senden um sicherzustellen dass eine Verbindung vorhanden ist               
        try {
             System.out.println("Warte 5 Sekunden vor dem Senden...");
             Thread.sleep(5000);            
@@ -600,8 +637,8 @@ public class MovementControl {
     public int createIntForSending() {
         int[] x_y = new int[4];
         
-        int FieldFrom = this.movefigure.getFieldFrom();
-        int FieldTo = this.movefigure.getFieldTo();
+        int FieldFrom = 65-this.movefigure.getFieldFrom();
+        int FieldTo = 65-this.movefigure.getFieldTo();
             
         
         if (FieldFrom % 8 == 0) {
