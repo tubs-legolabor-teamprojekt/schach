@@ -150,6 +150,11 @@ public class MovementControl {
         
     }
     
+    /**
+     * Methode die den Befehl zur Bewegung nach unten versendet 
+     * 
+     */
+    
     private void moveDown() {
         //An den NXT wird der befehl zur Runterbewegung gesendet
         //Zehnerstelle ist unwichtig, die 3 sagt dem NXT welchen motor er ansprechen muss
@@ -159,6 +164,10 @@ public class MovementControl {
             System.out.println("Es wurde nicht der richtige Rückgabewert übermittelt");
         }        
     }
+    /**
+     * Methode die den Befehl zur Bewegung nach oben versendet 
+     * 
+     */
     
     private void moveUp() {
         //An den NXT wird der befehl zur Runterbewegung gesendet
@@ -171,23 +180,66 @@ public class MovementControl {
     }
     
     private void grabFigure() {
-        
+    	this.con_Nxt25.sendInt(13);
+        if (this.con_Nxt25.getInt()==-1) {
+            System.out.println("Fehler Greife Figur");
+        }
     }
     
     private void dropFigure() {
-        
+    	this.con_Nxt25.sendInt(14);
+        if(this.con_Nxt25.getInt()==-1) System.out.println("Fehler Figur loslassen"); 
     }
     
-    private void moveToRow() {
+    /**
+     * Methode zur Bewegung zum übergebenen Feld
+     * 
+     * @param row Zielreihe
+     * @param column Zielspalte
+     */
+    private void moveToField(int row, int column) {
+        row = row*10+1;
+        column = column*10+1;
         
+        System.out.println("Sende Koordinaten...");
+        this.con_Nxt23.sendInt(row);
+        this.con_Nxt25.sendInt(column);
+        
+        
+        System.out.println("Warte auf Antwort...");        
+        int doneRow = this.con_Nxt23.getInt();
+        int doneColumn = this.con_Nxt25.getInt();
+        
+        if (doneRow != 1 && doneColumn != 1) {
+            System.out.println("Es wurde nicht der richtige Wert zurückgegeben, Bewegung unerfolgreich");
+        }
+        else {
+        	System.out.println("Bewegung erfolgreich");
+        }
+        
+    	
     }
     
-    private void moveToColumn() {
-        
-    }
+    /**
+     * Methode zur Bewegung zum Startpunkt
+     */
     
     private void moveToInit() {
+    	
+    	//Zehnerstelle ist irrelevant, 5 sagt dem Roboter, dass er moveToInit verwenden soll
+    	this.con_Nxt23.sendInt(15);
+        this.con_Nxt25.sendInt(15);
         
+        
+        int doneRow = this.con_Nxt23.getInt();
+        int doneColumn = this.con_Nxt25.getInt();
+        
+        if (doneRow != 1 && doneColumn != 1) {
+            System.out.println("Es wurde nicht der richtige Wert zurückgegeben, Bewegung unerfolgreich");
+        }
+        else {
+        	System.out.println("Bewegung erfolgreich"); 
+        }
     }
     
     /**
@@ -197,15 +249,14 @@ public class MovementControl {
      * @return True bei erfolgreicher Bewegung
      */
     
-    public boolean moveRobot() {
-        
+    public boolean moveRobot() {        
         /*
          * @see createIntForSending
          */
         int concatenatedCoords = this.createIntForSending();
         
         /*
-         * Prüft ob es sich um eine kleine Rochade handelt und führt diese bei bedarf aus
+         * Prüft ob es sich um eine kleine Rochade handelt und führt diese  aus
          */
         
         if(this.movefigure.isKingSideCastling()) {
@@ -214,15 +265,13 @@ public class MovementControl {
         }
         
         /*
-         * Prüft ob es sich um eine große Rochade handelt und führt diese bei bedarf aus
+         * Prüft ob es sich um eine große Rochade handelt und führt diese  aus
          */
         if(this.movefigure.isQueenSideCastling()) {
             this.doQueenSideCastling();
             return true;
             
         }
-        
-        System.out.println("Konkatenierte Koordinaten: "+concatenatedCoords);
         
         /* 
          * Zu Erst werden die rowFrom und ColumnFrom Koordinaten an beide NXT Blöcke versand, 
@@ -236,12 +285,10 @@ public class MovementControl {
         
         rowFrom = rowFrom*10+1;
         columnFrom = columnFrom*10+1;
-        
-        rowTo = rowTo*10+1;
+      
+       rowTo = rowTo*10+1;
         columnTo = columnTo*10+1;
         
-       
-                
         try {
             System.out.println("Warte 5 Sekunden vor dem Senden...");
             Thread.sleep(5000);            
@@ -257,7 +304,8 @@ public class MovementControl {
         
         
         //Fahre zur ersten Koordinate
-        System.out.println("Sende Koordinaten...");
+        
+        /* System.out.println("Sende Koordinaten...");
         this.con_Nxt23.sendInt(rowFrom);
         this.con_Nxt25.sendInt(columnFrom);
         
@@ -273,30 +321,41 @@ public class MovementControl {
         System.out.println("Wenn hier 1 1 steht ist alles richtig gelaufen: "+doneRow+" "+doneColumn);
         doneRow = 0;
         doneColumn = 0;
+        */
         
+        this.moveToField(rowFrom, columnFrom);
         
         //Bewege Runter
-        this.con_Nxt23.sendInt(13);
+        /*this.con_Nxt23.sendInt(13);
         if(this.con_Nxt23.getInt() == -1) {
             System.out.println("Fehler Bewege Runter");
-        }
+        }*/
+        this.moveDown();
+       
+       
+        
+       
         
         //Greife Figur
-        this.con_Nxt25.sendInt(13);
+       /* this.con_Nxt25.sendInt(13);
         if (this.con_Nxt25.getInt()==-1) {
             System.out.println("Fehler Greife Figur");
-        }
+        }*/
+        
+        this.grabFigure();
         
         
         //Bewege Hoch
-        this.moveUp();
+       /* this.moveUp();
         this.con_Nxt23.sendInt(14);
         if (this.con_Nxt23.getInt()==-1) {
             System.out.println("Fehler Bewege Hoch");
-        }
+        }*/
+        
+        this.moveUp();
         
         //Fahre zur 2.Koordinate
-        System.out.println("Sende Koordinaten2...");
+        /*System.out.println("Sende Koordinaten2...");
         this.con_Nxt23.sendInt(rowTo);
         this.con_Nxt25.sendInt(columnTo);
         
@@ -309,23 +368,29 @@ public class MovementControl {
         }
         System.out.println("Wenn hier 1 1 steht ist alles richtig gelaufen: "+doneRow+" "+doneColumn);
         doneRow = 0;
-        doneColumn = 0;
+        doneColumn = 0;*/
+        
+        this.moveToField(rowTo, columnTo);
         
         //Fahre Runter
-        this.con_Nxt23.sendInt(13);
+       /* this.con_Nxt23.sendInt(13);
         if(this.con_Nxt23.getInt()==-1) System.out.println("Fehler Bewege Runter");
+        */
+        this.moveDown();
         
         //Lasse Figur los
-        this.con_Nxt25.sendInt(14);
-        if(this.con_Nxt25.getInt()==-1) System.out.println("Fehler Figur loslassen");
-        
+//        this.con_Nxt25.sendInt(14);
+//        if(this.con_Nxt25.getInt()==-1) System.out.println("Fehler Figur loslassen");
+        this.dropFigure();
         
         //Fahre hoch
-        this.con_Nxt23.sendInt(14);
-        if(this.con_Nxt23.getInt()==-1) System.out.println("Fehler Bewege Hoch");
+//        this.con_Nxt23.sendInt(14);
+//        if(this.con_Nxt23.getInt()==-1) System.out.println("Fehler Bewege Hoch");
+        this.moveUp();
+        
         
         //Bewege zum start
-        this.con_Nxt23.sendInt(15);
+        /*this.con_Nxt23.sendInt(15);
         this.con_Nxt25.sendInt(15); 
         doneRow = this.con_Nxt23.getInt();
         doneColumn = this.con_Nxt25.getInt();
@@ -334,6 +399,9 @@ public class MovementControl {
             System.out.println("Es wurde nicht der richtige Wert zurückgegeben, Bewegung unerfolgreich");
         }
         System.out.println("Wenn hier 1 1 steht ist alles richtig gelaufen: "+doneRow+" "+doneColumn);
+        */
+        
+        this.moveToInit();
         System.out.println("Zug beendet");
         return true;
     }
