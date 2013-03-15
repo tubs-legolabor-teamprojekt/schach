@@ -87,14 +87,8 @@ public class Nxt23_Engine {
         
         if (which_move == -1) {
             
-            System.out.println(which_move+" Fehlerhafte Übertragung");
-            try {
-                //Kurz warten damit ich die ausgabe lesen kann ;D
-              Thread.sleep(2000);
-            }
-            catch(Exception e) {
-                System.out.println("Thread unterbrochen");
-            }
+            System.out.println("Verbindung wurde getrennt oder Übertragung ist Fehlerhaft");
+            System.out.println("Betätige beliebigen Knopf um Programm zu beenden.");
             Button.waitForPress();
             gameExists = false;
 

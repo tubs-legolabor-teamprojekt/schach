@@ -2,13 +2,6 @@ package engineControl;
 
 import game.Move;
 
-import java.io.IOException;
-
-import lejos.nxt.Button;
-import lejos.pc.comm.NXTCommBluecove;
-import lejos.pc.comm.NXTCommException;
-import lejos.pc.comm.NXTInfo;
-
 /**
  * Die Klasse MovementControl ist für die Bewegung des Roboters zuständig
  * Dabei handelt es sich um ein Singleton-Entwurfsmuster, damit nur eine Instanz der Klasse erstellt werden kann
@@ -34,7 +27,7 @@ public class MovementControl {
     /**
      * 
      */
-    private boolean gameExists = true;
+    //private boolean gameExists = true;
     
     
     /**
@@ -53,8 +46,19 @@ public class MovementControl {
     * Erstellt Verbindung zu NXT23 und 25
     */
     private MovementControl() {
+        System.out.println("Verbindung zu den NXT's wird hergestellt...");
         this.con_Nxt25 = new ConnServ("NXT_25");
         this.con_Nxt23 = new ConnServ("NXT_23");
+        
+        //Prüfe ob eine Verbindung vorhanden ist
+        if(this.con_Nxt23.getConnectionInformation() == null || this.con_Nxt25.getConnectionInformation() == null) {
+            System.out.println("Es konnte keine Verbindung zu beiden NXT's hergestellt werden!");
+            System.exit(0);
+        }
+        else  {
+            System.out.println("Verbindung erfolgreich!");
+        }
+        
          
     }
     
@@ -80,10 +84,7 @@ public class MovementControl {
         /*
          * Erstelle Instanz der Klasse zum testen
          */
-        //Move testmove1;
-        //Move testmove2;
-        //Move testmove3;
-        //Move testCapture;
+
         Move testgame;
         
         for (int i = 0;i<11;i++) {
@@ -481,9 +482,9 @@ public class MovementControl {
      * Set-Methode für das attribut gameExists
      */
 
-    public void setGameExists(boolean gameExists) {
-        this.gameExists = gameExists;
-    }
+//    public void setGameExists(boolean gameExists) {
+//        this.gameExists = gameExists;
+//    }
 
     
     /* 
