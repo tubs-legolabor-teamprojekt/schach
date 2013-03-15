@@ -677,7 +677,7 @@ public class Rules {
     	  }
       }
       
-      //TODO:blackkingmoved etc. evtl. in die checkkingmove methode verlagern
+      //TODO: blackkingmoved etc. evtl. in die checkkingmove methode verlagern
       // Position von isCheck entsprechend anpassen
       if(castling && x > currentX){
           if((colour == ChessfigureConstants.WHITE && !whiteKingMoved && !whiteRightRookMoved)
