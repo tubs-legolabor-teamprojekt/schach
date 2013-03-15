@@ -441,6 +441,9 @@ public class Rules {
                           || figType == ChessfigureConstants.QUEEN)){
               return true;
           }
+          else{
+              break;
+          }
       }
       //Bewegung nach links
       for(int i = position - 1; (i - 1)/8 == (position - 1)/8; i--){
@@ -460,6 +463,9 @@ public class Rules {
                               && position - 1 == i)
                           || figType == ChessfigureConstants.QUEEN)){
               return true;
+          }
+          else{
+              break;
           }
       }
       //y-Achse prüfen
@@ -482,6 +488,9 @@ public class Rules {
                           || figType == ChessfigureConstants.QUEEN)){
               return true;
           }
+          else{
+              break;
+          }
       }
       //nach unten
       for(int i = position - 8; i > 0 && i <= 64; i -= 8){
@@ -501,6 +510,9 @@ public class Rules {
                               && position - 8 == i)
                           || figType == ChessfigureConstants.QUEEN)){
               return true;
+          }
+          else{
+              break;
           }
       }
       //schräg prüfen
@@ -525,6 +537,9 @@ public class Rules {
                       && fig.getColor() == ChessfigureConstants.BLACK))){
               return true;
           }
+          else{
+              break;
+          }
       }
       //nach rechts unten
       for(int i = 1; xAxis + i < 9 && yAxis - i > 0; i++){
@@ -544,6 +559,9 @@ public class Rules {
                   || (figType == ChessfigureConstants.PAWN && i == 1 
                       && fig.getColor() == ChessfigureConstants.WHITE))){
               return true;
+          }
+          else{
+              break;
           }
       }
       //nach links oben
@@ -565,6 +583,9 @@ public class Rules {
                       && fig.getColor() == ChessfigureConstants.BLACK))){
               return true;
           }
+          else{
+              break;
+          }
       }
       //nach links unten (eigentlich links oben?!)
       for(int i = 1; xAxis - i > 0 && yAxis - i > 0; i++){
@@ -584,6 +605,9 @@ public class Rules {
                   || (figType == ChessfigureConstants.PAWN && i == 1 
                       && fig.getColor() == ChessfigureConstants.WHITE))){
               return true;
+          }
+          else{
+              break;
           }
       }
       //Springer prüfen
