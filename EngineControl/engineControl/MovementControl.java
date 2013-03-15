@@ -93,7 +93,7 @@ public class MovementControl {
                 testgame = new Move((byte)1,9,25,false);
                 m.setMovefigure(testgame);
                 break;
-            
+           
             case 1: 
                 testgame = new Move((byte)1,13,29,false);
                 m.setMovefigure(testgame);
