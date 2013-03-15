@@ -69,7 +69,7 @@ public class ShowPGNFormat extends JFrame implements ActionListener
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         this.setVisible(true);
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
     /**

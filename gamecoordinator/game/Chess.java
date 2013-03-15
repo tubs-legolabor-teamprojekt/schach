@@ -96,10 +96,16 @@ public class Chess
             } else if (GameSettings.currentGameType ==  GameSettings.GameType.Simulated) {
                 // Spieltyp: Simuliertes Spiel wird durchgeführt
                 // Simulierten Zug holen
-                Move newMove = this.simulatedMoves.get(moveCounter);
-                moveCounter++;
-                move = newMove;
-                move = additionalInformationForMove(currentPlayer, move);
+                if (moveCounter == 4) {
+                    move = convertFieldnumbersToMoves(currentPlayer, gui.getCheckerboard().manualMove());
+                    moveCounter++;
+                } else {
+                    Move newMove = this.simulatedMoves.get(moveCounter);
+                    moveCounter++;
+                    move = newMove;
+                    move = additionalInformationForMove(currentPlayer, move);
+                }
+                
                 if (moveCounter >= this.simulatedMoves.size()) {
                     move.setCheckMate(true);
                 }

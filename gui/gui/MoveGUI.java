@@ -81,9 +81,7 @@ public class MoveGUI extends JFrame implements ActionListener
     }
     
     public void resetMoveGui() {
-        this.normalButtonPressed = false;
-        this.okButton_C.setEnabled(false);
-        instance.setVisible(true);
+        instance = null;
     }
 
     /**
@@ -251,7 +249,7 @@ public class MoveGUI extends JFrame implements ActionListener
             this.okButton_C.setEnabled(true);
         }
 
-        // wenn OK geflickt wird, wird die die Variable isKingsideCastling
+        // wenn OK geklickt wird, wird die die Variable isKingsideCastling
         // entweder auf true
         // oder false gesetzt, je nach dem, ob der Radiobutton für die kurze
         // Rochade ausgewählt

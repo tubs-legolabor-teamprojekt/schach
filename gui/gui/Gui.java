@@ -134,7 +134,7 @@ public class Gui extends JFrame
      * des Feldes erzeugt.
      */
     public void makeTable_bottomLayout() {
-        // jeder Spalte wird ein neuer CellRenderer hinzugef�gt
+        // jeder Spalte wird ein neuer CellRenderer hinzugefügt
         for (int i = 0; i < 8; i++) {
             this.table_bottom.getColumnModel().getColumn(i)
                     .setCellRenderer(new MyCellRenderer(true));

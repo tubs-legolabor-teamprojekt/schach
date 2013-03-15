@@ -15,6 +15,7 @@ public class CheckerboardPanel extends JPanel
 {
 
     public JLabel label = new JLabel();
+    private boolean isFigure = false;
 
     /**
      * Konstruktor, der eine neue Tabellenzelle erstellt und die entsprechenden
@@ -31,5 +32,17 @@ public class CheckerboardPanel extends JPanel
     public void showIcon(Figure figure) {
         this.label.setIcon(figure.getIcon());
         this.label.setVisible(true);
+        
+        this.isFigure = true;
+    }
+    
+    /**
+     * Gett für die boolsche Variable isFigure, die angibt, ob eine Figur
+     * auf dem Feld steht. 
+     * @return isFigure
+     */
+    public boolean isFigure() 
+    {
+        return this.isFigure;
     }
 }

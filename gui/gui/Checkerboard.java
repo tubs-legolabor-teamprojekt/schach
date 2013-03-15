@@ -389,13 +389,13 @@ public class Checkerboard extends JPanel
      * @return ArrayList mit den Feldnummern
      */
     public ArrayList<Integer> manualMove() {
+        System.out.println("manualmoveanfang");
         this.manualMove = true;
         this.mmIsReady = false;
         
         MoveGUI.getInstance().resetMoveGui();
-
         MoveGUI.getInstance();
-
+        
         while (!this.mmIsReady) {
             try {
                 Thread.sleep(500);
@@ -406,6 +406,7 @@ public class Checkerboard extends JPanel
         
         if (MoveGUI.getInstance().isNormalButtonPressed()) {
             // Feldnummern von den angeklickten Feldern
+            System.out.println("normalbuttonispressed");
             return this.a;
         } else {
             // darf weiß überhaupt eine Rochade ausführen?
@@ -433,8 +434,9 @@ public class Checkerboard extends JPanel
                 }
             // wenn keine Rochade erlaubt
             } else {
-                javax.swing.JOptionPane.showMessageDialog(this, "Keine Rochade möglich!",
+                javax.swing.JOptionPane.showMessageDialog(this, "Keine Rochade möglich, bitte erneute Zugeingabe!",
                         "Rochade", JOptionPane.INFORMATION_MESSAGE);
+                this.manualMove();
             }
         }
         return new ArrayList<Integer>();
