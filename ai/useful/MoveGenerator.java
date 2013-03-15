@@ -470,7 +470,7 @@ public class MoveGenerator
             newField = (HashMap<Integer, Byte>)field.clone();
             //Grenze nicht überschritten
             if(key + 7*i > 64
-                    || (key + 9*i) % 8 == 0){
+                    || (key + 7*i) % 8 == 0){
                 break;
             }
             //Feld frei
