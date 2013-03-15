@@ -691,8 +691,9 @@ public class MoveGenerator
         } 
         newField = (HashMap<Integer, Byte>)field.clone();
         //Rochade rechtsseitig (kurze Rochade)
-        //König und Turm nicht bewegt, Zwischenfelder frei
-        if(!wasMoved(field.get(key))
+        //König nicht im Schach, König und Turm nicht bewegt, Zwischenfelder frei
+        if(!isCheck(field, colour)
+                && !wasMoved(field.get(key))
                 && field.containsKey(key + 3)
                 && getColour(field.get(key + 3)) == colour
                 && !wasMoved(field.get(key + 3))
@@ -714,8 +715,9 @@ public class MoveGenerator
         
         newField = (HashMap<Integer, Byte>)field.clone();
         //Rochade linksseitig (lange Rochade)
-        //König und Turm nicht bewegt, Zwischenfelder frei
-        if(!wasMoved(field.get(key))
+        //König nicht im Schach, König und Turm nicht bewegt, Zwischenfelder frei
+        if(!isCheck(field, colour)
+                && !wasMoved(field.get(key))
                 && field.containsKey(key - 4)
                 && getColour(field.get(key - 4)) == colour
                 && !wasMoved(field.get(key - 4))
