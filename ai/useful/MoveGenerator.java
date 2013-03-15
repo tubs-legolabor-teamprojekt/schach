@@ -691,8 +691,9 @@ public class MoveGenerator
         } 
         newField = (HashMap<Integer, Byte>)field.clone();
         //Rochade rechtsseitig (kurze Rochade)
-        //König und Turm nicht bewegt, Zwischenfelder frei
-        if(!wasMoved(field.get(key))
+        //König nicht im Schach, König und Turm nicht bewegt, Zwischenfelder frei
+        if(!isCheck(field, colour)
+                && !wasMoved(field.get(key))
                 && field.containsKey(key + 3)
                 && getColour(field.get(key + 3)) == colour
                 && !wasMoved(field.get(key + 3))
@@ -714,8 +715,9 @@ public class MoveGenerator
         
         newField = (HashMap<Integer, Byte>)field.clone();
         //Rochade linksseitig (lange Rochade)
-        //König und Turm nicht bewegt, Zwischenfelder frei
-        if(!wasMoved(field.get(key))
+        //König nicht im Schach, König und Turm nicht bewegt, Zwischenfelder frei
+        if(!isCheck(field, colour)
+                && !wasMoved(field.get(key))
                 && field.containsKey(key - 4)
                 && getColour(field.get(key - 4)) == colour
                 && !wasMoved(field.get(key - 4))
@@ -1061,46 +1063,52 @@ public class MoveGenerator
     
     public static void main(String[] args){
         HashMap<Integer, Byte> test = new HashMap<Integer, Byte>();
-        test.put(1, (byte)2);
-        test.put(2, (byte)3);
-        test.put(3, (byte)4);
-        test.put(4, (byte)5);
-        test.put(5, (byte)6);
-        test.put(6, (byte)4);
-        test.put(7, (byte)3);
-        test.put(8, (byte)2);
-        test.put(9, (byte)1);
-        test.put(10, (byte)1);
-        test.put(11, (byte)1);
-        test.put(12, (byte)1);
-        test.put(13, (byte)1);
-        test.put(14, (byte)1);
-        test.put(15, (byte)1);
-        test.put(16, (byte)1);
+//        test.put(1, (byte)2); //linker, weißer Turm
+        test.put(10, (byte)19); //linker, weißer Springer
+//        test.put(3, (byte)4); //linker, weißer Läufer
+//        test.put(4, (byte)5); //weiße Dame
+        test.put(4, (byte)22); //weißer König
+        test.put(6, (byte)4); //rechter, weißer Läufer
+//        test.put(7, (byte)3); //rechter, weißer Springer
+//        test.put(8, (byte)2); //rechter, weißer Turm
+        test.put(25, (byte)17); //weißer Bauer
+        test.put(34, (byte)17); //weißer Bauer
+//        test.put(11, (byte)1); //weißer Bauer
+//        test.put(12, (byte)1); //weißer Bauer
+//        test.put(13, (byte)1); //weißer Bauer
+//        test.put(14, (byte)1); //weißer Bauer
+//        test.put(15, (byte)1); //weißer Bauer
+//        test.put(16, (byte)1); //weißer Bauer
         
-        test.put(49, (byte)9);
-        test.put(50, (byte)9);
-        test.put(51, (byte)9);
-        test.put(52, (byte)9);
-        test.put(53, (byte)9);
-        test.put(54, (byte)9);
-        test.put(55, (byte)9);
-        test.put(56, (byte)9);
-        test.put(57, (byte)10);
-        test.put(58, (byte)11);
-        test.put(59, (byte)12);
-        test.put(60, (byte)13);
-        test.put(61, (byte)14);
-        test.put(62, (byte)12);
-        test.put(63, (byte)11);
-        test.put(64, (byte)10);
+//        test.put(49, (byte)9); //schwarzer Bauer
+//        test.put(50, (byte)9); //schwarzer Bauer
+        test.put(43, (byte)25); //schwarzer Bauer
+        test.put(44, (byte)25); //schwarzer Bauer
+//        test.put(53, (byte)9); //schwarzer Bauer
+        test.put(46, (byte)25); //schwarzer Bauer
+//        test.put(55, (byte)9); //schwarzer Bauer
+//        test.put(56, (byte)9); //schwarzer Bauer
+//        test.put(57, (byte)10); //rechter, schwarzer Turm
+//        test.put(58, (byte)11); //rechter, schwarzer Springer
+//        test.put(59, (byte)12); //rechter, schwarzer Läufer
+        test.put(57, (byte)29); //schwarze Dame
+        test.put(53, (byte)30); //schwarzer König
+        test.put(32, (byte)28); //linker, schwarzer Läufer
+        test.put(55, (byte)27); //linker, schwarzer Springer
+//        test.put(64, (byte)10); //linker, schwarzer Turm
         MoveGenerator toast = new MoveGenerator();
         //Grafische Darstellung Schachfeld für <Flo
         TextChessField s = new TextChessField();
         System.out.println(s.fieldToString(test));
         LinkedList<HashMap<Integer, Byte>> xyz = new LinkedList<HashMap<Integer, Byte>>();
         xyz = toast.generateMoves(test, (byte)1);
-        System.out.println(xyz.size());
+        int x = xyz.size();
+        System.out.println(x);
+        
+        for(int i = 1; i <= x; i++){
+            System.out.println("\n --------- \n");
+            System.out.println(s.fieldToString(xyz.poll()));
+        }
         
     }
 

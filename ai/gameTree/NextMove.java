@@ -107,6 +107,8 @@ public class NextMove {
         beforeField = field.getCurrentFieldAsHashMapWithBytes();
         afterField = liste.get(help);
         
+        beforeField.
+        
         //TODO Blödsinn!
         move = new Move((byte)(player?0:1), 0, 0);
         for (int j = 0; j < beforeField.size(); j++) {
