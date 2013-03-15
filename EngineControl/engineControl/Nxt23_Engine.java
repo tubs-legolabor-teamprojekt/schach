@@ -106,15 +106,15 @@ public class Nxt23_Engine {
         
         switch(which_move) {
             case 1: 
-                System.out.println("Bewege mich zur 'Von-Reihe': "+coordinate);
+                System.out.println("Bewege mich zur Reihe: "+coordinate);
                 t1.rowFrom = coordinate+t1.FIELDS_FROM_START;            
                 if(t1.moveToRowFrom()) t1.con.sendInt(1);
                 break;
-            case 2:
+            /*case 2:
                 System.out.println("Bewege mich zur 'Zu-Reihe': "+coordinate);
                 t1.rowTo = coordinate+t1.FIELDS_FROM_START;            
                 if(t1.moveToRowTo()) t1.con.sendInt(1);
-                break;
+                break;*/
             case 3:
                 System.out.println("Senke Greifarm");
                 if(t1.moveDown()) t1.con.sendInt(1);
