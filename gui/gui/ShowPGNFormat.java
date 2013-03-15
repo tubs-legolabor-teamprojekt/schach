@@ -36,7 +36,7 @@ public class ShowPGNFormat extends JFrame implements ActionListener
 
     private JTextArea text = new JTextArea(20, 30);
 
-    private JButton okButton = new JButton("Ok");
+    private JButton okButton = new JButton("OK");
 
     /**
      * Privater Konstruktor, der nur ein Objekt der Klasse ShowPGNFormat
@@ -79,7 +79,7 @@ public class ShowPGNFormat extends JFrame implements ActionListener
         this.setContentPane(new BackgroundPanel());
         this.setLayout(new BorderLayout());
 
-        this.text.setBorder(new EmptyBorder(5, 10, 0, 0));
+        this.text.setBorder(new EmptyBorder(5, 10, 0, 10));
         this.text.setLineWrap(true);
         this.text.setEditable(false);
         this.text.setEnabled(false);
@@ -102,10 +102,8 @@ public class ShowPGNFormat extends JFrame implements ActionListener
                 GameCoordinator.getInstance(false).getAllMoves()));
         this.text.setCaretPosition(0);
         JScrollPane scrollPane = new JScrollPane(this.text);
-        scrollPane
-                .setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        scrollPane
-                .setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 
         this.forText.setOpaque(false);
         scrollPane.setOpaque(false);

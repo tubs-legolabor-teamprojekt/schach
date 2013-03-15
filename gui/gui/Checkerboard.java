@@ -35,6 +35,7 @@ public class Checkerboard extends JPanel
 {
 
     private static Checkerboard instance = null;
+    private MoveGUI moveGui = new MoveGUI();
 
     private JTable grid = null;
 
@@ -279,17 +280,23 @@ public class Checkerboard extends JPanel
         Gui.getInstance().validate();
 
         if (this.move.isCheck() && this.move.isCheckMate()) {
-            javax.swing.JOptionPane.showMessageDialog(this,
-                    "Schachmatt! Spiel vorbei!", "Schachmatt",
-                    JOptionPane.INFORMATION_MESSAGE);
             // wer gewonnen hat
+            String winner;
             if (this.figure.getColor() == ChessfigureConstants.BLACK) {
                 this.blackWon = true;
+                winner = "Schwarz";
             } else {
                 this.blackWon = false;
+                winner = "Weiß";
             }
+            
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    winner + " hat gewonnen!", "Schachmatt",
+                    JOptionPane.INFORMATION_MESSAGE);
             FinishedGameGUI.getInstance();
         }
+        
+        // Abfrage ob Remi --> Dialog
 
         if (this.move.isCheck() && !this.move.isCheckMate()) {
             javax.swing.JOptionPane.showMessageDialog(this, "Schach!",
@@ -381,20 +388,33 @@ public class Checkerboard extends JPanel
     }
 
     /**
-     * Methode, die ausgeführt wird, wenn die Kamera den Zug nicht richtig
-     * erkennen konnte. Der Benutzer kann entweder Über klicken am Schachfeld
-     * einen normalen Zug auswählen oder einfach die entsprechende Rochade
-     * auswählen.
+     * Methode wird ausgeführt, wenn die Kamera den Zug nicht richtig
+     * erkennen konnte. Ruft die Methode originalManualMove() auf.
      * 
-     * @return ArrayList mit den Feldnummern
+     * @return ArrayList al, entweder mit zwei oder vier Werten
      */
     public ArrayList<Integer> manualMove() {
-        System.out.println("manualmoveanfang");
+        ArrayList<Integer> al = new ArrayList<Integer>();
+        while(al.size() == 0) {
+            al = this.originalManualMove(); 
+        }
+        return al;
+    }
+    
+    /**
+     * Der Benutzer kann entweder Über klicken am Schachfeld einen normalen Zug 
+     * oder einfach die entsprechende Rochade auswählen.
+     * 
+     * @return ArrayList mit den Feldnummern, entweder zwei für einen normalen Zug
+     * oder vier für die entsprechende Rochade
+     */
+    public ArrayList<Integer> originalManualMove() {
         this.manualMove = true;
         this.mmIsReady = false;
         
-        MoveGUI.getInstance().resetMoveGui();
-        MoveGUI.getInstance();
+        // damit Startansicht 
+        this.moveGui = new MoveGUI();
+        this.moveGui.startWindow();
         
         while (!this.mmIsReady) {
             try {
@@ -404,16 +424,15 @@ public class Checkerboard extends JPanel
             }
         }
         
-        if (MoveGUI.getInstance().isNormalButtonPressed()) {
-            // Feldnummern von den angeklickten Feldern
-            System.out.println("normalbuttonispressed");
-            return this.a;
+        if (this.moveGui.isNormalButtonPressed()) {
+            // Feldnummern von den angeklickten Feldern 
+            return this.a; 
         } else {
             // darf weiß überhaupt eine Rochade ausführen?
             if (this.figure.getColor() == ChessfigureConstants.WHITE &&
                     Field.getInstance().isCastlingWhitePossible()) {
                 // welche Rochadenart
-                if (MoveGUI.getInstance().isKingsideCastling()) {
+                if (this.moveGui.isKingsideCastling()) {
                     // kurze Rochade
                     // a = 5 7 8 6
                     this.a.clear();
@@ -436,10 +455,10 @@ public class Checkerboard extends JPanel
             } else {
                 javax.swing.JOptionPane.showMessageDialog(this, "Keine Rochade möglich, bitte erneute Zugeingabe!",
                         "Rochade", JOptionPane.INFORMATION_MESSAGE);
-                this.manualMove();
+                this.a.clear();
+                return this.a;
             }
         }
-        return new ArrayList<Integer>();
     }
 
     /**

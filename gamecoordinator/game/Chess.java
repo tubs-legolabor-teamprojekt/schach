@@ -32,14 +32,14 @@ public class Chess
     /**
      * Roboter-Steuerung
      */
-    private MovementControl movementControl = MovementControl.getInstance();
+    private MovementControl movementControl;
 
     /**
      * Liste an Zuegen, falls ein Spiel simuliert werden soll.
      */
     private List<Move> simulatedMoves = new ArrayList<Move>();
     
-    private ImageLoader im = new ImageLoader();
+    private ImageLoader im;
     private boolean isImInit = false;
     
     /**
