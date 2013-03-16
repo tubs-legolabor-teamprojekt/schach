@@ -2,8 +2,8 @@ package useful;
 
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.ListIterator;
 
-import components.Figure;
 import util.ChessfigureConstants;
 
 /*
@@ -1097,10 +1097,17 @@ public class MoveGenerator
         MoveGenerator toast = new MoveGenerator();
         //Grafische Darstellung Schachfeld für <Flo
         TextChessField s = new TextChessField();
-        System.out.println(s.fieldToString(test));
+//        System.out.println(s.fieldToString(test));
         LinkedList<HashMap<Integer, Byte>> xyz = new LinkedList<HashMap<Integer, Byte>>();
         xyz = toast.generateMoves(test, (byte)1);
         System.out.println(xyz.size());
+        
+        ListIterator<HashMap<Integer, Byte>> itr = xyz.listIterator();
+        while(itr.hasNext())
+        {
+          System.out.println(s.fieldToString(itr.next()));
+          System.out.println("\n\n-----\n\n");
+        }
         
     }
 

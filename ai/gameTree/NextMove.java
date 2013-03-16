@@ -4,7 +4,13 @@ import game.Move;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import components.Figure;
+
 import useful.MoveGenerator;
 import util.ChessfigureConstants;
 import alphaBeta.AlphaBetaSearch;
@@ -32,7 +38,7 @@ public class NextMove {
     // Array zur Bewertung der einzelnen Einträge aus der Liste    
     private ArrayList<Integer> rate = new ArrayList<Integer>();
     
-    // HashMap zur Rückgabe
+    // HashMaps zum Vergleich und zur Rückgabe
     private HashMap<Integer, Byte> beforeField;
     private HashMap<Integer, Byte> afterField;
     
@@ -107,7 +113,28 @@ public class NextMove {
         beforeField = field.getCurrentFieldAsHashMapWithBytes();
         afterField = liste.get(help);
         
-        beforeField.
+         
+        Iterator<Entry<Integer, Byte>> it = this.afterField.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry<Integer, Byte> entry2 = (Map.Entry<Integer, Byte>)it.next();
+            Integer afterField = entry2.getKey();
+            Byte figureByte2 = entry2.getValue();
+            while (it.hasNext()) {
+                Map.Entry<Integer, Byte> entry1 = (Map.Entry<Integer, Byte>)it.next();
+                Integer beforeField = entry1.getKey();
+                Byte figureByte1 = entry1.getValue();
+                
+            }
+        }
+        
+//        Schlüssel-Werte Paare holen:
+//            Iterator i = mymap.entrySet().iterator();
+//            und dann immer
+//            Map.Entry e = (Map.Entry) i.next();
+//            Schlüssel s = (Schlüssel)s.getKey();
+//            Wert w = (Wert)e.getValue();
+        
+        
         
         //TODO Blödsinn!
         move = new Move((byte)(player?0:1), 0, 0);
