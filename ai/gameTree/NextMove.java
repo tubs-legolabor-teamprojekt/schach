@@ -8,11 +8,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import components.Figure;
-
 import useful.MoveGenerator;
-import util.ChessfigureConstants;
 import alphaBeta.AlphaBetaSearch;
 
 /**
@@ -63,44 +59,29 @@ public class NextMove {
      * @param player
      * @return
      */
-    public game.Move getNext(components.Field field, boolean player){
-        
-        // Move-Objekt, das zurückgegeben werden soll.
-        Move move;
+    public game.Move getNext(components.Field field, byte player){
         
         /*
-         * -Field-Objekt entpacken
+         * -Field-Objekt entpacken und in map speichern
          * -Liste mit Kind-Situationen erstellen
          * -Jede Situation einzeln bewerten
          * -Beste Situation in Zug umwandeln und in "move" speichern
          */
         
         // HashMap<Integer, Byte> zusammenbauen
-        HashMap<Integer, Byte> map = new HashMap<Integer, Byte>();
         beforeField = field.getCurrentFieldAsHashMapWithBytes();
-        
-//        byte value;
-//        for (int i = 1; i <= 64; i++) {
-//            value = 0;
-//            if(field.getCurrentFieldAsHashMap().containsKey(i)){
-//                value = field.get
-//                value = field.getCurrentFieldAsHashMap().get(i).getFigureType();
-//                value += (field.getCurrentFieldAsHashMap().get(i).getColor())*8; //Color=1 für Schwarz??
-//                value += (field.getCurrentFieldAsHashMap().get(i).isMoved()) ? 16 : 0; 
-//                map.put(i, value);
-//            }
-//        }
+
+        // Erstellen aller Kindsituationen
+        liste = moveGen.generateMoves(beforeField, player);
         
         // Bewertung der Kindgenerationen aus der Liste
-        liste = moveGen.generateMoves(map, (byte) (player==true?1:0) );
-        
-        // Bewertung der Kindgenerationen aus der Liste
-        for (int i = 1; i < liste.size(); i++) {            
-            rate.add(search.max(liste.get(i), 5, player?0:1, -100, 100));            
+        for (int i = 1; i < liste.size(); i++) {
+            //TODO Fehler
+            rate.add(search.max(liste.get(i), 5, player, -100, 100));            
         }
         
         // Stelle der am besten bewerteten Situation in der ArrayList
-        // Hier unter Umständen eine Auswahl integrieren
+        //TODO Hier unter Umständen eine Auswahl integrieren
         int help = rate.isEmpty() ? 0 : rate.get(0);
         for (int i = 0; i < rate.size(); i++) {
             if(rate.get(i)> help){
@@ -108,49 +89,109 @@ public class NextMove {
             }
         }
         
-        // Zug aus Feldern extrahieren
-        //TODO Rochade muss noch eingebaut werden
-        beforeField = field.getCurrentFieldAsHashMapWithBytes();
-        afterField = liste.get(help);
+        return HashMapToMove(beforeField, afterField, player);
+    }
+    
+    private Move HashMapToMove(HashMap<Integer, Byte> map1, HashMap<Integer, Byte> map2, byte color){
+        Iterator<Entry<Integer, Byte>> it1 = map1.entrySet().iterator();
+        Iterator<Entry<Integer, Byte>> it2 = map2.entrySet().iterator();
+        Integer[] int1 = new Integer[map1.size()];
+        Byte[] byte1 = new Byte[map1.size()];
+        Integer[] int2 = new Integer[map2.size()];
+        Byte[] byte2 = new Byte[map2.size()];
         
-         
-        Iterator<Entry<Integer, Byte>> it = this.afterField.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry<Integer, Byte> entry2 = (Map.Entry<Integer, Byte>)it.next();
-            Integer afterField = entry2.getKey();
-            Byte figureByte2 = entry2.getValue();
-            while (it.hasNext()) {
-                Map.Entry<Integer, Byte> entry1 = (Map.Entry<Integer, Byte>)it.next();
-                Integer beforeField = entry1.getKey();
-                Byte figureByte1 = entry1.getValue();
-                
+        /*
+         * Variablen zur Erstellung des Move-Objektes
+         */
+        int from = 0, to = 0;
+        byte colorOfPlayer = color;
+        boolean captured = false;
+        //TODO Rochade
+        
+        int itCount = 0;
+        while (it1.hasNext()) {
+            Map.Entry<Integer, Byte> entry1 = (Map.Entry<Integer, Byte>)it1.next();
+            int1[itCount] = entry1.getKey();
+            byte1[itCount] = entry1.getValue();
+            itCount++;            
+        }// while
+        itCount = 0;
+        while (it2.hasNext()) {
+            Map.Entry<Integer, Byte> entry2 = (Map.Entry<Integer, Byte>)it2.next();
+            int2[itCount] = entry2.getKey();
+            byte2[itCount] = entry2.getValue();
+            itCount++;            
+        }// while
+        
+        /*
+         *  Auswertung der beiden Schachfelder, Unterscheidung nach "einfacher Zug" und "Schlag"
+         */        
+        if(int1.length == int2.length){ 
+            /*
+             *  Beide Felder gleiche Länge --> einfacher Zug, kein Schlag
+             *  
+             *  iff key_1 in int1 und nicht key_1 in int2 folgt key_1 ist "from"
+             *  iff key_2 in int2 und nicht key_2 in int1 folgt key_2 ist "to" 
+             */
+            //TODO Bauernwumwandlung
+            captured = false;
+            boolean contains= false;
+            for( int i = 0 ; i < int1.length ; i++ ){
+                for( int j = 0 ; j < int2.length ; j++){
+                    if(int1[i]== int2[j]){
+                        contains=true;
+                    }
+                }
+                if(!contains){
+                    from=int1[i];
+                }
+                contains = false;
+            }
+            contains = false;
+            for( int j = 0 ; j < int2.length ; j++ ){
+                for( int i = 0 ; i < int1.length ; i++){
+                    if(int1[i]== int2[j]){
+                        contains=true;
+                    }
+                }
+                if(!contains){
+                    to=int2[j];                    
+                }
+                contains = false;
+            }
+            
+        }else{ 
+            /*
+             *  Beide Felder unterschiedliche Länge --> Zug und Schlag
+             */
+            captured = true;
+            boolean contains = false;
+            for( int i = 0 ; i < int1.length ; i++ ){
+                for( int j = 0 ; j < int2.length ; j++){
+                    if(int1[i]== int2[j]){
+                        contains = true;
+                    }
+                }
+                if(!contains){
+                    from = int1[i];
+                }
+                contains=false;
+            }    
+            for( int j = 0 ; j < int2.length ; j++ ){
+                for( int i = 0 ; i < int1.length ; i++ ){
+                    if( ( int1[i] == int2[j] ) && ( byte1[i].equals(byte2[j]) == false ) ){
+                        to=int1[i];
+                    }
+                }
+                contains=false;
             }
         }
+        System.out.println("from: "+from);
+        System.out.println("to: "+to);
+        System.out.println("captured: "+captured);
+        return new Move(colorOfPlayer, from, to, captured);
         
-//        Schlüssel-Werte Paare holen:
-//            Iterator i = mymap.entrySet().iterator();
-//            und dann immer
-//            Map.Entry e = (Map.Entry) i.next();
-//            Schlüssel s = (Schlüssel)s.getKey();
-//            Wert w = (Wert)e.getValue();
-        
-        
-        
-        //TODO Blödsinn!
-        move = new Move((byte)(player?0:1), 0, 0);
-        for (int j = 0; j < beforeField.size(); j++) {
-            if(beforeField.containsKey(j) && !afterField.containsKey(j)){
-                // von
-                move.setFieldFrom(j);
-            }else 
-            if(!beforeField.containsKey(j) && afterField.containsKey(j)){
-                // nach
-                move.setFieldTo(j);
-            }
-        }
-        
-        // Rückgabe des Move-Objektes
-        return move;
+
     }
     
 //################################################################################# Getter/Setter
