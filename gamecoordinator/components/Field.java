@@ -303,7 +303,7 @@ public class Field
         while (it.hasNext()) {
             Map.Entry<Integer, Figure> entry = (Map.Entry<Integer, Figure>)it.next();
             Integer field = entry.getKey();
-            Byte figureByte = entry.getValue().getFigureType();
+            Byte figureByte = (byte)(entry.getValue().getFigureType()+(byte)(8*entry.getValue().getColor()));
             map.put(field, figureByte);
         }
         
