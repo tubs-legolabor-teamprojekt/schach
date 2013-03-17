@@ -21,7 +21,7 @@ public class AlphaBetaSearch {
     PrimitivRating rate = new PrimitivRating();
     //PseudoValidMove move = new PseudoValidMove(); //ausgedachte Züge
     MoveGenerator move = new MoveGenerator();
-    public double count = 0;
+    public int count = 0;
     public static final int NUMBER_OF_FIGURES = 20;
 
     /*

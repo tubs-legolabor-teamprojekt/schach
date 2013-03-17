@@ -65,24 +65,23 @@ public class NextMove {
      */
     public game.Move getNext(components.Field field, byte player){
         
-        /*
-         * -Field-Objekt entpacken und in map speichern
-         * -Liste mit Kind-Situationen erstellen
-         * -Jede Situation einzeln bewerten
-         * -Beste Situation in Zug umwandeln und in "move" speichern
-         */
-        
         // HashMap<Integer, Byte> zusammenbauen
         beforeField = field.getCurrentFieldAsHashMapWithBytes();
 
-        // Erstellen aller Kindsituationen
-        liste = moveGen.generateMoves(beforeField, player);
+        doChildSituations(player);    
         
-        // Bewertung der Kindgenerationen aus der Liste
-        for (int i = 1; i < liste.size(); i++) {
-            rate.add(search.max(liste.get(i), 5, player, -100, 100));            
-        }
+        rateChildSituations(player);
         
+        findBestSituationInList();
+        
+        System.out.println(toText.fieldToString(afterField)); //TODO <--------------------------------Ausgabe???
+        return HashMapToMove(beforeField, afterField, player);
+    }
+    
+    /**
+     * Finde Situation im Feld, die am besten bewertet wurde
+     */
+    private void findBestSituationInList(){
         // Stelle der am besten bewerteten Situation in der ArrayList
         int help = rate.isEmpty() ? 0 : rate.get(0);
         for (int i = 0; i < rate.size(); i++) {
@@ -97,10 +96,40 @@ public class NextMove {
                 break;
             }
         }
-        System.out.println(toText.fieldToString(afterField)); //TODO <--------------------------------Ausgabe???
-        return HashMapToMove(beforeField, afterField, player);
+
     }
     
+    /**
+     * Bewerte nacheinander alle in der Liste befindlichen Situationen
+     * @param player
+     */
+    private void rateChildSituations(byte player){
+     // Bewertung der Kindgenerationen aus der Liste
+        for (int i = 0; i < liste.size(); i++) {
+            rate.add(search.max(liste.get(i), 5, player, -100, 100));
+            System.out.printf("%-2d %d\n", i+1 ,rate.get(i));
+            System.out.println(toText.fieldToString(liste.get(i)));
+        }
+    }
+    
+    /**
+     * Fülle die Liste mit allen möglichen Kindsituationen
+     * @param player
+     */
+    private void doChildSituations(byte player){
+     // Erstellen aller Kindsituationen
+        liste = moveGen.generateMoves(beforeField, player);
+        System.out.println(liste.size());
+
+    }
+    
+    /**
+     * Finde aus dem Unterschied zwischen "beforeMap" und afterMap" ein Move-Objekt
+     * @param map1
+     * @param map2
+     * @param color
+     * @return
+     */
     private Move HashMapToMove(HashMap<Integer, Byte> map1, HashMap<Integer, Byte> map2, byte color){
         Iterator<Entry<Integer, Byte>> it1 = map1.entrySet().iterator();
         Iterator<Entry<Integer, Byte>> it2 = map2.entrySet().iterator();
