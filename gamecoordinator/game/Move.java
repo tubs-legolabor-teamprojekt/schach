@@ -224,7 +224,7 @@ public class Move
      * @param pawnPromotion
      *            True: Bauer gewandelt; False: Nicht
      */
-    private void setPawnPromotion(boolean pawnPromotion) {
+    public void setPawnPromotion(boolean pawnPromotion) {
         this.pawnPromotion = pawnPromotion;
     }
 

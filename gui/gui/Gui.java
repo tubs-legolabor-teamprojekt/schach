@@ -12,6 +12,8 @@ import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.TableColumn;
 
+import util.ChessfigureConstants;
+
 import components.Field;
 
 /**
@@ -39,11 +41,6 @@ public class Gui extends JFrame
                         rowData_2 = { { "8" }, { "7" }, { "6" }, { "5" }, { "4" }, { "3" }, { "2" }, { "1" } };
     private JTable  table_bottom = new JTable(rowData_1, columnNames_1),
                     table_left = new JTable(rowData_2, columnNames_2);
-
-    private boolean queen = false, 
-                    bishop = false, 
-                    knight = false,
-                    rook = false;
 
     private boolean startPressed = false;
 
@@ -172,29 +169,6 @@ public class Gui extends JFrame
         this.table_left.setBackground(alphaZero);
         this.table_left.setShowHorizontalLines(false);
         this.table_left.setShowVerticalLines(false);
-    }
-
-    /**
-     * Methode, die eine Instanz der Klasse PawnPromotionGUI aufruft.
-     */
-    public void pawnPromotionGUI() {
-        PawnPromotionGUI.getInstance();
-    }
-
-    /**
-     * Methode, die die Informationen über die getroffene Spielfigurenwahl des
-     * Spielers enthält, wenn der Bauer ausgewechselt werden durfte.
-     * @param queen
-     * @param bishop
-     * @param knight
-     * @param rook
-     */
-    public void pawnPromotionInformation(boolean queen, boolean bishop,
-            boolean knight, boolean rook) {
-        this.queen = queen;
-        this.bishop = bishop;
-        this.knight = knight;
-        this.rook = rook;
     }
 
     /**

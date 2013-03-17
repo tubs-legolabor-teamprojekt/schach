@@ -86,6 +86,8 @@ public class PawnPromotionGUI extends JFrame implements ActionListener
      * Methode, die das Layout des Fensters erstellt.
      */
     public void makeLayout() {
+        this.toFront();
+        
         this.setContentPane(new BackgroundPanel());
         this.setLayout(new BorderLayout());
 
@@ -195,8 +197,9 @@ public class PawnPromotionGUI extends JFrame implements ActionListener
 
         // wenn OK geklickt wird, werden die Informationen weitergegeben
         if (e.getActionCommand() == "button_ok") {
-            Gui.getInstance().pawnPromotionInformation(this.queen.isSelected(),
+            Checkerboard.getInstance().pawnPromotionInformation(this.queen.isSelected(),
                     this.bishop.isSelected(), this.knight.isSelected(),this.rook.isSelected());
+            Checkerboard.getInstance().setPPIsReady(true);
             // Fenster schließen
             this.setVisible(false);
             this.dispose();

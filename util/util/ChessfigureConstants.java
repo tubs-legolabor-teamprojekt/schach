@@ -126,7 +126,7 @@ public final class ChessfigureConstants
     public static byte getFigureTypeFromLetter(char c)
     {
         byte by = -1;
-        
+        System.out.println("MIMIMI " + c);
         if (c == ' ')
             by = PAWN;
         else if (c == ROOK_LETTER)

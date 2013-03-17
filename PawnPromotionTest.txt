@@ -1,0 +1,15 @@
+14. You: a8 - a7
+14. Comp: h7 - h6
+13. You: c2 - c3
+12. Comp: c6 - d6
+11. You:    a7  - a8
+10. Comp: d6  - c6
+9. You:    a6  - a7
+8. Comp: c6  - d6
+7. You:    a5  - a6
+6. Comp: a6  - c6
+5. You:    b4  - a5
+4. Comp: a8  - a6
+3. You:    b2  - b4
+2. Comp: a7  - a5
+1. You:    a2  - a4

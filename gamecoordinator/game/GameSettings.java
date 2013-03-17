@@ -25,7 +25,7 @@ public class GameSettings
     /**
      * Dateiname zur Textdatei, die die Züge eines simulierten Spiels enthält
      */
-    public static final String simulatedGameMoves = "TabeaSchach.txt";
+    public static final String simulatedGameMoves = "PawnPromotionTest.txt";
     
     /**
      * Zeit zwischen den simulierten Zügen

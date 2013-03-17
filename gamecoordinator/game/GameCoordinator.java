@@ -1,6 +1,7 @@
 package game;
 
 import engineControl.MovementControl;
+import gui.Checkerboard;
 import gui.Gui;
 
 import java.util.ArrayList;
@@ -10,6 +11,12 @@ import rules.Rules;
 import util.ChessfigureConstants;
 
 import components.Field;
+import components.Figure;
+import components.FigureBishop;
+import components.FigureKing;
+import components.FigureKnight;
+import components.FigureQueen;
+import components.FigureRook;
 
 /**
  * Die "Hauptklasse" des Schachroboters, hier wird das Spiel gestartet.
@@ -148,17 +155,44 @@ public class GameCoordinator
             // Wuerde Field zuerst aktualisiert werden, koennte die Gui nicht
             // mehr auf die zu versetzende Figur zugreifen!
             this.gui.getCheckerboard().setCheckerboardInformation(this.currentMove);
+            
+            // Bauer umgewandelt in...
+            Figure newFigure = null;
+            if (this.currentMove.isPawnPromotion()) {
+                while (Checkerboard.getInstance().getPawnPromotionInformation() == 'A') {
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                
+                this.currentMove.setPawnPromotedTo(Checkerboard.getInstance().getPawnPromotionInformation());
+                
+                if (this.currentMove.getPawnPromotedTo() == ChessfigureConstants.BISHOP_LETTER) {
+                    newFigure = new FigureBishop(this.currentMove.getColorOfPlayer());
+                } else if (this.currentMove.getPawnPromotedTo() == ChessfigureConstants.KNIGHT_LETTER) {
+                    newFigure = new FigureKnight(this.currentMove.getColorOfPlayer());
+                } else if (this.currentMove.getPawnPromotedTo() == ChessfigureConstants.QUEEN_LETTER) {
+                    newFigure = new FigureQueen(this.currentMove.getColorOfPlayer());
+                } else if (this.currentMove.getPawnPromotedTo() == ChessfigureConstants.ROOK_LETTER) {
+                    newFigure = new FigureRook(this.currentMove.getColorOfPlayer());
+                }
+                
+            }
     
             // Figur soll Zug durchfuehren
             this.field.moveFigure(this.currentMove.getFieldFrom(),
                     this.currentMove.getFieldTo());
+            
+            if (this.currentMove.isPawnPromotion()) {
+                this.field.removeFigureAt(this.currentMove.getFieldTo());
+                this.field.putFigureAt(this.currentMove.getFieldTo(), newFigure);
+            }
         }
 
         // War es der letzte Zug?
         this.lastMove = this.currentMove.isCheckMate();
-
-        // TODO Wurde inzwischen die GUI beendet? => Spiel ist beendet
-        
     }
 
     /**

@@ -22,7 +22,10 @@ import util.ChessfigureConstants;
 
 import components.Field;
 import components.Figure;
+import components.FigureBishop;
 import components.FigureKing;
+import components.FigureKnight;
+import components.FigureQueen;
 import components.FigureRook;
 
 /**
@@ -51,7 +54,12 @@ public class Checkerboard extends JPanel
 
     private boolean blackWon = false, 
                     manualMove = false, 
-                    mmIsReady = false;
+                    mmIsReady = false,
+                    ppIsReady = false,
+                    queen = false, 
+                    bishop = false, 
+                    knight = false,
+                    rook = false;
 
     private MyMouseListener mml;
 
@@ -61,6 +69,8 @@ public class Checkerboard extends JPanel
                         icon_king_white = new FigureKing(ChessfigureConstants.WHITE).getIcon(),
                         icon_rook_black = new FigureRook(ChessfigureConstants.BLACK).getIcon(),
                         icon_rook_white = new FigureRook(ChessfigureConstants.WHITE).getIcon();
+    
+    private char newFigure = 'A';
 
     /**
      * Privater Konstruktor, der nur ein neues Objekt der Klasse erstellt. Ruft
@@ -209,10 +219,6 @@ public class Checkerboard extends JPanel
     public void setCheckerboardInformation(Move move) {
 
         this.move = move;
-        // wenn der Bauer umgewandelt werden soll
-        if (this.move.isPawnPromotion()) {
-            Gui.getInstance().pawnPromotionGUI();
-        }
 
         // Umrechnung der FieldFrom-Nummer
         this.fieldFrom = this.move.getFieldFrom();
@@ -229,7 +235,6 @@ public class Checkerboard extends JPanel
 
         if (!this.move.isKingSideCastling() && !this.move.isQueenSideCastling()) {        
             // ganz normaler Zug
-            System.out.println("normal");
             // erst Zeile
             for (int i = 0; i < 8; i++) {
                 if (i == this.fieldFromRow) {
@@ -275,6 +280,21 @@ public class Checkerboard extends JPanel
             // lange Rochade
             this.setQueenSideCastling(this.move.getPlayerColor() == ChessfigureConstants.BLACK);
         }
+        
+        // wenn der Bauer umgewandelt werden soll
+        if (this.move.isPawnPromotion()) {
+            
+            // TODO weiß oder schwarz? benötigt?
+            this.ppIsReady = false;
+            this.pawnPromotionGUI();
+            while (!this.ppIsReady) {
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
 
         Gui.getInstance().repaint();
         Gui.getInstance().validate();
@@ -303,6 +323,60 @@ public class Checkerboard extends JPanel
                     "Schach", JOptionPane.INFORMATION_MESSAGE);
         }
 
+    }
+    
+    /**
+     * Methode, die eine Instanz der Klasse PawnPromotionGUI aufruft.
+     */
+    public void pawnPromotionGUI() {
+        PawnPromotionGUI.getInstance();
+    }
+
+    /**
+     * Methode, die die Informationen über die getroffene Spielfigurenwahl des
+     * Spielers enthält, wenn der Bauer ausgewechselt werden durfte.
+     * @param queen
+     * @param bishop
+     * @param knight
+     * @param rook
+     */
+    public void pawnPromotionInformation(boolean queen, boolean bishop,
+            boolean knight, boolean rook) {
+        this.queen = queen;
+        this.bishop = bishop;
+        this.knight = knight;
+        this.rook = rook;
+        
+        // Umrechnung der FieldTo-Nummer
+        int fieldTo = this.move.getFieldTo();
+        int fieldToColumn = fieldNumberConverterColumn(fieldTo);
+        int fieldToRow = fieldNumberConverterRow(fieldTo);
+        CheckerboardPanel cbp = (CheckerboardPanel) this.grid
+                .getValueAt(fieldToRow, fieldToColumn);
+        // Bauern weg
+        cbp.label.setVisible(false);
+        
+        if (this.queen) {
+            this.newFigure = ChessfigureConstants.QUEEN_LETTER;
+            cbp.showIcon(new FigureQueen(ChessfigureConstants.WHITE));
+        } else if (this.bishop) {
+            this.newFigure = ChessfigureConstants.BISHOP_LETTER;
+            cbp.showIcon(new FigureBishop(ChessfigureConstants.WHITE));
+        } else if (this.knight) {
+            this.newFigure = ChessfigureConstants.KNIGHT_LETTER;
+            cbp.showIcon(new FigureKnight(ChessfigureConstants.WHITE));
+        } else if (this.rook) {
+            this.newFigure = ChessfigureConstants.ROOK_LETTER;
+            cbp.showIcon(new FigureRook(ChessfigureConstants.WHITE));
+        }
+        
+        Gui.getInstance().repaint();
+        Gui.getInstance().validate();
+    }
+    
+    public char getPawnPromotionInformation() {
+        System.out.println("1.: " + this.newFigure);
+        return this.newFigure;
     }
     
     public void setKingSideCastling(boolean black)
@@ -468,6 +542,10 @@ public class Checkerboard extends JPanel
      */
     public void setMmIsReady(boolean mmIsReady) {
         this.mmIsReady = mmIsReady;
+    }
+    
+    public void setPPIsReady(boolean ppIsReady) {
+        this.ppIsReady = ppIsReady;
     }
 
     /**
