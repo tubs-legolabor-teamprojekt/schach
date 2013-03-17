@@ -20,6 +20,8 @@ public class TestingNextMove {
         
         Move move = moveTo.getNext(field, (byte)0);
         System.out.println(move.getFieldFrom()+" "+move.getFieldTo()+" "+move.getColorOfPlayer());
+        
+        
 
     }
 

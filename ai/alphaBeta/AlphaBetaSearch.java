@@ -87,7 +87,7 @@ public class AlphaBetaSearch {
         
 
         while (!liste.isEmpty()) {
-            int value = max((ChessField) liste.pollFirst(), depth - 1, player, alpha, minValue);
+            int value = max(/*(ChessField)*/ liste.pollFirst(), depth - 1, player, alpha, minValue);
             if (value < minValue) {
                 minValue = value;
                 if (minValue <= alpha) {
@@ -111,7 +111,7 @@ public class AlphaBetaSearch {
         LinkedList<HashMap<Integer, Byte>> liste = move.generateMoves(situation, ChessfigureConstants.WHITE);
 
         while (!liste.isEmpty()) {
-            int value = min((ChessField) liste.pollFirst(), depth - 1, player, -beta, -maxValue);
+            int value = min(/*(ChessField)*/ liste.pollFirst(), depth - 1, player, -beta, -maxValue);
             if (value > maxValue) {
                 maxValue = value;
                 if (maxValue >= beta) {

@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Map.Entry;
 import useful.MoveGenerator;
+import useful.TextChessField;
 import alphaBeta.AlphaBetaSearch;
 
 /**
@@ -37,6 +38,9 @@ public class NextMove {
     // HashMaps zum Vergleich und zur Rückgabe
     private HashMap<Integer, Byte> beforeField;
     private HashMap<Integer, Byte> afterField;
+    
+    // Zur Ausgabe, falls gewollt
+    private TextChessField toText = new TextChessField();
     
 //################################################################################# Konstruktor
     
@@ -76,19 +80,24 @@ public class NextMove {
         
         // Bewertung der Kindgenerationen aus der Liste
         for (int i = 1; i < liste.size(); i++) {
-            //TODO Fehler
             rate.add(search.max(liste.get(i), 5, player, -100, 100));            
         }
         
         // Stelle der am besten bewerteten Situation in der ArrayList
-        //TODO Hier unter Umständen eine Auswahl integrieren
         int help = rate.isEmpty() ? 0 : rate.get(0);
         for (int i = 0; i < rate.size(); i++) {
             if(rate.get(i)> help){
                 help=i;
             }
         }
-        
+        for( int i = 0 ; i < rate.size() ; i++){
+            if(rate.get(i)== help){
+                afterField = liste.get(i);
+                //TODO auswahl durch Zufall?
+                break;
+            }
+        }
+        System.out.println(toText.fieldToString(afterField)); //TODO <--------------------------------Ausgabe???
         return HashMapToMove(beforeField, afterField, player);
     }
     
@@ -186,9 +195,6 @@ public class NextMove {
                 contains=false;
             }
         }
-        System.out.println("from: "+from);
-        System.out.println("to: "+to);
-        System.out.println("captured: "+captured);
         return new Move(colorOfPlayer, from, to, captured);
         
 
