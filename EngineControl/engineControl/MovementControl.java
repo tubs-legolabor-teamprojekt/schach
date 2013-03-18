@@ -1,6 +1,7 @@
 package engineControl;
 
 import game.Move;
+import gui.Gui;
 
 /**
  * Die Klasse MovementControl ist für die Bewegung des Roboters zuständig
@@ -52,7 +53,7 @@ public class MovementControl {
         
         //Prüfe ob eine Verbindung vorhanden ist
         if(this.con_Nxt23.getConnectionInformation() == null || this.con_Nxt25.getConnectionInformation() == null) {
-            System.out.println("Es konnte keine Verbindung zu beiden NXT's hergestellt werden!");
+            Gui.getInstance().showWarning("Es konnte keine Verbindung zu beiden NXT's hergestellt werden!");
             System.exit(0);
         }
         else  {
