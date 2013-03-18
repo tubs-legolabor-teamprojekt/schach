@@ -1,5 +1,6 @@
 package game;
 
+import gameTree.NextMove;
 import gui.Checkerboard;
 import gui.Gui;
 import gui.StartWindow;
@@ -88,19 +89,14 @@ public class Chess
             if (GameSettings.currentGameType ==  GameSettings.GameType.PlayerVsComputer) {
              // Spieltyp: Spieler gegen Computer
                 if (currentPlayer == ChessfigureConstants.WHITE) {
+                    // Spieler
                     move = this.getMoveFromCamera(currentPlayer);
-                    moveCounter++;
                 } else if (currentPlayer == ChessfigureConstants.BLACK) {
-                    //TODO Züge ermitteln, bisher noch simulierte Züge
-                    // Simulierten Zug holen
-                    Move newMove = this.simulatedMoves.get(moveCounter);
-                    moveCounter++;
-                    move = newMove;
-                    move = additionalInformationForMove(currentPlayer, move);
-                    if (moveCounter >= this.simulatedMoves.size()) {
-                        move.setCheckMate(true);
-                    }
+                    // KI
+                    NextMove moveTo = new NextMove();
+                    move = moveTo.getNext(Field.getInstance(), currentPlayer);
                 }
+                moveCounter++;
             } else {
                 // Spieltyp: Fehlerhafte Angabe
                 System.out.println("Fehlerhafte Spieltyp!");
