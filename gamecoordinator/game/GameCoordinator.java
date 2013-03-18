@@ -52,7 +52,7 @@ public class GameCoordinator
     /**
      * Roboter-Bewegung
      */
-    private MovementControl movementControl = MovementControl.getInstance();
+    private MovementControl movementControl = null;
 
     /**
      * Ist der aktuelle Zug der letzte?
@@ -136,6 +136,10 @@ public class GameCoordinator
             if (this.currentMove.isCaptured()) {
                 // Geschmissene Figur vom Feld entfernen
                 this.field.removeFigureAt(this.currentMove.getFieldTo());
+            }
+            
+            if (GameSettings.currentGameType == GameSettings.GameType.SimulatedWithRobot) {
+                this.movementControl = MovementControl.getInstance();
             }
     
             if (GameSettings.currentGameType == GameSettings.GameType.SimulatedWithRobot) {

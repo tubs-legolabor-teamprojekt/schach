@@ -446,8 +446,8 @@ public class MovementControl {
     public int createIntForSending() {
         int[] x_y = new int[4];
         
-        int FieldFrom = this.movefigure.getFieldFrom();
-        int FieldTo = this.movefigure.getFieldTo();
+        int FieldFrom = 65-this.movefigure.getFieldFrom();
+        int FieldTo = 65-this.movefigure.getFieldTo();
             
         
         if (FieldFrom % 8 == 0) {

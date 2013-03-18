@@ -20,12 +20,12 @@ public class GameSettings
      * temporär eingeschaltet werden, damit keine Fotos per Webcam geschossen
      * werden.
      */
-    public static final GameType currentGameType = GameType.SimulatedWithRobot;
+    public static final GameType currentGameType = GameType.PlayerVsSimulatedComputer;
     
     /**
      * Dateiname zur Textdatei, die die Züge eines simulierten Spiels enthält
      */
-    public static final String simulatedGameMoves = "Roboter.txt";
+    public static final String simulatedGameMoves = "TabeaSchach.txt";
     
     /**
      * Zeit zwischen den simulierten Zügen

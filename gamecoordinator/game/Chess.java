@@ -32,7 +32,6 @@ public class Chess
     /**
      * Roboter-Steuerung
      */
-    private MovementControl movementControl;
 
     /**
      * Liste an Zuegen, falls ein Spiel simuliert werden soll.
@@ -62,9 +61,6 @@ public class Chess
      */
     public void startGame()
     {
-        if (GameSettings.currentGameType == GameSettings.GameType.SimulatedWithRobot) {
-            this.movementControl = MovementControl.getInstance();
-        }
         // GUI initialisieren, Start-Button wird angezeigt
         Gui gui = Gui.getInstance();
         // Warten, bis Benutzer das Spiel gestartet hat
@@ -212,6 +208,7 @@ public class Chess
         // Zug von Webcam ermitteln
 
         if (!this.isImInit) {
+            this.im = new ImageLoader();
             // Winkel setzen
             this.im.setAngle(im.calcAngle());
             this.im.calcOffset();
