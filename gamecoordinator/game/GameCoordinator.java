@@ -13,7 +13,6 @@ import util.ChessfigureConstants;
 import components.Field;
 import components.Figure;
 import components.FigureBishop;
-import components.FigureKing;
 import components.FigureKnight;
 import components.FigureQueen;
 import components.FigureRook;
@@ -145,8 +144,7 @@ public class GameCoordinator
                 this.field.removeFigureAt(this.currentMove.getFieldTo());
             }
     
-            if (GameSettings.currentGameType == GameSettings.GameType.SimulatedWithRobot ||
-                    GameSettings.currentGameType == GameSettings.GameType.PlayerVsComputer) {
+            if (GameSettings.currentGameType == GameSettings.GameType.PlayerVsComputer) {
                 // Roboter soll Figur bewegen
                 if (this.movementControl == null) {
                     this.movementControl = MovementControl.getInstance();

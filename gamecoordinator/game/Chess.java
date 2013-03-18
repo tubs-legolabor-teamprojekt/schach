@@ -1,5 +1,9 @@
 package game;
 
+import gui.Checkerboard;
+import gui.Gui;
+import gui.StartWindow;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -10,12 +14,6 @@ import camera.ImageLoader;
 
 import components.Field;
 import components.Figure;
-
-import engineControl.MovementControl;
-import game.GameSettings.GameType;
-import gui.Checkerboard;
-import gui.Gui;
-import gui.StartWindow;
 
 /**
  * Startet das Spiel
@@ -29,11 +27,6 @@ public class Chess
      * Objekt des GameCoordinators
      */
     private GameCoordinator gameCoordinator = null;
-    
-    /**
-     * Roboter-Steuerung
-     */
-    private MovementControl movementControl = null;
 
     /**
      * Liste an Zuegen, falls ein Spiel simuliert werden soll.
@@ -65,9 +58,6 @@ public class Chess
      */
     public void startGame()
     {
-        if (GameSettings.currentGameType == GameSettings.GameType.SimulatedWithRobot) {
-            this.movementControl = MovementControl.getInstance();
-        }
         // GUI initialisieren, Start-Button wird angezeigt
         Gui gui = Gui.getInstance();
         // Warten, bis Benutzer das Spiel gestartet hat
@@ -111,63 +101,6 @@ public class Chess
                         move.setCheckMate(true);
                     }
                 }
-
-            } else if (GameSettings.currentGameType ==  GameSettings.GameType.Simulated) {
-                // Spieltyp: Simuliertes Spiel wird durchgeführt
-                // Simulierten Zug holen
-                /*if (moveCounter == 4) {
-                    move = convertFieldnumbersToMoves(currentPlayer, gui.getCheckerboard().manualMove());
-                    moveCounter++;
-                } else {*/
-                    Move newMove = this.simulatedMoves.get(moveCounter);
-                    moveCounter++;
-                    move = newMove;
-                    move = additionalInformationForMove(currentPlayer, move);
-                    /*if (moveCounter == 12) {
-                        move.setPawnPromotion(true);
-                        move.setPawnPromotedTo('Q');
-                    }*/
-                    
-//                }
-                
-                if (moveCounter >= this.simulatedMoves.size()) {
-                    move.setCheckMate(true);
-                }
-            } else if (GameSettings.currentGameType ==  GameSettings.GameType.ComputerVsComputer) {
-                // Spieltyp: Computer vs. Computer (lernen)
-                // TODO Computer gegen Computer möglich machen
-                
-                // hole Züge von der KI
-            } else if (GameSettings.currentGameType == GameSettings.GameType.PlayerVsSimulatedComputer) {
-                System.out.println("Zug #" + (moveCounter+1));
-            	// Spieltyp: Spielerzug wird von der Kamera eingelesen und spielt gegen vordefinierte Computerzüge
-                if (currentPlayer == ChessfigureConstants.WHITE) {
-                    // von Kamera einlesen
-                    move = this.getMoveFromCamera(currentPlayer);
-                    
-                    moveCounter++;
-                } else {
-                    // Simulierten Zug holen
-                    Move newMove = this.simulatedMoves.get(moveCounter);
-                    moveCounter++;
-                    move = newMove;
-                    move = additionalInformationForMove(currentPlayer, move);
-                    if (moveCounter >= this.simulatedMoves.size()) {
-                        move.setCheckMate(true);
-                    }
-                }
-            } else if (GameSettings.currentGameType == GameSettings.GameType.SimulatedWithRobot) {
-                // Roboter soll Figur versetzen
-                Move newMove = this.simulatedMoves.get(moveCounter);
-                moveCounter++;
-                move = newMove;
-                move = additionalInformationForMove(currentPlayer, move);
-                if (moveCounter >= this.simulatedMoves.size()) {
-                    move.setCheckMate(true);
-                }
-                
-                // Roboter
-                
             } else {
                 // Spieltyp: Fehlerhafte Angabe
                 System.out.println("Fehlerhafte Spieltyp!");
