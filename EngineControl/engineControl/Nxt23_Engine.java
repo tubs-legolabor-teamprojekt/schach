@@ -87,14 +87,8 @@ public class Nxt23_Engine {
         
         if (which_move == -1) {
             
-            System.out.println(which_move+" Fehlerhafte Übertragung");
-            try {
-                //Kurz warten damit ich die ausgabe lesen kann ;D
-              Thread.sleep(2000);
-            }
-            catch(Exception e) {
-                System.out.println("Thread unterbrochen");
-            }
+            System.out.println("Verbindung wurde getrennt oder Übertragung ist Fehlerhaft");
+            System.out.println("Betätige beliebigen Knopf um Programm zu beenden.");
             Button.waitForPress();
             gameExists = false;
 
@@ -106,15 +100,15 @@ public class Nxt23_Engine {
         
         switch(which_move) {
             case 1: 
-                System.out.println("Bewege mich zur 'Von-Reihe': "+coordinate);
+                System.out.println("Bewege mich zur Reihe: "+coordinate);
                 t1.rowFrom = coordinate+t1.FIELDS_FROM_START;            
                 if(t1.moveToRowFrom()) t1.con.sendInt(1);
                 break;
-            case 2:
+            /*case 2:
                 System.out.println("Bewege mich zur 'Zu-Reihe': "+coordinate);
                 t1.rowTo = coordinate+t1.FIELDS_FROM_START;            
                 if(t1.moveToRowTo()) t1.con.sendInt(1);
-                break;
+                break;*/
             case 3:
                 System.out.println("Senke Greifarm");
                 if(t1.moveDown()) t1.con.sendInt(1);

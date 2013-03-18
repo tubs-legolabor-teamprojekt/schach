@@ -143,6 +143,10 @@ public class GameCoordinator
                 // Geschmissene Figur vom Feld entfernen
                 this.field.removeFigureAt(this.currentMove.getFieldTo());
             }
+            
+            if (GameSettings.currentGameType == GameSettings.GameType.SimulatedWithRobot) {
+                this.movementControl = MovementControl.getInstance();
+            }
     
             if (GameSettings.currentGameType == GameSettings.GameType.PlayerVsComputer) {
                 // Roboter soll Figur bewegen

@@ -27,14 +27,24 @@ public class ConnServ{
   
   private DataOutputStream dos;
   private DataInputStream dis;
+  
+  private NXTInfo connectionInformation;
 
   /**
    *  Constructor of the Connection
    */
   public ConnServ(String name) {
     connected = conn.connectTo(""+name);
+    this.connectionInformation = conn.getNXTInfo();
     this.dos = conn.getDataOut();
     this.dis = conn.getDataIn();
+  }
+  
+  /**
+   * Get Methode für die ConnectionInfo
+   */
+  public NXTInfo getConnectionInformation() {
+      return this.connectionInformation;
   }
   
   /**
@@ -57,9 +67,11 @@ public class ConnServ{
     try {
       this.dos.writeInt(i);
       this.dos.flush();
-      System.out.println("Wertuebertragen");
     } catch (IOException e) {
       // Do nothing
+    } catch (NullPointerException nullE) {
+        System.out.println("Senden nicht möglich, Verbindung konnte nicht hergestellt werden.");
+        System.exit(0);
     }
   }
 
