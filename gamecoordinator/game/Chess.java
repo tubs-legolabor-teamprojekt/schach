@@ -105,7 +105,12 @@ public class Chess
                     move = this.getMoveFromCamera(currentPlayer);
                 } else if (GameSettings.currentGameType == GameType.Simulated) {
                     // Simulierten Zug holen
-                    move = this.getSimulatedMove(moveCounter, currentPlayer);
+                    /*if (moveCounter == 4) {
+                        move = convertFieldnumbersToMoves(currentPlayer, 
+                                Checkerboard.getInstance().manualMove());
+                    } else {*/
+                        move = this.getSimulatedMove(moveCounter, currentPlayer);
+                    //}
                 }
                 
             } else if (currentPlayer == ChessfigureConstants.BLACK) {
