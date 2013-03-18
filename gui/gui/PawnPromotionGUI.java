@@ -79,7 +79,7 @@ public class PawnPromotionGUI extends JFrame implements ActionListener
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         this.setVisible(true);
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
     }
 
     /**
@@ -111,7 +111,7 @@ public class PawnPromotionGUI extends JFrame implements ActionListener
         this.forOkButton.setOpaque(false);
         this.forOkButton.add(this.okButton);
 
-        this.okButton.setEnabled(false);
+//        this.okButton.setEnabled(false);
         this.okButton.addActionListener(this);
         this.okButton.setActionCommand("button_ok");
 
@@ -138,6 +138,7 @@ public class PawnPromotionGUI extends JFrame implements ActionListener
 
         // Dame-Radiobutton
         group.add(this.queen);
+        this.queen.setSelected(true);
         this.queen.addActionListener(this);
         this.queen.setActionCommand("radiobutton_queen");
 

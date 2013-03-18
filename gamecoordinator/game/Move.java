@@ -123,6 +123,7 @@ public class Move
      * Gibt die Farbe des Spielers zurück, der den Zug ausführt.
      * @return Farbe des Spielers
      */
+    @Deprecated
     public byte getColorOfPlayer() {
        return this.colorOfPlayer;
     }

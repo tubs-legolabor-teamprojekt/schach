@@ -36,7 +36,6 @@ import components.FigureRook;
  */
 public class Checkerboard extends JPanel
 {
-
     private static Checkerboard instance = null;
     private MoveGUI moveGui = new MoveGUI();
 
@@ -217,7 +216,6 @@ public class Checkerboard extends JPanel
      * @param move aktuelles Move-Objekt
      */
     public void setCheckerboardInformation(Move move) {
-
         this.move = move;
 
         // Umrechnung der FieldFrom-Nummer
@@ -280,19 +278,50 @@ public class Checkerboard extends JPanel
             // lange Rochade
             this.setQueenSideCastling(this.move.getPlayerColor() == ChessfigureConstants.BLACK);
         }
-        
+
         // wenn der Bauer umgewandelt werden soll
         if (this.move.isPawnPromotion()) {
-            
-            // TODO weiß oder schwarz? benötigt?
-            this.ppIsReady = false;
-            this.pawnPromotionGUI();
-            while (!this.ppIsReady) {
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+            if (this.move.getPlayerColor() == ChessfigureConstants.WHITE) {
+                System.out.println("lksfnalsfnaslfnlsafdnlafsnlsfanlnasfln");
+                this.ppIsReady = false;
+                this.pawnPromotionGUI();
+                while (!this.ppIsReady) {
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
+            } else if (this.move.getPlayerColor() == ChessfigureConstants.BLACK) {
+                System.out.println("halllllllllllllllllllllllllooooooooooooooooo");
+                // Umrechnung der FieldTo-Nummer
+                int fieldTo = this.move.getFieldTo();
+                int fieldToColumn = fieldNumberConverterColumn(fieldTo);
+                int fieldToRow = fieldNumberConverterRow(fieldTo);
+                CheckerboardPanel cbp = (CheckerboardPanel) this.grid
+                        .getValueAt(fieldToRow, fieldToColumn);
+                // Bauern weg
+                cbp.label.setVisible(false);
+
+                // welche Figur?
+                if (this.move.getPawnPromotedTo() == 'Q') {
+                    this.newFigure = ChessfigureConstants.QUEEN_LETTER;
+                    cbp.showIcon(new FigureQueen(ChessfigureConstants.BLACK));
+                } else if (this.move.getPawnPromotedTo() == 'B') {
+                    this.newFigure = ChessfigureConstants.BISHOP_LETTER;
+                    cbp.showIcon(new FigureBishop(ChessfigureConstants.BLACK));
+                } else if (this.move.getPawnPromotedTo() == 'K') {
+                    this.newFigure = ChessfigureConstants.KNIGHT_LETTER;
+                    cbp.showIcon(new FigureKnight(ChessfigureConstants.BLACK));
+                } else if (this.move.getPawnPromotedTo() == 'R') {
+                    this.newFigure = ChessfigureConstants.ROOK_LETTER;
+                    cbp.showIcon(new FigureRook(ChessfigureConstants.BLACK));
+                }
+                
+                Gui.getInstance().repaint();
+                Gui.getInstance().validate();
+            } else {
+                System.out.println("Falsch!!!");
             }
         }
 
@@ -334,7 +363,7 @@ public class Checkerboard extends JPanel
 
     /**
      * Methode, die die Informationen über die getroffene Spielfigurenwahl des
-     * Spielers enthält, wenn der Bauer ausgewechselt werden durfte.
+     * Spielers enthält, wenn der Bauer ausgewechselt werden durfte. WEIß
      * @param queen
      * @param bishop
      * @param knight

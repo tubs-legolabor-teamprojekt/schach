@@ -105,6 +105,11 @@ public class Chess
                     moveCounter++;
                     move = newMove;
                     move = additionalInformationForMove(currentPlayer, move);
+                    /*if (moveCounter == 12) {
+                        move.setPawnPromotion(true);
+                        move.setPawnPromotedTo('Q');
+                    }*/
+                    
 //                }
                 
                 if (moveCounter >= this.simulatedMoves.size()) {
@@ -140,6 +145,7 @@ public class Chess
             }
 
             // Züge ausführen
+            move.setPlayerColor(currentPlayer);
             this.execMove(currentPlayer, move);
 
             if (moveCounter >= this.simulatedMoves.size()) {

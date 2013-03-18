@@ -104,14 +104,14 @@ public class GameCoordinator
             // Gui soll Figur bewegen
             this.gui.getCheckerboard().setCheckerboardInformation(this.currentMove);
             
-            if (this.currentMove.getColorOfPlayer() == ChessfigureConstants.WHITE) {
+            if (this.currentMove.getPlayerColor() == ChessfigureConstants.WHITE) {
                 // Kurze weisse Rochade
                 
                 // König versetzen
                 this.field.moveFigure(Field.getFieldNumber("e1"), Field.getFieldNumber("g1"));
                 // Turm versetzen
                 this.field.moveFigure(Field.getFieldNumber("h1"), Field.getFieldNumber("f1"));
-            } else if (this.currentMove.getColorOfPlayer() == ChessfigureConstants.BLACK) {
+            } else if (this.currentMove.getPlayerColor() == ChessfigureConstants.BLACK) {
                 // Kurze schwarze Rochade
                 
                 // König versetzen
@@ -123,14 +123,14 @@ public class GameCoordinator
             // Gui soll Figur bewegen
             this.gui.getCheckerboard().setCheckerboardInformation(this.currentMove);
             
-            if (this.currentMove.getColorOfPlayer() == ChessfigureConstants.WHITE) {
+            if (this.currentMove.getPlayerColor() == ChessfigureConstants.WHITE) {
                 // Lange weisse Rochade
                 
                 // König versetzen
                 this.field.moveFigure(Field.getFieldNumber("e1"), Field.getFieldNumber("c1"));
                 // Turm versetzen
                 this.field.moveFigure(Field.getFieldNumber("a1"), Field.getFieldNumber("d1"));
-            } else if (this.currentMove.getColorOfPlayer() == ChessfigureConstants.BLACK) {
+            } else if (this.currentMove.getPlayerColor() == ChessfigureConstants.BLACK) {
                 // Lange schwarze Rochade
                 
                 // König versetzen
@@ -159,24 +159,26 @@ public class GameCoordinator
             // Bauer umgewandelt in...
             Figure newFigure = null;
             if (this.currentMove.isPawnPromotion()) {
-                while (Checkerboard.getInstance().getPawnPromotionInformation() == 'A') {
-                    try {
-                        Thread.sleep(500);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                if (this.currentMove.getPlayerColor() == ChessfigureConstants.WHITE) {
+                    while (Checkerboard.getInstance().getPawnPromotionInformation() == 'A') {
+                        try {
+                            Thread.sleep(500);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
+                
+                    this.currentMove.setPawnPromotedTo(Checkerboard.getInstance().getPawnPromotionInformation());
                 }
                 
-                this.currentMove.setPawnPromotedTo(Checkerboard.getInstance().getPawnPromotionInformation());
-                
                 if (this.currentMove.getPawnPromotedTo() == ChessfigureConstants.BISHOP_LETTER) {
-                    newFigure = new FigureBishop(this.currentMove.getColorOfPlayer());
+                    newFigure = new FigureBishop(this.currentMove.getPlayerColor());
                 } else if (this.currentMove.getPawnPromotedTo() == ChessfigureConstants.KNIGHT_LETTER) {
-                    newFigure = new FigureKnight(this.currentMove.getColorOfPlayer());
+                    newFigure = new FigureKnight(this.currentMove.getPlayerColor());
                 } else if (this.currentMove.getPawnPromotedTo() == ChessfigureConstants.QUEEN_LETTER) {
-                    newFigure = new FigureQueen(this.currentMove.getColorOfPlayer());
+                    newFigure = new FigureQueen(this.currentMove.getPlayerColor());
                 } else if (this.currentMove.getPawnPromotedTo() == ChessfigureConstants.ROOK_LETTER) {
-                    newFigure = new FigureRook(this.currentMove.getColorOfPlayer());
+                    newFigure = new FigureRook(this.currentMove.getPlayerColor());
                 }
                 
             }
