@@ -22,7 +22,10 @@ import util.ChessfigureConstants;
 
 import components.Field;
 import components.Figure;
+import components.FigureBishop;
 import components.FigureKing;
+import components.FigureKnight;
+import components.FigureQueen;
 import components.FigureRook;
 
 /**
@@ -33,8 +36,8 @@ import components.FigureRook;
  */
 public class Checkerboard extends JPanel
 {
-
     private static Checkerboard instance = null;
+    private MoveGUI moveGui = new MoveGUI();
 
     private JTable grid = null;
 
@@ -50,7 +53,12 @@ public class Checkerboard extends JPanel
 
     private boolean blackWon = false, 
                     manualMove = false, 
-                    mmIsReady = false;
+                    mmIsReady = false,
+                    ppIsReady = false,
+                    queen = false, 
+                    bishop = false, 
+                    knight = false,
+                    rook = false;
 
     private MyMouseListener mml;
 
@@ -60,6 +68,8 @@ public class Checkerboard extends JPanel
                         icon_king_white = new FigureKing(ChessfigureConstants.WHITE).getIcon(),
                         icon_rook_black = new FigureRook(ChessfigureConstants.BLACK).getIcon(),
                         icon_rook_white = new FigureRook(ChessfigureConstants.WHITE).getIcon();
+    
+    private char newFigure = 'A';
 
     /**
      * Privater Konstruktor, der nur ein neues Objekt der Klasse erstellt. Ruft
@@ -206,12 +216,7 @@ public class Checkerboard extends JPanel
      * @param move aktuelles Move-Objekt
      */
     public void setCheckerboardInformation(Move move) {
-
         this.move = move;
-        // wenn der Bauer umgewandelt werden soll
-        if (this.move.isPawnPromotion()) {
-            Gui.getInstance().pawnPromotionGUI();
-        }
 
         // Umrechnung der FieldFrom-Nummer
         this.fieldFrom = this.move.getFieldFrom();
@@ -228,7 +233,6 @@ public class Checkerboard extends JPanel
 
         if (!this.move.isKingSideCastling() && !this.move.isQueenSideCastling()) {        
             // ganz normaler Zug
-            System.out.println("normal");
             // erst Zeile
             for (int i = 0; i < 8; i++) {
                 if (i == this.fieldFromRow) {
@@ -275,27 +279,133 @@ public class Checkerboard extends JPanel
             this.setQueenSideCastling(this.move.getPlayerColor() == ChessfigureConstants.BLACK);
         }
 
+        // wenn der Bauer umgewandelt werden soll
+        if (this.move.isPawnPromotion()) {
+            if (this.move.getPlayerColor() == ChessfigureConstants.WHITE) {
+                System.out.println("lksfnalsfnaslfnlsafdnlafsnlsfanlnasfln");
+                this.ppIsReady = false;
+                this.pawnPromotionGUI();
+                while (!this.ppIsReady) {
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } else if (this.move.getPlayerColor() == ChessfigureConstants.BLACK) {
+                System.out.println("halllllllllllllllllllllllllooooooooooooooooo");
+                // Umrechnung der FieldTo-Nummer
+                int fieldTo = this.move.getFieldTo();
+                int fieldToColumn = fieldNumberConverterColumn(fieldTo);
+                int fieldToRow = fieldNumberConverterRow(fieldTo);
+                CheckerboardPanel cbp = (CheckerboardPanel) this.grid
+                        .getValueAt(fieldToRow, fieldToColumn);
+                // Bauern weg
+                cbp.label.setVisible(false);
+
+                // welche Figur?
+                if (this.move.getPawnPromotedTo() == 'Q') {
+                    this.newFigure = ChessfigureConstants.QUEEN_LETTER;
+                    cbp.showIcon(new FigureQueen(ChessfigureConstants.BLACK));
+                } else if (this.move.getPawnPromotedTo() == 'B') {
+                    this.newFigure = ChessfigureConstants.BISHOP_LETTER;
+                    cbp.showIcon(new FigureBishop(ChessfigureConstants.BLACK));
+                } else if (this.move.getPawnPromotedTo() == 'K') {
+                    this.newFigure = ChessfigureConstants.KNIGHT_LETTER;
+                    cbp.showIcon(new FigureKnight(ChessfigureConstants.BLACK));
+                } else if (this.move.getPawnPromotedTo() == 'R') {
+                    this.newFigure = ChessfigureConstants.ROOK_LETTER;
+                    cbp.showIcon(new FigureRook(ChessfigureConstants.BLACK));
+                }
+                
+                Gui.getInstance().repaint();
+                Gui.getInstance().validate();
+            } else {
+                System.out.println("Falsch!!!");
+            }
+        }
+
         Gui.getInstance().repaint();
         Gui.getInstance().validate();
 
         if (this.move.isCheck() && this.move.isCheckMate()) {
-            javax.swing.JOptionPane.showMessageDialog(this,
-                    "Schachmatt! Spiel vorbei!", "Schachmatt",
-                    JOptionPane.INFORMATION_MESSAGE);
             // wer gewonnen hat
+            String winner;
             if (this.figure.getColor() == ChessfigureConstants.BLACK) {
                 this.blackWon = true;
+                winner = "Schwarz";
             } else {
                 this.blackWon = false;
+                winner = "Weiß";
             }
+            
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    winner + " hat gewonnen!", "Schachmatt",
+                    JOptionPane.INFORMATION_MESSAGE);
             FinishedGameGUI.getInstance();
         }
+        
+        // Abfrage ob Remi --> Dialog
 
         if (this.move.isCheck() && !this.move.isCheckMate()) {
             javax.swing.JOptionPane.showMessageDialog(this, "Schach!",
                     "Schach", JOptionPane.INFORMATION_MESSAGE);
         }
 
+    }
+    
+    /**
+     * Methode, die eine Instanz der Klasse PawnPromotionGUI aufruft.
+     */
+    public void pawnPromotionGUI() {
+        PawnPromotionGUI.getInstance();
+    }
+
+    /**
+     * Methode, die die Informationen über die getroffene Spielfigurenwahl des
+     * Spielers enthält, wenn der Bauer ausgewechselt werden durfte. WEIß
+     * @param queen
+     * @param bishop
+     * @param knight
+     * @param rook
+     */
+    public void pawnPromotionInformation(boolean queen, boolean bishop,
+            boolean knight, boolean rook) {
+        this.queen = queen;
+        this.bishop = bishop;
+        this.knight = knight;
+        this.rook = rook;
+        
+        // Umrechnung der FieldTo-Nummer
+        int fieldTo = this.move.getFieldTo();
+        int fieldToColumn = fieldNumberConverterColumn(fieldTo);
+        int fieldToRow = fieldNumberConverterRow(fieldTo);
+        CheckerboardPanel cbp = (CheckerboardPanel) this.grid
+                .getValueAt(fieldToRow, fieldToColumn);
+        // Bauern weg
+        cbp.label.setVisible(false);
+        
+        if (this.queen) {
+            this.newFigure = ChessfigureConstants.QUEEN_LETTER;
+            cbp.showIcon(new FigureQueen(ChessfigureConstants.WHITE));
+        } else if (this.bishop) {
+            this.newFigure = ChessfigureConstants.BISHOP_LETTER;
+            cbp.showIcon(new FigureBishop(ChessfigureConstants.WHITE));
+        } else if (this.knight) {
+            this.newFigure = ChessfigureConstants.KNIGHT_LETTER;
+            cbp.showIcon(new FigureKnight(ChessfigureConstants.WHITE));
+        } else if (this.rook) {
+            this.newFigure = ChessfigureConstants.ROOK_LETTER;
+            cbp.showIcon(new FigureRook(ChessfigureConstants.WHITE));
+        }
+        
+        Gui.getInstance().repaint();
+        Gui.getInstance().validate();
+    }
+    
+    public char getPawnPromotionInformation() {
+        System.out.println("1.: " + this.newFigure);
+        return this.newFigure;
     }
     
     public void setKingSideCastling(boolean black)
@@ -381,21 +491,34 @@ public class Checkerboard extends JPanel
     }
 
     /**
-     * Methode, die ausgeführt wird, wenn die Kamera den Zug nicht richtig
-     * erkennen konnte. Der Benutzer kann entweder Über klicken am Schachfeld
-     * einen normalen Zug auswählen oder einfach die entsprechende Rochade
-     * auswählen.
+     * Methode wird ausgeführt, wenn die Kamera den Zug nicht richtig
+     * erkennen konnte. Ruft die Methode originalManualMove() auf.
      * 
-     * @return ArrayList mit den Feldnummern
+     * @return ArrayList al, entweder mit zwei oder vier Werten
      */
     public ArrayList<Integer> manualMove() {
+        ArrayList<Integer> al = new ArrayList<Integer>();
+        while(al.size() == 0) {
+            al = this.originalManualMove(); 
+        }
+        return al;
+    }
+    
+    /**
+     * Der Benutzer kann entweder Über klicken am Schachfeld einen normalen Zug 
+     * oder einfach die entsprechende Rochade auswählen.
+     * 
+     * @return ArrayList mit den Feldnummern, entweder zwei für einen normalen Zug
+     * oder vier für die entsprechende Rochade
+     */
+    public ArrayList<Integer> originalManualMove() {
         this.manualMove = true;
         this.mmIsReady = false;
         
-        MoveGUI.getInstance().resetMoveGui();
-
-        MoveGUI.getInstance();
-
+        // damit Startansicht 
+        this.moveGui = new MoveGUI();
+        this.moveGui.startWindow();
+        
         while (!this.mmIsReady) {
             try {
                 Thread.sleep(500);
@@ -404,15 +527,15 @@ public class Checkerboard extends JPanel
             }
         }
         
-        if (MoveGUI.getInstance().isNormalButtonPressed()) {
-            // Feldnummern von den angeklickten Feldern
-            return this.a;
+        if (this.moveGui.isNormalButtonPressed()) {
+            // Feldnummern von den angeklickten Feldern 
+            return this.a; 
         } else {
             // darf weiß überhaupt eine Rochade ausführen?
             if (this.figure.getColor() == ChessfigureConstants.WHITE &&
                     Field.getInstance().isCastlingWhitePossible()) {
                 // welche Rochadenart
-                if (MoveGUI.getInstance().isKingsideCastling()) {
+                if (this.moveGui.isKingsideCastling()) {
                     // kurze Rochade
                     // a = 5 7 8 6
                     this.a.clear();
@@ -433,11 +556,12 @@ public class Checkerboard extends JPanel
                 }
             // wenn keine Rochade erlaubt
             } else {
-                javax.swing.JOptionPane.showMessageDialog(this, "Keine Rochade möglich!",
+                javax.swing.JOptionPane.showMessageDialog(this, "Keine Rochade möglich, bitte erneute Zugeingabe!",
                         "Rochade", JOptionPane.INFORMATION_MESSAGE);
+                this.a.clear();
+                return this.a;
             }
         }
-        return new ArrayList<Integer>();
     }
 
     /**
@@ -447,6 +571,10 @@ public class Checkerboard extends JPanel
      */
     public void setMmIsReady(boolean mmIsReady) {
         this.mmIsReady = mmIsReady;
+    }
+    
+    public void setPPIsReady(boolean ppIsReady) {
+        this.ppIsReady = ppIsReady;
     }
 
     /**

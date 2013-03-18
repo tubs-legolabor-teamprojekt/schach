@@ -219,22 +219,22 @@ public class Field
 				break;
 				
 			case 8:
-				// Weisser Turm auf h1 bewegt
+				// Weisser Turm von h1 wegbewegt
 				this.kingSideCastlingWhitePossible = false;
 				break;
 				
 			case 1:
-				// Weisser Turm auf a1 bewegt
+				// Weisser Turm von a1 wegbewegt
 				this.queenSideCastlingWhitePossible = false;
 				break;
 				
 			case 64:
-				// Schwarzer Turm auf h8 bewegt
+				// Schwarzer Turm von h8 wegbewegt
 				this.kingSideCastlingBlackPossible = false;
 				break;
 				
 			case 57:
-				// Schwarzer Turm auf a8 bewegt
+				// Schwarzer Turm von a8 wegbewegt
 				this.queenSideCastlingBlackPossible = false;
 				break;
 				
@@ -417,7 +417,9 @@ public class Field
      * @return True: Ja; False: Nein
      */
     public boolean isKingSideCastlingWhitePossible() {
-        return this.kingSideCastlingWhitePossible;
+        return (this.kingSideCastlingWhitePossible &&
+                !this.isFigureOnField(getFieldNumber("f1")) &&
+                !this.isFigureOnField(getFieldNumber("g1")));
     }
     
     /**
@@ -425,7 +427,10 @@ public class Field
      * @return True: Ja; False: Nein
      */
     public boolean isQueenSideCastlingWhitePossible() {
-        return this.queenSideCastlingWhitePossible;
+        return (this.queenSideCastlingWhitePossible &&
+                !this.isFigureOnField(getFieldNumber("b1")) &&
+                !this.isFigureOnField(getFieldNumber("c1")) &&
+                !this.isFigureOnField(getFieldNumber("d1")));
     }
 	
     /**
@@ -433,7 +438,9 @@ public class Field
      * @return True: Ja; False: Nein
      */
     public boolean isKingSideCastlingBlackPossible() {
-        return this.kingSideCastlingBlackPossible;
+        return (this.kingSideCastlingBlackPossible &&
+                !this.isFigureOnField(getFieldNumber("f8")) &&
+                !this.isFigureOnField(getFieldNumber("g8")));
     }
     
     /**
@@ -441,7 +448,10 @@ public class Field
      * @return True: Ja; False: Nein
      */
     public boolean isQueenSideCastlingBlackPossible() {
-        return this.queenSideCastlingBlackPossible;
+        return (this.queenSideCastlingBlackPossible &&
+                !this.isFigureOnField(getFieldNumber("b8")) &&
+                !this.isFigureOnField(getFieldNumber("c8")) &&
+                !this.isFigureOnField(getFieldNumber("d8")));
     }
     
     /**

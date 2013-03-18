@@ -123,6 +123,7 @@ public class Move
      * Gibt die Farbe des Spielers zurück, der den Zug ausführt.
      * @return Farbe des Spielers
      */
+    @Deprecated
     public byte getColorOfPlayer() {
        return this.colorOfPlayer;
     }
@@ -224,7 +225,7 @@ public class Move
      * @param pawnPromotion
      *            True: Bauer gewandelt; False: Nicht
      */
-    private void setPawnPromotion(boolean pawnPromotion) {
+    public void setPawnPromotion(boolean pawnPromotion) {
         this.pawnPromotion = pawnPromotion;
     }
 

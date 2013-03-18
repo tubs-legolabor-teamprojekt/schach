@@ -9,6 +9,7 @@ import util.ChessfigureConstants;
 import camera.ImageLoader;
 
 import components.Field;
+import components.Figure;
 
 import engineControl.MovementControl;
 import game.GameSettings.GameType;
@@ -114,10 +115,21 @@ public class Chess
             } else if (GameSettings.currentGameType ==  GameSettings.GameType.Simulated) {
                 // Spieltyp: Simuliertes Spiel wird durchgeführt
                 // Simulierten Zug holen
-                Move newMove = this.simulatedMoves.get(moveCounter);
-                moveCounter++;
-                move = newMove;
-                move = additionalInformationForMove(currentPlayer, move);
+                /*if (moveCounter == 4) {
+                    move = convertFieldnumbersToMoves(currentPlayer, gui.getCheckerboard().manualMove());
+                    moveCounter++;
+                } else {*/
+                    Move newMove = this.simulatedMoves.get(moveCounter);
+                    moveCounter++;
+                    move = newMove;
+                    move = additionalInformationForMove(currentPlayer, move);
+                    /*if (moveCounter == 12) {
+                        move.setPawnPromotion(true);
+                        move.setPawnPromotedTo('Q');
+                    }*/
+                    
+//                }
+                
                 if (moveCounter >= this.simulatedMoves.size()) {
                     move.setCheckMate(true);
                 }
@@ -163,6 +175,7 @@ public class Chess
             }
 
             // Züge ausführen
+            move.setPlayerColor(currentPlayer);
             this.execMove(currentPlayer, move);
 
             if (moveCounter >= this.simulatedMoves.size()) {
@@ -354,6 +367,23 @@ public class Chess
                 System.out.println("Die eigene Figur kann nicht geschmissen werden!");
             }
             
+        }
+        
+        // Pawn Promotion?
+        // Bauer-(Neue Figur)-Umwandlung, wenn:
+        //  - Bauer bewegt wird und
+        //  - Weisser Bauer die gegnerische erste Linie erreicht (57-64) oder
+        //  - Schwarzer Bauer die gegnerische erste Linie erreicht (1-8)
+        Figure movingFigure = f.getFigureAt(move.getFieldFrom());
+        if (movingFigure.getFigureType() == ChessfigureConstants.PAWN &&
+                ( colorOfPlayer == ChessfigureConstants.WHITE &&
+                  move.getFieldTo() >= 57 &&
+                  move.getFieldTo() <= 64) ||
+                ( colorOfPlayer == ChessfigureConstants.BLACK &&
+                  move.getFieldTo() >= 1 &&
+                  move.getFieldTo() <= 8)
+            ) {
+            move.setPawnPromotion(true);
         }
         
         return move;

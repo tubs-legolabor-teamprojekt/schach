@@ -259,7 +259,7 @@ public class FinishedGameGUI extends JFrame implements ActionListener
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand() == "startButton") {
-            // aktuelle Schachbrett wird auf das Ausgangsfeld zur�ckgesetzt
+            // aktuelle Schachbrett wird auf das Ausgangsfeld zurückgesetzt
             Field f = Field.getInstance();
             f.resetField();
             Gui.getInstance().getCheckerboard().resetMap();
