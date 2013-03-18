@@ -143,10 +143,6 @@ public class GameCoordinator
                 // Geschmissene Figur vom Feld entfernen
                 this.field.removeFigureAt(this.currentMove.getFieldTo());
             }
-            
-            if (GameSettings.currentGameType == GameSettings.GameType.SimulatedWithRobot) {
-                this.movementControl = MovementControl.getInstance();
-            }
     
             if (GameSettings.currentGameType == GameSettings.GameType.PlayerVsComputer) {
                 // Roboter soll Figur bewegen
@@ -154,8 +150,10 @@ public class GameCoordinator
                     this.movementControl = MovementControl.getInstance();
                 }
                 
-                this.movementControl.setMovefigure(this.currentMove);
-                this.movementControl.moveRobot();
+                if (this.currentMove.getPlayerColor() == ChessfigureConstants.BLACK) {
+                    this.movementControl.setMovefigure(this.currentMove);
+                    this.movementControl.moveRobot();
+                }
             }
     
             // Gui soll Figur bewegen
