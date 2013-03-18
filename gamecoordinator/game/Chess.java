@@ -1,5 +1,6 @@
 package game;
 
+import game.GameSettings.GameType;
 import gameTree.NextMove;
 import gui.Checkerboard;
 import gui.Gui;
@@ -43,7 +44,16 @@ public class Chess
      * Leerer Konstruktor
      */
     public Chess()
-    {}
+    {
+        // Kamera benötigt?
+        if (GameSettings.currentGameType == GameType.PlayerVsComputer ||
+                GameSettings.currentGameType == GameType.PlayerVsSimulatedComputer) {
+            this.im = new ImageLoader();
+            // Winkel setzen
+            this.im.setAngle(im.calcAngle());
+            this.im.calcOffset();
+        }
+    }
     
     /**
      * Konstruktor, mit Zuegen fuer ein simuliertes Spiel
@@ -51,6 +61,7 @@ public class Chess
      */
     public Chess(List<Move> moves)
     {
+        this();
         this.simulatedMoves = moves;
     }
     
@@ -86,26 +97,44 @@ public class Chess
 
             Move move = null;
             
-            if (GameSettings.currentGameType ==  GameSettings.GameType.PlayerVsComputer) {
-             // Spieltyp: Spieler gegen Computer
-                if (currentPlayer == ChessfigureConstants.WHITE) {
-                    // Spieler
+            if (currentPlayer == ChessfigureConstants.WHITE) {
+                
+                if (GameSettings.currentGameType == GameType.PlayerVsComputer ||
+                        GameSettings.currentGameType == GameType.PlayerVsSimulatedComputer) {
+                    // Menschlicher Spieler
                     move = this.getMoveFromCamera(currentPlayer);
-                } else if (currentPlayer == ChessfigureConstants.BLACK) {
+                } else if (GameSettings.currentGameType == GameType.Simulated) {
+                    // Simulierten Zug holen
+                    move = this.getSimulatedMove(moveCounter, currentPlayer);
+                }
+                
+            } else if (currentPlayer == ChessfigureConstants.BLACK) {
+                
+                if (GameSettings.currentGameType == GameType.PlayerVsComputer) {
                     // KI
                     NextMove moveTo = new NextMove();
                     move = moveTo.getNext(Field.getInstance(), currentPlayer);
+                } else if (GameSettings.currentGameType == GameType.Simulated ||
+                        GameSettings.currentGameType == GameType.SimulatedWithRobot) {
+                    // Simulierter Zug holen
+                    move = this.getSimulatedMove(moveCounter, currentPlayer);
                 }
-                moveCounter++;
-            } else {
-                // Spieltyp: Fehlerhafte Angabe
-                System.out.println("Fehlerhafte Spieltyp!");
-                System.exit(0);
             }
+            moveCounter++;
 
             // Züge ausführen
             move.setPlayerColor(currentPlayer);
             this.execMove(currentPlayer, move);
+            
+            if ((GameSettings.currentGameType == GameType.Simulated ||
+                    GameSettings.currentGameType == GameType.SimulatedWithRobot ||
+                    GameSettings.currentGameType == GameType.PlayerVsSimulatedComputer)
+                 &&
+                 (moveCounter >= this.simulatedMoves.size())
+                 ) {
+                System.out.println("\n-----\nLetzten simulierten Zug beendet.\nSpiel vorbei.");
+                break;
+            }
         }
 
 
@@ -161,43 +190,55 @@ public class Chess
     public Move getMoveFromCamera(byte currentPlayer)
     {
         Move move = null;
-        
-        // Zug von Webcam ermitteln
-        if (this.im == null) {
-            this.im = new ImageLoader();
-            // Winkel setzen
-            this.im.setAngle(im.calcAngle());
-            this.im.calcOffset();
-        }
-
-        // erste Vergleichsfoto
-        this.im.takePhoto1();
-
-        // FIXME Warten bis Zug vom Benutzer durchgefuehrt wurde
-        System.out.println("Foto1 taken");
         try {
-            Thread.sleep(10000);
+            if (this.im == null) {
+                throw new Exception("Kein Kamera-Objekt gefunden");
+            }
+            
+            // erste Vergleichsfoto
+            this.im.takePhoto1();
+    
+            // FIXME Warten bis Zug vom Benutzer durchgefuehrt wurde
+            System.out.println("Foto1 taken");
+            try {
+                Thread.sleep(10000);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+    
+            // 2te Vergleichsfoto nehmen
+            this.im.takePhoto2();
+            System.out.println("Foto2 taken");
+    
+            // Veraenderte Positionen holen
+            List<Integer> listOfChangedPositions = this.im.getChangedPositions();
+    
+            // Konnte Kamera Züge ermitteln?
+            System.out.println("Anzahl an veränderten Feldern: "+ listOfChangedPositions.size());
+            listOfChangedPositions.clear();
+            if (listOfChangedPositions.size() == 0) {
+                // Manuelles Einlesen der Züge durch die GUI
+                move = convertFieldnumbersToMoves(currentPlayer, Checkerboard.getInstance().manualMove());
+            } else {
+                move = convertFieldnumbersToMoves(currentPlayer, listOfChangedPositions);
+            }
         } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        // 2te Vergleichsfoto nehmen
-        this.im.takePhoto2();
-        System.out.println("Foto2 taken");
-
-        // Veraenderte Positionen holen
-        List<Integer> listOfChangedPositions = this.im.getChangedPositions();
-
-        // Konnte Kamera Züge ermitteln?
-        System.out.println("Anzahl an veränderten Feldern: "+ listOfChangedPositions.size());
-        listOfChangedPositions.clear();
-        if (listOfChangedPositions.size() == 0) {
-            // Manuelles Einlesen der Züge durch die GUI
-            move = convertFieldnumbersToMoves(currentPlayer, Checkerboard.getInstance().manualMove());
-        } else {
-            move = convertFieldnumbersToMoves(currentPlayer, listOfChangedPositions);
+            System.out.println(e.getStackTrace()[0].getMethodName() + "(" + e.getStackTrace()[0].getClassName() + "): " + e.getMessage());
         }
         return move;
+    }
+    
+    /**
+     * Holt einen simulierten Zug
+     * @param moveCounter Nummer des aktuellen Zugs
+     * @param currentPlayer Spieler
+     * @return Der simulierte Zug
+     */
+    public Move getSimulatedMove(int moveCounter, byte currentPlayer)
+    {
+        Move newMove = this.simulatedMoves.get(moveCounter);
+        newMove = additionalInformationForMove(currentPlayer, newMove);
+        return newMove;
     }
 
     /**
@@ -301,13 +342,16 @@ public class Chess
         //  - Schwarzer Bauer die gegnerische erste Linie erreicht (1-8)
         Figure movingFigure = f.getFigureAt(move.getFieldFrom());
         if (movingFigure.getFigureType() == ChessfigureConstants.PAWN &&
-                ( colorOfPlayer == ChessfigureConstants.WHITE &&
-                  move.getFieldTo() >= 57 &&
-                  move.getFieldTo() <= 64) ||
-                ( colorOfPlayer == ChessfigureConstants.BLACK &&
-                  move.getFieldTo() >= 1 &&
-                  move.getFieldTo() <= 8)
+                (
+                    ( colorOfPlayer == ChessfigureConstants.WHITE &&
+                      move.getFieldTo() >= 57 &&
+                      move.getFieldTo() <= 64) ||
+                    ( colorOfPlayer == ChessfigureConstants.BLACK &&
+                      move.getFieldTo() >= 1 &&
+                      move.getFieldTo() <= 8)
+                 )
             ) {
+            System.out.println("HIER: " + movingFigure.getFigureType() + " - " + ChessfigureConstants.PAWN);
             move.setPawnPromotion(true);
         }
         
