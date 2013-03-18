@@ -1,9 +1,11 @@
 package useful;
 
 import util.ChessfigureConstants;
-import components.Field;
-import components.FigureBishop;
-import components.FigureQueen;
+import components.*;
+//import components.Field;
+//import components.FigureBishop;
+//import components.FigureKing;
+//import components.FigureQueen;
 
 import game.Move;
 import gameTree.NextMove;
@@ -19,9 +21,22 @@ public class TestingNextMove {
         
         NextMove moveTo = new NextMove();
         
-        components.Field field = null;
+        components.Field field = new Field(true);
         
-        field = Field.getInstance();
+        FigureKing fk = new FigureKing(ChessfigureConstants.BLACK);
+        field.putFigureAt(12, fk);
+        
+        FigureKing fk2 = new FigureKing(ChessfigureConstants.WHITE);
+        field.putFigureAt(28, fk2);
+        
+        FigureRook fk3 = new FigureRook(ChessfigureConstants.BLACK);
+        field.putFigureAt(32, fk3);
+        
+        FigureQueen fk4 = new FigureQueen(ChessfigureConstants.WHITE);
+        field.putFigureAt(52, fk4);
+        
+        FigureKnight fk5 = new FigureKnight(ChessfigureConstants.WHITE);
+        field.putFigureAt(18, fk5);
         
         Move move = moveTo.getNext(field, (byte)0);
         

@@ -106,7 +106,7 @@ public class NextMove {
     private void rateChildSituations(byte player){
      // Bewertung der Kindgenerationen aus der Liste
         for (int i = 0; i < liste.size(); i++) {
-            rate.add(search.max(liste.get(i), 5, player, -100, 100));
+            rate.add(search.max(liste.get(i), 3, player, -100, 100));
             System.out.printf("%-2d %d\n", i+1 ,rate.get(i));
             System.out.println(toText.fieldToString(liste.get(i)));
         }

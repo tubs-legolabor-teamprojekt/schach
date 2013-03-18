@@ -56,6 +56,7 @@ public class PrimitivRating {
             }
             it.remove(); // avoids a ConcurrentModificationException
         }
+//        System.out.println("Wert "+value);
         return value;
     }
 

@@ -95,6 +95,7 @@ public class AlphaBetaSearch {
                 }
             }
         }
+//        System.out.println("min: "+minValue);
         return minValue;
     }
 
@@ -108,7 +109,7 @@ public class AlphaBetaSearch {
 
         int maxValue = alpha;
 
-        LinkedList<HashMap<Integer, Byte>> liste = move.generateMoves(situation, ChessfigureConstants.WHITE);
+        LinkedList<HashMap<Integer, Byte>> liste = move.generateMoves(situation, ChessfigureConstants.BLACK);
 
         while (!liste.isEmpty()) {
             int value = min(/*(ChessField)*/ liste.pollFirst(), depth - 1, player, -beta, -maxValue);
@@ -119,6 +120,7 @@ public class AlphaBetaSearch {
                 }
             }
         }
+//        System.out.println("max: "+maxValue);
         return maxValue;
     }
 
