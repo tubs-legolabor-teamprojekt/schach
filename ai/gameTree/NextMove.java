@@ -132,8 +132,8 @@ public class NextMove {
      // Bewertung der Kindgenerationen aus der Liste
         for (int i = 0; i < liste.size(); i++) {
             rate.add(search.max(liste.get(i), 3, player, -100, 100));
-            System.out.printf("%-2d %d\n", i+1 ,rate.get(i));
-            System.out.println(toText.fieldToString(liste.get(i)));
+//            System.out.printf("%-2d %d\n", i+1 ,rate.get(i));
+//            System.out.println(toText.fieldToString(liste.get(i)));
         }
     }
     
@@ -144,7 +144,7 @@ public class NextMove {
     private void doChildSituations(byte player){
      // Erstellen aller Kindsituationen
         liste = moveGen.generateMoves(beforeField, player);
-        System.out.println(liste.size());
+//        System.out.println(liste.size());
 
     }
     

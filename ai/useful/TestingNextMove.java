@@ -39,11 +39,11 @@ public class TestingNextMove {
 //        FigureKnight fk5 = new FigureKnight(ChessfigureConstants.WHITE);
 //        field.putFigureAt(18, fk5);
         
-        System.out.println(toText.fieldToString(field.getCurrentFieldAsHashMapWithBytes()));
+//        System.out.println(toText.fieldToString(field.getCurrentFieldAsHashMapWithBytes()));
         
         Move move = moveTo.getNext(field, (byte)0);
         
-        System.out.println(move.getFieldFrom()+" "+move.getFieldTo()+" "+move.getColorOfPlayer());
+        System.out.println("Move-Objekt: "+move.getFieldFrom()+" "+move.getFieldTo()+" "+move.getColorOfPlayer());
         
     }
 
