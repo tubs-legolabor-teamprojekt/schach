@@ -72,16 +72,16 @@ public class NextMove {
         
         rateChildSituations(player);
         
-        findBestSituationInList();
+        findBestSituationInListMax();
         
-        System.out.println(toText.fieldToString(afterField)); //TODO <--------------------------------Ausgabe???
+//        System.out.println(toText.fieldToString(afterField)); //TODO <--------------------------------Ausgabe???
         return HashMapToMove(beforeField, afterField, player);
     }
     
     /**
      * Finde Situation im Feld, die am besten bewertet wurde
      */
-    private void findBestSituationInList(){
+    private void findBestSituationInListMax(){
         // Stelle der am besten bewerteten Situation in der ArrayList
         int help = rate.isEmpty() ? 0 : rate.get(0);
         for (int i = 0; i < rate.size(); i++) {
@@ -91,6 +91,31 @@ public class NextMove {
         }
         for( int i = 0 ; i < rate.size() ; i++){
             if(rate.get(i)== help){
+                afterField = liste.get(i);
+                //TODO auswahl durch Zufall?
+                break;
+            }
+        }
+
+    }
+    
+    /**
+     * Finde Situation im Feld, die am besten bewertet wurde
+     */
+    private void findBestSituationInListMin(){
+//        System.out.println("alles gut 1");
+        // Stelle der am besten bewerteten Situation in der ArrayList
+        int help = rate.isEmpty() ? 0 : rate.get(0);
+        for (int i = 0; i < rate.size(); i++) {
+            if(rate.get(i)< help){
+                help=i;
+            }
+        }
+//        System.out.println("alles gut 2"+rate.size());
+        for( int i = 0 ; i < rate.size() ; i++){
+//            System.out.println(i);
+            if(rate.get(i)== help){
+//                System.out.println("eines gefunden");
                 afterField = liste.get(i);
                 //TODO auswahl durch Zufall?
                 break;
