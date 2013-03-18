@@ -51,6 +51,10 @@ public class Field
 		this.equipField();
 	}
 	
+	public Field(boolean equip)
+	{
+	}
+	
 	/**
 	 * Gibt die Field-Instanz zurueck
 	 * @return Field-Instanz
@@ -303,7 +307,7 @@ public class Field
         while (it.hasNext()) {
             Map.Entry<Integer, Figure> entry = (Map.Entry<Integer, Figure>)it.next();
             Integer field = entry.getKey();
-            Byte figureByte = entry.getValue().getFigureType();
+            Byte figureByte = (byte)(entry.getValue().getFigureType()+(8*entry.getValue().getColor()));
             map.put(field, figureByte);
         }
         

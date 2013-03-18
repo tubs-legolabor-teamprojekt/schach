@@ -21,7 +21,7 @@ public class AlphaBetaSearch {
     PrimitivRating rate = new PrimitivRating();
     //PseudoValidMove move = new PseudoValidMove(); //ausgedachte Züge
     MoveGenerator move = new MoveGenerator();
-    public double count = 0;
+    public int count = 0;
     public static final int NUMBER_OF_FIGURES = 20;
 
     /*
@@ -87,7 +87,7 @@ public class AlphaBetaSearch {
         
 
         while (!liste.isEmpty()) {
-            int value = max((ChessField) liste.pollFirst(), depth - 1, player, alpha, minValue);
+            int value = max(/*(ChessField)*/ liste.pollFirst(), depth - 1, player, alpha, minValue);
             if (value < minValue) {
                 minValue = value;
                 if (minValue <= alpha) {
@@ -95,6 +95,7 @@ public class AlphaBetaSearch {
                 }
             }
         }
+//        System.out.println("min: "+minValue);
         return minValue;
     }
 
@@ -108,10 +109,10 @@ public class AlphaBetaSearch {
 
         int maxValue = alpha;
 
-        LinkedList<HashMap<Integer, Byte>> liste = move.generateMoves(situation, ChessfigureConstants.WHITE);
+        LinkedList<HashMap<Integer, Byte>> liste = move.generateMoves(situation, ChessfigureConstants.BLACK);
 
         while (!liste.isEmpty()) {
-            int value = min((ChessField) liste.pollFirst(), depth - 1, player, -beta, -maxValue);
+            int value = min(/*(ChessField)*/ liste.pollFirst(), depth - 1, player, -beta, -maxValue);
             if (value > maxValue) {
                 maxValue = value;
                 if (maxValue >= beta) {
@@ -119,6 +120,7 @@ public class AlphaBetaSearch {
                 }
             }
         }
+//        System.out.println("max: "+maxValue);
         return maxValue;
     }
 
