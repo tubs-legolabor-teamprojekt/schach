@@ -106,11 +106,6 @@ public class Chess
             // Züge ausführen
             move.setPlayerColor(currentPlayer);
             this.execMove(currentPlayer, move);
-
-            if (moveCounter >= this.simulatedMoves.size()) {
-                System.out.println("\n-----\nLetzten simulierten Zug beendet.\nSpiel vorbei.");
-                break;
-            }
         }
 
 
@@ -195,6 +190,7 @@ public class Chess
 
         // Konnte Kamera Züge ermitteln?
         System.out.println("Anzahl an veränderten Feldern: "+ listOfChangedPositions.size());
+        listOfChangedPositions.clear();
         if (listOfChangedPositions.size() == 0) {
             // Manuelles Einlesen der Züge durch die GUI
             move = convertFieldnumbersToMoves(currentPlayer, Checkerboard.getInstance().manualMove());
