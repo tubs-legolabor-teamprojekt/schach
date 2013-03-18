@@ -127,19 +127,21 @@ public class Chess
             }
             moveCounter++;
 
-            // Züge ausführen
+            // Aktuellen Spieler setzen
             move.setPlayerColor(currentPlayer);
-            this.execMove(currentPlayer, move);
             
+            // Ende des simulierten Spiels ermitteln
             if ((GameSettings.currentGameType == GameType.Simulated ||
                     GameSettings.currentGameType == GameType.SimulatedWithRobot ||
                     GameSettings.currentGameType == GameType.PlayerVsSimulatedComputer)
                  &&
-                 (moveCounter >= this.simulatedMoves.size())
+                 (moveCounter == this.simulatedMoves.size())
                  ) {
-                System.out.println("\n-----\nLetzten simulierten Zug beendet.\nSpiel vorbei.");
-                break;
+                move.setCheckMate(true);
             }
+            
+            // Züge ausführen
+            this.execMove(currentPlayer, move);
         }
 
 
