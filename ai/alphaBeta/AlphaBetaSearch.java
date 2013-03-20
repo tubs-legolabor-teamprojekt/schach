@@ -32,9 +32,8 @@ public class AlphaBetaSearch {
      * @param alpha untere Grenze für den Cut
      * @param beta obere Grenze für den Cut
      */
-   /*
     
-    public int negaMax(ChessField situation, int depth, int player, int alpha, int beta) {
+    public int negaMax(HashMap<Integer,Byte> situation, int depth, int player, int alpha, int beta) {
         // System.out.println("tiefe " + depth 
         // +" alpha: "+alpha+" beta: "+beta );
 
@@ -49,12 +48,12 @@ public class AlphaBetaSearch {
 
         int maxValue = alpha;
 
-        LinkedList<ChessField> liste = move.getMoves(situation, NUMBER_OF_FIGURES);
+        LinkedList<HashMap<Integer, Byte>> liste = move.generateMoves(situation, ChessfigureConstants.WHITE);
         // TODO Liste mit Werten fuellen
         // TODO zur Optimierung: Felder sortieren
 
         while (!liste.isEmpty()) { // TODO Noch Kindsituationen vorhanden
-            int value = -negaMax((ChessField) liste.pollFirst(), depth - 1, player, -beta, -maxValue);
+            int value = -negaMax(liste.pollFirst(), depth - 1, player, -beta, -maxValue);
             if (value > maxValue) {
                 maxValue = value;
                 if (maxValue >= beta) {
@@ -65,7 +64,7 @@ public class AlphaBetaSearch {
         }
         // System.out.println("maxValue: "+maxValue);
         return maxValue; // TODO Größter Wert
-    } */
+    } 
 
     
     
@@ -75,14 +74,12 @@ public class AlphaBetaSearch {
     public int min(HashMap<Integer,Byte> situation, int depth, int player, int alpha, int beta) {
 
         if (depth == 0 /* || keineZuegeMehr(spieler) */) {
-            count++;
             int rating = rate.primRate(situation);
             return rating;
         }
 
         int minValue = beta;
 
-        //LinkedList<ChessField> liste = move.getMoves(situation, NUMBER_OF_FIGURES);
         LinkedList<HashMap<Integer, Byte>> liste = move.generateMoves(situation, ChessfigureConstants.WHITE);
         
 
@@ -95,14 +92,12 @@ public class AlphaBetaSearch {
                 }
             }
         }
-//        System.out.println("min: "+minValue);
         return minValue;
     }
 
     public int max(HashMap<Integer,Byte> situation, int depth, int player, int alpha, int beta) {
 
         if (depth == 0 /* || keineZuegeMehr(spieler) */) {
-            count++;
             int rating = rate.primRate(situation);
             return rating;
         }
@@ -120,7 +115,6 @@ public class AlphaBetaSearch {
                 }
             }
         }
-//        System.out.println("max: "+maxValue);
         return maxValue;
     }
 

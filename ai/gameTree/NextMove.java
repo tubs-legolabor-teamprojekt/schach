@@ -74,7 +74,7 @@ public class NextMove {
         
         findBestSituationInListMax();
         
-//        System.out.println(toText.fieldToString(afterField)); //TODO <--------------------------------Ausgabe???
+        System.out.println(toText.fieldToString(afterField)); //TODO <--------------------------------Ausgabe???
         return HashMapToMove(beforeField, afterField, player);
     }
     
@@ -83,10 +83,10 @@ public class NextMove {
      */
     private void findBestSituationInListMax(){
         // Stelle der am besten bewerteten Situation in der ArrayList
-        int help = rate.isEmpty() ? 0 : rate.get(0);
+        int help = -99999;
         for (int i = 0; i < rate.size(); i++) {
             if(rate.get(i)> help){
-                help=i;
+                help=rate.get(i);
             }
         }
         for( int i = 0 ; i < rate.size() ; i++){
@@ -103,19 +103,16 @@ public class NextMove {
      * Finde Situation im Feld, die am besten bewertet wurde
      */
     private void findBestSituationInListMin(){
-//        System.out.println("alles gut 1");
         // Stelle der am besten bewerteten Situation in der ArrayList
-        int help = rate.isEmpty() ? 0 : rate.get(0);
+        int help = 99999;
+        
         for (int i = 0; i < rate.size(); i++) {
-            if(rate.get(i)< help){
-                help=i;
+            if(rate.get(i)< help){                
+                help=rate.get(i);
             }
         }
-//        System.out.println("alles gut 2"+rate.size());
         for( int i = 0 ; i < rate.size() ; i++){
-//            System.out.println(i);
             if(rate.get(i)== help){
-//                System.out.println("eines gefunden");
                 afterField = liste.get(i);
                 //TODO auswahl durch Zufall?
                 break;
@@ -131,9 +128,9 @@ public class NextMove {
     private void rateChildSituations(byte player){
      // Bewertung der Kindgenerationen aus der Liste
         for (int i = 0; i < liste.size(); i++) {
-            rate.add(search.max(liste.get(i), 3, player, -100, 100));
-//            System.out.printf("%-2d %d\n", i+1 ,rate.get(i));
-//            System.out.println(toText.fieldToString(liste.get(i)));
+            rate.add(search.max(liste.get(i), 5, player, -100, 100));
+            System.out.printf("%-2d %d\n", i+1 ,rate.get(i));
+            System.out.println(toText.fieldToString(liste.get(i)));
         }
     }
     
@@ -144,7 +141,6 @@ public class NextMove {
     private void doChildSituations(byte player){
      // Erstellen aller Kindsituationen
         liste = moveGen.generateMoves(beforeField, player);
-//        System.out.println(liste.size());
 
     }
     

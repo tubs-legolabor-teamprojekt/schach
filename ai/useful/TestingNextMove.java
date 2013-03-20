@@ -23,23 +23,24 @@ public class TestingNextMove {
         NextMove moveTo = new NextMove();
         
         components.Field field = new Field(true);
+//        field = Field.getInstance();
         
         FigureKing fk = new FigureKing(ChessfigureConstants.BLACK);
         field.putFigureAt(18, fk);
-        
+               
+        FigureKnight fk5 = new FigureKnight(ChessfigureConstants.WHITE);
+        field.putFigureAt(20, fk5);
+
+        FigureRook fk3 = new FigureRook(ChessfigureConstants.BLACK);
+        field.putFigureAt(32, fk3);
+
+        FigureQueen fk4 = new FigureQueen(ChessfigureConstants.WHITE);
+        field.putFigureAt(36, fk4);
+
         FigureKing fk2 = new FigureKing(ChessfigureConstants.WHITE);
         field.putFigureAt(49, fk2);
         
-//        FigureRook fk3 = new FigureRook(ChessfigureConstants.BLACK);
-//        field.putFigureAt(32, fk3);
-        
-        FigureQueen fk4 = new FigureQueen(ChessfigureConstants.WHITE);
-        field.putFigureAt(36, fk4);
-        
-//        FigureKnight fk5 = new FigureKnight(ChessfigureConstants.WHITE);
-//        field.putFigureAt(18, fk5);
-        
-//        System.out.println(toText.fieldToString(field.getCurrentFieldAsHashMapWithBytes()));
+        System.out.println(toText.fieldToString(field.getCurrentFieldAsHashMapWithBytes()));
         
         Move move = moveTo.getNext(field, (byte)0);
         
