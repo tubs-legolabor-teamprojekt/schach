@@ -56,8 +56,57 @@ public class PrimitivRating {
             }
             it.remove(); // avoids a ConcurrentModificationException
         }
-//        System.out.println("Wert "+value);
         return value;
+    }
+
+    public int primRate(HashMap<Integer, Byte> field, byte player) {
+        int value = 0;
+        int actValue = 0;
+        Iterator<Entry<Integer, Byte>> it = field.entrySet().iterator();
+        while (it.hasNext()) {
+            // Aktuelles Key/Value-Paar
+            Map.Entry<Integer, Byte> pair = (Map.Entry<Integer, Byte>) it.next();
+
+            byte figureValue = pair.getValue();
+            Figure figure = ChessfigureConstants.makeFigureFromByte(figureValue);
+            byte figureType = figure.getFigureType();
+
+            switch (figureType) {
+            case ChessfigureConstants.PAWN:
+                actValue = 1;
+                break;
+            case ChessfigureConstants.ROOK:
+                actValue = 5;
+            case ChessfigureConstants.KNIGHT:
+            case ChessfigureConstants.BISHOP:
+                actValue = 3;
+                break;
+            case ChessfigureConstants.QUEEN:
+                actValue = 9;
+                break;
+            default:
+                actValue = 9999;
+                break;
+            }
+
+            if (ExtractInformationFromBinary.getColor(pair.getValue()) == ChessfigureConstants.BLACK) {
+                // Schwarz
+                value -= actValue;
+            } else {
+                // Weiss
+                value += actValue;
+            }
+            it.remove(); // avoids a ConcurrentModificationException
+        }
+        if(player== 1){
+            return -value;
+        }
+        if(player== 0){
+            return value;
+        }
+        System.out.println("FAAAAAAAAAAIL");
+        return 0;
+        
     }
 
     public int randomRate(ChessField situation) {
