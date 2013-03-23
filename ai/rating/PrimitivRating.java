@@ -35,29 +35,34 @@ public class PrimitivRating {
 
             switch (figureType) {
             case ChessfigureConstants.PAWN:
-                actValue = 1;
+                value += ExtractInformationFromBinary.getColor(pair.getValue())== ChessfigureConstants.WHITE? 1:-1;
+//                actValue = 1;
                 break;
             case ChessfigureConstants.ROOK:
-                actValue = 5;
+                value += ExtractInformationFromBinary.getColor(pair.getValue())== ChessfigureConstants.WHITE? 5:-5;
+//                actValue = 5;
             case ChessfigureConstants.KNIGHT:
             case ChessfigureConstants.BISHOP:
-                actValue = 3;
+                value += ExtractInformationFromBinary.getColor(pair.getValue())== ChessfigureConstants.WHITE? 3:-3;
+//                actValue = 3;
                 break;
             case ChessfigureConstants.QUEEN:
-                actValue = 9;
+                value += ExtractInformationFromBinary.getColor(pair.getValue())== ChessfigureConstants.WHITE? 9:-9;
+//                actValue = 9;
                 break;
             default:
-                actValue = 9999;
+                value += ExtractInformationFromBinary.getColor(pair.getValue())== ChessfigureConstants.WHITE? 9999:-9999;
+//                actValue = 9999;
                 break;
             }
 
-            if (ExtractInformationFromBinary.getColor(pair.getValue()) == ChessfigureConstants.BLACK) {
-                // Schwarz
-                value -= actValue;
-            } else {
-                // Weiss
-                value += actValue;
-            }
+//            if (ExtractInformationFromBinary.getColor(pair.getValue()) == ChessfigureConstants.BLACK) {
+//                // Schwarz
+//                value -= actValue;
+//            } else {
+//                // Weiss
+//                value += actValue;
+//            }
             it.remove(); // avoids a ConcurrentModificationException
         }
         return value;

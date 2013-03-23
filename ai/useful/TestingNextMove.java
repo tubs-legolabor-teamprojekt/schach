@@ -98,6 +98,7 @@ public class TestingNextMove {
         FigureRook fr4 = new FigureRook(ChessfigureConstants.WHITE);
         field.putFigureAt(2, fr4);
 */
+/*
         FigurePawn fp3 = new FigurePawn(ChessfigureConstants.BLACK);
         field.putFigureAt(36, fp3);
         
@@ -118,7 +119,7 @@ public class TestingNextMove {
        
         FigureBishop fb3 = new FigureBishop(ChessfigureConstants.BLACK);
         field.putFigureAt(50, fb3);
-        
+       
         
 
         FigurePawn fp14 = new FigurePawn(ChessfigureConstants.BLACK);
@@ -162,7 +163,26 @@ public class TestingNextMove {
 
         FigureBishop fb2 = new FigureBishop(ChessfigureConstants.WHITE);
         field.putFigureAt(15, fb2);
-
+*/
+        field = SimpleFieldCreate.setField(field, "Rook", 6, (byte)0);
+        field = SimpleFieldCreate.setField(field, "King", 7, (byte)0);
+        field = SimpleFieldCreate.setField(field, "Pawn", 14, (byte)0);
+        field = SimpleFieldCreate.setField(field, "Pawn", 16, (byte)0);
+        field = SimpleFieldCreate.setField(field, "Pawn", 19, (byte)0);
+        field = SimpleFieldCreate.setField(field, "Pawn", 23, (byte)0);
+        field = SimpleFieldCreate.setField(field, "Bishop", 24, (byte)0);
+        field = SimpleFieldCreate.setField(field, "Queen", 43, (byte)0);
+        
+        field = SimpleFieldCreate.setField(field, "Rook", 33, (byte)1);
+        field = SimpleFieldCreate.setField(field, "Pawn", 49, (byte)1);
+        field = SimpleFieldCreate.setField(field, "King", 53, (byte)1);
+        field = SimpleFieldCreate.setField(field, "Rook", 61, (byte)1);
+        field = SimpleFieldCreate.setField(field, "Pawn", 54, (byte)1);
+        field = SimpleFieldCreate.setField(field, "Pawn", 47, (byte)1);
+        field = SimpleFieldCreate.setField(field, "Pawn", 56, (byte)1);
+        field = SimpleFieldCreate.setField(field, "Queen", 12, (byte)1);
+        
+        
 
         PrimitivRating prim = new PrimitivRating();
         System.out.println(prim.primRate(field.getCurrentFieldAsHashMapWithBytes()));

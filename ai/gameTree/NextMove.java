@@ -127,10 +127,12 @@ public class NextMove {
     private void rateChildSituations(byte player){
         for (int i = 0; i < liste.size(); i++) {
 //            rate.add(search.max(liste.get(i), 4, player, -100, 100));
-            rate.add(search.negaMax(liste.get(i), 6, player, -100, 100));
+//            rate.add(search.negaMax(liste.get(i), 4, player, -100, 100));
+            rate.add(search.alphaBeta(liste.get(i), 4, player, -100, 100));
             System.out.printf("%-3d %d  ", i+1 ,rate.get(i));
             System.out.print("Zug: "+HashMapMoveToText(beforeField, liste.get(i), player)+" ");
             System.out.println("Knoten: " + search.count);
+            search.count=0;
         }
     }
     

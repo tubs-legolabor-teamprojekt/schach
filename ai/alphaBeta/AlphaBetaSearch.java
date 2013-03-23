@@ -22,6 +22,7 @@ public class AlphaBetaSearch {
     MoveGenerator move = new MoveGenerator();
     public int count = 0;
 
+
     /**
      * Implementierung der AlphaBeta Suche als NegaMax Variante.
      * @param situation aktuelles Spielfeld; davon ausgehend wird gesucht
@@ -50,12 +51,48 @@ public class AlphaBetaSearch {
                 if (maxValue >= beta) {
                     break;
                 }
-            }
-            
+            }   
         }
         return maxValue; // TODO Größter Wert
-    } 
+    }
+    
+    public int alphaBeta(HashMap<Integer,Byte> situation, int depth, int player, int alpha, int beta) {
 
+        LinkedList<HashMap<Integer, Byte>> liste = move.generateMoves(situation, ChessfigureConstants.WHITE);
+        
+        if (depth == 0 || liste.isEmpty()) {
+            count++;
+            int rating = rate.primRate(situation);
+            return rating;
+        }
+        boolean gefunden = false;
+        int maxValue = -99999999, value;    
+        
+        while (!liste.isEmpty()) { // TODO Noch Kindsituationen vorhanden
+            if(gefunden){
+                value = -alphaBeta(liste.pollFirst(), depth - 1, player==0?1:0, -alpha-1, -alpha);
+                if(value > alpha && value < beta){
+                    value = -alphaBeta(liste.pollFirst(), depth - 1, player==0?1:0, -beta, -value);
+                }
+            }else{
+                value = -alphaBeta(liste.pollFirst(), depth - 1, player==0?1:0, -beta, -alpha);
+            }
+            if (value > maxValue)
+            {
+                if (value >= beta)
+                    return value;
+                maxValue = value;
+                if (value > alpha)
+                {
+                    alpha = value;
+                    gefunden = true;
+                }
+            }
+        }
+        
+        
+        return maxValue; // TODO Größter Wert
+    }
     
     
     /*
@@ -63,7 +100,9 @@ public class AlphaBetaSearch {
      */
     public int min(HashMap<Integer,Byte> situation, int depth, byte player, int alpha, int beta) {
 
-        if (depth == 0 /* || keineZuegeMehr(spieler) */) {
+        LinkedList<HashMap<Integer, Byte>> liste = move.generateMoves(situation, ChessfigureConstants.WHITE);
+        
+        if (depth == 0 || liste.isEmpty()) {
             count++;
             int rating = rate.primRate(situation, player);
             return rating;
@@ -71,11 +110,11 @@ public class AlphaBetaSearch {
 
         int minValue = beta;
 
-        LinkedList<HashMap<Integer, Byte>> liste = move.generateMoves(situation, ChessfigureConstants.WHITE);
+        
         
 
         while (!liste.isEmpty()) {
-            int value = max(/*(ChessField)*/ liste.pollFirst(), depth - 1, player==0?(byte)1:(byte)0, alpha, minValue);
+            int value = max(liste.pollFirst(), depth - 1, player==0?(byte)1:(byte)0, alpha, minValue);
             if (value < minValue) {
                 minValue = value;
                 if (minValue <= alpha) {
@@ -88,7 +127,9 @@ public class AlphaBetaSearch {
 
     public int max(HashMap<Integer,Byte> situation, int depth, byte player, int alpha, int beta) {
 
-        if (depth == 0 /* || keineZuegeMehr(spieler) */) {
+        LinkedList<HashMap<Integer, Byte>> liste = move.generateMoves(situation, ChessfigureConstants.BLACK);
+        
+        if (depth == 0 || liste.isEmpty()) {
             count++;
             int rating = rate.primRate(situation, player);
             return rating;
@@ -96,10 +137,10 @@ public class AlphaBetaSearch {
 
         int maxValue = alpha;
 
-        LinkedList<HashMap<Integer, Byte>> liste = move.generateMoves(situation, ChessfigureConstants.BLACK);
+        
 
         while (!liste.isEmpty()) {
-            int value = min(/*(ChessField)*/ liste.pollFirst(), depth - 1, player==0?(byte)1:(byte)0, -beta, -maxValue);
+            int value = min(liste.pollFirst(), depth - 1, player==0?(byte)1:(byte)0, -beta, -maxValue);
             if (value > maxValue) {
                 maxValue = value;
                 if (maxValue >= beta) {
@@ -109,5 +150,21 @@ public class AlphaBetaSearch {
         }
         return maxValue;
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
 }
