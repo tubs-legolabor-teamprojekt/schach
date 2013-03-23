@@ -19,20 +19,17 @@ import useful.MoveGenerator;
 public class AlphaBetaSearch {
 
     PrimitivRating rate = new PrimitivRating();
-    //PseudoValidMove move = new PseudoValidMove(); //ausgedachte Züge
     MoveGenerator move = new MoveGenerator();
     public int count = 0;
-    public static final int NUMBER_OF_FIGURES = 20;
 
-    /*
+    /**
      * Implementierung der AlphaBeta Suche als NegaMax Variante.
      * @param situation aktuelles Spielfeld; davon ausgehend wird gesucht
      * @param depth Anzahl der Zuege, welche im vorraus berechnet werden sollen
      * @param player Welcher Spieler gerade am Zug ist (nicht benoetigt?)
      * @param alpha untere Grenze für den Cut
      * @param beta obere Grenze für den Cut
-     */
-    
+     */    
     public int negaMax(HashMap<Integer,Byte> situation, int depth, int player, int alpha, int beta) {
 
         LinkedList<HashMap<Integer, Byte>> liste = move.generateMoves(situation, ChessfigureConstants.WHITE);

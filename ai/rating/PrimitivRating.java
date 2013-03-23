@@ -15,19 +15,23 @@ import dataStructure.ChessField;
 public class PrimitivRating {
 
     Random ran = new Random();
+    int value = 0;
+    int actValue = 0;
+    byte figureValue;
+    byte figureType;
 
     //Statt HashMap<Integer, Byte> kann auch Chessfield genommen werden
     public int primRate(HashMap<Integer, Byte> field) {
-        int value = 0;
-        int actValue = 0;
+        value = 0;
+        actValue=0;
         Iterator<Entry<Integer, Byte>> it = field.entrySet().iterator();
         while (it.hasNext()) {
             // Aktuelles Key/Value-Paar
             Map.Entry<Integer, Byte> pair = (Map.Entry<Integer, Byte>) it.next();
 
-            byte figureValue = pair.getValue();
+            figureValue = pair.getValue();
             Figure figure = ChessfigureConstants.makeFigureFromByte(figureValue);
-            byte figureType = figure.getFigureType();
+            figureType = figure.getFigureType();
 
             switch (figureType) {
             case ChessfigureConstants.PAWN:

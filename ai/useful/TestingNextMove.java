@@ -49,6 +49,7 @@ public class TestingNextMove {
         this.putFigureAt(++position, fk);
 */
         
+/*
         FigureKing fk2 = new FigureKing(ChessfigureConstants.BLACK);
         field.putFigureAt(59, fk2);
         
@@ -96,6 +97,72 @@ public class TestingNextMove {
 
         FigureRook fr4 = new FigureRook(ChessfigureConstants.WHITE);
         field.putFigureAt(2, fr4);
+*/
+        FigurePawn fp3 = new FigurePawn(ChessfigureConstants.BLACK);
+        field.putFigureAt(36, fp3);
+        
+        FigurePawn fp12 = new FigurePawn(ChessfigureConstants.BLACK);
+        field.putFigureAt(38, fp12);
+        
+        FigureKnight fk1 = new FigureKnight(ChessfigureConstants.WHITE);
+        field.putFigureAt(37, fk1);
+        
+        FigurePawn fp11 = new FigurePawn(ChessfigureConstants.WHITE);
+        field.putFigureAt(39, fp11);
+        
+        FigurePawn fp13 = new FigurePawn(ChessfigureConstants.WHITE);
+        field.putFigureAt(40, fp13);
+        
+        FigureBishop fb1 = new FigureBishop(ChessfigureConstants.BLACK);
+        field.putFigureAt(44, fb1);
+       
+        FigureBishop fb3 = new FigureBishop(ChessfigureConstants.BLACK);
+        field.putFigureAt(50, fb3);
+        
+        
+
+        FigurePawn fp14 = new FigurePawn(ChessfigureConstants.BLACK);
+        field.putFigureAt(49, fp14);
+        FigurePawn fp15 = new FigurePawn(ChessfigureConstants.BLACK);
+        field.putFigureAt(54, fp15);
+        FigurePawn fp16 = new FigurePawn(ChessfigureConstants.BLACK);
+        field.putFigureAt(55, fp16);
+        FigurePawn fp17 = new FigurePawn(ChessfigureConstants.BLACK);
+        field.putFigureAt(56, fp17);
+        
+        
+        FigureKing fk2 = new FigureKing(ChessfigureConstants.BLACK);
+        field.putFigureAt(63, fk2);
+        
+        
+        
+        FigureQueen fq1 = new FigureQueen(ChessfigureConstants.WHITE);
+        field.putFigureAt(21, fq1);
+
+        FigurePawn fp7 = new FigurePawn(ChessfigureConstants.WHITE);
+        field.putFigureAt(28, fp7);
+
+        FigurePawn fp6 = new FigurePawn(ChessfigureConstants.WHITE);
+        field.putFigureAt(30, fp6);
+
+        FigurePawn fp1 = new FigurePawn(ChessfigureConstants.BLACK);
+        field.putFigureAt(26, fp1);
+
+        FigurePawn fp5 = new FigurePawn(ChessfigureConstants.WHITE);
+        field.putFigureAt(18, fp5);
+
+        FigurePawn fp2 = new FigurePawn(ChessfigureConstants.WHITE);
+        field.putFigureAt(20, fp2);
+
+        FigureKing fk3 = new FigureKing(ChessfigureConstants.WHITE);
+        field.putFigureAt(16, fk3);
+
+        FigureQueen fq3 = new FigureQueen(ChessfigureConstants.BLACK);
+        field.putFigureAt(9, fq3);
+
+        FigureBishop fb2 = new FigureBishop(ChessfigureConstants.WHITE);
+        field.putFigureAt(15, fb2);
+
 
         PrimitivRating prim = new PrimitivRating();
         System.out.println(prim.primRate(field.getCurrentFieldAsHashMapWithBytes()));
