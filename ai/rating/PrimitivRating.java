@@ -21,9 +21,10 @@ public class PrimitivRating {
     byte figureType;
 
     //Statt HashMap<Integer, Byte> kann auch Chessfield genommen werden
-    public int primRate(HashMap<Integer, Byte> field) {
+    public int primRate(HashMap<Integer, Byte> field) throws NullPointerException {
         value = 0;
         actValue=0;
+//        if(field == null){System.out.println("leer");}
         Iterator<Entry<Integer, Byte>> it = field.entrySet().iterator();
         while (it.hasNext()) {
             // Aktuelles Key/Value-Paar
@@ -36,33 +37,20 @@ public class PrimitivRating {
             switch (figureType) {
             case ChessfigureConstants.PAWN:
                 value += ExtractInformationFromBinary.getColor(pair.getValue())== ChessfigureConstants.WHITE? 1:-1;
-//                actValue = 1;
                 break;
             case ChessfigureConstants.ROOK:
                 value += ExtractInformationFromBinary.getColor(pair.getValue())== ChessfigureConstants.WHITE? 5:-5;
-//                actValue = 5;
             case ChessfigureConstants.KNIGHT:
             case ChessfigureConstants.BISHOP:
                 value += ExtractInformationFromBinary.getColor(pair.getValue())== ChessfigureConstants.WHITE? 3:-3;
-//                actValue = 3;
                 break;
             case ChessfigureConstants.QUEEN:
                 value += ExtractInformationFromBinary.getColor(pair.getValue())== ChessfigureConstants.WHITE? 9:-9;
-//                actValue = 9;
                 break;
             default:
-                value += ExtractInformationFromBinary.getColor(pair.getValue())== ChessfigureConstants.WHITE? 9999:-9999;
-//                actValue = 9999;
+                value += ExtractInformationFromBinary.getColor(pair.getValue())== ChessfigureConstants.WHITE? 999:-999;
                 break;
             }
-
-//            if (ExtractInformationFromBinary.getColor(pair.getValue()) == ChessfigureConstants.BLACK) {
-//                // Schwarz
-//                value -= actValue;
-//            } else {
-//                // Weiss
-//                value += actValue;
-//            }
             it.remove(); // avoids a ConcurrentModificationException
         }
         return value;

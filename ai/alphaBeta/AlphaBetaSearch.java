@@ -33,7 +33,7 @@ public class AlphaBetaSearch {
      */    
     public int negaMax(HashMap<Integer,Byte> situation, int depth, int player, int alpha, int beta) {
 
-        LinkedList<HashMap<Integer, Byte>> liste = move.generateMoves(situation, ChessfigureConstants.WHITE);
+        LinkedList<HashMap<Integer, Byte>> liste = move.generateMoves(situation, (byte)player);
         
         if (depth == 0 || liste.isEmpty()) {
             count++;
@@ -43,8 +43,8 @@ public class AlphaBetaSearch {
 
         int maxValue = alpha;        
 
-        while (!liste.isEmpty()) { // TODO Noch Kindsituationen vorhanden
-            int value = -negaMax(liste.pollFirst(), depth - 1, player, -beta, -maxValue);
+        while (!liste.isEmpty()) {
+            int value = -negaMax(liste.pollFirst(), depth - 1, player==0?1:0, -beta, -maxValue);
                         
             if (value > maxValue) {
                 maxValue = value;
@@ -53,22 +53,28 @@ public class AlphaBetaSearch {
                 }
             }   
         }
-        return maxValue; // TODO Größter Wert
+        return maxValue;
     }
     
     public int alphaBeta(HashMap<Integer,Byte> situation, int depth, int player, int alpha, int beta) {
 
-        LinkedList<HashMap<Integer, Byte>> liste = move.generateMoves(situation, ChessfigureConstants.WHITE);
+        LinkedList<HashMap<Integer, Byte>> liste = move.generateMoves(situation, (byte)player);
         
-        if (depth == 0 || liste.isEmpty()) {
+        if (depth == 0 || liste==null || liste.isEmpty()) {
             count++;
-            int rating = rate.primRate(situation);
-            return rating;
+            int rating=0;
+            try{
+                rating = rate.primRate(situation);
+            }catch(NullPointerException e){
+                e.printStackTrace();
+                System.out.println("Hier ist was falsch gelaufen!");
+            }
+            return rating+depth;
         }
         boolean gefunden = false;
-        int maxValue = -99999999, value;    
+        int maxValue = -10000, value;    
         
-        while (!liste.isEmpty()) { // TODO Noch Kindsituationen vorhanden
+        while (!liste.isEmpty()) {
             if(gefunden){
                 value = -alphaBeta(liste.pollFirst(), depth - 1, player==0?1:0, -alpha-1, -alpha);
                 if(value > alpha && value < beta){
@@ -77,21 +83,17 @@ public class AlphaBetaSearch {
             }else{
                 value = -alphaBeta(liste.pollFirst(), depth - 1, player==0?1:0, -beta, -alpha);
             }
-            if (value > maxValue)
-            {
+            if (value > maxValue){
                 if (value >= beta)
                     return value;
                 maxValue = value;
-                if (value > alpha)
-                {
+                if (value > alpha){
                     alpha = value;
                     gefunden = true;
                 }
             }
-        }
-        
-        
-        return maxValue; // TODO Größter Wert
+        }        
+        return maxValue;
     }
     
     

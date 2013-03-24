@@ -6,12 +6,12 @@ import components.*;
 
 public class SimpleFieldCreate {
 
-    private static final String KING = "King";
-    private static final String QUEEN = "Queen";
-    private static final String PAWN = "Pawn";
-    private static final String KNIGHT = "Knight";
-    private static final String BISHOP = "Bishop";
-    private static final String ROOK = "Rook";
+    private static final String KING = "k";
+    private static final String QUEEN = "d";
+    private static final String PAWN = "b";
+    private static final String KNIGHT = "s";
+    private static final String BISHOP = "l";
+    private static final String ROOK = "t";
     
     public static Field setField(Field field, String figure, int number, byte color){
         

@@ -21,35 +21,75 @@ public class TestingNextMove {
         
         // TODO Auto-generated method stub
         TextChessField toText = new TextChessField();
-        NextMove moveTo = new NextMove();
-        
-        components.Field field = new Field(true);
+        NextMove moveTo = new NextMove();        
+        Field field= new Field(false);
 //        field = Field.getInstance();
-/*        
-        // Turm
-        FigureRook fr1 = new FigureRook(color);
-        this.putFigureAt(++position, fr1);
+        field = create4(field);
         
-        // Springer
-        FigureKnight fk1 = new FigureKnight(color);
-        this.putFigureAt(++position, fk1);
+
+        PrimitivRating prim = new PrimitivRating();
+        System.out.println(prim.primRate(field.getCurrentFieldAsHashMapWithBytes()));        
+        System.out.println(toText.fieldToString(field.getCurrentFieldAsHashMapWithBytes()));        
+        Move move = moveTo.getNext(field, (byte)0);        
+        System.out.println("Move-Objekt: "+move.getFieldFrom()+" "+move.getFieldTo()+" "+move.getPlayerColor());
         
-        // Laeufer
-        FigureBishop fb1 = new FigureBishop(color);
-        this.putFigureAt(++position, fb1);
+    }
+    
+    /*
+     * Matt in einem Zug
+     */
+    private static Field create4(Field field){
+        field = SimpleFieldCreate.setField(field, "t", 3, (byte)0);
+        field = SimpleFieldCreate.setField(field, "t", 8, (byte)0);
+        field = SimpleFieldCreate.setField(field, "b", 9, (byte)0);
+        field = SimpleFieldCreate.setField(field, "l", 13, (byte)0);
+        field = SimpleFieldCreate.setField(field, "k", 15, (byte)0);
+        field = SimpleFieldCreate.setField(field, "d", 16, (byte)0);
+        field = SimpleFieldCreate.setField(field, "b", 18, (byte)0);
+        field = SimpleFieldCreate.setField(field, "s", 19, (byte)0);
+        field = SimpleFieldCreate.setField(field, "b", 22, (byte)0);
+        field = SimpleFieldCreate.setField(field, "b", 27, (byte)0);
+        field = SimpleFieldCreate.setField(field, "s", 28, (byte)0);
+        field = SimpleFieldCreate.setField(field, "b", 29, (byte)0);
+        field = SimpleFieldCreate.setField(field, "b", 31, (byte)0);
         
-        // Dame
-        FigureQueen fq = new FigureQueen(color);
-        this.putFigureAt(++position, fq);
+        field = SimpleFieldCreate.setField(field, "l", 39, (byte)1);
+        field = SimpleFieldCreate.setField(field, "b", 41, (byte)1);
+        field = SimpleFieldCreate.setField(field, "b", 42, (byte)1);
+        field = SimpleFieldCreate.setField(field, "b", 44, (byte)1);
+        field = SimpleFieldCreate.setField(field, "b", 45, (byte)1);
+        field = SimpleFieldCreate.setField(field, "b", 54, (byte)1);
+        field = SimpleFieldCreate.setField(field, "s", 52, (byte)1);
+        field = SimpleFieldCreate.setField(field, "l", 50, (byte)1);
+        field = SimpleFieldCreate.setField(field, "d", 58, (byte)1);
+        field = SimpleFieldCreate.setField(field, "t", 59, (byte)1);
+        field = SimpleFieldCreate.setField(field, "t", 61, (byte)1);
+        field = SimpleFieldCreate.setField(field, "s", 62, (byte)1);
+        field = SimpleFieldCreate.setField(field, "k", 63, (byte)1);
+        return field;
+    }
         
-        ChessfigureConstants.BLACK
-        
-        // Koenig
-        FigureKing fk = new FigureKing(color);
-        this.putFigureAt(++position, fk);
-*/
-        
-/*
+    private static Field create1(Field field){
+        field = SimpleFieldCreate.setField(field, "t", 6, (byte)0);
+        field = SimpleFieldCreate.setField(field, "k", 7, (byte)0);
+        field = SimpleFieldCreate.setField(field, "b", 14, (byte)0);
+        field = SimpleFieldCreate.setField(field, "b", 16, (byte)0);
+        field = SimpleFieldCreate.setField(field, "b", 19, (byte)0);
+        field = SimpleFieldCreate.setField(field, "b", 23, (byte)0);
+        field = SimpleFieldCreate.setField(field, "l", 24, (byte)0);
+        field = SimpleFieldCreate.setField(field, "d", 43, (byte)0);        
+        field = SimpleFieldCreate.setField(field, "t", 33, (byte)1);
+        field = SimpleFieldCreate.setField(field, "b", 49, (byte)1);
+        field = SimpleFieldCreate.setField(field, "k", 53, (byte)1);
+        field = SimpleFieldCreate.setField(field, "t", 61, (byte)1);
+        field = SimpleFieldCreate.setField(field, "b", 54, (byte)1);
+        field = SimpleFieldCreate.setField(field, "b", 47, (byte)1);
+        field = SimpleFieldCreate.setField(field, "b", 56, (byte)1);
+        field = SimpleFieldCreate.setField(field, "d", 12, (byte)1);        
+        return field;
+    }
+    
+    private static Field create3(Field field){
         FigureKing fk2 = new FigureKing(ChessfigureConstants.BLACK);
         field.putFigureAt(59, fk2);
         
@@ -97,8 +137,10 @@ public class TestingNextMove {
 
         FigureRook fr4 = new FigureRook(ChessfigureConstants.WHITE);
         field.putFigureAt(2, fr4);
-*/
-/*
+        return field;
+    }
+
+    private static Field create2(Field field){
         FigurePawn fp3 = new FigurePawn(ChessfigureConstants.BLACK);
         field.putFigureAt(36, fp3);
         
@@ -163,37 +205,6 @@ public class TestingNextMove {
 
         FigureBishop fb2 = new FigureBishop(ChessfigureConstants.WHITE);
         field.putFigureAt(15, fb2);
-*/
-        field = SimpleFieldCreate.setField(field, "Rook", 6, (byte)0);
-        field = SimpleFieldCreate.setField(field, "King", 7, (byte)0);
-        field = SimpleFieldCreate.setField(field, "Pawn", 14, (byte)0);
-        field = SimpleFieldCreate.setField(field, "Pawn", 16, (byte)0);
-        field = SimpleFieldCreate.setField(field, "Pawn", 19, (byte)0);
-        field = SimpleFieldCreate.setField(field, "Pawn", 23, (byte)0);
-        field = SimpleFieldCreate.setField(field, "Bishop", 24, (byte)0);
-        field = SimpleFieldCreate.setField(field, "Queen", 43, (byte)0);
-        
-        field = SimpleFieldCreate.setField(field, "Rook", 33, (byte)1);
-        field = SimpleFieldCreate.setField(field, "Pawn", 49, (byte)1);
-        field = SimpleFieldCreate.setField(field, "King", 53, (byte)1);
-        field = SimpleFieldCreate.setField(field, "Rook", 61, (byte)1);
-        field = SimpleFieldCreate.setField(field, "Pawn", 54, (byte)1);
-        field = SimpleFieldCreate.setField(field, "Pawn", 47, (byte)1);
-        field = SimpleFieldCreate.setField(field, "Pawn", 56, (byte)1);
-        field = SimpleFieldCreate.setField(field, "Queen", 12, (byte)1);
-        
-        
-
-        PrimitivRating prim = new PrimitivRating();
-        System.out.println(prim.primRate(field.getCurrentFieldAsHashMapWithBytes()));
-
-        
-        System.out.println(toText.fieldToString(field.getCurrentFieldAsHashMapWithBytes()));
-        
-        Move move = moveTo.getNext(field, (byte)0);
-        
-        System.out.println("Move-Objekt: "+move.getFieldFrom()+" "+move.getFieldTo()+" "+move.getPlayerColor());
-        
+        return field;
     }
-
 }

@@ -8,6 +8,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Random;
+
 import useful.MoveGenerator;
 import useful.TextChessField;
 import alphaBeta.AlphaBetaSearch;
@@ -84,51 +86,42 @@ public class NextMove {
     private void findBestSituationInListMax(){
         // Stelle der am besten bewerteten Situation in der ArrayList
         int help = -99999;
+        Random rn = new Random();
         for (int i = 0; i < rate.size(); i++) {
             if(rate.get(i)> help){
                 help=rate.get(i);
             }
         }
-        for( int i = 0 ; i < rate.size() ; i++){
-            if(rate.get(i)== help){
-                afterField = liste.get(i);
-                //TODO auswahl durch Zufall?
-                break;
+        for( int i = 0 ; i < liste.size() ; i+=0 ){
+            if(rate.get(i)!=help){ 
+                liste.remove(i);
+                rate.remove(i);
+                i--;
             }
+            i++;
         }
-
-    }
-    
-    /**
-     * Finde Situation im Feld, die am besten bewertet wurde
-     */
-    private void findBestSituationInListMin(){
-        int help = 99999;
+        afterField = liste.get(rn.nextInt(liste.size()));
         
-        for (int i = 0; i < rate.size(); i++) {
-            if(rate.get(i)< help){                
-                help=rate.get(i);
-            }
-        }
-        for( int i = 0 ; i < rate.size() ; i++){
-            if(rate.get(i)== help){
-                afterField = liste.get(i);
-                //TODO auswahl durch Zufall?
-                break;
-            }
-        }
+//        
+//        for( int i = 0 ; i < rate.size() ; i++){
+//            if(rate.get(i)== help){
+//                afterField = liste.get(i);
+//                //TODO auswahl durch Zufall?
+//                break;
+//            }
+//        }
 
     }
-    
+        
     /**
      * Bewerte nacheinander alle in der Liste befindlichen Situationen
      * @param player
      */
     private void rateChildSituations(byte player){
         for (int i = 0; i < liste.size(); i++) {
-//            rate.add(search.max(liste.get(i), 4, player, -100, 100));
-//            rate.add(search.negaMax(liste.get(i), 4, player, -100, 100));
-            rate.add(search.alphaBeta(liste.get(i), 4, player, -100, 100));
+//            rate.add(search.max(liste.get(i), 3, player, -100, 100));
+//            rate.add(search.negaMax(liste.get(i), 3, player, -1000000, 1000000));
+            rate.add(search.alphaBeta(liste.get(i), 3, player, -1000000, 1000000));
             System.out.printf("%-3d %d  ", i+1 ,rate.get(i));
             System.out.print("Zug: "+HashMapMoveToText(beforeField, liste.get(i), player)+" ");
             System.out.println("Knoten: " + search.count);
