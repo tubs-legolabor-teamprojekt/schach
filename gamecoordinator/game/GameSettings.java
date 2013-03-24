@@ -20,7 +20,7 @@ public class GameSettings
      * temporär eingeschaltet werden, damit keine Fotos per Webcam geschossen
      * werden.
      */
-    public static final GameType currentGameType = GameType.PlayerVsComputer;
+    public static final GameType currentGameType = GameType.Simulated;
     
     /**
      * Dateiname zur Textdatei, die die Züge eines simulierten Spiels enthält

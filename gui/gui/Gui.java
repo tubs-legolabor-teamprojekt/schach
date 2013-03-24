@@ -2,7 +2,6 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Container;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -11,8 +10,6 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.TableColumn;
-
-import util.ChessfigureConstants;
 
 import components.Field;
 
@@ -178,6 +175,13 @@ public class Gui extends JFrame
     public void showWarning(String message) {
         javax.swing.JOptionPane.showMessageDialog(this, message, "Fehler!",
                 JOptionPane.WARNING_MESSAGE);
+    }
+    
+    public boolean waitingForMove() {
+        javax.swing.JOptionPane.showMessageDialog(this, "Bitte versetzen Sie eine Schachfigur " +
+        		"und bestätigen Sie Ihren Zug.", "Weiß ist am Zug",
+                JOptionPane.OK_OPTION);
+        return true;
     }
 
     /**

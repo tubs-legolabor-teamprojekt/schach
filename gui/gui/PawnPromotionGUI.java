@@ -86,6 +86,7 @@ public class PawnPromotionGUI extends JFrame implements ActionListener
      * Methode, die das Layout des Fensters erstellt.
      */
     public void makeLayout() {
+        this.setAlwaysOnTop(true);
         this.toFront();
         
         this.setContentPane(new BackgroundPanel());
