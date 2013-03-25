@@ -623,7 +623,7 @@ public class Field
 			}
 		} catch (FieldException e)
 		{
-			System.out.println(e.getMessage());
+			//System.out.println(e.getMessage());
 		}
 		return fieldNumber;
 	}

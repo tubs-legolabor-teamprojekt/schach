@@ -1097,8 +1097,6 @@ public class MoveGenerator
 //        test.put(45, (byte)27); //linker, schwarzer Springer
 //        test.put(64, (byte)10); //linker, schwarzer Turm
         MoveGenerator toast = new MoveGenerator();
-        //Grafische Darstellung Schachfeld für <Flo
-        TextChessField s = new TextChessField();
 //        System.out.println(s.fieldToString(test));
         LinkedList<HashMap<Integer, Byte>> xyz = new LinkedList<HashMap<Integer, Byte>>();
         xyz = toast.generateMoves(test, (byte)1);
@@ -1107,13 +1105,13 @@ public class MoveGenerator
         
         for(int i = 1; i <= x; i++){
             System.out.println("\n --------- \n");
-            System.out.println(s.fieldToString(xyz.poll()));
+            System.out.println(TextChessField.fieldToString(xyz.poll()));
         }
         
         ListIterator<HashMap<Integer, Byte>> itr = xyz.listIterator();
         while(itr.hasNext())
         {
-          System.out.println(s.fieldToString(itr.next()));
+          System.out.println(TextChessField.fieldToString(itr.next()));
           System.out.println("\n\n-----\n\n");
         }
         

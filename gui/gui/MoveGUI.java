@@ -53,7 +53,8 @@ public class MoveGUI extends JFrame implements ActionListener
                     okButton_C = new JButton("Fertig");
 
     private boolean isKingsideCastling = false, 
-                    normalButtonPressed = false;
+                    normalButtonPressed = false,
+                    castlingButtonPressed = false;
 
     /**
      * Konstruktor, der den Titel setzt und ein neues Objekt erstellt. 
@@ -82,7 +83,7 @@ public class MoveGUI extends JFrame implements ActionListener
      */
     public void makeLayout() {
         this.toFront();
-//        this.setAlwaysOnTop(true);
+        this.setAlwaysOnTop(true);
 
         // Aussehen der JTabbedPane
         UIManager.put("TabbedPane.contentOpaque", false);
@@ -229,6 +230,7 @@ public class MoveGUI extends JFrame implements ActionListener
         if (e.getActionCommand() == "button_ok_C") {
             this.isKingsideCastling = this.kingsideCastling.isSelected();
             Checkerboard.getInstance().setMmIsReady(true);
+            this.castlingButtonPressed = true;
             this.setVisible(false);
             this.dispose();
         }
@@ -242,6 +244,10 @@ public class MoveGUI extends JFrame implements ActionListener
      */
     public boolean isNormalButtonPressed() {
         return this.normalButtonPressed;
+    }
+    
+    public boolean isCastlingButtonPressed() {
+        return this.castlingButtonPressed;
     }
 
 }
