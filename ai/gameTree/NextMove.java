@@ -101,16 +101,6 @@ public class NextMove {
             i++;
         }
         afterField = liste.get(rn.nextInt(liste.size()));
-        
-//        
-//        for( int i = 0 ; i < rate.size() ; i++){
-//            if(rate.get(i)== help){
-//                afterField = liste.get(i);
-//                //TODO auswahl durch Zufall?
-//                break;
-//            }
-//        }
-
     }
         
     /**
@@ -118,15 +108,19 @@ public class NextMove {
      * @param player
      */
     private void rateChildSituations(byte player){
+        int helpcount=0;
         for (int i = 0; i < liste.size(); i++) {
-//            rate.add(search.max(liste.get(i), 3, player, -100, 100));
+//            rate.add(search.max(liste.get(i), 3, player, -1000000, 1000000));
 //            rate.add(search.negaMax(liste.get(i), 3, player, -1000000, 1000000));
-            rate.add(search.alphaBeta(liste.get(i), 3, player, -1000000, 1000000));
+//            rate.add(search.alphaBeta(liste.get(i), 3, player, -1000000, 1000000));
+            rate.add(search.alphaBeta_2(liste.get(i), 3, -100, 100, player==0?(byte)1:(byte)0));
             System.out.printf("%-3d %d  ", i+1 ,rate.get(i));
             System.out.print("Zug: "+HashMapMoveToText(beforeField, liste.get(i), player)+" ");
             System.out.println("Knoten: " + search.count);
+            helpcount+=search.count;
             search.count=0;
         }
+        System.out.println("\n"+"Knotenzahl gesamt: "+helpcount);
     }
     
     /**
