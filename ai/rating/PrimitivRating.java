@@ -56,7 +56,7 @@ public class PrimitivRating {
         return value;
     }
 
-    public int primRate(HashMap<Integer, Byte> field, byte player) {
+    public int primRate(HashMap<Integer, Byte> field, byte player) throws NullPointerException {
         int value = 0;
         int actValue = 0;
         Iterator<Entry<Integer, Byte>> it = field.entrySet().iterator();
