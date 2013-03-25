@@ -67,7 +67,7 @@ public class MoveGenerator
         }//endfor
         
         
-        return nextMoves;
+        return sortMoves(nextMoves);
     }
     //TODO: Bauernumwandlung
     /**
@@ -1059,6 +1059,36 @@ public class MoveGenerator
      */
     private byte setMoved(byte value){
         return (byte)((value % 16) + 16);
+    }
+    
+    /**
+     * Sortiert die Folge-Schachfelder nach bestimmten Kriterien (momentan Anzahl der Figuren).
+     * @param moves vom MoveGenerator berechnete Folge-Schachfelder eines beliebigen Schachfelds
+     * @return sortierte Folge-Schachfelder
+     */
+    public LinkedList<HashMap<Integer, Byte>> sortMoves(LinkedList<HashMap<Integer, Byte>> moves){
+        LinkedList<HashMap<Integer, Byte>> sortedMoves = new LinkedList<HashMap<Integer, Byte>>();
+        int max = 0;
+        if(!moves.isEmpty()){
+            max = moves.get(0).size();
+        }
+        
+        for(int i = 0; i < moves.size(); i++){
+            //die Größe der zur Zeit größten HashMap merken;
+            if(moves.get(i).size() > max){
+                max = moves.get(i).size();
+            }
+            //Wenn Größe der HashMap kleiner ist als das Maximum, vorne einfügen
+            if(moves.get(i).size() < max){
+                sortedMoves.push(moves.get(i));
+            }
+            //sonst hinten anhängen
+            else{
+                sortedMoves.add(moves.get(i));
+            }
+        }
+        
+        return sortedMoves;
     }
     
     public static void main(String[] args){
