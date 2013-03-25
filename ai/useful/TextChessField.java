@@ -2,6 +2,8 @@ package useful;
 
 import java.util.*;
 import java.util.Map.Entry;
+import components.Figure;
+import util.ChessfigureConstants;
 
 public class TextChessField {
 	
@@ -39,10 +41,14 @@ public class TextChessField {
 		
 		while(it.hasNext()) {
 			Map.Entry<Integer, Byte> pair = (Map.Entry<Integer, Byte>) it.next();
-			String figure = pair.getValue().toString();
+			String figure = new String();
+			Figure fig = ChessfigureConstants.makeFigureFromByte(pair.getValue());
 			
-			if(figure.length()==1) {
-				figure = "0"+figure;
+			figure = String.valueOf(fig.getFigureLetter());
+			
+			switch(fig.getColor()) {
+			case ChessfigureConstants.WHITE: figure+="W"; break;
+			case ChessfigureConstants.BLACK: figure+="S"; 
 			}
 			fieldArray[pair.getKey()] = figure;
 		}

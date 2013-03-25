@@ -23,6 +23,7 @@ public class FigurePawn extends Figure
         super(color);
         this.setIcon();
         this.setFigureType(ChessfigureConstants.PAWN);
+        this.figureLetter = ChessfigureConstants.PAWN_LETTER;
     }
 
     @Override
