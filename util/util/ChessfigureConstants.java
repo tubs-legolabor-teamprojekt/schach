@@ -17,6 +17,12 @@ public final class ChessfigureConstants
      * Byte-Wert des Bauern
      */
     public static final byte PAWN = 1;
+    
+    /**
+     * Bauer-Kuerzel
+     */
+    public static final char PAWN_LETTER = 'P';
+    
     /**
      * Byte-Wert des Turms
      */
