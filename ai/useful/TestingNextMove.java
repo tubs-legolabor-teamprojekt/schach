@@ -20,7 +20,6 @@ public class TestingNextMove {
     public static void main(String[] args) {
         
         // TODO Auto-generated method stub
-        TextChessField toText = new TextChessField();
         NextMove moveTo = new NextMove();        
         Field field= new Field(false);
 //        field = Field.getInstance();
@@ -29,7 +28,7 @@ public class TestingNextMove {
 
         PrimitivRating prim = new PrimitivRating();
         System.out.println(prim.primRate(field.getCurrentFieldAsHashMapWithBytes()));        
-        System.out.println(toText.fieldToString(field.getCurrentFieldAsHashMapWithBytes()));        
+        System.out.println(TextChessField.fieldToString(field.getCurrentFieldAsHashMapWithBytes()));        
         Move move = moveTo.getNext(field, (byte)0);        
         System.out.println("Move-Objekt: "+move.getFieldFrom()+" "+move.getFieldTo()+" "+move.getPlayerColor());
         
