@@ -69,7 +69,7 @@ public class NextMove {
 
         doChildSituations(player);    
         
-        rateChildSituations(player);
+        rateChildSituations(player==0?(byte)1:(byte)0);
         
         findBestSituationInListMax();
         
@@ -105,12 +105,15 @@ public class NextMove {
      * @param player
      */
     private void rateChildSituations(byte player){
-        int helpcount=0;
+    	int helpcount=0;
         for (int i = 0; i < liste.size(); i++) {
-//            rate.add(search.max(liste.get(i), 3, player, -1000000, 1000000));
-//            rate.add(search.negaMax(liste.get(i), 3, player, -1000000, 1000000));
-            rate.add(search.alphaBeta(liste.get(i), 3, player, -1000000, 1000000));
-//            rate.add(search.alphaBeta_2(liste.get(i), 3, -100, 100, player==0?(byte)1:(byte)0));
+//            rate.add(search.min(liste.get(i), 7, player, -1000000, 1000000));
+//            rate.add(search.negaMax(liste.get(i), 5, player, -1000000, 1000000));
+//            rate.add(search.alphaBeta(liste.get(i), 5, player, -1000000, 1000000));
+            rate.add(search.alphaBeta_2(liste.get(i), 5, -1000000, 1000000, player));
+            if(i==25)
+            System.out.println(TextChessField.fieldToString(liste.get(i)));
+            
             System.out.printf("%-3d %d  ", i+1 ,rate.get(i));
             System.out.print("Zug: "+HashMapMoveToText(beforeField, liste.get(i), player)+" ");
             System.out.println("Knoten: " + search.count);

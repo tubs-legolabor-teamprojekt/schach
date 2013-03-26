@@ -40,6 +40,7 @@ public class PrimitivRating {
                 break;
             case ChessfigureConstants.ROOK:
                 value += ExtractInformationFromBinary.getColor(pair.getValue())== ChessfigureConstants.WHITE? 5:-5;
+                break;
             case ChessfigureConstants.KNIGHT:
             case ChessfigureConstants.BISHOP:
                 value += ExtractInformationFromBinary.getColor(pair.getValue())== ChessfigureConstants.WHITE? 3:-3;
@@ -64,41 +65,34 @@ public class PrimitivRating {
             // Aktuelles Key/Value-Paar
             Map.Entry<Integer, Byte> pair = (Map.Entry<Integer, Byte>) it.next();
 
-            byte figureValue = pair.getValue();
+            figureValue = pair.getValue();
             Figure figure = ChessfigureConstants.makeFigureFromByte(figureValue);
-            byte figureType = figure.getFigureType();
+            figureType = figure.getFigureType();
 
             switch (figureType) {
             case ChessfigureConstants.PAWN:
-                actValue = 1;
+                value += ExtractInformationFromBinary.getColor(pair.getValue())== ChessfigureConstants.WHITE? 1:-1;
                 break;
             case ChessfigureConstants.ROOK:
-                actValue = 5;
+                value += ExtractInformationFromBinary.getColor(pair.getValue())== ChessfigureConstants.WHITE? 5:-5;
+                break;
             case ChessfigureConstants.KNIGHT:
             case ChessfigureConstants.BISHOP:
-                actValue = 3;
+                value += ExtractInformationFromBinary.getColor(pair.getValue())== ChessfigureConstants.WHITE? 3:-3;
                 break;
             case ChessfigureConstants.QUEEN:
-                actValue = 9;
+                value += ExtractInformationFromBinary.getColor(pair.getValue())== ChessfigureConstants.WHITE? 9:-9;
                 break;
             default:
-                actValue = 9999;
+                value += ExtractInformationFromBinary.getColor(pair.getValue())== ChessfigureConstants.WHITE? 999:-999;
                 break;
-            }
-
-            if (ExtractInformationFromBinary.getColor(pair.getValue()) == ChessfigureConstants.BLACK) {
-                // Schwarz
-                value -= actValue;
-            } else {
-                // Weiss
-                value += actValue;
             }
             it.remove(); // avoids a ConcurrentModificationException
         }
-        if(player== 1){
+        if(player== 0){
             return -value;
         }
-        if(player== 0){
+        if(player== 1){
             return value;
         }
         System.out.println("FAAAAAAAAAAIL");

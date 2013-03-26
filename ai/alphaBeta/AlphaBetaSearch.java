@@ -34,10 +34,12 @@ public class AlphaBetaSearch {
     public int negaMax(HashMap<Integer,Byte> situation, int depth, int player, int alpha, int beta) {
 
         LinkedList<HashMap<Integer, Byte>> liste = move.generateMoves(situation, (byte)player);
-        
-        if (depth == 0 || liste.isEmpty()) {
+        if(liste.size()==0) {
+            return player==0?-9999:9999;	
+            }
+        if (depth == 0 ) {
             count++;
-            int rating = rate.primRate(situation);
+            int rating = rate.primRate(situation,(byte)player);
             return rating;
         }
 
@@ -59,27 +61,33 @@ public class AlphaBetaSearch {
     public int alphaBeta(HashMap<Integer,Byte> situation, int depth, int player, int alpha, int beta) {
 
         LinkedList<HashMap<Integer, Byte>> liste = move.generateMoves(situation, (byte)player);
+        //System.out.println(liste.size());
+        if(liste.size()==0) {
+        return player==0?-9999:9999;	
+        }
         
-        if (depth == 0 || liste==null || liste.isEmpty()) {
+        if (depth == 0) {
             count++;
             int rating=0;
             try{
-                rating = rate.primRate(situation);
+                rating = rate.primRate(situation,(byte)player);
             }catch(NullPointerException e){
                 e.printStackTrace();
                 System.out.println("Hier ist was falsch gelaufen!");
             }
-            return rating+depth;
+            return rating;
         }
         boolean gefunden = false;
         int maxValue = -10000, value;    
         
         while (!liste.isEmpty()) {
             if(gefunden){
-                value = -alphaBeta(liste.pollFirst(), depth - 1, player==0?1:0, -alpha-1, -alpha);
+            	
+                value = -alphaBeta(liste.getFirst(), depth - 1, player==0?1:0, -alpha-1, -alpha);
                 if(value > alpha && value < beta){
-                    value = -alphaBeta(liste.pollFirst(), depth - 1, player==0?1:0, -beta, -value);
+                    value = -alphaBeta(liste.getFirst(), depth - 1, player==0?1:0, -beta, -value);
                 }
+                liste.pollFirst();
             }else{
                 value = -alphaBeta(liste.pollFirst(), depth - 1, player==0?1:0, -beta, -alpha);
             }
@@ -98,13 +106,16 @@ public class AlphaBetaSearch {
     
     public int alphaBeta_2(HashMap<Integer, Byte> situation, int depth, int alpha, int beta, int player){
         LinkedList<HashMap<Integer, Byte>> liste = move.generateMoves(situation, (byte)player);
-        if(depth == 0/* || liste==null || liste.isEmpty()*/){
+        if(liste.size()==0) {
+            return player==0?-9999:9999;	
+        }
+        if(depth == 0){
             count++;
             int rating = 0;
             rating = rate.primRate(situation);
             return rating;
         }
-        if(player==0){
+        if(player==1){
             int help = 0;
             while(!liste.isEmpty()){
                 help = alphaBeta_2(liste.pollFirst(), depth - 1, alpha, beta, player==0?1:0);
@@ -137,9 +148,12 @@ public class AlphaBetaSearch {
      */
     public int min(HashMap<Integer,Byte> situation, int depth, int player, int alpha, int beta) {
         LinkedList<HashMap<Integer, Byte>> liste = move.generateMoves(situation, ChessfigureConstants.WHITE);
-        if (depth == 0 || liste.isEmpty()) {
+        if(liste.size()==0) {
+            return player==0?-9999:9999;	
+            }
+        if (depth == 0) {
             count++;
-            int rating = rate.primRate(situation, (byte)player);
+            int rating = rate.primRate(situation);
             return rating;
         }
         int minValue = beta;
@@ -157,9 +171,12 @@ public class AlphaBetaSearch {
 
     public int max(HashMap<Integer,Byte> situation, int depth, int player, int alpha, int beta) {
         LinkedList<HashMap<Integer, Byte>> liste = move.generateMoves(situation, ChessfigureConstants.BLACK);
-        if (depth == 0 || liste.isEmpty()) {
+        if(liste.size()==0) {
+            return player==0?-9999:9999;	
+            }
+        if (depth == 0) {
             count++;
-            int rating = rate.primRate(situation, (byte)player);
+            int rating = rate.primRate(situation);
             return rating;
         }
         int maxValue = alpha;
@@ -174,21 +191,4 @@ public class AlphaBetaSearch {
         }
         return maxValue;
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
 }

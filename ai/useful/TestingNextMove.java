@@ -23,7 +23,7 @@ public class TestingNextMove {
         NextMove moveTo = new NextMove();        
         Field field= new Field(false);
 //        field = Field.getInstance();
-        field = create4(field);
+        field = create5(field);
         
 
         PrimitivRating prim = new PrimitivRating();
@@ -32,6 +32,14 @@ public class TestingNextMove {
         Move move = moveTo.getNext(field, (byte)0);        
         System.out.println("Move-Objekt: "+move.getFieldFrom()+" "+move.getFieldTo()+" "+move.getPlayerColor());
         
+    }
+    
+    private static Field create5(Field field){
+    	field = SimpleFieldCreate.setField(field, "k", 63, (byte)1);
+    	field = SimpleFieldCreate.setField(field, "t", 52, (byte)0);
+    	field = SimpleFieldCreate.setField(field, "t", 51, (byte)0);
+    	field = SimpleFieldCreate.setField(field, "k", 1, (byte)0);
+        return field;
     }
     
     /*
