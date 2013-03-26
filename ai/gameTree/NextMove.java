@@ -108,9 +108,9 @@ public class NextMove {
     	int helpcount=0;
         for (int i = 0; i < liste.size(); i++) {
 //            rate.add(search.min(liste.get(i), 7, player, -1000000, 1000000));
-//            rate.add(search.negaMax(liste.get(i), 5, player, -1000000, 1000000));
-//            rate.add(search.alphaBeta(liste.get(i), 5, player, -1000000, 1000000));
-            rate.add(search.alphaBeta_2(liste.get(i), 3, -1000000, 1000000, player));
+            rate.add(search.negaMax(liste.get(i), 4, player, -1000000, 1000000));
+//            rate.add(search.alphaBeta(liste.get(i), 3, player, -1000000, 1000000));
+//            rate.add(search.alphaBeta_2(liste.get(i), 3, -1000000, 1000000, player));
             if(i==25)
             System.out.println(TextChessField.fieldToString(liste.get(i)));
             
