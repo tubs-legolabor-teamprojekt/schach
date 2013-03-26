@@ -23,7 +23,7 @@ public class TestingNextMove {
         NextMove moveTo = new NextMove();        
         Field field= new Field(false);
 //        field = Field.getInstance();
-        field = create5(field);
+        field = create4(field);
         
 
         PrimitivRating prim = new PrimitivRating();
