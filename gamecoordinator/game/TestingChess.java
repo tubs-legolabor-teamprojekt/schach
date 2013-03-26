@@ -36,7 +36,8 @@ public class TestingChess {
             Chess game = new Chess(getMoves());
             game.startGame();
         } else if (GameSettings.currentGameType == GameType.PlayerVsComputer ||
-                GameSettings.currentGameType == GameType.ComputerVsComputer) {
+                GameSettings.currentGameType == GameType.ComputerVsComputer ||
+                GameSettings.currentGameType == GameType.PlayerWithoutCameraVsComputer) {
             Chess game = new Chess();
             game.startGame();
         }

@@ -12,7 +12,7 @@ public class GameSettings
      * Mögliche Spielvarianten
      */
     public static enum GameType {
-        PlayerVsComputer, Simulated, ComputerVsComputer,PlayerVsSimulatedComputer, SimulatedWithRobot
+        PlayerVsComputer, Simulated, ComputerVsComputer,PlayerVsSimulatedComputer, SimulatedWithRobot, PlayerWithoutCameraVsComputer
     }
     
     /**
@@ -20,7 +20,7 @@ public class GameSettings
      * temporär eingeschaltet werden, damit keine Fotos per Webcam geschossen
      * werden.
      */
-    public static final GameType currentGameType = GameType.Simulated;
+    public static final GameType currentGameType = GameType.PlayerWithoutCameraVsComputer;
     
     /**
      * Dateiname zur Textdatei, die die Züge eines simulierten Spiels enthält
