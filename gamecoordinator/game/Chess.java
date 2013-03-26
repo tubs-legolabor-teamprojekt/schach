@@ -105,17 +105,16 @@ public class Chess
                     move = this.getMoveFromCamera(currentPlayer);
                 } else if (GameSettings.currentGameType == GameType.Simulated) {
                     // Simulierten Zug holen
-                    /*if (moveCounter == 4) {
-                        move = convertFieldnumbersToMoves(currentPlayer, 
-                                Checkerboard.getInstance().manualMove());
-                    } else {*/
-                        move = this.getSimulatedMove(moveCounter, currentPlayer);
-                    //}
+                    move = this.getSimulatedMove(moveCounter, currentPlayer);
+                } else if (GameSettings.currentGameType == GameType.PlayerWithoutCameraVsComputer) {
+                    // Zug soll manuell vom Spieler eingegeben werden
+                    move = additionalInformationForMove(currentPlayer, convertFieldnumbersToMoves(currentPlayer, Gui.getInstance().getCheckerboard().manualMove()));
                 }
                 
             } else if (currentPlayer == ChessfigureConstants.BLACK) {
                 
-                if (GameSettings.currentGameType == GameType.PlayerVsComputer) {
+                if (GameSettings.currentGameType == GameType.PlayerVsComputer ||
+                        GameSettings.currentGameType == GameType.PlayerWithoutCameraVsComputer) {
                     // KI
                     NextMove moveTo = new NextMove();
                     move = moveTo.getNext(Field.getInstance(), currentPlayer);
