@@ -51,7 +51,7 @@ public class NextMove {
      */
     public NextMove(){
         
-        this.search = new AlphaBetaSearch();
+//        this.search = new AlphaBetaSearch();
         this.moveGen = new MoveGenerator();
         
     }
@@ -70,11 +70,11 @@ public class NextMove {
         beforeField = field.getCurrentFieldAsHashMapWithBytes();
 
         doChildSituations(player);    
-        System.out.println("done1");
+//        System.out.println("done1");
         rateChildSituations(player==0?(byte)1:(byte)0);
-        System.out.println("done2");
+//        System.out.println("done2");
         findBestSituationInListMax();
-        System.out.println("done3");
+//        System.out.println("done3");
         System.out.println(TextChessField.fieldToString(afterField)); //TODO <--------------------------------Ausgabe???
         return HashMapToMove(beforeField, afterField, player);
     }
@@ -107,21 +107,80 @@ public class NextMove {
      */
     private void rateChildSituations(byte player){
     	int helpcount=0;
+    	
+    	AlphaBetaSearch[] abThreads= new AlphaBetaSearch[list.size()];
+    	
+    	
         for (int i = 0; i < list.size(); i++) {
-            list.get(i).setRating(search.min(list.get(i).getMap(), 3, player, -INFINITY, INFINITY));
-//            rate.add(search.negaMax(liste.get(i), 4, player, -INFINITY, INFINITY));
-//            rate.add(search.alphaBeta(liste.get(i), 3, player, -INFINITY, INFINITY));
-//            rate.add(search.alphaBeta_2(liste.get(i), 3, -INFINITY, INFINITY, player));
-            if(i==25)
-            System.out.println(TextChessField.fieldToString(list.get(i).getMap()));
-            
-            System.out.printf("%-3d %d  ", i+1 ,list.get(i).getRating());
-            System.out.print("Zug: "+HashMapMoveToText(beforeField, list.get(i).getMap(), player)+" ");
-            System.out.println("Knoten: " + search.count);
-            helpcount+=search.count;
-            search.count=0;
+        	//Thread erstellen mit SituationWithRating,depth,player
+        	abThreads[i] = new AlphaBetaSearch(list.get(i),3,player);
+        	abThreads[i].setName(""+i);
         }
-        System.out.println("\n"+"Knotenzahl gesamt: "+helpcount);
+        
+        //startet eine bestimmte Anzahl an Threads
+        orderedThreadStart(abThreads,2);
+        
+        LinkedList<SituationWithRating> helpList = new LinkedList<SituationWithRating>();
+        for(AlphaBetaSearch ab:abThreads) {
+        	helpList.add(ab.getSituationWithRating());
+        }
+        
+        this.list = helpList;
+        	
+//            list.get(i).setRating(search.min(list.get(i).getMap(), 3, player, -INFINITY, INFINITY));
+            
+//            System.out.printf("%-3d %d  ", i+1 ,list.get(i).getRating());
+//            System.out.print("Zug: "+HashMapMoveToText(beforeField, list.get(i).getMap(), player)+" ");
+//            System.out.println("Knoten: " + search.count);
+//            helpcount+=search.count;
+//            search.count=0;
+//        }
+//        System.out.println("\n"+"Knotenzahl gesamt: "+helpcount);
+    }
+    
+    /*
+     * startet eine bestimmte Anzahl an Threads
+     * @param ab Array von Threads des Typ AlphaBetaSearch
+     * @param parallelValue Anzahl an gleichzeitig laufenden Threads 
+     */
+    public boolean orderedThreadStart(AlphaBetaSearch[] ab, int parallelValue) {
+    	System.out.println("pv "+parallelValue);
+    	System.out.println("ab "+ab.length);
+    	//wenn anzahl der möglichen T. kleiner ist als maximale anzahl gleichzeitiger T.
+    	//dann gleich alle starten
+    	if(parallelValue>=ab.length) {
+    		System.out.println("0");
+    		for(int i=0; i<ab.length; i++) {
+    			ab[i].start();
+    		}
+    	}
+    	else {
+    		int counter = ab.length-1;
+
+    		//solange Zuege da sind
+    		while(counter>=0) {
+    			//duerfen noch Threads gestartet werden?
+    			if(ab[0].getNumberOfThreads()<parallelValue) {
+    				ab[counter].start();
+    				counter--;
+    			}
+    			//ein wenig abwarten, damit schleife nicht komplett cpu auslastet
+    			try {
+        			Thread.sleep(100 * parallelValue);
+        			}
+        			catch(Exception e) {
+        			}
+    	}
+    }
+    	//letzten Threads die noch laufen beenden lassen
+    	while(ab[0].getNumberOfThreads()!=0) {
+    		try {
+    			Thread.sleep(100 * parallelValue);
+    			}
+    			catch(Exception e) {
+    			}
+    	}
+    	return true;
     }
     
     /**
