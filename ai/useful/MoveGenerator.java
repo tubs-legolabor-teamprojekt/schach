@@ -1079,7 +1079,7 @@ public class MoveGenerator
                 max = moves.get(i).size();
             }
             //Wenn Größe der HashMap kleiner ist als das Maximum, vorne einfügen
-            if(moves.get(i).size() >= max){
+            if(moves.get(i).size() < max){
                 sortedMoves.push(moves.get(i));
             }
             //sonst hinten anhängen

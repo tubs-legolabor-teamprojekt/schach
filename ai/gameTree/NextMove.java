@@ -118,7 +118,10 @@ public class NextMove {
         }
         
         //startet eine bestimmte Anzahl an Threads
-        orderedThreadStart(abThreads,2);
+        int parallelValue=2;
+        long time = System.currentTimeMillis();
+        orderedThreadStart(abThreads,parallelValue);
+        System.out.println("Zeit: "+(System.currentTimeMillis() - time)+" Anzahl T. "+parallelValue);
         
         LinkedList<SituationWithRating> helpList = new LinkedList<SituationWithRating>();
         for(AlphaBetaSearch ab:abThreads) {
@@ -166,7 +169,7 @@ public class NextMove {
     			}
     			//ein wenig abwarten, damit schleife nicht komplett cpu auslastet
     			try {
-        			Thread.sleep(100 * parallelValue);
+        			Thread.sleep(1 * parallelValue);
         			}
         			catch(Exception e) {
         			}
@@ -175,7 +178,7 @@ public class NextMove {
     	//letzten Threads die noch laufen beenden lassen
     	while(ab[0].getNumberOfThreads()!=0) {
     		try {
-    			Thread.sleep(100 * parallelValue);
+    			Thread.sleep(1 * parallelValue);
     			}
     			catch(Exception e) {
     			}
