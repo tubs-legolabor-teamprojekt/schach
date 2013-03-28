@@ -148,9 +148,7 @@ public class AlphaBetaSearch {
      */
     public int min(HashMap<Integer,Byte> situation, int depth, int player, int alpha, int beta) {
         LinkedList<HashMap<Integer, Byte>> liste = move.generateMoves(situation, ChessfigureConstants.WHITE);
-        if(liste.size()==0) {
-            return player==0?-9999:9999;	
-            }
+        
         if (depth == 0) {
             count++;
             int rating = rate.primRate(situation);
@@ -171,9 +169,6 @@ public class AlphaBetaSearch {
 
     public int max(HashMap<Integer,Byte> situation, int depth, int player, int alpha, int beta) {
         LinkedList<HashMap<Integer, Byte>> liste = move.generateMoves(situation, ChessfigureConstants.BLACK);
-        if(liste.size()==0) {
-            return player==0?-9999:9999;	
-            }
         if (depth == 0) {
             count++;
             int rating = rate.primRate(situation);
@@ -181,7 +176,7 @@ public class AlphaBetaSearch {
         }
         int maxValue = alpha;
         while (!liste.isEmpty()) {
-            int value = min(liste.pollFirst(), depth - 1, player==0?1:0, -beta, -maxValue);
+            int value = min(liste.pollFirst(), depth - 1, player==0?1:0, maxValue, beta );
             if (value > maxValue) {
                 maxValue = value;
                 if (maxValue >= beta) {

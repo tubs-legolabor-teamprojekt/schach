@@ -208,6 +208,7 @@ public class GameCoordinator
                     this.field.removeFigureAt(this.currentMove.getFieldTo());
                     this.field.putFigureAt(this.currentMove.getFieldTo(), newFigure);
                 }
+                
             }
     
             // War es der letzte Zug?

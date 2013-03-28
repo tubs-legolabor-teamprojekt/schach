@@ -54,7 +54,7 @@ public class PrimitivRating {
             }
             it.remove(); // avoids a ConcurrentModificationException
         }
-        return value;
+        return -value;
     }
 
     public int primRate(HashMap<Integer, Byte> field, byte player) throws NullPointerException {

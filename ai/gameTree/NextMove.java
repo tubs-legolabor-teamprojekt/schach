@@ -1,7 +1,7 @@
 package gameTree;
 
 import game.Move;
-
+import components.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -9,10 +9,9 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
-
-import useful.MoveGenerator;
-import useful.TextChessField;
+import useful.*;
 import alphaBeta.AlphaBetaSearch;
+
 
 /**
  * Klasse, die als Hauptklasse der AI dienen soll. Hier sind die Aufrufe für den Game-Coordinator zu finden!
@@ -32,14 +31,17 @@ public class NextMove {
     private MoveGenerator moveGen;
     
     // Instanz einer LinkesList, in der jeweils die erste Kindgeneration gespeichert ist
-    private LinkedList<HashMap<Integer, Byte>> liste;
+//    private LinkedList<HashMap<Integer, Byte>> liste;
+    private LinkedList<SituationWithRating> list;
     
     // Array zur Bewertung der einzelnen Einträge aus der Liste    
-    private ArrayList<Integer> rate = new ArrayList<Integer>();
+//    private ArrayList<Integer> rate = new ArrayList<Integer>();
     
     // HashMaps zum Vergleich und zur Rückgabe
     private HashMap<Integer, Byte> beforeField;
     private HashMap<Integer, Byte> afterField;
+    
+    private static int INFINITY = 2147483647;
         
 //################################################################################# Konstruktor
     
@@ -62,17 +64,17 @@ public class NextMove {
      * @param player
      * @return
      */
-    public game.Move getNext(components.Field field, byte player){
+    public Move getNext(Field field, byte player){
         
         // HashMap<Integer, Byte> zusammenbauen
         beforeField = field.getCurrentFieldAsHashMapWithBytes();
 
         doChildSituations(player);    
-        
+        System.out.println("done1");
         rateChildSituations(player==0?(byte)1:(byte)0);
-        
+        System.out.println("done2");
         findBestSituationInListMax();
-        
+        System.out.println("done3");
         System.out.println(TextChessField.fieldToString(afterField)); //TODO <--------------------------------Ausgabe???
         return HashMapToMove(beforeField, afterField, player);
     }
@@ -82,22 +84,21 @@ public class NextMove {
      */
     private void findBestSituationInListMax(){
         // Stelle der am besten bewerteten Situation in der ArrayList
-        int help = -99999;
+        int help = -INFINITY;
         Random rn = new Random();
-        for (int i = 0; i < rate.size(); i++) {
-            if(rate.get(i)> help){
-                help=rate.get(i);
+        for (int i = 0; i < list.size(); i++) {
+            if(list.get(i).getRating()> help){
+                help=list.get(i).getRating();
             }
         }
-        for( int i = 0 ; i < liste.size() ; i+=0 ){
-            if(rate.get(i)!=help){ 
-                liste.remove(i);
-                rate.remove(i);
+        for( int i = 0 ; i < list.size() ; i+=0 ){
+            if(list.get(i).getRating()!=help){ 
+                list.remove(i);
                 i--;
             }
             i++;
         }
-        afterField = liste.get(rn.nextInt(liste.size()));
+        afterField = list.get(rn.nextInt(list.size())).getMap();
     }
         
     /**
@@ -106,16 +107,16 @@ public class NextMove {
      */
     private void rateChildSituations(byte player){
     	int helpcount=0;
-        for (int i = 0; i < liste.size(); i++) {
-//            rate.add(search.min(liste.get(i), 7, player, -1000000, 1000000));
-            rate.add(search.negaMax(liste.get(i), 4, player, -1000000, 1000000));
-//            rate.add(search.alphaBeta(liste.get(i), 3, player, -1000000, 1000000));
-//            rate.add(search.alphaBeta_2(liste.get(i), 3, -1000000, 1000000, player));
+        for (int i = 0; i < list.size(); i++) {
+            list.get(i).setRating(search.min(list.get(i).getMap(), 3, player, -INFINITY, INFINITY));
+//            rate.add(search.negaMax(liste.get(i), 4, player, -INFINITY, INFINITY));
+//            rate.add(search.alphaBeta(liste.get(i), 3, player, -INFINITY, INFINITY));
+//            rate.add(search.alphaBeta_2(liste.get(i), 3, -INFINITY, INFINITY, player));
             if(i==25)
-            System.out.println(TextChessField.fieldToString(liste.get(i)));
+            System.out.println(TextChessField.fieldToString(list.get(i).getMap()));
             
-            System.out.printf("%-3d %d  ", i+1 ,rate.get(i));
-            System.out.print("Zug: "+HashMapMoveToText(beforeField, liste.get(i), player)+" ");
+            System.out.printf("%-3d %d  ", i+1 ,list.get(i).getRating());
+            System.out.print("Zug: "+HashMapMoveToText(beforeField, list.get(i).getMap(), player)+" ");
             System.out.println("Knoten: " + search.count);
             helpcount+=search.count;
             search.count=0;
@@ -128,7 +129,12 @@ public class NextMove {
      * @param player
      */
     private void doChildSituations(byte player){
-        liste = moveGen.generateMoves(beforeField, player);
+    	LinkedList<HashMap<Integer,Byte>> childSit = moveGen.generateMoves(beforeField, player); 
+    	LinkedList<SituationWithRating> listConversion = new LinkedList<SituationWithRating>();
+    	while(!childSit.isEmpty()) {
+    		listConversion.add(new SituationWithRating(childSit.pollLast(),0));
+    	}
+        list = listConversion;
 
     }
     
