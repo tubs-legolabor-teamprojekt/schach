@@ -2,7 +2,6 @@ package gameTree;
 
 import game.Move;
 import components.Field;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -24,24 +23,23 @@ public class NextMove {
    
 //################################################################################# Klassenvariable
     
-    // Instanz der Alpha-Beta-Klasse
-    private AlphaBetaSearch search;
-    
     // Instanz der MoveGenerator-Klasse
     private MoveGenerator moveGen;
     
     // Instanz einer LinkesList, in der jeweils die erste Kindgeneration gespeichert ist
-//    private LinkedList<HashMap<Integer, Byte>> liste;
     private LinkedList<SituationWithRating> list;
     
-    // Array zur Bewertung der einzelnen Einträge aus der Liste    
-//    private ArrayList<Integer> rate = new ArrayList<Integer>();
     
     // HashMaps zum Vergleich und zur Rückgabe
     private HashMap<Integer, Byte> beforeField;
     private HashMap<Integer, Byte> afterField;
     
     private static int INFINITY = 2147483647;
+    
+    //Anzahl parallel laufender Threads (2 ist zumindest auf meinem MAC optimal
+    private static int PARALLEL = 2; 
+    //Suchtiefe, TODO: später automatisch an Situation anpassen lassen
+    private static int DEPTH = 4;
         
 //################################################################################# Konstruktor
     
@@ -70,12 +68,9 @@ public class NextMove {
         beforeField = field.getCurrentFieldAsHashMapWithBytes();
 
         doChildSituations(player);    
-//        System.out.println("done1");
         rateChildSituations(player==0?(byte)1:(byte)0);
-//        System.out.println("done2");
         findBestSituationInListMax();
-//        System.out.println("done3");
-        System.out.println(TextChessField.fieldToString(afterField)); //TODO <--------------------------------Ausgabe???
+        System.out.println(TextChessField.fieldToString(afterField)); //TODO
         return HashMapToMove(beforeField, afterField, player);
     }
     
@@ -106,51 +101,52 @@ public class NextMove {
      * @param player
      */
     private void rateChildSituations(byte player){
-    	int helpcount=0;
     	
     	AlphaBetaSearch[] abThreads= new AlphaBetaSearch[list.size()];
     	
     	
         for (int i = 0; i < list.size(); i++) {
         	//Thread erstellen mit SituationWithRating,depth,player
-        	abThreads[i] = new AlphaBetaSearch(list.get(i),3,player);
+        	abThreads[i] = new AlphaBetaSearch(list.get(i),DEPTH,player);
         	abThreads[i].setName(""+i);
         }
         
-        //startet eine bestimmte Anzahl an Threads
-        int parallelValue=2;
+        //Variablen zur Zeitmessung um das Optimum aus der nebenlaeufigkeit herauszuholen
         long time = System.currentTimeMillis();
-        orderedThreadStart(abThreads,parallelValue);
-        System.out.println("Zeit: "+(System.currentTimeMillis() - time)+" Anzahl T. "+parallelValue);
+        
+      //startet eine bestimmte Anzahl an Threads
+        orderedThreadStart(abThreads,PARALLEL);
+        System.out.println("\n Zeit: "+(System.currentTimeMillis() - time)+" Anzahl paralleler Threads "+PARALLEL+"; Suchtiefe "+(DEPTH+1)+"\n");
         
         LinkedList<SituationWithRating> helpList = new LinkedList<SituationWithRating>();
+        
+        int i=0;
         for(AlphaBetaSearch ab:abThreads) {
         	helpList.add(ab.getSituationWithRating());
+        	System.out.printf("%-3d %d  ", i++ ,ab.getSituationWithRating().getRating());
+        	System.out.println("Zug: "+HashMapMoveToText(beforeField, ab.getSituationWithRating().getMap(), player)+" ");
         }
         
         this.list = helpList;
-        	
-//            list.get(i).setRating(search.min(list.get(i).getMap(), 3, player, -INFINITY, INFINITY));
-            
-//            System.out.printf("%-3d %d  ", i+1 ,list.get(i).getRating());
-//            System.out.print("Zug: "+HashMapMoveToText(beforeField, list.get(i).getMap(), player)+" ");
-//            System.out.println("Knoten: " + search.count);
-//            helpcount+=search.count;
-//            search.count=0;
-//        }
-//        System.out.println("\n"+"Knotenzahl gesamt: "+helpcount);
     }
     
     /*
-     * startet eine bestimmte Anzahl an Threads
+     * Es sollten nicht alle Suchen gleichzeitig als seperater Thread gestartet werden,
+     * da das Scheduling ansonsten die Sache extrem verlangsamt.
+     * Die Methode orderedThreadStart achtet darauf, dass immer nur eine zuvor
+     * bestimmte Anzahl an Threads gleichzeitig laufen. Wenn diese beendet werden,
+     * dann startet diese Methode automatisch die naechsten Threads aus dem Array
+     * AlphaBetaSearch.
+     * 
      * @param ab Array von Threads des Typ AlphaBetaSearch
      * @param parallelValue Anzahl an gleichzeitig laufenden Threads 
      */
     public boolean orderedThreadStart(AlphaBetaSearch[] ab, int parallelValue) {
-    	System.out.println("pv "+parallelValue);
-    	System.out.println("ab "+ab.length);
-    	//wenn anzahl der möglichen T. kleiner ist als maximale anzahl gleichzeitiger T.
-    	//dann gleich alle starten
+    	System.out.println("Anzahl an Wurzeln "+ab.length);
+    	
+    	/*wenn anzahl der möglichen Threads kleiner ist als maximale 
+    	anzahl gleichzeitiger Threads
+    	dann gleich alle starten*/
     	if(parallelValue>=ab.length) {
     		System.out.println("0");
     		for(int i=0; i<ab.length; i++) {
@@ -162,7 +158,7 @@ public class NextMove {
 
     		//solange Zuege da sind
     		while(counter>=0) {
-    			//duerfen noch Threads gestartet werden?
+    			//duerfen noch Threads gestartet werden oder laufen genug parallel?
     			if(ab[0].getNumberOfThreads()<parallelValue) {
     				ab[counter].start();
     				counter--;

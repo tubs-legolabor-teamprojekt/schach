@@ -25,10 +25,11 @@ public class AlphaBetaSearch extends Thread {
     private static int numberOfThreads = 0;
 
     public void run() {
+    	System.out.println("Thread Nummer \t"+this.getName()+"\t gestartet");
     	numberOfThreads++;
     	this.situation.setRating(min(this.situation.getMap(),this.depth,this.player,this.alpha,this.beta));
     	numberOfThreads--;
-    	System.out.println("Threadnummer \t"+this.getName());
+    	System.out.println("Thread Nummer \t"+this.getName()+"\t beendet");
     }
     
     public AlphaBetaSearch(SituationWithRating situation, int depth, int player) {
