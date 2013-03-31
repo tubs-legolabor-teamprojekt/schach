@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
 import useful.*;
+import util.ChessfigureConstants;
 import alphaBeta.AlphaBetaSearch;
 
 
@@ -68,7 +69,7 @@ public class NextMove {
         beforeField = field.getCurrentFieldAsHashMapWithBytes();
 
         doChildSituations(player);    
-        rateChildSituations(player==0?(byte)1:(byte)0);
+        rateChildSituations(player==ChessfigureConstants.WHITE?ChessfigureConstants.BLACK:ChessfigureConstants.WHITE);
         findBestSituationInListMax();
         System.out.println(TextChessField.fieldToString(afterField)); //TODO
         return HashMapToMove(beforeField, afterField, player);

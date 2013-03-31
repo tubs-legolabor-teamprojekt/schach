@@ -47,15 +47,6 @@ public class AlphaBetaSearch extends Thread {
     public int getNumberOfThreads() {
     	return numberOfThreads;
     }
-//    
-//    public void incNumberOfThreads() {
-//    	numberOfThreads++;
-//    }
-//    
-//    public void decNumberOfThreads() {
-//    	if(numberOfThreads>0)
-//    		numberOfThreads--;
-//    }
     
     /**
      * Implementierung der AlphaBeta Suche.
@@ -66,16 +57,22 @@ public class AlphaBetaSearch extends Thread {
      * @param beta obere Grenze für den Cut
          */
     private int min(HashMap<Integer,Byte> situation, int depth, int player, int alpha, int beta) {
-        LinkedList<HashMap<Integer, Byte>> liste = move.generateMoves(situation, ChessfigureConstants.WHITE);
+        LinkedList<HashMap<Integer, Byte>> list = move.generateMoves(situation, ChessfigureConstants.WHITE);
+        int rating;
         
-        if (depth == 0) {
-            count++;
-            int rating = rate.primRate(situation);
+        //wenn Liste leer ist, liegt Schachmatt oder Pattstellung vor
+        if (depth == 0 || list.isEmpty()) {
+        	if(list.isEmpty()) {
+        		rating = rate.primRate(situation,player,depth,true);
+        	}
+        	else {
+        		rating = rate.primRate(situation,player,depth,false);
+        	}
             return rating;
         }
         int minValue = beta;
-        while (!liste.isEmpty()) {
-            int value = max(liste.pollFirst(), depth - 1, player==0?1:0, alpha, minValue);
+        while (!list.isEmpty()) {
+            int value = max(list.pollFirst(), depth - 1, player==ChessfigureConstants.WHITE?ChessfigureConstants.BLACK:ChessfigureConstants.WHITE, alpha, minValue);
             if (value < minValue) {
                 minValue = value;
                 if (minValue <= alpha) {
@@ -87,15 +84,22 @@ public class AlphaBetaSearch extends Thread {
     }
 
     private int max(HashMap<Integer,Byte> situation, int depth, int player, int alpha, int beta) {
-        LinkedList<HashMap<Integer, Byte>> liste = move.generateMoves(situation, ChessfigureConstants.BLACK);
-        if (depth == 0) {
-            count++;
-            int rating = rate.primRate(situation);
+        LinkedList<HashMap<Integer, Byte>> list = move.generateMoves(situation, ChessfigureConstants.BLACK);
+        int rating;
+        if (depth == 0 || list.isEmpty()) {
+        	
+        	//wenn Liste leer ist, liegt Schachmatt oder Pattstellung vor
+        	if(list.isEmpty()) {
+        		rating = rate.primRate(situation,player,depth,true);
+        	}
+        	else {
+        		rating = rate.primRate(situation,player,depth,false);
+        	}
             return rating;
         }
         int maxValue = alpha;
-        while (!liste.isEmpty()) {
-            int value = min(liste.pollFirst(), depth - 1, player==0?1:0, maxValue, beta );
+        while (!list.isEmpty()) {
+            int value = min(list.pollFirst(), depth - 1, player==ChessfigureConstants.WHITE?ChessfigureConstants.BLACK:ChessfigureConstants.WHITE, maxValue, beta );
             if (value > maxValue) {
                 maxValue = value;
                 if (maxValue >= beta) {

@@ -27,18 +27,18 @@ public class TestingNextMove {
         
 
         PrimitivRating prim = new PrimitivRating();
-        System.out.println(prim.primRate(field.getCurrentFieldAsHashMapWithBytes()));        
+//        System.out.println(prim.primRate(field.getCurrentFieldAsHashMapWithBytes()));        
         System.out.println(TextChessField.fieldToString(field.getCurrentFieldAsHashMapWithBytes()));        
-        Move move = moveTo.getNext(field, (byte)0);        
+        Move move = moveTo.getNext(field, ChessfigureConstants.BLACK);        
         System.out.println("Move-Objekt: "+move.getFieldFrom()+" "+move.getFieldTo()+" "+move.getPlayerColor());
         
     }
     
     private static Field create5(Field field){
-    	field = SimpleFieldCreate.setField(field, "k", 63, (byte)1);
-    	field = SimpleFieldCreate.setField(field, "t", 52, (byte)0);
-    	field = SimpleFieldCreate.setField(field, "t", 51, (byte)0);
-    	field = SimpleFieldCreate.setField(field, "k", 1, (byte)0);
+    	field = SimpleFieldCreate.setField(field, "k", 63, (byte)0);
+    	field = SimpleFieldCreate.setField(field, "t", 52, (byte)1);
+    	field = SimpleFieldCreate.setField(field, "t", 51, (byte)1);
+    	field = SimpleFieldCreate.setField(field, "k", 1, (byte)1);
         return field;
     }
     
@@ -46,33 +46,33 @@ public class TestingNextMove {
      * Matt in einem Zug
      */
     private static Field create4(Field field){
-        field = SimpleFieldCreate.setField(field, "t", 3, (byte)0);
-        field = SimpleFieldCreate.setField(field, "t", 8, (byte)0);
-        field = SimpleFieldCreate.setField(field, "b", 9, (byte)0);
-        field = SimpleFieldCreate.setField(field, "l", 13, (byte)0);
-        field = SimpleFieldCreate.setField(field, "k", 15, (byte)0);
-        field = SimpleFieldCreate.setField(field, "d", 16, (byte)0);
-        field = SimpleFieldCreate.setField(field, "b", 18, (byte)0);
-        field = SimpleFieldCreate.setField(field, "s", 19, (byte)0);
-        field = SimpleFieldCreate.setField(field, "b", 22, (byte)0);
-        field = SimpleFieldCreate.setField(field, "b", 27, (byte)0);
-        field = SimpleFieldCreate.setField(field, "s", 28, (byte)0);
-        field = SimpleFieldCreate.setField(field, "b", 29, (byte)0);
-        field = SimpleFieldCreate.setField(field, "b", 31, (byte)0);
+        field = SimpleFieldCreate.setField(field, "t", 3, (byte)1);
+        field = SimpleFieldCreate.setField(field, "t", 8, (byte)1);
+        field = SimpleFieldCreate.setField(field, "b", 9, (byte)1);
+        field = SimpleFieldCreate.setField(field, "l", 13, (byte)1);
+        field = SimpleFieldCreate.setField(field, "k", 15, (byte)1);
+        field = SimpleFieldCreate.setField(field, "d", 16, (byte)1);
+        field = SimpleFieldCreate.setField(field, "b", 18, (byte)1);
+        field = SimpleFieldCreate.setField(field, "s", 19, (byte)1);
+        field = SimpleFieldCreate.setField(field, "b", 22, (byte)1);
+        field = SimpleFieldCreate.setField(field, "b", 27, (byte)1);
+        field = SimpleFieldCreate.setField(field, "s", 28, (byte)1);
+        field = SimpleFieldCreate.setField(field, "b", 29, (byte)1);
+        field = SimpleFieldCreate.setField(field, "b", 31, (byte)1);
         
-        field = SimpleFieldCreate.setField(field, "l", 39, (byte)1);
-        field = SimpleFieldCreate.setField(field, "b", 41, (byte)1);
-        field = SimpleFieldCreate.setField(field, "b", 42, (byte)1);
-        field = SimpleFieldCreate.setField(field, "b", 44, (byte)1);
-        field = SimpleFieldCreate.setField(field, "b", 45, (byte)1);
-        field = SimpleFieldCreate.setField(field, "b", 54, (byte)1);
-        field = SimpleFieldCreate.setField(field, "s", 52, (byte)1);
-        field = SimpleFieldCreate.setField(field, "l", 50, (byte)1);
-        field = SimpleFieldCreate.setField(field, "d", 58, (byte)1);
-        field = SimpleFieldCreate.setField(field, "t", 59, (byte)1);
-        field = SimpleFieldCreate.setField(field, "t", 61, (byte)1);
-        field = SimpleFieldCreate.setField(field, "s", 62, (byte)1);
-        field = SimpleFieldCreate.setField(field, "k", 63, (byte)1);
+        field = SimpleFieldCreate.setField(field, "l", 39, (byte)0);
+        field = SimpleFieldCreate.setField(field, "b", 41, (byte)0);
+        field = SimpleFieldCreate.setField(field, "b", 42, (byte)0);
+        field = SimpleFieldCreate.setField(field, "b", 44, (byte)0);
+        field = SimpleFieldCreate.setField(field, "b", 45, (byte)0);
+        field = SimpleFieldCreate.setField(field, "b", 54, (byte)0);
+        field = SimpleFieldCreate.setField(field, "s", 52, (byte)0);
+        field = SimpleFieldCreate.setField(field, "l", 50, (byte)0);
+        field = SimpleFieldCreate.setField(field, "d", 58, (byte)0);
+        field = SimpleFieldCreate.setField(field, "t", 59, (byte)0);
+        field = SimpleFieldCreate.setField(field, "t", 61, (byte)0);
+        field = SimpleFieldCreate.setField(field, "s", 62, (byte)0);
+        field = SimpleFieldCreate.setField(field, "k", 63, (byte)0);
         return field;
     }
         

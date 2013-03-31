@@ -5,9 +5,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
 import java.util.HashMap;
-
 import components.Figure;
-
 import util.ChessfigureConstants;
 import util.ExtractInformationFromBinary;
 import dataStructure.ChessField;
@@ -16,15 +14,25 @@ public class PrimitivRating {
 
     Random ran = new Random();
     int value = 0;
-    int actValue = 0;
     byte figureValue;
     byte figureType;
+    private static int HIGHESTRATING = 2147483000;
 
-    //Statt HashMap<Integer, Byte> kann auch Chessfield genommen werden
-    public int primRate(HashMap<Integer, Byte> field) throws NullPointerException {
+    /*
+     * Bewertet eine Spielsituation unabhaengig (ausnahme: Schachmatt) vom Spieler
+     * @param field Zu bewertendes Feld
+     * @param player Spieler der am Zug ist; wird nur fuer Schachmattstellung gebraucht
+     * @param depth Aktuelle Suchtiefe um schnelle Mattzuege besser zu bewerten
+     * @param checkmate Bei true liegt Mattstellung (oder Patt) vor
+     */
+    public int primRate(HashMap<Integer, Byte> field,int player,int depth, boolean checkmate) throws NullPointerException {
         value = 0;
-        actValue=0;
-//        if(field == null){System.out.println("leer");}
+        if(checkmate) {
+        	if((byte)player == ChessfigureConstants.WHITE)
+        		return HIGHESTRATING+depth;
+        	else
+        		return -(HIGHESTRATING+depth);
+        }
         Iterator<Entry<Integer, Byte>> it = field.entrySet().iterator();
         while (it.hasNext()) {
             // Aktuelles Key/Value-Paar
@@ -59,7 +67,6 @@ public class PrimitivRating {
 
     public int primRate(HashMap<Integer, Byte> field, byte player) throws NullPointerException {
         int value = 0;
-        int actValue = 0;
         Iterator<Entry<Integer, Byte>> it = field.entrySet().iterator();
         while (it.hasNext()) {
             // Aktuelles Key/Value-Paar
