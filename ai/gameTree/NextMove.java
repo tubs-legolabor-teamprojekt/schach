@@ -38,9 +38,9 @@ public class NextMove {
     private static int INFINITY = 2147483647;
     
     //Anzahl parallel laufender Threads (2 ist zumindest auf meinem MAC optimal
-    private static int PARALLEL = 2; 
+    private final int PARALLEL = 2; 
     //Suchtiefe, TODO: später automatisch an Situation anpassen lassen
-    private static int DEPTH = 4;
+    private final int DEPTH = 4;
         
 //################################################################################# Konstruktor
     
@@ -67,7 +67,10 @@ public class NextMove {
         
         // HashMap<Integer, Byte> zusammenbauen
         beforeField = field.getCurrentFieldAsHashMapWithBytes();
-
+        System.out.println(Fingerprint.getFingerprint( (HashMap<Integer,Byte>)beforeField.clone() ));
+//        if(exists hashwert zu beforeField)
+//        	list = getList
+//        	else
         doChildSituations(player);    
         rateChildSituations(player==ChessfigureConstants.WHITE?ChessfigureConstants.BLACK:ChessfigureConstants.WHITE);
         findBestSituationInListMax();

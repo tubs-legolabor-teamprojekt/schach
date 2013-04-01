@@ -1,5 +1,9 @@
 package useful;
 
+import java.util.HashMap;
+import java.util.LinkedList;
+
+import rating.PrimitivKI;
 import rating.PrimitivRating;
 import util.ChessfigureConstants;
 import components.*;
@@ -22,16 +26,31 @@ public class TestingNextMove {
         // TODO Auto-generated method stub
         NextMove moveTo = new NextMove();        
         Field field= new Field(false);
+        PrimitivKI ki = new PrimitivKI();
 //        field = Field.getInstance();
-        field = create4(field);
-        
-
+        field = create5(field);
         PrimitivRating prim = new PrimitivRating();
-//        System.out.println(prim.primRate(field.getCurrentFieldAsHashMapWithBytes()));        
-        System.out.println(TextChessField.fieldToString(field.getCurrentFieldAsHashMapWithBytes()));        
-        Move move = moveTo.getNext(field, ChessfigureConstants.BLACK);        
-        System.out.println("Move-Objekt: "+move.getFieldFrom()+" "+move.getFieldTo()+" "+move.getPlayerColor());
+        HashMap<Integer,Byte> map = field.getCurrentFieldAsHashMapWithBytes();
+        HashMap<Integer,Byte> cloneMap = field.getCurrentFieldAsHashMapWithBytes();
+        HashMap<Integer,Byte> cloneMap2 = field.getCurrentFieldAsHashMapWithBytes();
         
+//        System.out.println(TextChessField.fieldToString(map));
+        String fingerprint = Fingerprint.getFingerprint(map);
+        System.out.println(fingerprint);
+        ki.teachSituation(cloneMap, 6, ChessfigureConstants.BLACK);
+        int pos = ki.isRated(cloneMap2);
+        System.out.println(pos);
+        LinkedList<SituationWithRating> li = ki.getChildSituations(pos);
+        while(li.size()>0) {
+        	System.out.println("rating: "+li.pollFirst().getRating());
+        }
+//        int pos = ki.isRated(field.getCurrentFieldAsHashMapWithBytes());
+//        System.out.println(pos);
+        
+//        System.out.println(prim.primRate(field.getCurrentFieldAsHashMapWithBytes()));        
+//        System.out.println(TextChessField.fieldToString(field.getCurrentFieldAsHashMapWithBytes()));        
+//        Move move = moveTo.getNext(field, ChessfigureConstants.BLACK);        
+//        System.out.println("Move-Objekt: "+move.getFieldFrom()+" "+move.getFieldTo()+" "+move.getPlayerColor());
     }
     
     private static Field create5(Field field){

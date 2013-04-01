@@ -27,5 +27,9 @@ public class SituationWithRating {
 	public void setRating(int rating) {
 		this.rating = rating;
 	}
+	
+	public SituationWithRating clone() {
+		return new SituationWithRating((HashMap<Integer,Byte>)this.map.clone(),this.rating);
+	}
 
 }

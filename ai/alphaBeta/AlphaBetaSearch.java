@@ -3,6 +3,7 @@ package alphaBeta;
 import java.util.*;
 import util.*;
 import rating.PrimitivRating;
+import useful.Fingerprint;
 import useful.MoveGenerator;
 import useful.SituationWithRating;
 
@@ -21,7 +22,7 @@ public class AlphaBetaSearch extends Thread {
     public int count = 0;
     private SituationWithRating situation;
     private int depth,player,alpha,beta;
-    private static int INFINITY = 2147483647;
+    private final int INFINITY = 2147483647;
     private static int numberOfThreads = 0;
 
     public void run() {
