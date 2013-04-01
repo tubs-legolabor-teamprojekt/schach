@@ -1,5 +1,6 @@
 package useful;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.ListIterator;
@@ -12,7 +13,7 @@ import util.ChessfigureConstants;
  * alle möglichen Folge-Schachfelder zu erstellen.
  * @author Florian Hallensleben
  */
-public class MoveGenerator
+public class MoveGenerator implements Serializable
 {
     
     /**
