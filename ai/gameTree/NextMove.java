@@ -8,6 +8,8 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
+
+import rating.PrimitivKI;
 import useful.*;
 import util.ChessfigureConstants;
 import alphaBeta.AlphaBetaSearch;
@@ -36,6 +38,7 @@ public class NextMove {
     // HashMaps zum Vergleich und zur Rückgabe
     private HashMap<Integer, Byte> beforeField;
     private HashMap<Integer, Byte> afterField;
+    private PrimitivKI ki;
 
     private static int INFINITY = 2147483647;
 
@@ -43,6 +46,7 @@ public class NextMove {
     private final int PARALLEL = 2;
     // Suchtiefe, TODO: später automatisch an Situation anpassen lassen
     private final int DEPTH = 4;
+    private final String PATH = "/Users/Schubi/ki.ser";
 
     // #################################################################################
     // Konstruktor
@@ -74,14 +78,26 @@ public class NextMove {
 
         // HashMap<Integer, Byte> zusammenbauen
         beforeField = field.getCurrentFieldAsHashMapWithBytes();
-        System.out.println(Fingerprint.getFingerprint((HashMap<Integer, Byte>) beforeField.clone()));
-        // if(exists hashwert zu beforeField)
-        // list = getList
-        // else
-        doChildSituations(player);
-        rateChildSituations(player == ChessfigureConstants.WHITE ? ChessfigureConstants.BLACK : ChessfigureConstants.WHITE);
-        findBestSituationInListMax();
-        System.out.println(TextChessField.fieldToString(afterField)); // TODO
+        ki = new PrimitivKI();
+        ki.deserialize(PATH);
+        int pos = ki.isRated(beforeField);
+        System.out.println("Fingerprint before "+Fingerprint.getFingerprint(beforeField));
+        
+        System.out.println("position "+pos);
+
+//        System.out.println(Fingerprint.getFingerprint((HashMap<Integer, Byte>) beforeField.clone()));
+        if (pos >= 0) {
+            list = ki.getChildSituations(pos);
+            afterField = list.get(2).getMap();
+            System.out.println(TextChessField.fieldToString(beforeField));
+            System.out.println(TextChessField.fieldToString(afterField));
+            System.out.println("Fingerprint after "+Fingerprint.getFingerprint(afterField));
+            
+        } else {
+            doChildSituations(player);
+        }
+            rateChildSituations(player == ChessfigureConstants.WHITE ? ChessfigureConstants.BLACK : ChessfigureConstants.WHITE);
+            findBestSituationInListMax();
         return HashMapToMove(beforeField, afterField, player);
     }
 
@@ -98,6 +114,7 @@ public class NextMove {
                 help = list.get(i).getRating();
             }
         }
+        
         for (int i = 0; i < list.size(); i += 0) {
             if (list.get(i).getRating() != help) {
                 list.remove(i);
@@ -130,7 +147,7 @@ public class NextMove {
 
         // startet eine bestimmte Anzahl an Threads
         orderedThreadStart(abThreads, PARALLEL);
-        System.out.println("\n Zeit: " + (System.currentTimeMillis() - time) + " Anzahl paralleler Threads " + PARALLEL + "; Suchtiefe " + (DEPTH + 1) + "\n");
+        System.out.println("\n Zeit: " + (System.currentTimeMillis() - time) + " Anzahl paralleler Threads " + PARALLEL + "; Suchtiefe " + (DEPTH) + "\n");
 
         LinkedList<SituationWithRating> helpList = new LinkedList<SituationWithRating>();
 
@@ -223,14 +240,14 @@ public class NextMove {
      * @param color
      * @return
      */
-    private Move HashMapToMove(HashMap<Integer, Byte> map1, HashMap<Integer, Byte> map2, byte color)
+    private Move HashMapToMove(HashMap<Integer, Byte> before, HashMap<Integer, Byte> after, byte color)
     {
-        Iterator<Entry<Integer, Byte>> it1 = map1.entrySet().iterator();
-        Iterator<Entry<Integer, Byte>> it2 = map2.entrySet().iterator();
-        Integer[] int1 = new Integer[map1.size()];
-        Byte[] byte1 = new Byte[map1.size()];
-        Integer[] int2 = new Integer[map2.size()];
-        Byte[] byte2 = new Byte[map2.size()];
+        Iterator<Entry<Integer, Byte>> it1 = before.entrySet().iterator();
+        Iterator<Entry<Integer, Byte>> it2 = after.entrySet().iterator();
+        Integer[] posBefore = new Integer[before.size()];
+        Byte[] figBefore = new Byte[before.size()];
+        Integer[] posAfter = new Integer[after.size()];
+        Byte[] figAfter = new Byte[after.size()];
 
         /*
          * Variablen zur Erstellung des Move-Objektes
@@ -243,15 +260,15 @@ public class NextMove {
         int itCount = 0;
         while (it1.hasNext()) {
             Map.Entry<Integer, Byte> entry1 = (Map.Entry<Integer, Byte>) it1.next();
-            int1[itCount] = entry1.getKey();
-            byte1[itCount] = entry1.getValue();
+            posBefore[itCount] = entry1.getKey();
+            figBefore[itCount] = entry1.getValue();
             itCount++;
         }// while
         itCount = 0;
         while (it2.hasNext()) {
             Map.Entry<Integer, Byte> entry2 = (Map.Entry<Integer, Byte>) it2.next();
-            int2[itCount] = entry2.getKey();
-            byte2[itCount] = entry2.getValue();
+            posAfter[itCount] = entry2.getKey();
+            figAfter[itCount] = entry2.getValue();
             itCount++;
         }// while
 
@@ -259,36 +276,37 @@ public class NextMove {
          * Auswertung der beiden Schachfelder, Unterscheidung nach
          * "einfacher Zug" und "Schlag"
          */
-        if (int1.length == int2.length) {
+        if (posBefore.length == posAfter.length) {
             /*
              * Beide Felder gleiche Länge --> einfacher Zug, kein Schlag
              * 
-             * iff key_1 in int1 und nicht key_1 in int2 folgt key_1 ist "from"
-             * iff key_2 in int2 und nicht key_2 in int1 folgt key_2 ist "to"
+             * if figBefore in posBefore und nicht figAfter in posAfter folgt figBefore ist "from"
+             * if figAfter in posAfter und nicht figAfter in posBefore folgt figAfter ist "to"
              */
             // TODO Bauernwumwandlung
             captured = false;
             boolean contains = false;
-            for (int i = 0; i < int1.length; i++) {
-                for (int j = 0; j < int2.length; j++) {
-                    if (int1[i] == int2[j]) {
+            
+            for (int i = 0; i < posBefore.length; i++) {
+                for (int j = 0; j < posAfter.length; j++) {
+                    if (posBefore[i].equals(posAfter[j])) {
                         contains = true;
                     }
                 }
                 if (!contains) {
-                    from = int1[i];
+                    from = posBefore[i];
                 }
                 contains = false;
             }
             contains = false;
-            for (int j = 0; j < int2.length; j++) {
-                for (int i = 0; i < int1.length; i++) {
-                    if (int1[i] == int2[j]) {
+            for (int j = 0; j < posAfter.length; j++) {
+                for (int i = 0; i < posBefore.length; i++) {
+                    if (posBefore[i].equals(posAfter[j])) {
                         contains = true;
                     }
                 }
                 if (!contains) {
-                    to = int2[j];
+                    to = posAfter[j];
                 }
                 contains = false;
             }
@@ -299,21 +317,21 @@ public class NextMove {
              */
             captured = true;
             boolean contains = false;
-            for (int i = 0; i < int1.length; i++) {
-                for (int j = 0; j < int2.length; j++) {
-                    if (int1[i] == int2[j]) {
+            for (int i = 0; i < posBefore.length; i++) {
+                for (int j = 0; j < posAfter.length; j++) {
+                    if (posBefore[i].equals(posAfter[j])) {
                         contains = true;
                     }
                 }
                 if (!contains) {
-                    from = int1[i];
+                    from = posBefore[i];
                 }
                 contains = false;
             }
-            for (int j = 0; j < int2.length; j++) {
-                for (int i = 0; i < int1.length; i++) {
-                    if ((int1[i] == int2[j]) && (byte1[i].equals(byte2[j]) == false)) {
-                        to = int1[i];
+            for (int j = 0; j < posAfter.length; j++) {
+                for (int i = 0; i < posBefore.length; i++) {
+                    if ((posBefore[i].equals(posAfter[j])) && (figBefore[i].equals(figAfter[j]) == false)) {
+                        to = posBefore[i];
                     }
                 }
                 contains = false;
@@ -371,7 +389,7 @@ public class NextMove {
             boolean contains = false;
             for (int i = 0; i < int1.length; i++) {
                 for (int j = 0; j < int2.length; j++) {
-                    if (int1[i] == int2[j]) {
+                    if (int1[i].equals(int2[j])) {
                         contains = true;
                     }
                 }
@@ -383,7 +401,7 @@ public class NextMove {
             contains = false;
             for (int j = 0; j < int2.length; j++) {
                 for (int i = 0; i < int1.length; i++) {
-                    if (int1[i] == int2[j]) {
+                    if (int1[i].equals(int2[j])) {
                         contains = true;
                     }
                 }
@@ -401,7 +419,7 @@ public class NextMove {
             boolean contains = false;
             for (int i = 0; i < int1.length; i++) {
                 for (int j = 0; j < int2.length; j++) {
-                    if (int1[i] == int2[j]) {
+                    if (int1[i].equals(int2[j])) {
                         contains = true;
                     }
                 }
@@ -412,7 +430,7 @@ public class NextMove {
             }
             for (int j = 0; j < int2.length; j++) {
                 for (int i = 0; i < int1.length; i++) {
-                    if ((int1[i] == int2[j]) && (byte1[i].equals(byte2[j]) == false)) {
+                    if ((int1[i].equals(int2[j])) && (byte1[i].equals(byte2[j]) == false)) {
                         to = int1[i];
                     }
                 }

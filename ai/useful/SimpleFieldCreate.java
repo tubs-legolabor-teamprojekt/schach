@@ -13,36 +13,29 @@ public class SimpleFieldCreate {
     private static final String BISHOP = "l";
     private static final String ROOK = "t";
     
-    public static Field setField(Field field, String figure, int number, byte color){
+    public static Field setField(Field field, String figure, int number, byte color, boolean moved){
+        Figure k = null;
         
         if(figure.equals(KING)){
-            FigureKing k = new FigureKing(color);
-            field.putFigureAt(number, k);
+            k = new FigureKing(color);
         }
-        if(figure.equals(QUEEN)){
-            FigureQueen k = new FigureQueen(color);
-            field.putFigureAt(number, k);            
+        else if(figure.equals(QUEEN)){
+            k = new FigureQueen(color);          
         }
-        if(figure.equals(PAWN)){
-            FigurePawn k = new FigurePawn(color);
-            field.putFigureAt(number, k);            
+        else if(figure.equals(PAWN)){
+            k = new FigurePawn(color);            
         }
-        if(figure.equals(KNIGHT)){
-            FigureKnight k = new FigureKnight(color);
-            field.putFigureAt(number, k);            
+        else if(figure.equals(KNIGHT)){
+            k = new FigureKnight(color);            
         }
-        if(figure.equals(BISHOP)){
-            FigureBishop k = new FigureBishop(color);
-            field.putFigureAt(number, k);            
+        else if(figure.equals(BISHOP)){
+            k = new FigureBishop(color);            
         }
-        if(figure.equals(ROOK)){
-            FigureRook k = new FigureRook(color);
-            field.putFigureAt(number, k);            
+        else if(figure.equals(ROOK)){
+            k = new FigureRook(color);            
         }
-        
-        
-        
-        
+        k.setMoved(moved);
+        field.putFigureAt(number, k);
         return field;
     }
     

@@ -26,16 +26,20 @@ public class TestingNextMove {
 
         // TODO Auto-generated method stub
         NextMove moveTo = new NextMove();
-        Field field = new Field(false);
+        Field field = new Field(true);
+        field = field.getInstance();
+        field.moveFigure(12, 28);
         PrimitivKI ki = new PrimitivKI();
         // field = Field.getInstance();
-        field = create5(field);
+//        field = createStartFieldOneTurn(field);
         PrimitivRating prim = new PrimitivRating();
         HashMap<Integer, Byte> map = field.getCurrentFieldAsHashMapWithBytes();
 
-        // System.out.println(TextChessField.fieldToString(map));
+        System.out.println(TextChessField.fieldToString(map));
+
         String fingerprint = Fingerprint.getFingerprint(map);
-        System.out.println(fingerprint);
+        System.out.println("Fingerprint der Map " + fingerprint);
+
         ki.teachSituation(map, 6, ChessfigureConstants.BLACK);
         ki.serialize("/Users/Schubi/ki.ser");
         System.out.println("serialisiert");
@@ -43,23 +47,102 @@ public class TestingNextMove {
         PrimitivKI kiPersistence = new PrimitivKI();
         kiPersistence.deserialize("/Users/Schubi/ki.ser");
         System.out.println("deserialisiert");
-
         int pos = kiPersistence.isRated(map);
 
         System.out.println(pos);
         LinkedList<SituationWithRating> li = kiPersistence.getChildSituations(pos);
         while (li.size() > 0) {
-            System.out.println("rating: " + li.pollFirst().getRating());
+            SituationWithRating l = li.pollFirst();
+            System.out.println("----------");
+            System.out.println("rating: " + l.getRating());
+            System.out.println(TextChessField.fieldToString(l.getMap()));
+            System.out.println("----------");
         }
         // int pos = ki.isRated(field.getCurrentFieldAsHashMapWithBytes());
         // System.out.println(pos);
 
-        // System.out.println(prim.primRate(field.getCurrentFieldAsHashMapWithBytes()));
-        // System.out.println(TextChessField.fieldToString(field.getCurrentFieldAsHashMapWithBytes()));
+//         System.out.println(prim.primRate(field.getCurrentFieldAsHashMapWithBytes()));
+//         System.out.println(TextChessField.fieldToString(field.getCurrentFieldAsHashMapWithBytes()));
         // Move move = moveTo.getNext(field, ChessfigureConstants.BLACK);
         // System.out.println("Move-Objekt: "+move.getFieldFrom()+" "+move.getFieldTo()+" "+move.getPlayerColor());
     }
 
+    private static Field createStartField(Field field)
+    {
+        field = SimpleFieldCreate.setField(field, "b", 9, (byte) 0, false);
+        field = SimpleFieldCreate.setField(field, "b", 10, (byte) 0, false);
+        field = SimpleFieldCreate.setField(field, "b", 11, (byte) 0, false);
+        field = SimpleFieldCreate.setField(field, "b", 12, (byte) 0, false);
+        field = SimpleFieldCreate.setField(field, "b", 13, (byte) 0, false);
+        field = SimpleFieldCreate.setField(field, "b", 14, (byte) 0, false);
+        field = SimpleFieldCreate.setField(field, "b", 15, (byte) 0, false);
+        field = SimpleFieldCreate.setField(field, "b", 16, (byte) 0, false);
+        field = SimpleFieldCreate.setField(field, "t", 1, (byte) 0, false);
+        field = SimpleFieldCreate.setField(field, "t", 8, (byte) 0, false);
+        field = SimpleFieldCreate.setField(field, "s", 2, (byte) 0, false);
+        field = SimpleFieldCreate.setField(field, "s", 7, (byte) 0, false);
+        field = SimpleFieldCreate.setField(field, "l", 3, (byte) 0, false);
+        field = SimpleFieldCreate.setField(field, "l", 6, (byte) 0, false);
+        field = SimpleFieldCreate.setField(field, "d", 4, (byte) 0, false);
+        field = SimpleFieldCreate.setField(field, "k", 5, (byte) 0, false);
+
+        field = SimpleFieldCreate.setField(field, "b", 49, (byte) 1, false);
+        field = SimpleFieldCreate.setField(field, "b", 50, (byte) 1, false);
+        field = SimpleFieldCreate.setField(field, "b", 51, (byte) 1, false);
+        field = SimpleFieldCreate.setField(field, "b", 52, (byte) 1, false);
+        field = SimpleFieldCreate.setField(field, "b", 53, (byte) 1, false);
+        field = SimpleFieldCreate.setField(field, "b", 54, (byte) 1, false);
+        field = SimpleFieldCreate.setField(field, "b", 55, (byte) 1, false);
+        field = SimpleFieldCreate.setField(field, "b", 56, (byte) 1, false);
+        field = SimpleFieldCreate.setField(field, "t", 57, (byte) 1, false);
+        field = SimpleFieldCreate.setField(field, "t", 64, (byte) 1, false);
+        field = SimpleFieldCreate.setField(field, "s", 58, (byte) 1, false);
+        field = SimpleFieldCreate.setField(field, "s", 63, (byte) 1, false);
+        field = SimpleFieldCreate.setField(field, "l", 59, (byte) 1, false);
+        field = SimpleFieldCreate.setField(field, "l", 62, (byte) 1, false);
+        field = SimpleFieldCreate.setField(field, "d", 60, (byte) 1, false);
+        field = SimpleFieldCreate.setField(field, "k", 61, (byte) 1, false);
+        return field;
+    }
+    
+    private static Field createStartFieldOneTurn(Field field)
+    {
+        field = SimpleFieldCreate.setField(field, "b", 9, (byte) 0, false);
+        field = SimpleFieldCreate.setField(field, "b", 10, (byte) 0, false);
+        field = SimpleFieldCreate.setField(field, "b", 11, (byte) 0, false);
+        field = SimpleFieldCreate.setField(field, "b", 28, (byte) 0, true);
+        field = SimpleFieldCreate.setField(field, "b", 13, (byte) 0, false);
+        field = SimpleFieldCreate.setField(field, "b", 14, (byte) 0, false);
+        field = SimpleFieldCreate.setField(field, "b", 15, (byte) 0, false);
+        field = SimpleFieldCreate.setField(field, "b", 16, (byte) 0, false);
+        field = SimpleFieldCreate.setField(field, "t", 1, (byte) 0, false);
+        field = SimpleFieldCreate.setField(field, "t", 8, (byte) 0, false);
+        field = SimpleFieldCreate.setField(field, "s", 2, (byte) 0, false);
+        field = SimpleFieldCreate.setField(field, "s", 7, (byte) 0, false);
+        field = SimpleFieldCreate.setField(field, "l", 3, (byte) 0, false);
+        field = SimpleFieldCreate.setField(field, "l", 6, (byte) 0, false);
+        field = SimpleFieldCreate.setField(field, "d", 4, (byte) 0, false);
+        field = SimpleFieldCreate.setField(field, "k", 5, (byte) 0, false);
+
+        field = SimpleFieldCreate.setField(field, "b", 49, (byte) 1, false);
+        field = SimpleFieldCreate.setField(field, "b", 50, (byte) 1, false);
+        field = SimpleFieldCreate.setField(field, "b", 51, (byte) 1, false);
+        field = SimpleFieldCreate.setField(field, "b", 52, (byte) 1, false);
+        field = SimpleFieldCreate.setField(field, "b", 53, (byte) 1, false);
+        field = SimpleFieldCreate.setField(field, "b", 54, (byte) 1, false);
+        field = SimpleFieldCreate.setField(field, "b", 55, (byte) 1, false);
+        field = SimpleFieldCreate.setField(field, "b", 56, (byte) 1, false);
+        field = SimpleFieldCreate.setField(field, "t", 57, (byte) 1, false);
+        field = SimpleFieldCreate.setField(field, "t", 64, (byte) 1, false);
+        field = SimpleFieldCreate.setField(field, "s", 58, (byte) 1, false);
+        field = SimpleFieldCreate.setField(field, "s", 63, (byte) 1, false);
+        field = SimpleFieldCreate.setField(field, "l", 59, (byte) 1, false);
+        field = SimpleFieldCreate.setField(field, "l", 62, (byte) 1, false);
+        field = SimpleFieldCreate.setField(field, "d", 60, (byte) 1, false);
+        field = SimpleFieldCreate.setField(field, "k", 61, (byte) 1, false);
+        return field;
+    }
+/*
     private static Field create5(Field field)
     {
         field = SimpleFieldCreate.setField(field, "k", 63, (byte) 0);
@@ -69,9 +152,9 @@ public class TestingNextMove {
         return field;
     }
 
-    /*
-     * Matt in einem Zug
-     */
+
+//      Matt in einem Zug
+     
     private static Field create4(Field field)
     {
         field = SimpleFieldCreate.setField(field, "t", 3, (byte) 1);
@@ -240,4 +323,5 @@ public class TestingNextMove {
         field.putFigureAt(15, fb2);
         return field;
     }
+    */
 }

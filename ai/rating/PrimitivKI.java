@@ -46,6 +46,13 @@ public class PrimitivKI implements Serializable {
         return this.pointer;
     }
 
+    /*
+     * Schaut nach, ob eine Stellung schon bewertet wurde
+     * 
+     * @param map Schachstellung
+     * 
+     * @return -1 wenn nicht vorhanden, ansonsten Position im Feld (nat. Zahl)
+     */
     public int isRated(HashMap<Integer, Byte> map)
     {
         return position(Fingerprint.getFingerprint(map));
@@ -75,6 +82,7 @@ public class PrimitivKI implements Serializable {
 
         LinkedList<SituationWithRating> bestMaps = new LinkedList<SituationWithRating>();
         int max = findMaxRating(ratedList);
+
         SituationWithRating rating;
         while (ratedList.size() > 0) {
             rating = ratedList.pollFirst();
@@ -82,7 +90,6 @@ public class PrimitivKI implements Serializable {
                 bestMaps.add(rating);
             }
         }
-
         fingerprint[++pointer] = Fingerprint.getFingerprint(cloneMap);
         situations[pointer] = bestMaps;
     }
@@ -131,6 +138,9 @@ public class PrimitivKI implements Serializable {
         int i = 0;
         for (AlphaBetaSearch ab : abThreads) {
             helpList.add(ab.getSituationWithRating());
+//            System.out.printf("%-3d %d \n  ", i++, ab.getSituationWithRating().getRating());
+            // System.out.println("Zug: " + HashMapMoveToText(beforeField,
+            // ab.getSituationWithRating().getMap(), player) + " ");
         }
 
         return helpList;
@@ -148,7 +158,7 @@ public class PrimitivKI implements Serializable {
      * 
      * @param parallelValue Anzahl an gleichzeitig laufenden Threads
      */
-    public boolean orderedThreadStart(AlphaBetaSearch[] ab, int parallelValue)
+    private boolean orderedThreadStart(AlphaBetaSearch[] ab, int parallelValue)
     {
         System.out.println("Anzahl an Wurzeln " + ab.length);
 
@@ -157,7 +167,7 @@ public class PrimitivKI implements Serializable {
          * gleichzeitiger Threads dann gleich alle starten
          */
         if (parallelValue >= ab.length) {
-            System.out.println("0");
+//            System.out.println("0");
             for (int i = 0; i < ab.length; i++) {
                 ab[i].start();
             }

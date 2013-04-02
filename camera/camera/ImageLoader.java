@@ -163,9 +163,9 @@ public class ImageLoader {
         Collections.sort(l);
         //System.out.println();
         //System.out.println(l.size());
-        for (int i = 0; i < l.size(); i++) {
+//        for (int i = 0; i < l.size(); i++) {
           //  System.out.println("Nummer " + l.get(i).getPosition() + " Wert: " + l.get(i).getValue());
-        }
+//        }
         return l;
     }
 
