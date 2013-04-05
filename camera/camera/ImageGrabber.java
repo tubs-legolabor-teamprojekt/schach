@@ -14,8 +14,8 @@ public final class ImageGrabber {
 
 	public ImageGrabber() {
 		try {
-			grabber.setImageWidth(1280);
-			grabber.setImageHeight(720);
+			grabber.setImageWidth(1920);
+			grabber.setImageHeight(1080);
 			grabber.start();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -24,13 +24,13 @@ public final class ImageGrabber {
 
 	public BufferedImage getImage() {
 		try {
+		    grabber.flush();
 			img = grabber.grab();
 			if (img != null) {
 				cvSaveImage(i + "capture.jpg", img);
 				i++;
 				return img.getBufferedImage();
 			}
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

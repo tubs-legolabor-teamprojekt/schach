@@ -134,8 +134,8 @@ public class ImageLoader {
             }
         }
         //+1 weil schachsystem von 1-64 felder
-        System.out.println("FELD1"+fieldConversion[sortedList.get(0).getPosition()]);
-        System.out.println("FELD2"+fieldConversion[sortedList.get(1).getPosition()]);
+        System.out.println("FELD1 "+fieldConversion[sortedList.get(0).getPosition()]);
+        System.out.println("FELD2 "+fieldConversion[sortedList.get(1).getPosition()]);
         
         l.add(fieldConversion[sortedList.get(0).getPosition()]);
         l.add(fieldConversion[sortedList.get(1).getPosition()]);

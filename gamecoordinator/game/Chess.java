@@ -123,6 +123,8 @@ public class Chess
                     // Simulierter Zug holen
                     move = this.getSimulatedMove(moveCounter, currentPlayer);
                 }
+            } else {
+                System.out.println("Hier läuft was falsch! (Chess.java)");
             }
             moveCounter++;
 
@@ -221,7 +223,6 @@ public class Chess
     
             // Konnte Kamera Züge ermitteln?
             System.out.println("Anzahl an veränderten Feldern: "+ listOfChangedPositions.size());
-            listOfChangedPositions.clear();
             if (listOfChangedPositions.size() == 0) {
                 // Manuelles Einlesen der Züge durch die GUI
                 move = convertFieldnumbersToMoves(currentPlayer, Checkerboard.getInstance().manualMove());
