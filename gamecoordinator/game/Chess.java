@@ -203,27 +203,22 @@ public class Chess
                 throw new Exception("Kein Kamera-Objekt gefunden");
             }
             
-            Gui.getInstance().waitingForMove();
             // erste Vergleichsfoto
+            Gui.getInstance().showWaitingMessage("Achtung", "Bitte Spielfeld freihalten und bestätigen.");
             this.im.takePhoto1();
-            
-            /*
             System.out.println("Foto1 taken");
-            try {
-                Thread.sleep(10000);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            */
+            
+            // Warte auf Bestätigung vom Benutzer
+            Gui.getInstance().showWaitingMessage("Weiß ist am Zug", "Bitte versetzen Sie eine Schachfigur " +
+                    "und bestätigen Sie Ihren Zug.");
             
             // 2te Vergleichsfoto nehmen
-            Gui.getInstance().waitingForMove();
             this.im.takePhoto2();
             System.out.println("Foto2 taken");
-    
+            
             // Veraenderte Positionen holen
             List<Integer> listOfChangedPositions = this.im.getChangedPositions();
-    
+            
             // Konnte Kamera Züge ermitteln?
             System.out.println("Anzahl an veränderten Feldern: "+ listOfChangedPositions.size());
             if (listOfChangedPositions.size() == 0) {

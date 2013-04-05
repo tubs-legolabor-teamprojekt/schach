@@ -177,11 +177,9 @@ public class Gui extends JFrame
                 JOptionPane.WARNING_MESSAGE);
     }
     
-    public boolean waitingForMove() {
-        javax.swing.JOptionPane.showMessageDialog(this, "Bitte versetzen Sie eine Schachfigur " +
-        		"und bestätigen Sie Ihren Zug.", "Weiß ist am Zug",
+    public void showWaitingMessage(String headline, String text) {
+        javax.swing.JOptionPane.showMessageDialog(this, text, headline,
                 JOptionPane.OK_OPTION);
-        return true;
     }
 
     /**
