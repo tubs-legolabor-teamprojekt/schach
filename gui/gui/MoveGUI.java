@@ -55,6 +55,8 @@ public class MoveGUI extends JFrame implements ActionListener
     private boolean isKingsideCastling = false, 
                     normalButtonPressed = false,
                     castlingButtonPressed = false;
+    
+    private static BackgroundPanel bp = null;
 
     /**
      * Konstruktor, der den Titel setzt und ein neues Objekt erstellt. 
@@ -92,7 +94,11 @@ public class MoveGUI extends JFrame implements ActionListener
         JTabbedPane tabbedPane = new JTabbedPane();
         tabbedPane.setOpaque(false);
 
-        this.setContentPane(new BackgroundPanel());
+        if (this.bp == null) {
+            this.bp = new BackgroundPanel();
+        }
+        
+        this.setContentPane(this.bp);
         this.getContentPane().add(tabbedPane);
 
         tabbedPane.setPreferredSize(new Dimension(294, 168));
