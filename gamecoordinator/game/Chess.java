@@ -203,18 +203,21 @@ public class Chess
                 throw new Exception("Kein Kamera-Objekt gefunden");
             }
             
+            Gui.getInstance().waitingForMove();
             // erste Vergleichsfoto
             this.im.takePhoto1();
-    
-            // FIXME Warten bis Zug vom Benutzer durchgefuehrt wurde
+            
+            /*
             System.out.println("Foto1 taken");
             try {
                 Thread.sleep(10000);
             } catch (Exception e) {
                 e.printStackTrace();
             }
-    
+            */
+            
             // 2te Vergleichsfoto nehmen
+            Gui.getInstance().waitingForMove();
             this.im.takePhoto2();
             System.out.println("Foto2 taken");
     
