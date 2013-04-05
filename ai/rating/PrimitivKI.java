@@ -42,6 +42,7 @@ public class PrimitivKI implements Serializable {
     	}
     }
     
+    
     public LinkedList<FingerprintList> getList() {
     	return this.situationsWithFingerprint;
     }

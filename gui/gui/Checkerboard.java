@@ -518,7 +518,6 @@ public class Checkerboard extends JPanel
         // damit Startansicht 
         this.moveGui = new MoveGUI();
         this.moveGui.startWindow();
-        System.out.println("!!!!!!!Checkerboard 1: " + this.moveGui.isNormalButtonPressed());
         while (!this.mmIsReady) {
             try {
                 Thread.sleep(500);
@@ -526,7 +525,6 @@ public class Checkerboard extends JPanel
                 e.printStackTrace();
             }
         }
-        System.out.println("!!!!!!!Checkerboard 2: " + this.moveGui.isNormalButtonPressed());
         if (this.moveGui.isNormalButtonPressed()) {
             // Feldnummern von den angeklickten Feldern 
             return this.a; 
