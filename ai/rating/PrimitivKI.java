@@ -15,28 +15,44 @@ import useful.SituationWithRating;
 import util.ChessfigureConstants;
 
 public class PrimitivKI implements Serializable {
+    
 
-    private LinkedList<FingerprintList> situationsWithFingerprint;
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+    private LinkedList<SituationWithFingerprint> situationsWithFingerprint;
     private MoveGenerator moveGen = new MoveGenerator();
     final int PARALLEL = 2;
 
     public PrimitivKI() {
-        this.situationsWithFingerprint = new LinkedList<FingerprintList>();
+        this.situationsWithFingerprint = new LinkedList<SituationWithFingerprint>();
     }
 
-    class FingerprintList {
+    /*
+     * Über die eingebettete Klasse ist es Moeglich, einem Fingerprint die
+     * moeglichen Zuege zuzuordnen. Dies ist noetig, damit dieses Objekt in eine
+     * Liste gehängt werden kann, welche dann nach Fingerprints durchsucht wird.
+     */
+    class SituationWithFingerprint implements Serializable {
+        /**
+         * 
+         */
+        private static final long serialVersionUID = 1L;
         String fingerprint;
         LinkedList<SituationWithRating> situations;
+        int depth;
 
-        public FingerprintList(String fingerprint, LinkedList<SituationWithRating> situations) {
+        public SituationWithFingerprint(String fingerprint, LinkedList<SituationWithRating> situations, int depth) {
             this.fingerprint = fingerprint;
             this.situations = situations;
         }
 
-        public void setNode(String fingerprint, LinkedList<SituationWithRating> situations)
+        public void setNode(String fingerprint, LinkedList<SituationWithRating> situations, int depth)
         {
             this.fingerprint = fingerprint;
             this.situations = situations;
+            this.depth = depth;
         }
 
         public String getFingerprint()
@@ -48,16 +64,33 @@ public class PrimitivKI implements Serializable {
         {
             return this.situations;
         }
+
+        public int getDepth()
+        {
+            return this.depth;
+        }
     }
 
-    public LinkedList<FingerprintList> getList()
+    /*
+     * Fuer die Deserialisierung; Auslesen aller gepeicherten Werte
+     */
+    public LinkedList<SituationWithFingerprint> getList()
     {
         return this.situationsWithFingerprint;
     }
 
+    /*
+     * Es wird eine bestimmte Situation via Fingerprint in den gespeicherten
+     * Werten gesucht.
+     * 
+     * @fingerprint Fingerprint des aktuellen Spielfeldes
+     * 
+     * @return LinkedList mit Objekten des Typs SituationWithRating oder NULL
+     * wenn keine solche Liste existiert
+     */
     public LinkedList<SituationWithRating> getSituations(String fingerprint)
     {
-        for (FingerprintList fp : situationsWithFingerprint) {
+        for (SituationWithFingerprint fp : situationsWithFingerprint) {
             if (fp.getFingerprint().equals(fingerprint)) {
                 return fp.getSituation();
             }
@@ -65,6 +98,15 @@ public class PrimitivKI implements Serializable {
         return null;
     }
 
+    /*
+     * Es wird eine Situation berechnet und eingespeichert
+     * 
+     * @param map aktuelles Spielfeld als Hashmap
+     * 
+     * @param depth Wieviele Halbzuege im Vorraus gerechnet werden soll
+     * 
+     * @param Spieler der am Zug ist
+     */
     public void teachSituation(HashMap<Integer, Byte> map, int depth, byte player)
     {
         HashMap<Integer, Byte> cloneMap = (HashMap<Integer, Byte>) map.clone();
@@ -88,9 +130,16 @@ public class PrimitivKI implements Serializable {
                 bestMaps.add(rating);
             }
         }
-        situationsWithFingerprint.add(new FingerprintList(Fingerprint.getFingerprint(cloneMap), bestMaps));
+        situationsWithFingerprint.add(new SituationWithFingerprint(Fingerprint.getFingerprint(cloneMap), bestMaps, depth));
     }
 
+    /*
+     * Maximal bewertete Situation wird rausgesucht
+     * 
+     * @param map Hashmap der Situation
+     * 
+     * @return maximale Wert
+     */
     private int findMaxRating(LinkedList<SituationWithRating> map) throws NullPointerException
     {
         LinkedList<SituationWithRating> cloneMap = (LinkedList<SituationWithRating>) map.clone();
@@ -110,8 +159,9 @@ public class PrimitivKI implements Serializable {
     }
 
     /*
-	 * 
-	 */
+     * Methode in der die Threads initialisiert werden und die AlphaBeta Suche
+     * gestartet wird
+     */
     private LinkedList<SituationWithRating> rateChildSituations(byte player, LinkedList<SituationWithRating> list, int depth)
     {
 
@@ -123,22 +173,13 @@ public class PrimitivKI implements Serializable {
             abThreads[i].setName("" + i);
         }
 
-        // Variablen zur Zeitmessung um das Optimum aus der nebenlaeufigkeit
-        // herauszuholen
-        long time = System.currentTimeMillis();
-
         // startet eine bestimmte Anzahl an Threads
         orderedThreadStart(abThreads, PARALLEL);
 
         LinkedList<SituationWithRating> helpList = new LinkedList<SituationWithRating>();
 
-        int i = 0;
         for (AlphaBetaSearch ab : abThreads) {
             helpList.add(ab.getSituationWithRating());
-            // System.out.printf("%-3d %d \n  ", i++,
-            // ab.getSituationWithRating().getRating());
-            // System.out.println("Zug: " + HashMapMoveToText(beforeField,
-            // ab.getSituationWithRating().getMap(), player) + " ");
         }
 
         return helpList;

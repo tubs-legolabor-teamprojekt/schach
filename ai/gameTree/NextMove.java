@@ -45,7 +45,8 @@ public class NextMove {
     // Anzahl parallel laufender Threads (2 ist zumindest auf meinem MAC optimal
     private final int PARALLEL = 2;
     // Suchtiefe, TODO: später automatisch an Situation anpassen lassen
-    private final int DEPTH = 4;
+    private final int DEPTH = 3;
+    private final boolean TEACHINGMODE = true;
     private final String PATH = "/Users/Schubi/ki.ser";
 
     // #################################################################################
@@ -78,27 +79,33 @@ public class NextMove {
 
         // HashMap<Integer, Byte> zusammenbauen
         beforeField = field.getCurrentFieldAsHashMapWithBytes();
+
         ki = new PrimitivKI();
         ki.deserialize(PATH);
         String fingerprintBeforeField = Fingerprint.getFingerprint(beforeField);
-//        int pos = ki.isRated(beforeField);
-//        System.out.println("Fingerprint before "+Fingerprint.getFingerprint(beforeField));
-        
-//        System.out.println("position "+pos);
 
-//        System.out.println(Fingerprint.getFingerprint((HashMap<Integer, Byte>) beforeField.clone()));
         if (ki.getSituations(fingerprintBeforeField) != null) {
-              list = ki.getSituations(fingerprintBeforeField);
-              afterField = list.get(0).getMap();
-//            System.out.println(TextChessField.fieldToString(beforeField));
-//            System.out.println(TextChessField.fieldToString(afterField));
-//            System.out.println("Fingerprint after "+Fingerprint.getFingerprint(afterField));
-//            
-        } else {
-            doChildSituations(player);
+            System.out.println("point 1-----");
+            list = ki.getSituations(fingerprintBeforeField);
+            afterField = list.get(0).getMap();
+            // System.out.println(TextChessField.fieldToString(beforeField));
+            // System.out.println(TextChessField.fieldToString(afterField));
+            // System.out.println("Fingerprint after "+Fingerprint.getFingerprint(afterField));
+            //
+        } else if (TEACHINGMODE) {
+            System.out.println("point 2-----");
+            ki.teachSituation(beforeField, DEPTH, player);
+            ki.serialize(PATH);
+            list = ki.getSituations(fingerprintBeforeField);
+            afterField = list.get(0).getMap();
         }
+
+        else {
+            System.out.println("point 3-----");
+            doChildSituations(player);
             rateChildSituations(player == ChessfigureConstants.WHITE ? ChessfigureConstants.BLACK : ChessfigureConstants.WHITE);
             findBestSituationInListMax();
+        }
         return HashMapToMove(beforeField, afterField, player);
     }
 
@@ -115,7 +122,7 @@ public class NextMove {
                 help = list.get(i).getRating();
             }
         }
-        
+
         for (int i = 0; i < list.size(); i += 0) {
             if (list.get(i).getRating() != help) {
                 list.remove(i);
@@ -281,13 +288,14 @@ public class NextMove {
             /*
              * Beide Felder gleiche Länge --> einfacher Zug, kein Schlag
              * 
-             * if figBefore in posBefore und nicht figAfter in posAfter folgt figBefore ist "from"
-             * if figAfter in posAfter und nicht figAfter in posBefore folgt figAfter ist "to"
+             * if figBefore in posBefore und nicht figAfter in posAfter folgt
+             * figBefore ist "from" if figAfter in posAfter und nicht figAfter
+             * in posBefore folgt figAfter ist "to"
              */
             // TODO Bauernwumwandlung
             captured = false;
             boolean contains = false;
-            
+
             for (int i = 0; i < posBefore.length; i++) {
                 for (int j = 0; j < posAfter.length; j++) {
                     if (posBefore[i].equals(posAfter[j])) {
