@@ -80,22 +80,23 @@ public class NextMove {
         beforeField = field.getCurrentFieldAsHashMapWithBytes();
         ki = new PrimitivKI();
         ki.deserialize(PATH);
+        String fingerprintBeforeField = Fingerprint.getFingerprint(beforeField);
 //        int pos = ki.isRated(beforeField);
-        System.out.println("Fingerprint before "+Fingerprint.getFingerprint(beforeField));
+//        System.out.println("Fingerprint before "+Fingerprint.getFingerprint(beforeField));
         
 //        System.out.println("position "+pos);
 
 //        System.out.println(Fingerprint.getFingerprint((HashMap<Integer, Byte>) beforeField.clone()));
-//        if (pos >= 0) {
-//            list = ki.getChildSituations(pos);
-//            afterField = list.get(2).getMap();
+        if (ki.getSituations(fingerprintBeforeField) != null) {
+              list = ki.getSituations(fingerprintBeforeField);
+              afterField = list.get(0).getMap();
 //            System.out.println(TextChessField.fieldToString(beforeField));
 //            System.out.println(TextChessField.fieldToString(afterField));
 //            System.out.println("Fingerprint after "+Fingerprint.getFingerprint(afterField));
 //            
-//        } else {
+        } else {
             doChildSituations(player);
-//        }
+        }
             rateChildSituations(player == ChessfigureConstants.WHITE ? ChessfigureConstants.BLACK : ChessfigureConstants.WHITE);
             findBestSituationInListMax();
         return HashMapToMove(beforeField, afterField, player);

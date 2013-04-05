@@ -15,47 +15,55 @@ import useful.SituationWithRating;
 import util.ChessfigureConstants;
 
 public class PrimitivKI implements Serializable {
-	
+
     private LinkedList<FingerprintList> situationsWithFingerprint;
     private MoveGenerator moveGen = new MoveGenerator();
     final int PARALLEL = 2;
-    
-    
+
     public PrimitivKI() {
-    	this.situationsWithFingerprint = new LinkedList();
+        this.situationsWithFingerprint = new LinkedList<FingerprintList>();
     }
-    
+
     class FingerprintList {
-    	String fingerprint;
-    	LinkedList<SituationWithRating> situations;
-    	
-    	public void setNode(String fingerprint, LinkedList<SituationWithRating> situations) {
+        String fingerprint;
+        LinkedList<SituationWithRating> situations;
+
+        public FingerprintList(String fingerprint, LinkedList<SituationWithRating> situations) {
             this.fingerprint = fingerprint;
             this.situations = situations;
-    	}
-    	
-    	public String getFingerprint() {
-    		return this.fingerprint;
-    	}
-    	public LinkedList<SituationWithRating> getSituation() {
-    		return this.situations;
-    	}
+        }
+
+        public void setNode(String fingerprint, LinkedList<SituationWithRating> situations)
+        {
+            this.fingerprint = fingerprint;
+            this.situations = situations;
+        }
+
+        public String getFingerprint()
+        {
+            return this.fingerprint;
+        }
+
+        public LinkedList<SituationWithRating> getSituation()
+        {
+            return this.situations;
+        }
     }
-    
-    
-    public LinkedList<FingerprintList> getList() {
-    	return this.situationsWithFingerprint;
+
+    public LinkedList<FingerprintList> getList()
+    {
+        return this.situationsWithFingerprint;
     }
-    
-    public LinkedList<SituationWithRating> getSituations(String fingerprint) {
-    	for(FingerprintList fp:situationsWithFingerprint) {
-    		if(fp.getFingerprint().equals(fingerprint)) {
-    			return fp.getSituation();
-    		}
-    	}
-    	return null;
+
+    public LinkedList<SituationWithRating> getSituations(String fingerprint)
+    {
+        for (FingerprintList fp : situationsWithFingerprint) {
+            if (fp.getFingerprint().equals(fingerprint)) {
+                return fp.getSituation();
+            }
+        }
+        return null;
     }
-    
 
     public void teachSituation(HashMap<Integer, Byte> map, int depth, byte player)
     {
@@ -127,7 +135,8 @@ public class PrimitivKI implements Serializable {
         int i = 0;
         for (AlphaBetaSearch ab : abThreads) {
             helpList.add(ab.getSituationWithRating());
-//            System.out.printf("%-3d %d \n  ", i++, ab.getSituationWithRating().getRating());
+            // System.out.printf("%-3d %d \n  ", i++,
+            // ab.getSituationWithRating().getRating());
             // System.out.println("Zug: " + HashMapMoveToText(beforeField,
             // ab.getSituationWithRating().getMap(), player) + " ");
         }
@@ -156,7 +165,7 @@ public class PrimitivKI implements Serializable {
          * gleichzeitiger Threads dann gleich alle starten
          */
         if (parallelValue >= ab.length) {
-//            System.out.println("0");
+            // System.out.println("0");
             for (int i = 0; i < ab.length; i++) {
                 ab[i].start();
             }
