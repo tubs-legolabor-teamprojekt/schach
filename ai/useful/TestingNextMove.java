@@ -40,17 +40,16 @@ public class TestingNextMove {
         String fingerprint = Fingerprint.getFingerprint(map);
         System.out.println("Fingerprint der Map " + fingerprint);
 
-        ki.teachSituation(map, 6, ChessfigureConstants.BLACK);
+        ki.teachSituation(map, 5, ChessfigureConstants.BLACK);
         ki.serialize("/Users/Schubi/ki.ser");
         System.out.println("serialisiert");
 
         PrimitivKI kiPersistence = new PrimitivKI();
         kiPersistence.deserialize("/Users/Schubi/ki.ser");
         System.out.println("deserialisiert");
-        int pos = kiPersistence.isRated(map);
 
-        System.out.println(pos);
-        LinkedList<SituationWithRating> li = kiPersistence.getChildSituations(pos);
+  
+        LinkedList<SituationWithRating> li = kiPersistence.getSituations(Fingerprint.getFingerprint(map));
         while (li.size() > 0) {
             SituationWithRating l = li.pollFirst();
             System.out.println("----------");

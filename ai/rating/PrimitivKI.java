@@ -15,57 +15,45 @@ import useful.SituationWithRating;
 import util.ChessfigureConstants;
 
 public class PrimitivKI implements Serializable {
-    private String[] fingerprint = new String[10];
+	
+	private LinkedList<FingerprintList> situationsWithFingerprint;
     private MoveGenerator moveGen = new MoveGenerator();
     final int PARALLEL = 2;
-    private LinkedList<SituationWithRating>[] situations = new LinkedList[10];
-    private int pointer = -1;
-
-    private int position(String hash)
-    {
-        for (int i = 0; i < fingerprint.length; i++) {
-            if (hash.equals(fingerprint[i])) {
-                return i;
-            }
-        }
-        return -1;
+    
+    
+    public PrimitivKI() {
+    	this.situationsWithFingerprint = new FingerprintList();
     }
-
-    public String[] getFingerprints()
-    {
-        return this.fingerprint;
+    
+    class FingerprintList {
+    	String fingerprint;
+    	LinkedList<SituationWithRating> situations;
+    	FingerprintList(String fingerprint, LinkedList<SituationWithRating> situations) {
+    		this.fingerprint = fingerprint;
+    		this.situations = situations;
+    	}
+    	
+    	public String getFingerprint() {
+    		return this.fingerprint;
+    	}
+    	public LinkedList<SituationWithRating> getSituation() {
+    		return this.situations;
+    	}
     }
-
-    public LinkedList<SituationWithRating>[] getSituations()
-    {
-        return this.situations;
+    
+    public LinkedList<FingerprintList> getList() {
+    	return this.situationsWithFingerprint;
     }
-
-    public int getPointer()
-    {
-        return this.pointer;
+    
+    public LinkedList<SituationWithRating> getSituations(String fingerprint) {
+    	for(FingerprintList fp:situationsWithFingerprint) {
+    		if(fp.getFingerprint().equals(fingerprint)) {
+    			return fp.getSituation();
+    		}
+    	}
+    	return null;
     }
-
-    /*
-     * Schaut nach, ob eine Stellung schon bewertet wurde
-     * 
-     * @param map Schachstellung
-     * 
-     * @return -1 wenn nicht vorhanden, ansonsten Position im Feld (nat. Zahl)
-     */
-    public int isRated(HashMap<Integer, Byte> map)
-    {
-        return position(Fingerprint.getFingerprint(map));
-    }
-
-    public LinkedList<SituationWithRating> getChildSituations(int position)
-    {
-        if (position < situations.length && position >= 0) {
-            return situations[position];
-        } else {
-            return null;
-        }
-    }
+    
 
     public void teachSituation(HashMap<Integer, Byte> map, int depth, byte player)
     {
@@ -77,7 +65,7 @@ public class PrimitivKI implements Serializable {
             list.add(new SituationWithRating(childSit.pollLast(), 0));
         }
 
-        byte changePlayer = player == ChessfigureConstants.WHITE ? ChessfigureConstants.BLACK : ChessfigureConstants.WHITE;
+        byte changePlayer = (player == ChessfigureConstants.WHITE ? ChessfigureConstants.BLACK : ChessfigureConstants.WHITE);
         LinkedList<SituationWithRating> ratedList = rateChildSituations(changePlayer, list, depth);
 
         LinkedList<SituationWithRating> bestMaps = new LinkedList<SituationWithRating>();
@@ -90,8 +78,7 @@ public class PrimitivKI implements Serializable {
                 bestMaps.add(rating);
             }
         }
-        fingerprint[++pointer] = Fingerprint.getFingerprint(cloneMap);
-        situations[pointer] = bestMaps;
+        situationsWithFingerprint.add(new FingerprintList(Fingerprint.getFingerprint(cloneMap), bestMaps));
     }
 
     private int findMaxRating(LinkedList<SituationWithRating> map) throws NullPointerException
@@ -230,9 +217,7 @@ public class PrimitivKI implements Serializable {
             ObjectInputStream o = new ObjectInputStream(file);
             PrimitivKI ki = (PrimitivKI) o.readObject();
             o.close();
-            this.fingerprint = ki.getFingerprints();
-            this.pointer = ki.getPointer();
-            this.situations = ki.getSituations();
+            this.situationsWithFingerprint = ki.getList();
         } catch (IOException e) {
             System.err.println(e);
         } catch (ClassNotFoundException e) {
