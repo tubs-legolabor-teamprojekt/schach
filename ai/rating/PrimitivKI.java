@@ -16,21 +16,22 @@ import util.ChessfigureConstants;
 
 public class PrimitivKI implements Serializable {
 	
-	private LinkedList<FingerprintList> situationsWithFingerprint;
+    private LinkedList<FingerprintList> situationsWithFingerprint;
     private MoveGenerator moveGen = new MoveGenerator();
     final int PARALLEL = 2;
     
     
     public PrimitivKI() {
-    	this.situationsWithFingerprint = new FingerprintList();
+    	this.situationsWithFingerprint = new LinkedList();
     }
     
     class FingerprintList {
     	String fingerprint;
     	LinkedList<SituationWithRating> situations;
-    	FingerprintList(String fingerprint, LinkedList<SituationWithRating> situations) {
-    		this.fingerprint = fingerprint;
-    		this.situations = situations;
+    	
+    	public void setNode(String fingerprint, LinkedList<SituationWithRating> situations) {
+            this.fingerprint = fingerprint;
+            this.situations = situations;
     	}
     	
     	public String getFingerprint() {
