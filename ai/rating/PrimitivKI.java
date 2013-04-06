@@ -13,6 +13,7 @@ import useful.Fingerprint;
 import useful.MoveGenerator;
 import useful.SituationWithRating;
 import util.ChessfigureConstants;
+import java.util.TreeSet;
 
 public class PrimitivKI implements Serializable {
     

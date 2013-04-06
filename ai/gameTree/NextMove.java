@@ -87,7 +87,8 @@ public class NextMove {
         if (ki.getSituations(fingerprintBeforeField) != null) {
             System.out.println("point 1-----");
             list = ki.getSituations(fingerprintBeforeField);
-            afterField = list.get(0).getMap();
+            Random rn = new Random();
+            afterField = list.get(rn.nextInt(list.size())).getMap();
             // System.out.println(TextChessField.fieldToString(beforeField));
             // System.out.println(TextChessField.fieldToString(afterField));
             // System.out.println("Fingerprint after "+Fingerprint.getFingerprint(afterField));

@@ -3,7 +3,7 @@ package useful;
 import java.util.HashMap;
 import java.io.Serializable;
 
-public class SituationWithRating implements Serializable {
+public class SituationWithRating implements Serializable{
 
     private HashMap<Integer, Byte> map;
     private int rating;
