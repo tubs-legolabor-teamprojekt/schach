@@ -2,6 +2,8 @@ package gameTree;
 
 import game.Move;
 import components.Field;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -57,14 +59,9 @@ public class NextMove {
      * initialisiert
      */
     public NextMove() {
-
-        // this.search = new AlphaBetaSearch();
         this.moveGen = new MoveGenerator();
 
     }
-
-    // #################################################################################
-    // Methoden
 
     /**
      * Hauptmethode der Klasse, die vom Game-Coordinator aufgerufen werden
@@ -79,30 +76,23 @@ public class NextMove {
 
         // HashMap<Integer, Byte> zusammenbauen
         beforeField = field.getCurrentFieldAsHashMapWithBytes();
-
+        Random rn = new Random();
         ki = new PrimitivKI();
         ki.deserialize(PATH);
-        String fingerprintBeforeField = Fingerprint.getFingerprint(beforeField);
 
-        if (ki.getSituations(fingerprintBeforeField) != null) {
-            System.out.println("point 1-----");
+        String fingerprintBeforeField = Fingerprint.getFingerprint(beforeField);
+        if (ki.getSituations(fingerprintBeforeField) != null && ki.getDepth(fingerprintBeforeField) >= DEPTH) {
             list = ki.getSituations(fingerprintBeforeField);
-            Random rn = new Random();
             afterField = list.get(rn.nextInt(list.size())).getMap();
-            // System.out.println(TextChessField.fieldToString(beforeField));
-            // System.out.println(TextChessField.fieldToString(afterField));
-            // System.out.println("Fingerprint after "+Fingerprint.getFingerprint(afterField));
-            //
+
         } else if (TEACHINGMODE) {
-            System.out.println("point 2-----");
             ki.teachSituation(beforeField, DEPTH, player);
             ki.serialize(PATH);
             list = ki.getSituations(fingerprintBeforeField);
-            afterField = list.get(0).getMap();
+            afterField = list.get(rn.nextInt(list.size())).getMap();
         }
 
         else {
-            System.out.println("point 3-----");
             doChildSituations(player);
             rateChildSituations(player == ChessfigureConstants.WHITE ? ChessfigureConstants.BLACK : ChessfigureConstants.WHITE);
             findBestSituationInListMax();

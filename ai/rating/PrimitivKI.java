@@ -8,26 +8,28 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
+
 import alphaBeta.AlphaBetaSearch;
 import useful.Fingerprint;
 import useful.MoveGenerator;
 import useful.SituationWithRating;
 import util.ChessfigureConstants;
-import java.util.TreeSet;
+import java.util.TreeMap;
 
 public class PrimitivKI implements Serializable {
-    
 
     /**
      * 
      */
     private static final long serialVersionUID = 1L;
-    private LinkedList<SituationWithFingerprint> situationsWithFingerprint;
     private MoveGenerator moveGen = new MoveGenerator();
     final int PARALLEL = 2;
 
+    private TreeMap<String, SituationWithFingerprint> situationsWithFingerprintTree;
+
     public PrimitivKI() {
-        this.situationsWithFingerprint = new LinkedList<SituationWithFingerprint>();
+        this.situationsWithFingerprintTree = new TreeMap<String, SituationWithFingerprint>();
     }
 
     /*
@@ -42,11 +44,13 @@ public class PrimitivKI implements Serializable {
         private static final long serialVersionUID = 1L;
         String fingerprint;
         LinkedList<SituationWithRating> situations;
-        int depth;
+        private int depth;
 
         public SituationWithFingerprint(String fingerprint, LinkedList<SituationWithRating> situations, int depth) {
             this.fingerprint = fingerprint;
             this.situations = situations;
+            this.depth = depth;
+            System.out.println("tiefe " + depth);
         }
 
         public void setNode(String fingerprint, LinkedList<SituationWithRating> situations, int depth)
@@ -75,9 +79,9 @@ public class PrimitivKI implements Serializable {
     /*
      * Fuer die Deserialisierung; Auslesen aller gepeicherten Werte
      */
-    public LinkedList<SituationWithFingerprint> getList()
+    public TreeMap<String, SituationWithFingerprint> getTree()
     {
-        return this.situationsWithFingerprint;
+        return this.situationsWithFingerprintTree;
     }
 
     /*
@@ -91,12 +95,87 @@ public class PrimitivKI implements Serializable {
      */
     public LinkedList<SituationWithRating> getSituations(String fingerprint)
     {
-        for (SituationWithFingerprint fp : situationsWithFingerprint) {
-            if (fp.getFingerprint().equals(fingerprint)) {
-                return fp.getSituation();
+        SituationWithFingerprint fp = this.situationsWithFingerprintTree.get(fingerprint);
+        if (fp != null) {
+            return fp.getSituation();
+        } else {
+            return null;
+        }
+    }
+
+    public int getDepth(String fingerprint)
+    {
+        System.out.println(fingerprint + "  " + situationsWithFingerprintTree.containsKey(fingerprint));
+        if (this.situationsWithFingerprintTree.containsKey(fingerprint)) {
+            return this.situationsWithFingerprintTree.get(fingerprint).getDepth();
+        } else {
+            return 0;
+        }
+    }
+
+    public void concat(String filename)
+    {
+        // Auslesen aus Dateipfad
+        PrimitivKI ki = null;
+        try {
+            FileInputStream file = new FileInputStream(filename);
+            ObjectInputStream o = new ObjectInputStream(file);
+            ki = (PrimitivKI) o.readObject();
+            o.close();
+        } catch (IOException e) {
+            System.err.println(e);
+        } catch (ClassNotFoundException e) {
+            System.err.println(e);
+        }
+
+        if (ki != null) {
+            TreeMap<String, SituationWithFingerprint> tree = ki.getTree();
+            while (tree.size() > 0) {
+                Map.Entry<String, SituationWithFingerprint> entry = tree.pollFirstEntry();
+                // Eintrag existiert schon
+                if (this.situationsWithFingerprintTree.containsKey(entry.getKey())) {
+                    System.out.println("Eintrag exist");
+                    // Vorhandener Eintrag ist aber schlechter (Suchtiefe)
+                    if (this.situationsWithFingerprintTree.get(entry.getKey()).getDepth() < entry.getValue().getDepth()) {
+                        System.out.println("Eintrag besser");
+                        this.situationsWithFingerprintTree.remove(entry.getKey());
+                        this.situationsWithFingerprintTree.put(entry.getKey(), entry.getValue());
+                    }
+                }
+                // Eintrag existiert nicht, wird einfach hinzugefuegt
+                else {
+                    System.out.println("Eintrag nicht vor. hinzugefuegt");
+                    this.situationsWithFingerprintTree.put(entry.getKey(), entry.getValue());
+                }
             }
         }
-        return null;
+    }
+
+    /*
+     * Es wird eine Situation berechnet und eingespeichert; Zuvor wird geschaut,
+     * ob Situation schon existiert. Wenn sie bereits existiert, die Suchtiefe
+     * aber geringer ist, so wird dennoch neu berechnet.
+     * 
+     * @param map aktuelles Spielfeld als Hashmap
+     * 
+     * @param depth Wieviele Halbzuege im Vorraus gerechnet werden soll
+     * 
+     * @param Spieler der am Zug ist
+     */
+    public void teachSituation(HashMap<Integer, Byte> map, int depth, byte player)
+    {
+        HashMap<Integer, Byte> cloneMap = (HashMap<Integer, Byte>) map.clone();
+        String fp = Fingerprint.getFingerprint(cloneMap);
+
+        if (this.situationsWithFingerprintTree.containsKey(fp)) {
+            if (this.situationsWithFingerprintTree.get(fp).depth < depth) {
+                this.situationsWithFingerprintTree.remove(fp);
+                calculateSituation(map, depth, player);
+            }
+        } else {
+            calculateSituation(map, depth, player);
+        }
+
     }
 
     /*
@@ -108,7 +187,7 @@ public class PrimitivKI implements Serializable {
      * 
      * @param Spieler der am Zug ist
      */
-    public void teachSituation(HashMap<Integer, Byte> map, int depth, byte player)
+    private void calculateSituation(HashMap<Integer, Byte> map, int depth, byte player)
     {
         HashMap<Integer, Byte> cloneMap = (HashMap<Integer, Byte>) map.clone();
 
@@ -131,7 +210,9 @@ public class PrimitivKI implements Serializable {
                 bestMaps.add(rating);
             }
         }
-        situationsWithFingerprint.add(new SituationWithFingerprint(Fingerprint.getFingerprint(cloneMap), bestMaps, depth));
+        String fp = Fingerprint.getFingerprint(cloneMap);
+        this.situationsWithFingerprintTree.put(fp, new SituationWithFingerprint(fp, bestMaps, depth));
+        System.out.println(fp + "  put");
     }
 
     /*
@@ -207,7 +288,6 @@ public class PrimitivKI implements Serializable {
          * gleichzeitiger Threads dann gleich alle starten
          */
         if (parallelValue >= ab.length) {
-            // System.out.println("0");
             for (int i = 0; i < ab.length; i++) {
                 ab[i].start();
             }
@@ -270,9 +350,10 @@ public class PrimitivKI implements Serializable {
             ObjectInputStream o = new ObjectInputStream(file);
             PrimitivKI ki = (PrimitivKI) o.readObject();
             o.close();
-            this.situationsWithFingerprint = ki.getList();
+            this.situationsWithFingerprintTree = ki.getTree();
         } catch (IOException e) {
-            System.err.println(e);
+            System.out.println("Datei " + filename + " angelegt");
+            this.serialize(filename);
         } catch (ClassNotFoundException e) {
             System.err.println(e);
         }
