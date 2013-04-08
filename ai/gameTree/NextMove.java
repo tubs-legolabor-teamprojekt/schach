@@ -2,16 +2,14 @@ package gameTree;
 
 import game.Move;
 import components.Field;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
-
 import rating.PrimitivKI;
+import rating.PrimitivRating;
 import useful.*;
 import util.ChessfigureConstants;
 import alphaBeta.AlphaBetaSearch;
@@ -41,13 +39,14 @@ public class NextMove {
     private HashMap<Integer, Byte> beforeField;
     private HashMap<Integer, Byte> afterField;
     private PrimitivKI ki;
+    private PrimitivRating prim;
 
     private static int INFINITY = 2147483647;
 
     // Anzahl parallel laufender Threads (2 ist zumindest auf meinem MAC optimal
     private final int PARALLEL = 2;
     // Suchtiefe, TODO: später automatisch an Situation anpassen lassen
-    private final int DEPTH = 3;
+    private final int DEPTH = 4;
     private final boolean TEACHINGMODE = true;
     private final String PATH = "/Users/Schubi/ki.ser";
 
@@ -79,25 +78,55 @@ public class NextMove {
         Random rn = new Random();
         ki = new PrimitivKI();
         ki.deserialize(PATH);
+        prim = new PrimitivRating();
 
         String fingerprintBeforeField = Fingerprint.getFingerprint(beforeField);
+
         if (ki.getSituations(fingerprintBeforeField) != null && ki.getDepth(fingerprintBeforeField) >= DEPTH) {
             list = ki.getSituations(fingerprintBeforeField);
-            afterField = list.get(rn.nextInt(list.size())).getMap();
+            findBestSituationWithPositionInListMax();
+//            afterField = list.get(rn.nextInt(list.size())).getMap();
 
         } else if (TEACHINGMODE) {
             ki.teachSituation(beforeField, DEPTH, player);
             ki.serialize(PATH);
             list = ki.getSituations(fingerprintBeforeField);
-            afterField = list.get(rn.nextInt(list.size())).getMap();
+            findBestSituationWithPositionInListMax();
+//            afterField = list.get(rn.nextInt(list.size())).getMap();
         }
 
         else {
             doChildSituations(player);
             rateChildSituations(player == ChessfigureConstants.WHITE ? ChessfigureConstants.BLACK : ChessfigureConstants.WHITE);
             findBestSituationInListMax();
+            prim.primPositionRating(list, player);
+            findBestSituationWithPositionInListMax();
+//            for (SituationWithRating sit : list) {
+//                System.out.println("fig " + sit.getFigureRating() + " pos " + sit.getPositionRating());
+//            }
         }
         return HashMapToMove(beforeField, afterField, player);
+    }
+    
+    private void findBestSituationWithPositionInListMax()
+    {
+        // Stelle der am besten bewerteten Situation in der ArrayList
+        int figureHelp = -INFINITY;
+        Random rn = new Random();
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getPositionRating() > figureHelp) {
+                figureHelp = list.get(i).getPositionRating();
+            }
+        }
+
+        for (int i = 0; i < list.size(); i += 0) {
+            if (list.get(i).getPositionRating() != figureHelp) {
+                list.remove(i);
+                i--;
+            }
+            i++;
+        }
+        afterField = list.get(rn.nextInt(list.size())).getMap();
     }
 
     /**
@@ -106,22 +135,23 @@ public class NextMove {
     private void findBestSituationInListMax()
     {
         // Stelle der am besten bewerteten Situation in der ArrayList
-        int help = -INFINITY;
+        int figureHelp = -INFINITY;
         Random rn = new Random();
         for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).getFigureRating() > help) {
-                help = list.get(i).getFigureRating();
+            if (list.get(i).getFigureRating() > figureHelp) {
+                figureHelp = list.get(i).getFigureRating();
             }
         }
 
         for (int i = 0; i < list.size(); i += 0) {
-            if (list.get(i).getFigureRating() != help) {
+            if (list.get(i).getFigureRating() != figureHelp) {
                 list.remove(i);
                 i--;
             }
             i++;
         }
-        afterField = list.get(rn.nextInt(list.size())).getMap();
+
+//        afterField = list.get(rn.nextInt(list.size())).getMap();
     }
 
     /**

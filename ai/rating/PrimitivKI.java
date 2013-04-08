@@ -25,11 +25,13 @@ public class PrimitivKI implements Serializable {
     private static final long serialVersionUID = 1L;
     private MoveGenerator moveGen = new MoveGenerator();
     final int PARALLEL = 2;
+    private PrimitivRating prim;
 
     private TreeMap<String, SituationWithFingerprint> situationsWithFingerprintTree;
 
     public PrimitivKI() {
         this.situationsWithFingerprintTree = new TreeMap<String, SituationWithFingerprint>();
+        prim = new PrimitivRating();
     }
 
     /*
@@ -199,17 +201,19 @@ public class PrimitivKI implements Serializable {
 
         byte changePlayer = (player == ChessfigureConstants.WHITE ? ChessfigureConstants.BLACK : ChessfigureConstants.WHITE);
         LinkedList<SituationWithRating> ratedList = rateChildSituations(changePlayer, list, depth);
+        prim.primPositionRating(ratedList, player);
 
         LinkedList<SituationWithRating> bestMaps = new LinkedList<SituationWithRating>();
         int max = findMaxRating(ratedList);
-
         SituationWithRating rating;
+        
         while (ratedList.size() > 0) {
             rating = ratedList.pollFirst();
             if (rating.getFigureRating() == max) {
                 bestMaps.add(rating);
             }
         }
+        System.out.println("Listengroesse " + bestMaps.size());
         String fp = Fingerprint.getFingerprint(cloneMap);
         this.situationsWithFingerprintTree.put(fp, new SituationWithFingerprint(fp, bestMaps, depth));
         System.out.println(fp + "  put");

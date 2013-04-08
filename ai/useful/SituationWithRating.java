@@ -3,7 +3,7 @@ package useful;
 import java.util.HashMap;
 import java.io.Serializable;
 
-public class SituationWithRating implements Serializable, Comparable<SituationWithRating>{
+public class SituationWithRating implements Serializable, Comparable<SituationWithRating> {
 
     private HashMap<Integer, Byte> map;
     private int figureRating;
@@ -31,28 +31,28 @@ public class SituationWithRating implements Serializable, Comparable<SituationWi
     {
         return this.figureRating;
     }
-    
+
     public int getPositionRating()
     {
-        return this.figureRating;
+        return this.positionRating;
     }
 
     public void setFigureRating(int figureRating)
     {
         this.figureRating = figureRating;
     }
-    
+
     public void setPositionRating(int positionRating)
     {
         this.positionRating = positionRating;
     }
-    
-    public int compareTo(SituationWithRating o){
-        if(this.figureRating == o.getFigureRating()) {
+
+    public int compareTo(SituationWithRating o)
+    {
+        if (this.figureRating == o.getFigureRating()) {
             return (this.positionRating - o.getPositionRating());
-        }
-        else {
-            return (this.figureRating - o.getFigureRating());
+        } else {
+            return this.figureRating - o.getFigureRating();
         }
     }
 

@@ -29,35 +29,12 @@ public class TestingNextMove {
         Field field = new Field(true);
         field = field.getInstance();
         field.moveFigure(12, 28);
-        PrimitivKI ki = new PrimitivKI();
-        // field = Field.getInstance();
-        // field = createStartFieldOneTurn(field);
         PrimitivRating prim = new PrimitivRating();
-        HashMap<Integer, Byte> map = field.getCurrentFieldAsHashMapWithBytes();
-
-        System.out.println(TextChessField.fieldToString(map));
-
-        String fingerprint = Fingerprint.getFingerprint(map);
-        System.out.println("Fingerprint der Map " + fingerprint);
-
-        ki.teachSituation(map, 3, ChessfigureConstants.BLACK);
-        ki.serialize("/Users/Schubi/ki.ser");
-        System.out.println("serialisiert");
-
-        PrimitivKI kiPersistence = new PrimitivKI();
-        kiPersistence.deserialize("/Users/Schubi/ki.ser");
-        System.out.println("deserialisiert");
-
-        LinkedList<SituationWithRating> li = kiPersistence.getSituations(Fingerprint.getFingerprint(map));
-        if (li != null) {
-            while (li.size() > 0) {
-                SituationWithRating l = li.pollFirst();
-                System.out.println("----------");
-                System.out.println("rating: " + l.getFigureRating());
-                System.out.println(TextChessField.fieldToString(l.getMap()));
-                System.out.println("----------");
-            }
-        }
+        float rating = prim.primFigureRate(field.getCurrentFieldAsHashMapWithBytes(), ChessfigureConstants.WHITE, 3,false);
+        
+        
+        System.out.println("Bewertung "+rating);
+        System.out.println(""+TextChessField.fieldToString(field.getCurrentFieldAsHashMapWithBytes()));
 
         // int pos = ki.isRated(field.getCurrentFieldAsHashMapWithBytes());
         // System.out.println(pos);
