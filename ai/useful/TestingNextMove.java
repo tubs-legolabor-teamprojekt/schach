@@ -53,7 +53,7 @@ public class TestingNextMove {
             while (li.size() > 0) {
                 SituationWithRating l = li.pollFirst();
                 System.out.println("----------");
-                System.out.println("rating: " + l.getRating());
+                System.out.println("rating: " + l.getFigureRating());
                 System.out.println(TextChessField.fieldToString(l.getMap()));
                 System.out.println("----------");
             }
