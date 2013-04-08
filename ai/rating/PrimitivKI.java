@@ -194,7 +194,7 @@ public class PrimitivKI implements Serializable {
         LinkedList<HashMap<Integer, Byte>> childSit = moveGen.generateMoves(cloneMap, player);
         LinkedList<SituationWithRating> list = new LinkedList<SituationWithRating>();
         while (!childSit.isEmpty()) {
-            list.add(new SituationWithRating(childSit.pollLast(), 0));
+            list.add(new SituationWithRating(childSit.pollLast(), 0, 0));
         }
 
         byte changePlayer = (player == ChessfigureConstants.WHITE ? ChessfigureConstants.BLACK : ChessfigureConstants.WHITE);
@@ -206,7 +206,7 @@ public class PrimitivKI implements Serializable {
         SituationWithRating rating;
         while (ratedList.size() > 0) {
             rating = ratedList.pollFirst();
-            if (rating.getRating() == max) {
+            if (rating.getFigureRating() == max) {
                 bestMaps.add(rating);
             }
         }
@@ -226,10 +226,10 @@ public class PrimitivKI implements Serializable {
     {
         LinkedList<SituationWithRating> cloneMap = (LinkedList<SituationWithRating>) map.clone();
         if (cloneMap.size() > 0) {
-            int max = cloneMap.pollFirst().getRating();
+            int max = cloneMap.pollFirst().getFigureRating();
             int rating;
             while (cloneMap.size() > 0) {
-                rating = cloneMap.pollFirst().getRating();
+                rating = cloneMap.pollFirst().getFigureRating();
                 if (max < rating) {
                     max = rating;
                 }

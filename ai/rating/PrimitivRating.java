@@ -31,7 +31,7 @@ public class PrimitivRating {
      * 
      * @param checkmate Bei true liegt Mattstellung (oder Patt) vor
      */
-    public int primRate(HashMap<Integer, Byte> field, int player, int depth, boolean checkmate) throws NullPointerException
+    public int primFigureRate(HashMap<Integer, Byte> field, int player, int depth, boolean checkmate) throws NullPointerException
     {
         value = 0;
         if (checkmate) {
@@ -72,9 +72,14 @@ public class PrimitivRating {
         return -value;
     }
 
-    public int primRate(HashMap<Integer, Byte> field, byte player) throws NullPointerException
+    /*
+     * Bewertet die Stellung der Figuren auf dem Feld. Ist Gedacht als 2tes
+     * Rating neben dem Figurenrating. Wenn sich eine Spielfigur im Mittelfeld
+     * befindet, wird dies gut bewertet, ansonsten nicht gut.
+     */
+    public int primPositionRating(HashMap<Integer, Byte> field, int player)
     {
-        int value = 0;
+        value = 0;
         Iterator<Entry<Integer, Byte>> it = field.entrySet().iterator();
         while (it.hasNext()) {
             // Aktuelles Key/Value-Paar
@@ -84,41 +89,58 @@ public class PrimitivRating {
             Figure figure = ChessfigureConstants.makeFigureFromByte(figureValue);
             figureType = figure.getFigureType();
 
-            switch (figureType) {
-                case ChessfigureConstants.PAWN:
-                    value += ExtractInformationFromBinary.getColor(pair.getValue()) == ChessfigureConstants.WHITE ? 1 : -1;
-                    break;
-                case ChessfigureConstants.ROOK:
-                    value += ExtractInformationFromBinary.getColor(pair.getValue()) == ChessfigureConstants.WHITE ? 5 : -5;
-                    break;
-                case ChessfigureConstants.KNIGHT:
-                case ChessfigureConstants.BISHOP:
-                    value += ExtractInformationFromBinary.getColor(pair.getValue()) == ChessfigureConstants.WHITE ? 3 : -3;
-                    break;
-                case ChessfigureConstants.QUEEN:
-                    value += ExtractInformationFromBinary.getColor(pair.getValue()) == ChessfigureConstants.WHITE ? 9 : -9;
-                    break;
-                default:
-                    value += ExtractInformationFromBinary.getColor(pair.getValue()) == ChessfigureConstants.WHITE ? 999 : -999;
-                    break;
+            if (pair.getKey() > 16 && pair.getKey() < 49) {
+                switch (figureType) {
+                    case ChessfigureConstants.ROOK:
+                        value += ExtractInformationFromBinary.getColor(pair.getValue()) == ChessfigureConstants.WHITE ? 5 : -5;
+                        break;
+                    case ChessfigureConstants.KNIGHT:
+                    case ChessfigureConstants.BISHOP:
+                        value += ExtractInformationFromBinary.getColor(pair.getValue()) == ChessfigureConstants.WHITE ? 3 : -3;
+                        break;
+                    case ChessfigureConstants.QUEEN:
+                        value += ExtractInformationFromBinary.getColor(pair.getValue()) == ChessfigureConstants.WHITE ? 9 : -9;
+                        break;
+                }
             }
             it.remove(); // avoids a ConcurrentModificationException
         }
-        if (player == 0) {
-            return -value;
-        }
-        if (player == 1) {
-            return value;
-        }
-        System.out.println("FAAAAAAAAAAIL");
-        return 0;
-
+        return -value;
     }
 
-    public int randomRate(ChessField situation)
-    {
-        boolean bool = ran.nextBoolean();
-        return bool ? ran.nextInt(40) : -ran.nextInt(40);
-    }
+    /*
+     * public int primRate(HashMap<Integer, Byte> field, byte player) throws
+     * NullPointerException { int value = 0; Iterator<Entry<Integer, Byte>> it =
+     * field.entrySet().iterator(); while (it.hasNext()) { // Aktuelles
+     * Key/Value-Paar Map.Entry<Integer, Byte> pair = (Map.Entry<Integer, Byte>)
+     * it.next();
+     * 
+     * figureValue = pair.getValue(); Figure figure =
+     * ChessfigureConstants.makeFigureFromByte(figureValue); figureType =
+     * figure.getFigureType();
+     * 
+     * switch (figureType) { case ChessfigureConstants.PAWN: value +=
+     * ExtractInformationFromBinary.getColor(pair.getValue()) ==
+     * ChessfigureConstants.WHITE ? 1 : -1; break; case
+     * ChessfigureConstants.ROOK: value +=
+     * ExtractInformationFromBinary.getColor(pair.getValue()) ==
+     * ChessfigureConstants.WHITE ? 5 : -5; break; case
+     * ChessfigureConstants.KNIGHT: case ChessfigureConstants.BISHOP: value +=
+     * ExtractInformationFromBinary.getColor(pair.getValue()) ==
+     * ChessfigureConstants.WHITE ? 3 : -3; break; case
+     * ChessfigureConstants.QUEEN: value +=
+     * ExtractInformationFromBinary.getColor(pair.getValue()) ==
+     * ChessfigureConstants.WHITE ? 9 : -9; break; default: value +=
+     * ExtractInformationFromBinary.getColor(pair.getValue()) ==
+     * ChessfigureConstants.WHITE ? 999 : -999; break; } it.remove(); // avoids
+     * a ConcurrentModificationException } if (player == 0) { return -value; }
+     * if (player == 1) { return value; } System.out.println("FAAAAAAAAAAIL");
+     * return 0;
+     * 
+     * }
+     * 
+     * public int randomRate(ChessField situation) { boolean bool =
+     * ran.nextBoolean(); return bool ? ran.nextInt(40) : -ran.nextInt(40); }
+     */
 
 }

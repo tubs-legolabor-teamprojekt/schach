@@ -28,7 +28,7 @@ public class AlphaBetaSearch extends Thread {
     public void run() {
     	System.out.println("Thread Nummer \t"+this.getName()+"\t gestartet");
     	numberOfThreads++;
-    	this.situation.setRating(min(this.situation.getMap(),this.depth,this.player,this.alpha,this.beta));
+    	this.situation.setFigureRating(min(this.situation.getMap(),this.depth,this.player,this.alpha,this.beta));
     	numberOfThreads--;
     	System.out.println("Thread Nummer \t"+this.getName()+"\t beendet");
     }
@@ -64,10 +64,10 @@ public class AlphaBetaSearch extends Thread {
         //wenn Liste leer ist, liegt Schachmatt oder Pattstellung vor
         if (depth == 0 || list.isEmpty()) {
         	if(list.isEmpty()) {
-        		rating = rate.primRate(situation,player,depth,true);
+        		rating = rate.primFigureRate(situation,player,depth,true);
         	}
         	else {
-        		rating = rate.primRate(situation,player,depth,false);
+        		rating = rate.primFigureRate(situation,player,depth,false);
         	}
             return rating;
         }
@@ -91,10 +91,10 @@ public class AlphaBetaSearch extends Thread {
         	
         	//wenn Liste leer ist, liegt Schachmatt oder Pattstellung vor
         	if(list.isEmpty()) {
-        		rating = rate.primRate(situation,player,depth,true);
+        		rating = rate.primFigureRate(situation,player,depth,true);
         	}
         	else {
-        		rating = rate.primRate(situation,player,depth,false);
+        		rating = rate.primFigureRate(situation,player,depth,false);
         	}
             return rating;
         }

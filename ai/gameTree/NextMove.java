@@ -109,13 +109,13 @@ public class NextMove {
         int help = -INFINITY;
         Random rn = new Random();
         for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).getRating() > help) {
-                help = list.get(i).getRating();
+            if (list.get(i).getFigureRating() > help) {
+                help = list.get(i).getFigureRating();
             }
         }
 
         for (int i = 0; i < list.size(); i += 0) {
-            if (list.get(i).getRating() != help) {
+            if (list.get(i).getFigureRating() != help) {
                 list.remove(i);
                 i--;
             }
@@ -153,7 +153,7 @@ public class NextMove {
         int i = 0;
         for (AlphaBetaSearch ab : abThreads) {
             helpList.add(ab.getSituationWithRating());
-            System.out.printf("%-3d %d  ", i++, ab.getSituationWithRating().getRating());
+            System.out.printf("%-3d %d  ", i++, ab.getSituationWithRating().getFigureRating());
             System.out.println("Zug: " + HashMapMoveToText(beforeField, ab.getSituationWithRating().getMap(), player) + " ");
         }
 
@@ -224,7 +224,7 @@ public class NextMove {
         LinkedList<HashMap<Integer, Byte>> childSit = moveGen.generateMoves(beforeField, player);
         LinkedList<SituationWithRating> listConversion = new LinkedList<SituationWithRating>();
         while (!childSit.isEmpty()) {
-            listConversion.add(new SituationWithRating(childSit.pollLast(), 0));
+            listConversion.add(new SituationWithRating(childSit.pollLast(), 0, 0));
         }
         list = listConversion;
 

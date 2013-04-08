@@ -3,10 +3,11 @@ package useful;
 import java.util.HashMap;
 import java.io.Serializable;
 
-public class SituationWithRating implements Serializable{
+public class SituationWithRating implements Serializable, Comparable<SituationWithRating>{
 
     private HashMap<Integer, Byte> map;
-    private int rating;
+    private int figureRating;
+    private int positionRating;
 
     /*
      * Wrapped eine HashMap und ihre Bewertung
@@ -15,9 +16,10 @@ public class SituationWithRating implements Serializable{
      * 
      * @param rating Bewertung des Schachfeldes
      */
-    public SituationWithRating(HashMap<Integer, Byte> map, int rating) {
+    public SituationWithRating(HashMap<Integer, Byte> map, int figureRating, int positionRating) {
         this.map = map;
-        this.rating = rating;
+        this.figureRating = figureRating;
+        this.positionRating = positionRating;
     }
 
     public HashMap<Integer, Byte> getMap()
@@ -25,19 +27,38 @@ public class SituationWithRating implements Serializable{
         return this.map;
     }
 
-    public int getRating()
+    public int getFigureRating()
     {
-        return this.rating;
+        return this.figureRating;
+    }
+    
+    public int getPositionRating()
+    {
+        return this.figureRating;
     }
 
-    public void setRating(int rating)
+    public void setFigureRating(int figureRating)
     {
-        this.rating = rating;
+        this.figureRating = figureRating;
+    }
+    
+    public void setPositionRating(int positionRating)
+    {
+        this.positionRating = positionRating;
+    }
+    
+    public int compareTo(SituationWithRating o){
+        if(this.figureRating == o.getFigureRating()) {
+            return (this.positionRating - o.getPositionRating());
+        }
+        else {
+            return (this.figureRating - o.getFigureRating());
+        }
     }
 
     public SituationWithRating clone()
     {
-        return new SituationWithRating((HashMap<Integer, Byte>) this.map.clone(), this.rating);
+        return new SituationWithRating((HashMap<Integer, Byte>) this.map.clone(), this.figureRating, this.positionRating);
     }
 
 }
