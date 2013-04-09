@@ -179,6 +179,17 @@ public class PrimitivKI implements Serializable {
         }
 
     }
+    
+    public void setSituation(String fp, LinkedList<SituationWithRating> sit, int depth) {
+        if (this.situationsWithFingerprintTree.containsKey(fp)) {
+            if (this.situationsWithFingerprintTree.get(fp).depth < depth) {
+                this.situationsWithFingerprintTree.remove(fp);
+                this.situationsWithFingerprintTree.put(fp, new SituationWithFingerprint(fp, sit, depth));
+            }
+        } else {
+            this.situationsWithFingerprintTree.put(fp, new SituationWithFingerprint(fp, sit, depth));
+        }
+    }
 
     /*
      * Es wird eine Situation berechnet und eingespeichert
