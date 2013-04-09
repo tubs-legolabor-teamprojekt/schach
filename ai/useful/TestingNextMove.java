@@ -17,10 +17,11 @@ public class TestingNextMove {
      */
     public static void main(String[] args)
     {
+        final String PATH = "ki.ser";
         LinkedList<SituationWithRating> li = new LinkedList<SituationWithRating>();
         LinkedList<HashMap<Integer,Byte>> moveListWhite = new LinkedList<HashMap<Integer,Byte>>();
         PrimitivKI ki = new PrimitivKI();
-        ki.deserialize("/Users/Schubi/ki.ser");
+        ki.deserialize(PATH);
         
         MoveGenerator move = new MoveGenerator();
         Field field = new Field(true);
@@ -32,7 +33,7 @@ public class TestingNextMove {
             System.out.println("------------------------------------------");
             System.out.println(TextChessField.fieldToString(map));
             ki.teachSituation(map, 3, ChessfigureConstants.BLACK);
-            ki.serialize("/Users/Schubi/ki.ser");
+            ki.serialize(PATH);
         }
         
         
