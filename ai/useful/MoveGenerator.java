@@ -1094,57 +1094,89 @@ public class MoveGenerator implements Serializable
     
     public static void main(String[] args){
         HashMap<Integer, Byte> test = new HashMap<Integer, Byte>();
-//        test.put(1, (byte)2); //linker, weißer Turm
-        test.put(10, (byte)19); //linker, weißer Springer
-        test.put(23, (byte)20); //linker, weißer Läufer
-//        test.put(4, (byte)5); //weiße Dame
-        test.put(4, (byte)22); //weißer König
+        test.put(1, (byte)2); //linker, weißer Turm
+        test.put(2, (byte)3); //linker, weißer Springer
+        test.put(3, (byte)4); //linker, weißer Läufer
+        test.put(4, (byte)5); //weiße Dame
+        test.put(5, (byte)6); //weißer König
         test.put(6, (byte)4); //rechter, weißer Läufer
-//        test.put(7, (byte)3); //rechter, weißer Springer
-        test.put(29, (byte)18); //rechter, weißer Turm
-        test.put(25, (byte)17); //weißer Bauer
-        test.put(34, (byte)17); //weißer Bauer
-//        test.put(11, (byte)1); //weißer Bauer
-//        test.put(12, (byte)1); //weißer Bauer
-//        test.put(37, (byte)17); //weißer Bauer
-//        test.put(14, (byte)1); //weißer Bauer
-        test.put(39, (byte)17); //weißer Bauer
-//        test.put(16, (byte)1); //weißer Bauer
+        test.put(7, (byte)3); //rechter, weißer Springer
+        test.put(8, (byte)2); //rechter, weißer Turm
+        test.put(9, (byte)1); //weißer Bauer
+        test.put(10, (byte)1); //weißer Bauer
+        test.put(11, (byte)1); //weißer Bauer
+        test.put(12, (byte)1); //weißer Bauer
+        test.put(13, (byte)1); //weißer Bauer
+        test.put(14, (byte)1); //weißer Bauer
+        test.put(15, (byte)1); //weißer Bauer
+        test.put(16, (byte)1); //weißer Bauer
         
-//        test.put(49, (byte)9); //schwarzer Bauer
-//        test.put(50, (byte)9); //schwarzer Bauer
-        test.put(43, (byte)25); //schwarzer Bauer
-        test.put(44, (byte)25); //schwarzer Bauer
-//        test.put(53, (byte)9); //schwarzer Bauer
-        test.put(46, (byte)25); //schwarzer Bauer
-//        test.put(55, (byte)9); //schwarzer Bauer
-//        test.put(56, (byte)9); //schwarzer Bauer
-//        test.put(57, (byte)10); //rechter, schwarzer Turm
-//        test.put(58, (byte)11); //rechter, schwarzer Springer
-//        test.put(59, (byte)12); //rechter, schwarzer Läufer
-        test.put(53, (byte)29); //schwarze Dame
+        test.put(49, (byte)9); //schwarzer Bauer
+        test.put(50, (byte)9); //schwarzer Bauer
+        test.put(51, (byte)9); //schwarzer Bauer
+        test.put(52, (byte)9); //schwarzer Bauer
+        test.put(53, (byte)9); //schwarzer Bauer
+        test.put(54, (byte)9); //schwarzer Bauer
+        test.put(55, (byte)9); //schwarzer Bauer
+        test.put(56, (byte)9); //schwarzer Bauer
+        test.put(57, (byte)10); //rechter, schwarzer Turm
+        test.put(58, (byte)11); //rechter, schwarzer Springer
+        test.put(59, (byte)12); //rechter, schwarzer Läufer
+        test.put(60, (byte)13); //schwarze Dame
         test.put(61, (byte)14); //schwarzer König
-        test.put(32, (byte)28); //linker, schwarzer Läufer
-//        test.put(45, (byte)27); //linker, schwarzer Springer
-//        test.put(64, (byte)10); //linker, schwarzer Turm
+        test.put(62, (byte)12); //linker, schwarzer Läufer
+        test.put(63, (byte)11); //linker, schwarzer Springer
+        test.put(64, (byte)10); //linker, schwarzer Turm
         MoveGenerator toast = new MoveGenerator();
 //        System.out.println(s.fieldToString(test));
-        LinkedList<HashMap<Integer, Byte>> xyz = new LinkedList<HashMap<Integer, Byte>>();
-        xyz = toast.generateMoves(test, (byte)1);
-        int x = xyz.size();
-        System.out.println(x);
+        LinkedList<HashMap<Integer, Byte>> a = new LinkedList<HashMap<Integer, Byte>>();
+        LinkedList<HashMap<Integer, Byte>> b = new LinkedList<HashMap<Integer, Byte>>();
+        LinkedList<HashMap<Integer, Byte>> c = new LinkedList<HashMap<Integer, Byte>>();
+        LinkedList<HashMap<Integer, Byte>> d = new LinkedList<HashMap<Integer, Byte>>();
+        LinkedList<HashMap<Integer, Byte>> e = new LinkedList<HashMap<Integer, Byte>>();
+        LinkedList<HashMap<Integer, Byte>> f = new LinkedList<HashMap<Integer, Byte>>();
+        int v, w, x, y, z;
         
-        for(int i = 1; i <= x; i++){
-            System.out.println("\n --------- \n");
-            System.out.println(TextChessField.fieldToString(xyz.poll()));
-        }
-        
-        ListIterator<HashMap<Integer, Byte>> itr = xyz.listIterator();
-        while(itr.hasNext())
-        {
-          System.out.println(TextChessField.fieldToString(itr.next()));
-          System.out.println("\n\n-----\n\n");
-        }
+        a = toast.generateMoves(test, (byte)1);
+        v = a.size();
+        long time = System.currentTimeMillis();
+//        for(int i = 1; i <= v; i++){
+//            b = toast.generateMoves(a.poll(), (byte)0);
+//            w = b.size();
+////            System.out.println(System.currentTimeMillis() - time);
+//            for(int j = 1; j <= w; j++){
+//                c = toast.generateMoves(b.poll(), (byte)1);
+//                x = c.size();
+////                System.out.println((System.currentTimeMillis() - time)/1000);
+//                for(int k = 1; k <= x; k++){
+//                    d = toast.generateMoves(c.poll(), (byte)0);
+//                    y = d.size();
+////                    System.out.println(System.currentTimeMillis() - time);
+//                    for(int l = 1; l <= y; l++){
+//                        e = toast.generateMoves(d.poll(), (byte)1);
+//                        z = e.size();
+////                        System.out.println(z);
+//                        for(int m = 1; m <= z; m++){
+//                            f = toast.generateMoves(e.poll(), (byte)0);
+////                            System.out.println(System.currentTimeMillis() - time);
+////                            System.out.println(f.size());
+////                            System.out.println(m);
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//        for(int i = 1; i <= x; i++){
+//            System.out.println("\n --------- \n");
+//            System.out.println(TextChessField.fieldToString(xyz.poll()));
+//        }
+//        
+//        ListIterator<HashMap<Integer, Byte>> itr = xyz.listIterator();
+//        while(itr.hasNext())
+//        {
+//          System.out.println(TextChessField.fieldToString(itr.next()));
+//          System.out.println("\n\n-----\n\n");
+//        }
         
     }
 
