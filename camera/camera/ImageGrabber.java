@@ -14,8 +14,10 @@ public final class ImageGrabber {
 
 	public ImageGrabber() {
 		try {
-			grabber.setImageWidth(1920);
-			grabber.setImageHeight(1080);
+			grabber.setImageWidth(1600);
+			grabber.setImageHeight(1200);
+		  
+			
 			grabber.start();
 		} catch (Exception e) {
 			e.printStackTrace();

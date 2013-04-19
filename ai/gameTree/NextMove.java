@@ -2,6 +2,8 @@ package gameTree;
 
 import game.Move;
 import components.Field;
+
+import java.io.File;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -46,7 +48,7 @@ public class NextMove {
     // Anzahl parallel laufender Threads (2 ist zumindest auf meinem MAC optimal
     private final int PARALLEL = 2;
     // Suchtiefe, TODO: später automatisch an Situation anpassen lassen
-    private final int DEPTH = 4;
+    private final int DEPTH = 2;
     private final boolean TEACHINGMODE = true;
     private final String PATH = "ki.ser";
 
@@ -72,6 +74,8 @@ public class NextMove {
      */
     public Move getNext(Field field, byte player)
     {
+        File pfad = new File("");
+        System.out.println(pfad.getAbsolutePath()+"...");
 
         // HashMap<Integer, Byte> zusammenbauen
         beforeField = field.getCurrentFieldAsHashMapWithBytes();
@@ -205,6 +209,7 @@ public class NextMove {
     public boolean orderedThreadStart(AlphaBetaSearch[] ab, int parallelValue)
     {
         System.out.println("Anzahl an Wurzeln " + ab.length);
+        
 
         /*
          * wenn anzahl der möglichen Threads kleiner ist als maximale anzahl
