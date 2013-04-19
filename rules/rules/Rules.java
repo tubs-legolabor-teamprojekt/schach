@@ -346,18 +346,15 @@ public class Rules {
   {
       if(currentX == x 
               && Math.abs(currentY - y) == 1){
-          return true;
       }
       else if(currentX == x + 1
               && Math.abs(currentY - y) <= 1){
-          
       }
       else if(currentX == x - 1
               && Math.abs(currentY - y) <= 1){
-          return true;
       }
       //Rochade
-      if(currentY == y && Math.abs(currentX - x) == 2){
+      else if(currentY == y && Math.abs(currentX - x) == 2){
     	  //sind die Felder zwischen Turm und König frei
           if(currentX > x && currentField.getFigureAt(Field.getFieldNumber(1, currentY)).getFigureType() == ChessfigureConstants.ROOK){
         	  for(int i = currentX - 1; i > 1; i--){
@@ -378,6 +375,8 @@ public class Rules {
         	  return false;
           }
           return !isCheck(currentField, move, true, move.getFieldTo());
+      }else{
+          return false;
       }
       return !isCheck(currentField, move, false, move.getFieldTo());
   }
