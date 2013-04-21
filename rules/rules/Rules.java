@@ -382,6 +382,31 @@ public class Rules {
   }
 
   /**
+   * Stellt das Ausgangschachfeld wieder her.
+   * @param currentField aktuelles wiederherzustellendes Spielfeld
+   * @param move Spielzug, der zu diesem Feld geführt hat
+   * @param castling true, falls der Zug eine Rochade war, false sonst
+   * @param capturedFigure Figur, die geschlagen wurde; falls keine Figur geschlagen wurde null
+   */
+  private void retractChanges(Field currentField, Move move, boolean castling, Figure capturedFigure){
+      
+      currentField.moveFigure(move.getFieldTo(), move.getFieldFrom());
+      if(move.isCaptured()){
+          currentField.putFigureAt(move.getFieldTo(), capturedFigure);
+      }
+      
+      //Falls Rochade, Turm zurücksetzen
+      if(castling){
+          if(currentX > x){
+              currentField.moveFigure(Field.getFieldNumber(4, y), Field.getFieldNumber(1, y));
+          }
+          else if(currentX < x){
+              currentField.moveFigure(Field.getFieldNumber(6, y), Field.getFieldNumber(8, y));
+          }
+      }
+  }
+  
+  /**
    * überprüft, ob sich der König im Schach befindet.
    * @param currentField aktuelles Spielfeld
    * @param move auszuführender Schachzug
@@ -438,6 +463,7 @@ public class Rules {
                   && (figType == ChessfigureConstants.ROOK
                           || (figType == ChessfigureConstants.KING && position + 1 == i)
                           || figType == ChessfigureConstants.QUEEN)){
+              retractChanges(currentField, move, castling, capturedF);
               return true;
           }
           else{
@@ -461,6 +487,7 @@ public class Rules {
                           || (figType == ChessfigureConstants.KING
                               && position - 1 == i)
                           || figType == ChessfigureConstants.QUEEN)){
+              retractChanges(currentField, move, castling, capturedF);
               return true;
           }
           else{
@@ -485,6 +512,7 @@ public class Rules {
                           || (figType == ChessfigureConstants.KING
                               && position + 8 == i)
                           || figType == ChessfigureConstants.QUEEN)){
+              retractChanges(currentField, move, castling, capturedF);
               return true;
           }
           else{
@@ -508,6 +536,7 @@ public class Rules {
                           || (figType == ChessfigureConstants.KING
                               && position - 8 == i)
                           || figType == ChessfigureConstants.QUEEN)){
+              retractChanges(currentField, move, castling, capturedF);
               return true;
           }
           else{
@@ -534,6 +563,7 @@ public class Rules {
                   || (figType == ChessfigureConstants.KING && i == 1)
                   || (figType == ChessfigureConstants.PAWN && i == 1 
                       && fig.getColor() == ChessfigureConstants.BLACK))){
+              retractChanges(currentField, move, castling, capturedF);
               return true;
           }
           else{
@@ -557,6 +587,7 @@ public class Rules {
                   || (figType == ChessfigureConstants.KING && i == 1)
                   || (figType == ChessfigureConstants.PAWN && i == 1 
                       && fig.getColor() == ChessfigureConstants.WHITE))){
+              retractChanges(currentField, move, castling, capturedF);
               return true;
           }
           else{
@@ -580,6 +611,7 @@ public class Rules {
                   || (figType == ChessfigureConstants.KING && i == 1)
                   || (figType == ChessfigureConstants.PAWN && i == 1 
                       && fig.getColor() == ChessfigureConstants.BLACK))){
+              retractChanges(currentField, move, castling, capturedF);
               return true;
           }
           else{
@@ -603,6 +635,7 @@ public class Rules {
                   || (figType == ChessfigureConstants.KING && i == 1)
                   || (figType == ChessfigureConstants.PAWN && i == 1 
                       && fig.getColor() == ChessfigureConstants.WHITE))){
+              retractChanges(currentField, move, castling, capturedF);
               return true;
           }
           else{
@@ -614,67 +647,62 @@ public class Rules {
       if(xAxis + 2 < 9 && yAxis + 1 < 9){
           fig = currentField.getFigureAt(Field.getFieldNumber(xAxis + 2, yAxis + 1));
           if(fig != null && fig.getColor() != colour && fig.getFigureType() == ChessfigureConstants.KNIGHT){
+              retractChanges(currentField, move, castling, capturedF);
               return true;
           }
       }
       if(xAxis + 1 < 9 && yAxis + 2 < 9){
           fig = currentField.getFigureAt(Field.getFieldNumber(xAxis + 1, yAxis + 2));
           if(fig != null && fig.getColor() != colour && fig.getFigureType() == ChessfigureConstants.KNIGHT){
+              retractChanges(currentField, move, castling, capturedF);
               return true;
           }
       }
       if(xAxis - 2 > 0 && yAxis + 1 < 9){
           fig = currentField.getFigureAt(Field.getFieldNumber(xAxis - 2, yAxis + 1));
           if(fig != null && fig.getColor() != colour && fig.getFigureType() == ChessfigureConstants.KNIGHT){
+              retractChanges(currentField, move, castling, capturedF);
               return true;
           }
       }
       if(xAxis + 1 < 9 && yAxis - 2 > 0){
           fig = currentField.getFigureAt(Field.getFieldNumber(xAxis + 1, yAxis - 2));
           if(fig != null && fig.getColor() != colour && fig.getFigureType() == ChessfigureConstants.KNIGHT){
+              retractChanges(currentField, move, castling, capturedF);
               return true;
           }
       }
       if(xAxis - 2 > 0 && yAxis - 1 > 0){
           fig = currentField.getFigureAt(Field.getFieldNumber(xAxis - 2, yAxis - 1));
           if(fig != null && fig.getColor() != colour && fig.getFigureType() == ChessfigureConstants.KNIGHT){
+              retractChanges(currentField, move, castling, capturedF);
               return true;
           }
       }
       if(xAxis - 1 > 0  && yAxis - 2 > 0){
           fig = currentField.getFigureAt(Field.getFieldNumber(xAxis - 1, yAxis - 2));
           if(fig != null && fig.getColor() != colour && fig.getFigureType() == ChessfigureConstants.KNIGHT){
+              retractChanges(currentField, move, castling, capturedF);
               return true;
           }
       }
       if(xAxis - 1 > 0 && yAxis + 2 < 9){
           fig = currentField.getFigureAt(Field.getFieldNumber(xAxis - 1, yAxis + 2));
           if(fig != null && fig.getColor() != colour && fig.getFigureType() == ChessfigureConstants.KNIGHT){
+              retractChanges(currentField, move, castling, capturedF);
               return true;
           }
       }
       if(xAxis + 2 < 9 && yAxis - 1 > 0){
           fig = currentField.getFigureAt(Field.getFieldNumber(xAxis + 2, yAxis + 1));
           if(fig != null && fig.getColor() != colour && fig.getFigureType() == ChessfigureConstants.KNIGHT){
+              retractChanges(currentField, move, castling, capturedF);
               return true;
           }
       }
-
-      //Feld wieder in Ausgangsstellung bringen
-      currentField.moveFigure(move.getFieldTo(), move.getFieldFrom());
-      if(move.isCaptured()){
-    	  currentField.putFigureAt(move.getFieldTo(), capturedF);
-      }
       
-      //Falls Rochade, Turm zurücksetzen
-      if(castling){
-    	  if(currentX > x){
-    		  currentField.moveFigure(Field.getFieldNumber(4, y), Field.getFieldNumber(1, y));
-    	  }
-    	  else if(currentX < x){
-    		  currentField.moveFigure(Field.getFieldNumber(6, y), Field.getFieldNumber(8, y));
-    	  }
-      }
+      //Feld wieder in Ausgangsstellung bringen.
+      retractChanges(currentField, move, castling, capturedF);
       
       //TODO: blackkingmoved etc. evtl. in die checkkingmove methode verlagern
       // Position von isCheck entsprechend anpassen
