@@ -140,18 +140,18 @@ public class Checkerboard extends JPanel
                 if (i % 2 == 0) {
                     if (j % 2 == 0) {
                         cb = (CheckerboardPanel) this.grid.getValueAt(i, j);
-                        cb.setBackground(new Color(41, 15, 5, 100));
+                        cb.setBackground(new Color(251, 225, 172, 100)); // hell
                     } else {
                         cb = (CheckerboardPanel) this.grid.getValueAt(i, j);
-                        cb.setBackground(new Color(251, 225, 172, 100));
+                        cb.setBackground(new Color(41, 15, 5, 100)); // dunkel
                     }
                 } else {
                     if (j % 2 == 0) {
                         cb = (CheckerboardPanel) this.grid.getValueAt(i, j);
-                        cb.setBackground(new Color(251, 225, 172, 100));
+                        cb.setBackground(new Color(41, 15, 5, 100)); // dunkel
                     } else {
                         cb = (CheckerboardPanel) this.grid.getValueAt(i, j);
-                        cb.setBackground(new Color(41, 15, 5, 100));
+                        cb.setBackground(new Color(251, 225, 172, 100)); // hell
                     }
                 }
             }
@@ -293,7 +293,6 @@ public class Checkerboard extends JPanel
                     }
                 }
             } else if (this.move.getPlayerColor() == ChessfigureConstants.BLACK) {
-                System.out.println("halllllllllllllllllllllllllooooooooooooooooo");
                 // Umrechnung der FieldTo-Nummer
                 int fieldTo = this.move.getFieldTo();
                 int fieldToColumn = fieldNumberConverterColumn(fieldTo);
@@ -330,17 +329,17 @@ public class Checkerboard extends JPanel
 
         if (this.move.isCheck() && this.move.isCheckMate()) {
             // wer gewonnen hat
-            String winner;
+            /*String winner;
             if (this.figure.getColor() == ChessfigureConstants.BLACK) {
                 this.blackWon = true;
                 winner = "Schwarz";
             } else {
                 this.blackWon = false;
                 winner = "Weiß";
-            }
+            }*/
             
             javax.swing.JOptionPane.showMessageDialog(this,
-                    winner + " hat gewonnen!", "Schachmatt",
+                    "Spiel vorbei!", "Spielende",
                     JOptionPane.INFORMATION_MESSAGE);
             FinishedGameGUI.getInstance();
         }
@@ -525,6 +524,7 @@ public class Checkerboard extends JPanel
                 e.printStackTrace();
             }
         }
+
         if (this.moveGui.isNormalButtonPressed()) {
             // Feldnummern von den angeklickten Feldern 
             return this.a; 
