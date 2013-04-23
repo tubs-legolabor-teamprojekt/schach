@@ -48,7 +48,7 @@ public class NextMove {
     // Anzahl parallel laufender Threads (2 ist zumindest auf meinem MAC optimal
     private final int PARALLEL = 2;
     // Suchtiefe, TODO: später automatisch an Situation anpassen lassen
-    private final int DEPTH = 2;
+    private final int DEPTH = 3;
     private final boolean TEACHINGMODE = true;
     private final String PATH = "ki.ser";
 
@@ -67,6 +67,7 @@ public class NextMove {
     private boolean isGameOver(HashMap<Integer, Byte> field, byte player)
     {
         LinkedList<HashMap<Integer, Byte>> childSit = moveGen.generateMoves(field, player);
+        
         return childSit == null;
     }
 
@@ -380,10 +381,15 @@ public class NextMove {
                 contains = false;
             }
         }
-        if (isGameOver(afterField, player)) {
+        System.out.println("white "+isGameOver(afterField, ChessfigureConstants.WHITE));
+        System.out.println("black "+isGameOver(afterField, ChessfigureConstants.BLACK));
+        
+        if (isGameOver(afterField, ChessfigureConstants.WHITE) || isGameOver(afterField, ChessfigureConstants.BLACK)) {
+            System.out.println("true");
             return new Move(colorOfPlayer, from, to, captured, true, true);
         }
         else {
+            System.out.println("false");
             return new Move(colorOfPlayer, from, to, captured, false, false);
         }
 
