@@ -68,7 +68,7 @@ public class NextMove {
     {
         LinkedList<HashMap<Integer, Byte>> childSit = moveGen.generateMoves(field, player);
         
-        return childSit == null;
+        return childSit.isEmpty();
     }
 
     /**
