@@ -97,6 +97,12 @@ public class NextMove {
 
         else {
             doChildSituations(player);
+            
+            //Spiel zu ende?
+            if(list.isEmpty()) {
+                return null;
+            }
+            else {
             rateChildSituations(player == ChessfigureConstants.WHITE ? ChessfigureConstants.BLACK : ChessfigureConstants.WHITE);
             findBestSituationInListMax();
             prim.primPositionRating(list, player);
@@ -104,6 +110,7 @@ public class NextMove {
 //            for (SituationWithRating sit : list) {
 //                System.out.println("fig " + sit.getFigureRating() + " pos " + sit.getPositionRating());
 //            }
+        }
         }
         return HashMapToMove(beforeField, afterField, player);
     }
