@@ -228,28 +228,28 @@ public class Field {
                     this.queenSideCastlingWhitePossible = false;
                     break;
 
-                case 61:
+                case 61: // e8
                     // Schwarzen Koenig bewegt
                     this.kingSideCastlingBlackPossible = false;
                     this.queenSideCastlingBlackPossible = false;
                     break;
 
-                case 8:
+                case 8: // h1 
                     // Weisser Turm von h1 wegbewegt
                     this.kingSideCastlingWhitePossible = false;
                     break;
 
-                case 1:
+                case 1: // a1
                     // Weisser Turm von a1 wegbewegt
                     this.queenSideCastlingWhitePossible = false;
                     break;
 
-                case 64:
+                case 64: // h8
                     // Schwarzer Turm von h8 wegbewegt
                     this.kingSideCastlingBlackPossible = false;
                     break;
 
-                case 57:
+                case 57: // a8
                     // Schwarzer Turm von a8 wegbewegt
                     this.queenSideCastlingBlackPossible = false;
                     break;
@@ -438,7 +438,9 @@ public class Field {
      */
     public boolean isKingSideCastlingWhitePossible()
     {
-        return (this.kingSideCastlingWhitePossible && !this.isFigureOnField(getFieldNumber("f1")) && !this.isFigureOnField(getFieldNumber("g1")));
+        return (this.kingSideCastlingWhitePossible &&
+                !this.isFigureOnField(getFieldNumber("f1")) &&
+                !this.isFigureOnField(getFieldNumber("g1")));
     }
 
     /**
@@ -448,8 +450,10 @@ public class Field {
      */
     public boolean isQueenSideCastlingWhitePossible()
     {
-        return (this.queenSideCastlingWhitePossible && !this.isFigureOnField(getFieldNumber("b1")) && !this.isFigureOnField(getFieldNumber("c1")) && !this
-                .isFigureOnField(getFieldNumber("d1")));
+        return (this.queenSideCastlingWhitePossible &&
+                !this.isFigureOnField(getFieldNumber("b1")) &&
+                !this.isFigureOnField(getFieldNumber("c1")) &&
+                !this.isFigureOnField(getFieldNumber("d1")));
     }
 
     /**
@@ -459,7 +463,9 @@ public class Field {
      */
     public boolean isKingSideCastlingBlackPossible()
     {
-        return (this.kingSideCastlingBlackPossible && !this.isFigureOnField(getFieldNumber("f8")) && !this.isFigureOnField(getFieldNumber("g8")));
+        return (this.kingSideCastlingBlackPossible &&
+                !this.isFigureOnField(getFieldNumber("f8")) &&
+                !this.isFigureOnField(getFieldNumber("g8")));
     }
 
     /**
@@ -469,8 +475,10 @@ public class Field {
      */
     public boolean isQueenSideCastlingBlackPossible()
     {
-        return (this.queenSideCastlingBlackPossible && !this.isFigureOnField(getFieldNumber("b8")) && !this.isFigureOnField(getFieldNumber("c8")) && !this
-                .isFigureOnField(getFieldNumber("d8")));
+        return (this.queenSideCastlingBlackPossible &&
+                !this.isFigureOnField(getFieldNumber("b8")) &&
+                !this.isFigureOnField(getFieldNumber("c8")) &&
+                !this.isFigureOnField(getFieldNumber("d8")));
     }
 
     /**

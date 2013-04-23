@@ -103,6 +103,8 @@ public class Chess
                         GameSettings.currentGameType == GameType.PlayerVsSimulatedComputer) {
                     // Menschlicher Spieler
                     move = this.getMoveFromCamera(currentPlayer);
+                    if (move == null)
+                        move = convertFieldnumbersToMoves(currentPlayer, Gui.getInstance().getCheckerboard().manualMove());
                 } else if (GameSettings.currentGameType == GameType.Simulated) {
                     // Simulierten Zug holen
                     move = this.getSimulatedMove(moveCounter, currentPlayer);
