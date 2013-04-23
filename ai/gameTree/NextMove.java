@@ -63,6 +63,11 @@ public class NextMove {
         this.moveGen = new MoveGenerator();
 
     }
+    
+    public boolean isGameOver(Field field, byte player) {
+        LinkedList<HashMap<Integer, Byte>> childSit = moveGen.generateMoves(field.getCurrentFieldAsHashMapWithBytes(), player);
+        return childSit == null;
+        }
 
     /**
      * Hauptmethode der Klasse, die vom Game-Coordinator aufgerufen werden
@@ -103,10 +108,6 @@ public class NextMove {
             doChildSituations(player);
             
             //Spiel zu ende?
-            if(list.isEmpty()) {
-                return null;
-            }
-            else {
             rateChildSituations(player == ChessfigureConstants.WHITE ? ChessfigureConstants.BLACK : ChessfigureConstants.WHITE);
             findBestSituationInListMax();
             prim.primPositionRating(list, player);
@@ -114,7 +115,6 @@ public class NextMove {
 //            for (SituationWithRating sit : list) {
 //                System.out.println("fig " + sit.getFigureRating() + " pos " + sit.getPositionRating());
 //            }
-        }
         }
         return HashMapToMove(beforeField, afterField, player);
     }
