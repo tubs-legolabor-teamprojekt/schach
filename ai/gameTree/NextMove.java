@@ -63,11 +63,12 @@ public class NextMove {
         this.moveGen = new MoveGenerator();
 
     }
-    
-    public boolean isGameOver(Field field, byte player) {
-        LinkedList<HashMap<Integer, Byte>> childSit = moveGen.generateMoves(field.getCurrentFieldAsHashMapWithBytes(), player);
+
+    private boolean isGameOver(HashMap<Integer, Byte> field, byte player)
+    {
+        LinkedList<HashMap<Integer, Byte>> childSit = moveGen.generateMoves(field, player);
         return childSit == null;
-        }
+    }
 
     /**
      * Hauptmethode der Klasse, die vom Game-Coordinator aufgerufen werden
@@ -80,7 +81,7 @@ public class NextMove {
     public Move getNext(Field field, byte player)
     {
         File pfad = new File("");
-        System.out.println(pfad.getAbsolutePath()+"...");
+        System.out.println(pfad.getAbsolutePath() + "...");
 
         // HashMap<Integer, Byte> zusammenbauen
         beforeField = field.getCurrentFieldAsHashMapWithBytes();
@@ -94,31 +95,32 @@ public class NextMove {
         if (ki.getSituations(fingerprintBeforeField) != null && ki.getDepth(fingerprintBeforeField) >= DEPTH) {
             list = ki.getSituations(fingerprintBeforeField);
             findBestSituationWithPositionInListMax();
-//            afterField = list.get(rn.nextInt(list.size())).getMap();
+            // afterField = list.get(rn.nextInt(list.size())).getMap();
 
         } else if (TEACHINGMODE) {
             ki.teachSituation(beforeField, DEPTH, player);
             ki.serialize(PATH);
             list = ki.getSituations(fingerprintBeforeField);
             findBestSituationWithPositionInListMax();
-//            afterField = list.get(rn.nextInt(list.size())).getMap();
+            // afterField = list.get(rn.nextInt(list.size())).getMap();
         }
 
         else {
             doChildSituations(player);
-            
-            //Spiel zu ende?
+
+            // Spiel zu ende?
             rateChildSituations(player == ChessfigureConstants.WHITE ? ChessfigureConstants.BLACK : ChessfigureConstants.WHITE);
             findBestSituationInListMax();
             prim.primPositionRating(list, player);
             findBestSituationWithPositionInListMax();
-//            for (SituationWithRating sit : list) {
-//                System.out.println("fig " + sit.getFigureRating() + " pos " + sit.getPositionRating());
-//            }
+            // for (SituationWithRating sit : list) {
+            // System.out.println("fig " + sit.getFigureRating() + " pos " +
+            // sit.getPositionRating());
+            // }
         }
         return HashMapToMove(beforeField, afterField, player);
     }
-    
+
     private void findBestSituationWithPositionInListMax()
     {
         // Stelle der am besten bewerteten Situation in der ArrayList
@@ -162,7 +164,7 @@ public class NextMove {
             i++;
         }
 
-//        afterField = list.get(rn.nextInt(list.size())).getMap();
+        // afterField = list.get(rn.nextInt(list.size())).getMap();
     }
 
     /**
@@ -216,7 +218,6 @@ public class NextMove {
     public boolean orderedThreadStart(AlphaBetaSearch[] ab, int parallelValue)
     {
         System.out.println("Anzahl an Wurzeln " + ab.length);
-        
 
         /*
          * wenn anzahl der möglichen Threads kleiner ist als maximale anzahl
@@ -281,7 +282,7 @@ public class NextMove {
      * @param color
      * @return
      */
-    private Move HashMapToMove(HashMap<Integer, Byte> before, HashMap<Integer, Byte> after, byte color)
+    private Move HashMapToMove(HashMap<Integer, Byte> before, HashMap<Integer, Byte> after, byte player)
     {
         Iterator<Entry<Integer, Byte>> it1 = before.entrySet().iterator();
         Iterator<Entry<Integer, Byte>> it2 = after.entrySet().iterator();
@@ -294,7 +295,7 @@ public class NextMove {
          * Variablen zur Erstellung des Move-Objektes
          */
         int from = 0, to = 0;
-        byte colorOfPlayer = color;
+        byte colorOfPlayer = player;
         boolean captured = false;
         // TODO Rochade
 
@@ -379,7 +380,12 @@ public class NextMove {
                 contains = false;
             }
         }
-        return new Move(colorOfPlayer, from, to, captured);
+        if (isGameOver(afterField, player)) {
+            return new Move(colorOfPlayer, from, to, captured, true, true);
+        }
+        else {
+            return new Move(colorOfPlayer, from, to, captured, false, false);
+        }
 
     }
 

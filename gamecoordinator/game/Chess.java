@@ -97,6 +97,9 @@ public class Chess
 
             Move move = null;
             
+            //Spielende?
+           
+            
             if (currentPlayer == ChessfigureConstants.WHITE) {
                 
                 if (GameSettings.currentGameType == GameType.PlayerVsComputer ||
@@ -120,6 +123,7 @@ public class Chess
                     // KI
                     NextMove moveTo = new NextMove();
                     move = moveTo.getNext(Field.getInstance(), currentPlayer);
+                    
                 } else if (GameSettings.currentGameType == GameType.Simulated ||
                         GameSettings.currentGameType == GameType.SimulatedWithRobot) {
                     // Simulierter Zug holen
