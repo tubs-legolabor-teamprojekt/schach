@@ -132,29 +132,29 @@ public class MyMouseListener extends MouseAdapter
                         cbp = (CheckerboardPanel) this.grid.getValueAt(this.field_row_1, this.field_column_1);
                         if (this.field_row_1 % 2 == 0) {
                             if (this.field_column_1 % 2 == 0) {
-                                cbp.setBackground(new Color(41, 15, 5, 100));
-                            } else {
                                 cbp.setBackground(new Color(251, 225, 172, 100));
+                            } else {
+                                cbp.setBackground(new Color(41, 15, 5, 100));
                             }
                         } else {
                             if (this.field_column_1 % 2 == 0) {
-                                cbp.setBackground(new Color(251, 225, 172, 100));
-                            } else {
                                 cbp.setBackground(new Color(41, 15, 5, 100));
+                            } else {
+                                cbp.setBackground(new Color(251, 225, 172, 100));
                             }
                         }
                         cbp = (CheckerboardPanel) this.grid.getValueAt(this.row, this.column);
                         if (this.row % 2 == 0) {
                             if (this.column % 2 == 0) {
-                                cbp.setBackground(new Color(41, 15, 5, 100));
-                            } else {
                                 cbp.setBackground(new Color(251, 225, 172, 100));
+                            } else {
+                                cbp.setBackground(new Color(41, 15, 5, 100));
                             }
                         } else {
                             if (this.column % 2 == 0) {
-                                cbp.setBackground(new Color(251, 225, 172, 100));
-                            } else {
                                 cbp.setBackground(new Color(41, 15, 5, 100));
+                            } else {
+                                cbp.setBackground(new Color(251, 225, 172, 100));
                             }
                         }
                         
