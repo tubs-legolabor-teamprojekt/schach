@@ -3,12 +3,14 @@ package game;
 import game.GameSettings.GameType;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
 import util.ChessfigureConstants;
 
 import components.Field;
+import components.FigureKing;
 
 public class TestingChess {
 
@@ -40,6 +42,16 @@ public class TestingChess {
                 GameSettings.currentGameType == GameType.PlayerWithoutCameraVsComputer) {
             Chess game = new Chess();
             game.startGame();
+            
+            /*
+            // Spiel ab vorgegebener Spielsituation
+            HashMap<Integer, Byte> givenSituation = new HashMap<Integer, Byte>();
+            givenSituation.put(1, ChessfigureConstants.makeFigureByte(ChessfigureConstants.WHITE, ChessfigureConstants.KING, true));
+            givenSituation.put(64, ChessfigureConstants.makeFigureByte(ChessfigureConstants.BLACK, ChessfigureConstants.KING, true));
+            
+            Chess game = new Chess(givenSituation);
+            game.startGame();
+            */
         }
     }
 
