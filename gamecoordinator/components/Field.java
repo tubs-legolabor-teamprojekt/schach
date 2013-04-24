@@ -51,9 +51,6 @@ public class Field {
         this.equipField();
     }
 
-    public Field(boolean equip) {
-    }
-
     /**
      * Gibt die Field-Instanz zurueck
      * 
