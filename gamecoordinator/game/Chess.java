@@ -9,6 +9,7 @@ import gui.StartWindow;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import util.ChessfigureConstants;
@@ -63,6 +64,17 @@ public class Chess
     {
         this();
         this.simulatedMoves = moves;
+    }
+    
+    /**
+     * Konstruktor, mit dem ein Spielfeld vorgegeben wird, von wo aus weitergespielt wird.
+     * @param arbitraryField HashMap bestehend aus dem Feld und dem Byte-Wert der Figur.
+     */
+    public Chess(HashMap<Integer, Byte> arbitraryField)
+    {
+        this();
+        // Bestückt das Feld nach Benutzereingabe
+        Field.getInstance().equipArbitraryField(arbitraryField);
     }
     
     /**
