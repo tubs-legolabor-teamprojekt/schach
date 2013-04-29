@@ -10,6 +10,7 @@ import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
 import util.ChessfigureConstants;
+import util.ExtractInformationFromBinary;
 
 /**
  * Repräsentiert das Spielfeld und enthaelt eine HashMap mit allen Figuren und
@@ -51,9 +52,6 @@ public class Field {
         this.equipField();
     }
 
-    public Field(boolean equip) {
-    }
-
     /**
      * Gibt die Field-Instanz zurueck
      * 
@@ -65,6 +63,24 @@ public class Field {
             instance = new Field();
 
         return instance;
+    }
+    
+    public void equipArbitraryField(HashMap<Integer, Byte> arbitraryField)
+    {
+        // bisheriges Feld leeren
+        this.removeAllFigures();
+        
+        Iterator<Entry<Integer, Byte>> it = arbitraryField.entrySet().iterator();
+        while (it.hasNext()) {
+            // getting key/value
+            Map.Entry<Integer, Byte> entry = (Map.Entry<Integer, Byte>) it.next();
+            Integer field = entry.getKey();
+            Byte figureByte = entry.getValue();
+            
+            // creating figure
+            Figure f = ChessfigureConstants.makeFigureFromByte(figureByte);
+            this.putFigureAt(field, f);
+        }
     }
 
     /**
@@ -507,6 +523,14 @@ public class Field {
     public void resetField()
     {
         this.equipField();
+    }
+    
+    /**
+     * Leert das gesamte Feld
+     */
+    public void removeAllFigures()
+    {
+        this.figures.clear();
     }
 
     /**
