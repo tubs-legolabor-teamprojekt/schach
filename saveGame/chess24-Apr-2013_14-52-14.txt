@@ -1,0 +1,9 @@
+[Event "Teamprojekt"]
+[Site "Legolabor"]
+[Date "24.04.2013"]
+[Round "54"]
+[White "asd"]
+[Black "Legoroboter"]
+[Result "result"]
+
+1. Pd4 Nc6 2. Be3 Nf6 3. Nc3 Na5 4. Bg5 Pg6 5. Pe4 Ng8 6. Bxe7 Qxe7 7. Pb4 Qxb4 8. Rb1 Qxc3 9. Ke2 Nc6 10. Qd2 Qxd4 11. Qxd4 Nxd4 12. Kd3 Bc5 13. Kc4 Ne6 14. Rxb7 Bxb7 15. Nf3 Bc6 16. Ne5 Bxe4 17. Nxg6 Pxg6 18. Pf3 Bxc2 19. Bd3 Rh4 20. Pf4 Bxd3 21. Kxd3 Nxf4 22. Ke4 Nxg2 23. Kf3 Nf4 24. Rg1 Bxg1 25. Pa4 Nf6 26. Kg3 Pg5 27. Pa5 Rh3# result

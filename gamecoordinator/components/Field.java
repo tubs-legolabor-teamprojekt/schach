@@ -85,7 +85,7 @@ public class Field {
                 rowCount = 56;
                 color = ChessfigureConstants.BLACK;
             }
-
+            
             int position = rowCount;
             // Turm
             FigureRook fr1 = new FigureRook(color);
@@ -117,7 +117,7 @@ public class Field {
 
             // Turm
             FigureRook fr2 = new FigureRook(color);
-            this.putFigureAt(++position, fr2);
+            this.putFigureAt(++position, fr2);    
         }
 
         // Bauern setzen

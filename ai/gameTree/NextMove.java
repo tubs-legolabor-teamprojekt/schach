@@ -48,7 +48,7 @@ public class NextMove {
     // Anzahl parallel laufender Threads (2 ist zumindest auf meinem MAC optimal
     private final int PARALLEL = 2;
     // Suchtiefe, TODO: später automatisch an Situation anpassen lassen
-    private final int DEPTH = 3;
+    private final int DEPTH = 1;
     private final boolean TEACHINGMODE = true;
     private final String PATH = "ki.ser";
 
@@ -86,13 +86,23 @@ public class NextMove {
 
         // HashMap<Integer, Byte> zusammenbauen
         beforeField = field.getCurrentFieldAsHashMapWithBytes();
-        Random rn = new Random();
+        
+        HashMap<Integer,Byte> cloneMap = (HashMap<Integer,Byte>)beforeField.clone();
+        
+        if(isGameOver(beforeField, ChessfigureConstants.WHITE) || isGameOver(beforeField, ChessfigureConstants.BLACK)) {
+            int position;
+            Iterator<Entry<Integer, Byte>> it = cloneMap.entrySet().iterator();
+            Entry<Integer,Byte> pair = it.next();
+            position = pair.getKey();
+            return new Move(ChessfigureConstants.WHITE, position, position, false, true, true);
+       }
+        
         ki = new PrimitivKI();
         ki.deserialize(PATH);
         prim = new PrimitivRating();
 
         String fingerprintBeforeField = Fingerprint.getFingerprint(beforeField);
-
+        
         if (ki.getSituations(fingerprintBeforeField) != null && ki.getDepth(fingerprintBeforeField) >= DEPTH) {
             list = ki.getSituations(fingerprintBeforeField);
             findBestSituationWithPositionInListMax();
@@ -381,15 +391,12 @@ public class NextMove {
                 contains = false;
             }
         }
-        System.out.println("white "+isGameOver(afterField, ChessfigureConstants.WHITE));
-        System.out.println("black "+isGameOver(afterField, ChessfigureConstants.BLACK));
         
+        //Spielende (keine Unterscheidung Schachmatt/Patt)
         if (isGameOver(afterField, ChessfigureConstants.WHITE) || isGameOver(afterField, ChessfigureConstants.BLACK)) {
-            System.out.println("true");
             return new Move(colorOfPlayer, from, to, captured, true, true);
         }
         else {
-            System.out.println("false");
             return new Move(colorOfPlayer, from, to, captured, false, false);
         }
 
