@@ -10,7 +10,6 @@ import java.util.List;
 import util.ChessfigureConstants;
 
 import components.Field;
-import components.FigureKing;
 
 public class TestingChess {
 
@@ -40,18 +39,20 @@ public class TestingChess {
         } else if (GameSettings.currentGameType == GameType.PlayerVsComputer ||
                 GameSettings.currentGameType == GameType.ComputerVsComputer ||
                 GameSettings.currentGameType == GameType.PlayerWithoutCameraVsComputer) {
+            /*
             Chess game = new Chess();
             game.startGame();
+            */
             
-            /*
             // Spiel ab vorgegebener Spielsituation
             HashMap<Integer, Byte> givenSituation = new HashMap<Integer, Byte>();
-            givenSituation.put(1, ChessfigureConstants.makeFigureByte(ChessfigureConstants.WHITE, ChessfigureConstants.KING, true));
-            givenSituation.put(64, ChessfigureConstants.makeFigureByte(ChessfigureConstants.BLACK, ChessfigureConstants.KING, true));
+            givenSituation.put(Field.getFieldNumber("b7"), ChessfigureConstants.makeFigureByte(ChessfigureConstants.BLACK, ChessfigureConstants.QUEEN, true));
+            givenSituation.put(Field.getFieldNumber("g6"), ChessfigureConstants.makeFigureByte(ChessfigureConstants.BLACK, ChessfigureConstants.KING, true));
+            
+            givenSituation.put(Field.getFieldNumber("h8"), ChessfigureConstants.makeFigureByte(ChessfigureConstants.WHITE, ChessfigureConstants.KING, true));
             
             Chess game = new Chess(givenSituation);
             game.startGame();
-            */
         }
     }
 
