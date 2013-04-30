@@ -48,7 +48,7 @@ public class NextMove {
     // Anzahl parallel laufender Threads (2 ist zumindest auf meinem MAC optimal
     private final int PARALLEL = 2;
     // Suchtiefe, TODO: später automatisch an Situation anpassen lassen
-    private final int DEPTH = 1;
+    private final int DEPTH = 3;
     private final boolean TEACHINGMODE = true;
     private final String PATH = "ki.ser";
 

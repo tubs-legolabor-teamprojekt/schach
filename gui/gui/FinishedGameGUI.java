@@ -271,6 +271,7 @@ public class FinishedGameGUI extends JFrame implements ActionListener
         if (e.getActionCommand() == "showButton") {
             // zeigt das aktuelle Spiel im PGN-Format ab
             ShowPGNFormat.getInstance();
+            ShowPGNFormat.getInstance().makeVisibile();
         }
         if (e.getActionCommand() == "exportButton") {
             this.counter++;
