@@ -99,6 +99,14 @@ public class GameCoordinator
     public boolean isEndOfGame() {
         return this.lastMove;
     }
+    
+    /**
+     * Spiel zuende?
+     */
+    public void setEndOfGame(boolean b)
+    {
+        this.lastMove = b;
+    }
 
     /**
      * Fuehrt einen Zug aus. Der Zug soll beim Aufruf gueltig sein!

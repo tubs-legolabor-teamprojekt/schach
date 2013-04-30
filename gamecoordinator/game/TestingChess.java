@@ -46,10 +46,10 @@ public class TestingChess {
             
             // Spiel ab vorgegebener Spielsituation
             HashMap<Integer, Byte> givenSituation = new HashMap<Integer, Byte>();
-            givenSituation.put(Field.getFieldNumber("b7"), ChessfigureConstants.makeFigureByte(ChessfigureConstants.BLACK, ChessfigureConstants.QUEEN, true));
-            givenSituation.put(Field.getFieldNumber("g6"), ChessfigureConstants.makeFigureByte(ChessfigureConstants.BLACK, ChessfigureConstants.KING, true));
+            givenSituation.put(Field.getFieldNumber("b7"), ChessfigureConstants.makeFigureByte(ChessfigureConstants.WHITE, ChessfigureConstants.QUEEN, true));
+            givenSituation.put(Field.getFieldNumber("g6"), ChessfigureConstants.makeFigureByte(ChessfigureConstants.WHITE, ChessfigureConstants.KING, true));
             
-            givenSituation.put(Field.getFieldNumber("h8"), ChessfigureConstants.makeFigureByte(ChessfigureConstants.WHITE, ChessfigureConstants.KING, true));
+            givenSituation.put(Field.getFieldNumber("h8"), ChessfigureConstants.makeFigureByte(ChessfigureConstants.BLACK, ChessfigureConstants.KING, true));
             
             Chess game = new Chess(givenSituation);
             game.startGame();

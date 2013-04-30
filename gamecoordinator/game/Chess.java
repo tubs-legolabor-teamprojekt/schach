@@ -108,8 +108,6 @@ public class Chess
                 currentPlayer = ChessfigureConstants.BLACK;
 
             Move move = null;
-            
-            //Spielende?
            
             
             if (currentPlayer == ChessfigureConstants.WHITE) {
@@ -157,12 +155,13 @@ public class Chess
                  (moveCounter == this.simulatedMoves.size())
                  ) {
                 move.setCheckMate(true);
+            } else if (move.isCheckMate()) {
+                Gui.getInstance().getCheckerboard().setCheckerboardInformation(move);
             }
             
             // Züge ausführen
             this.execMove(currentPlayer, move);
         }
-
 
         // Aktuelles Datum
         SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
@@ -199,12 +198,18 @@ public class Chess
             Thread.sleep(GameSettings.timeBetweenMoves);
         } catch (InterruptedException e) {
         }
-        // Wenn Zug gueltig, ausfuehren
-        if (this.gameCoordinator.receiveMove(move, GameSettings.checkRules)) {
-            // Zug ausfuehren
-            this.gameCoordinator.execMove();
+        
+        if (!move.isCheckMate()) {
+        
+            // Wenn Zug gueltig, ausfuehren
+            if (this.gameCoordinator.receiveMove(move, GameSettings.checkRules)) {
+                // Zug ausfuehren
+                this.gameCoordinator.execMove();
+            } else {
+                this.execMove(player, convertFieldnumbersToMoves(player, Checkerboard.getInstance().manualMove()));
+            }
         } else {
-            this.execMove(player, convertFieldnumbersToMoves(player, Checkerboard.getInstance().manualMove()));
+            this.gameCoordinator.setEndOfGame(true);
         }
     }
     
