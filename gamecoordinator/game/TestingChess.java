@@ -39,12 +39,13 @@ public class TestingChess {
         } else if (GameSettings.currentGameType == GameType.PlayerVsComputer ||
                 GameSettings.currentGameType == GameType.ComputerVsComputer ||
                 GameSettings.currentGameType == GameType.PlayerWithoutCameraVsComputer) {
-            /*
-            Chess game = new Chess();
-            game.startGame();
-            */
+            
+//            Chess game = new Chess();
+//            game.startGame();
+            
             
             // Spiel ab vorgegebener Spielsituation
+            
             HashMap<Integer, Byte> givenSituation = new HashMap<Integer, Byte>();
             givenSituation.put(Field.getFieldNumber("b7"), ChessfigureConstants.makeFigureByte(ChessfigureConstants.WHITE, ChessfigureConstants.QUEEN, true));
             givenSituation.put(Field.getFieldNumber("g6"), ChessfigureConstants.makeFigureByte(ChessfigureConstants.WHITE, ChessfigureConstants.KING, true));
@@ -53,6 +54,7 @@ public class TestingChess {
             
             Chess game = new Chess(givenSituation);
             game.startGame();
+            
         }
     }
 

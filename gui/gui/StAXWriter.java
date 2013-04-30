@@ -33,11 +33,19 @@ public class StAXWriter
         sdf.applyPattern("dd.MM.yyyy");
         sdf_wTime.applyPattern("dd-MMM-yyyy_HH-mm-ss");
 
+        // Abfrage, wer gewonnen hat, um entsprechendes auszugeben
+        String result;
+        if (Checkerboard.getInstance().hasBlackWon()) {
+            result = "0-1";
+        } else {
+            result = "1-0";
+        }
+        
         try {
             // Inhalt der .txt-Datei
             String text = Exporter.exportMovesToPGN("Teamprojekt", "Legolabor",
                     sdf.format(new Date()), StartWindow.getInstance().getUsername(), 
-                    "Legoroboter", "result", GameCoordinator.getInstance(false).getAllMoves());
+                    "Legoroboter", result, GameCoordinator.getInstance(false).getAllMoves());
             // Name der Datei
             File file = new File("saveGame/chess" + sdf_wTime.format(new Date()) + ".txt");
             FileWriter fw = new FileWriter(file);

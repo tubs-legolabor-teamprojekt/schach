@@ -59,6 +59,10 @@ public class ShowPGNFormat extends JFrame implements ActionListener
 
         return instance;
     }
+    
+    public void makeVisibile() {
+        this.setVisible(true);
+    }
 
     /**
      * Methode, die die Einstellungen des Fensters initialisiert.

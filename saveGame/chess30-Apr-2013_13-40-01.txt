@@ -1,0 +1,9 @@
+[Event "Teamprojekt"]
+[Site "Legolabor"]
+[Date "30.04.2013"]
+[Round "1"]
+[White "fas"]
+[Black "Legoroboter"]
+[Result "1-0"]
+
+1. Qb8 1-0
