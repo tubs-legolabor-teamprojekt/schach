@@ -75,7 +75,8 @@ public class FinishedGameGUI extends JFrame implements ActionListener
      */
     public void initWindow() {
         this.setIconImage(new ImageIcon("gui/gui/checkerboard.png").getImage());
-        this.setSize(400, 300);
+        //this.setSize(400, 300);
+        this.setSize(400,200);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         this.setVisible(true);
@@ -92,10 +93,10 @@ public class FinishedGameGUI extends JFrame implements ActionListener
         gbc.insets = new Insets(5, 5, 5, 5);
 
         this.makeTextLayout();
-        this.makeStartLayout();
+        //this.makeStartLayout();
         this.makeShowLayout();
         this.makeExportLayout();
-        this.makeUserLayout();
+        //this.makeUserLayout();
         this.makeEndLayout();
     }
 
