@@ -316,6 +316,7 @@ public class FinishedGameGUI extends JFrame implements ActionListener
             Gui.getInstance().dispose();
             this.setVisible(false);
             this.dispose();
+            System.exit(0);
         }
     }
 }
