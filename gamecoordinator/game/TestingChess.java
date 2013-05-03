@@ -40,8 +40,8 @@ public class TestingChess {
                 GameSettings.currentGameType == GameType.ComputerVsComputer ||
                 GameSettings.currentGameType == GameType.PlayerWithoutCameraVsComputer) {
             
-            Chess game = new Chess();
-            game.startGame();
+            //Chess game = new Chess();
+            //game.startGame();
             
             
             // Spiel ab vorgegebener Spielsituation
@@ -82,6 +82,28 @@ public class TestingChess {
             givenSituation.put(Field.getFieldNumber("h8"), ChessfigureConstants.makeFigureByte(ChessfigureConstants.BLACK, ChessfigureConstants.KING, true));
             */
             
+            
+             // Spielsituation, Pawn Promotion mit moeglichem Schach anschließend.
+             
+            givenSituation.put(Field.getFieldNumber("a1"), ChessfigureConstants.makeFigureByte(ChessfigureConstants.WHITE, ChessfigureConstants.ROOK, false));
+            givenSituation.put(Field.getFieldNumber("g1"), ChessfigureConstants.makeFigureByte(ChessfigureConstants.WHITE, ChessfigureConstants.KING, true));
+            givenSituation.put(Field.getFieldNumber("f2"), ChessfigureConstants.makeFigureByte(ChessfigureConstants.WHITE, ChessfigureConstants.PAWN, false));
+            givenSituation.put(Field.getFieldNumber("g2"), ChessfigureConstants.makeFigureByte(ChessfigureConstants.WHITE, ChessfigureConstants.PAWN, false));
+            givenSituation.put(Field.getFieldNumber("h2"), ChessfigureConstants.makeFigureByte(ChessfigureConstants.WHITE, ChessfigureConstants.PAWN, false));
+            givenSituation.put(Field.getFieldNumber("d3"), ChessfigureConstants.makeFigureByte(ChessfigureConstants.WHITE, ChessfigureConstants.PAWN, true));
+            givenSituation.put(Field.getFieldNumber("e4"), ChessfigureConstants.makeFigureByte(ChessfigureConstants.WHITE, ChessfigureConstants.KNIGHT, true));
+            givenSituation.put(Field.getFieldNumber("b7"), ChessfigureConstants.makeFigureByte(ChessfigureConstants.WHITE, ChessfigureConstants.QUEEN, true));
+            givenSituation.put(Field.getFieldNumber("d7"), ChessfigureConstants.makeFigureByte(ChessfigureConstants.WHITE, ChessfigureConstants.PAWN, true));
+            
+            givenSituation.put(Field.getFieldNumber("c2"), ChessfigureConstants.makeFigureByte(ChessfigureConstants.BLACK, ChessfigureConstants.KING, true));
+            givenSituation.put(Field.getFieldNumber("e6"), ChessfigureConstants.makeFigureByte(ChessfigureConstants.BLACK, ChessfigureConstants.PAWN, true));
+            givenSituation.put(Field.getFieldNumber("f7"), ChessfigureConstants.makeFigureByte(ChessfigureConstants.BLACK, ChessfigureConstants.PAWN, false));
+            givenSituation.put(Field.getFieldNumber("g5"), ChessfigureConstants.makeFigureByte(ChessfigureConstants.BLACK, ChessfigureConstants.PAWN, true));
+            givenSituation.put(Field.getFieldNumber("h5"), ChessfigureConstants.makeFigureByte(ChessfigureConstants.BLACK, ChessfigureConstants.PAWN, true));
+            givenSituation.put(Field.getFieldNumber("h6"), ChessfigureConstants.makeFigureByte(ChessfigureConstants.BLACK, ChessfigureConstants.ROOK, true));
+            
+            
+            
             /*
             Field field = Field.getInstance();
             field.removeFigureAt(2);
@@ -91,8 +113,8 @@ public class TestingChess {
             field.removeFigureAt(7);
             
             givenSituation = field.getCurrentFieldAsHashMapWithBytes();*/
-            /*Chess game = new Chess(givenSituation);
-            game.startGame();*/
+            Chess game = new Chess(givenSituation);
+            game.startGame();
             
         }
     }
