@@ -40,14 +40,15 @@ public class TestingChess {
                 GameSettings.currentGameType == GameType.ComputerVsComputer ||
                 GameSettings.currentGameType == GameType.PlayerWithoutCameraVsComputer) {
             
-            //Chess game = new Chess();
-            //game.startGame();
+            Chess game = new Chess();
+            game.startGame();
             
             
             // Spiel ab vorgegebener Spielsituation
            
             HashMap<Integer, Byte> givenSituation = new HashMap<Integer, Byte>();
             
+            /*
             // Situation, bei der der Gegner in einem Zug Schachmatt ist (Weisser Springer von g4 nach h6)
             givenSituation.put(Field.getFieldNumber("f1"), ChessfigureConstants.makeFigureByte(ChessfigureConstants.WHITE, ChessfigureConstants.ROOK, true));
             givenSituation.put(Field.getFieldNumber("g1"), ChessfigureConstants.makeFigureByte(ChessfigureConstants.WHITE, ChessfigureConstants.KING, true));
@@ -70,10 +71,11 @@ public class TestingChess {
             givenSituation.put(Field.getFieldNumber("h7"), ChessfigureConstants.makeFigureByte(ChessfigureConstants.BLACK, ChessfigureConstants.PAWN, true));
             givenSituation.put(Field.getFieldNumber("b6"), ChessfigureConstants.makeFigureByte(ChessfigureConstants.BLACK, ChessfigureConstants.PAWN, true));
             givenSituation.put(Field.getFieldNumber("g6"), ChessfigureConstants.makeFigureByte(ChessfigureConstants.BLACK, ChessfigureConstants.PAWN, true));
+            */
             
             /*
              * Spielsituation, bei der der Gegner nach einem Zug Schachmatt ist.
-             * 
+             *
             givenSituation.put(Field.getFieldNumber("b7"), ChessfigureConstants.makeFigureByte(ChessfigureConstants.WHITE, ChessfigureConstants.QUEEN, true));
             givenSituation.put(Field.getFieldNumber("g6"), ChessfigureConstants.makeFigureByte(ChessfigureConstants.WHITE, ChessfigureConstants.KING, true));
             
@@ -89,8 +91,8 @@ public class TestingChess {
             field.removeFigureAt(7);
             
             givenSituation = field.getCurrentFieldAsHashMapWithBytes();*/
-            Chess game = new Chess(givenSituation);
-            game.startGame();
+            /*Chess game = new Chess(givenSituation);
+            game.startGame();*/
             
         }
     }
