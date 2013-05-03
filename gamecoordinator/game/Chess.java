@@ -1,16 +1,22 @@
 package game;
 
+import game.GameSettings.GameType;
+import gameTree.NextMove;
 import gui.Checkerboard;
 import gui.Gui;
+import gui.StartWindow;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import util.ChessfigureConstants;
 import camera.ImageLoader;
 
 import components.Field;
+import components.Figure;
 
 /**
  * Startet das Spiel
@@ -23,33 +29,59 @@ public class Chess
     /**
      * Objekt des GameCoordinators
      */
-    private GameCoordinator gameCoordinator;
+    private GameCoordinator gameCoordinator = null;
 
     /**
      * Liste an Zuegen, falls ein Spiel simuliert werden soll.
      */
     private List<Move> simulatedMoves = new ArrayList<Move>();
-
+    
+    /**
+     * Objekt zur Kommunikation mit der Kamera
+     */
+    private ImageLoader im = null;
+    
     /**
      * Leerer Konstruktor
      */
-    public Chess() {
+    public Chess()
+    {
+        // Kamera benötigt?
+        if (GameSettings.currentGameType == GameType.PlayerVsComputer ||
+                GameSettings.currentGameType == GameType.PlayerVsSimulatedComputer) {
+            this.im = new ImageLoader();
+            // Winkel setzen
+            this.im.setAngle(im.calcAngle());
+            this.im.calcOffset();
+        }
     }
-
+    
     /**
      * Konstruktor, mit Zuegen fuer ein simuliertes Spiel
-     * 
-     * @param moves
-     *            Zuege des simulierten Spiels
+     * @param moves Zuege des simulierten Spiels
      */
-    public Chess(List<Move> moves) {
+    public Chess(List<Move> moves)
+    {
+        this();
         this.simulatedMoves = moves;
     }
-
+    
+    /**
+     * Konstruktor, mit dem ein Spielfeld vorgegeben wird, von wo aus weitergespielt wird.
+     * @param arbitraryField HashMap bestehend aus dem Feld und dem Byte-Wert der Figur.
+     */
+    public Chess(HashMap<Integer, Byte> arbitraryField)
+    {
+        this();
+        // Bestückt das Feld nach Benutzereingabe
+        Field.getInstance().equipArbitraryField(arbitraryField);
+    }
+    
     /**
      * Startet das Spiel
      */
-    public void startGame() {
+    public void startGame()
+    {
         // GUI initialisieren, Start-Button wird angezeigt
         Gui gui = Gui.getInstance();
         // Warten, bis Benutzer das Spiel gestartet hat
@@ -66,292 +98,381 @@ public class Chess
         // GUI uebergeben
         this.gameCoordinator.setGui(gui);
 
-        // TODO wie wird ermittelt, ob Spieler ggn Computer oder Computer ggn
-        // Computer
-
         int moveCounter = 0;
+        byte currentPlayer = ChessfigureConstants.WHITE;
         while (!this.gameCoordinator.isEndOfGame()) {
+            
+            if (moveCounter %2 == 0)
+                currentPlayer = ChessfigureConstants.WHITE;
+            else
+                currentPlayer = ChessfigureConstants.BLACK;
 
-            List<Move> moves = new LinkedList<Move>();
-
-            if (!GameSettings.simulateGame) {
-
-                // Zug von Webcam ermitteln
-                ImageLoader im = new ImageLoader();
-
-                // Winkel setzen
-                im.setAngle(im.calcAngle());
-
-                // erste Vergleichsfoto
-                im.takePhoto1();
-
-                // FIXME Warten bis Zug vom Benutzer durchgefuehrt wurde
-                System.out.println("Foto1 taken");
-                try {
-                    Thread.sleep(10000);
-                } catch (Exception e) {
-                    e.printStackTrace();
+            Move move = null;
+           
+            
+            if (currentPlayer == ChessfigureConstants.WHITE) {
+                
+                if (GameSettings.currentGameType == GameType.PlayerVsComputer ||
+                        GameSettings.currentGameType == GameType.PlayerVsSimulatedComputer) {
+                    // Menschlicher Spieler
+                    move = this.getMoveFromCamera(currentPlayer);
+                    if (move == null)
+                        move = convertFieldnumbersToMoves(currentPlayer, Gui.getInstance().getCheckerboard().manualMove());
+                } else if (GameSettings.currentGameType == GameType.Simulated) {
+                    // Simulierten Zug holen
+                    move = this.getSimulatedMove(moveCounter, currentPlayer);
+                } else if (GameSettings.currentGameType == GameType.PlayerWithoutCameraVsComputer) {
+                    // Zug soll manuell vom Spieler eingegeben werden
+                    move = additionalInformationForMove(currentPlayer, convertFieldnumbersToMoves(currentPlayer, Gui.getInstance().getCheckerboard().manualMove()));
                 }
-
-                // 2te Vergleichsfoto nehmen
-                im.takePhoto2();
-
-                // Veraenderte Positionen holen
-                // Entweder
-                // zwei Werte (0: from, 1: to)
-                // oder
-                // vier Werte (0: from, 1: to, 2: from (Rochade), 3: to
-                // (Rochade)
-                // wobei der Rochade-Zug auch als erstes �bergeben werden kann
-                List<Integer> listOfChangedPositions = im.getChangedPositions();
-
-                // Konnte Kamera Züge ermitteln?
-                if (listOfChangedPositions.size() == 0) {
-                    // Manuelles Einlesen der Zühe durch die GUI
-                    moves = this.getMovesFromManualInputOrCamera(Checkerboard.getInstance().manualMove());
-                } else {
-                    moves = this.getMovesFromManualInputOrCamera(listOfChangedPositions);
+                
+            } else if (currentPlayer == ChessfigureConstants.BLACK) {
+                
+                if (GameSettings.currentGameType == GameType.PlayerVsComputer ||
+                        GameSettings.currentGameType == GameType.PlayerWithoutCameraVsComputer) {
+                    // KI
+                    NextMove moveTo = new NextMove();
+                    move = moveTo.getNext(Field.getInstance(), currentPlayer);
+                    
+                } else if (GameSettings.currentGameType == GameType.Simulated ||
+                        GameSettings.currentGameType == GameType.SimulatedWithRobot) {
+                    // Simulierter Zug holen
+                    move = this.getSimulatedMove(moveCounter, currentPlayer);
                 }
-
             } else {
-                // Simulierten Zug holen
-                Move newMove = this.simulatedMoves.get(moveCounter);
-                moveCounter++;
-                               
-                Checkerboard.getInstance().manualMove();
+                System.out.println("Hier läuft was falsch! (Chess.java)");
             }
+            moveCounter++;
 
+            // Aktuellen Spieler setzen
+            move.setPlayerColor(currentPlayer);
+            
+            // Ende des simulierten Spiels ermitteln
+            if ((GameSettings.currentGameType == GameType.Simulated ||
+                    GameSettings.currentGameType == GameType.SimulatedWithRobot ||
+                    GameSettings.currentGameType == GameType.PlayerVsSimulatedComputer)
+                 &&
+                 (moveCounter == this.simulatedMoves.size())
+                 ) {
+                move.setCheckMate(true);
+            } else if (move.isCheckMate()) {
+                Gui.getInstance().getCheckerboard().setCheckerboardInformation(move);
+            }
+            
             // Züge ausführen
-            this.execMultipleMoves(moves);
-
-            if (moveCounter >= this.simulatedMoves.size()) {
-                System.out.println("Noch kurz ein manuellen Zug:");
-                this.getMovesFromManualInputOrCamera(Checkerboard.getInstance().manualMove());
-
-                System.out
-                        .println("\n-----\nLetzten simulierten Zug beendet.\nSpiel vorbei.");
-                break;
-            }
+            this.execMove(currentPlayer, move);
         }
 
-        // TODO Verbindung zum Roboter beenden
-
+        // Aktuelles Datum
+        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
+        
+        // Ergebnis bestimmen
+        String res = "";
+        if (moveCounter % 2 == 0) {
+            // Schwarz hat gewonnen, da gerade Anzahl an Zügen
+            res = "0-1";
+        } else {
+            res = "1-0";
+        }
+        
         // Exportieren
-        System.out.println(Exporter.exportMovesToPGN("Tabea testet", // Name des
-                                                                     // Spiels
+        System.out.println(Exporter.exportMovesToPGN(
+                "Schachspiel gegen den Legoroboter", // Name des Spiels
                 "Braunschweig", // Ort
-                "11-02-2012", // Datum
-                "Tabea", // Spieler weiss
-                "Florian", // Spieler schwarz
-                "1-0", // Ergebnis
+                sdf.format(new Date()), // Datum
+                StartWindow.getInstance().getUsername(), // Spieler weiss
+                "Computer", // Spieler schwarz
+                res, // Ergebnis
                 this.gameCoordinator.getAllMoves()) // Zuege
                 );
     }
     
     /**
-     * Fuehrt mehrere Zuege aus.
-     * @param moves
-     *              Die auszufuehrenden Zuege
+     * Führt einen Zug aus
+     * @param player Spieler, der den Zug ausführt
+     * @param move Der auszuführende Zug
      */
-    public void execMultipleMoves(List<Move> moves)
+    public void execMove(byte player, Move move)
     {
-        for (Move move : moves) {
-            // Warte 5 Sekunden und fuehre naechsten Zug aus
-            try {
-                Thread.sleep(GameSettings.timeBetweenMoves);
-            } catch (InterruptedException e) {
+        try {
+            Thread.sleep(GameSettings.timeBetweenMoves);
+        } catch (InterruptedException e) {
+        }
+        
+        if (!move.isCheckMate()) {
+        
+            // Wenn Zug gueltig, ausfuehren
+            if (this.gameCoordinator.receiveMove(move, GameSettings.checkRules)) {
+                // Zug ausfuehren
+                this.gameCoordinator.execMove();
+            } else {
+                this.execMove(player, convertFieldnumbersToMoves(player, Checkerboard.getInstance().manualMove()));
+            }
+        } else {
+            this.gameCoordinator.setEndOfGame(true);
+        }
+    }
+    
+    /**
+     * Ermittelt den vom Spieler durchgeführten Zug.
+     * @param currentPlayer Der aktuelle Spieler
+     * @return Der durchgeführte Zug
+     */
+    public Move getMoveFromCamera(byte currentPlayer)
+    {
+        Move move = null;
+        try {
+            if (this.im == null) {
+                throw new Exception("Kein Kamera-Objekt gefunden");
             }
             
-            // Zuege aus
-            this.sendAndExecuteMove(move, GameSettings.checkRules);
+            // erste Vergleichsfoto
+            Gui.getInstance().showWaitingMessage("Achtung", "Bitte Spielfeld freihalten und bestätigen.");
+            this.im.takePhoto1();
+            System.out.println("Foto1 taken");
+            
+            // Warte auf Bestätigung vom Benutzer
+            Gui.getInstance().showWaitingMessage("Weiß ist am Zug", "Bitte versetzen Sie eine Schachfigur " +
+                    "und bestätigen Sie Ihren Zug.");
+            
+            // 2te Vergleichsfoto nehmen
+            this.im.takePhoto2();
+            System.out.println("Foto2 taken");
+            
+            // Veraenderte Positionen holen
+            List<Integer> listOfChangedPositions = this.im.getChangedPositions();
+            
+            // Konnte Kamera Züge ermitteln?
+            System.out.println("Anzahl an veränderten Feldern: "+ listOfChangedPositions.size());
+            if (listOfChangedPositions.size() == 0) {
+                // Manuelles Einlesen der Züge durch die GUI
+                move = convertFieldnumbersToMoves(currentPlayer, Checkerboard.getInstance().manualMove());
+            } else {
+                move = convertFieldnumbersToMoves(currentPlayer, listOfChangedPositions);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getStackTrace()[0].getMethodName() + "(" + e.getStackTrace()[0].getClassName() + "): " + e.getMessage());
         }
+        return move;
+    }
+    
+    /**
+     * Holt einen simulierten Zug
+     * @param moveCounter Nummer des aktuellen Zugs
+     * @param currentPlayer Spieler
+     * @return Der simulierte Zug
+     */
+    public Move getSimulatedMove(int moveCounter, byte currentPlayer)
+    {
+        Move newMove = this.simulatedMoves.get(moveCounter);
+        newMove = additionalInformationForMove(currentPlayer, newMove);
+        return newMove;
     }
 
     /**
-     * Laesst einen Zug ausfueren und optional vorher auf Gueltigkeit pruefen
-     * 
+     * Erstellt aus der uebergebenen Spielerfarbe und den eingelesenen Feldnummern die Zuege.
+     * Die Feldnummern werden entweder ueber die Kamera oder die GUI eingelesen.
+     * @param colorOfPlayer Farbe des Spielers
+     * @param fieldnumbers Die zwei oder vier betroffenen Feldnummern
+     * @return Move-Objekt
+     */
+    public static Move convertFieldnumbersToMoves(byte colorOfPlayer, List<Integer> fieldnumbers)
+    {
+        Move move = null;
+        Field f = Field.getInstance();
+        if (fieldnumbers.size() == 2) {
+            // Normaler Zug
+            
+            int fieldFrom = -1,
+                fieldTo = -1;
+            
+            // Welches ist das From- und To-Feld?
+            if (    f.isFigureOnField(fieldnumbers.get(0)) && // Figur auf fieldnumbers[0] vorhanden
+                    f.getFigureAt(fieldnumbers.get(0)).getColor() == colorOfPlayer // eigene Figur auf fieldnumbers[0]
+                ) {
+                fieldFrom = fieldnumbers.get(0);
+                fieldTo = fieldnumbers.get(1);
+            } else if (f.isFigureOnField(fieldnumbers.get(1)) && // Figur auf fieldnumbers[1] vorhanden
+                       f.getFigureAt(fieldnumbers.get(1)).getColor() == colorOfPlayer // eigene Figur auf fieldnumbers[1]
+                       ) {
+                fieldFrom = fieldnumbers.get(1);
+                fieldTo = fieldnumbers.get(0);
+            } else {
+                System.out.println("Felder konnten nicht zugeordnet werden!");
+            }
+            
+            move = new Move(colorOfPlayer, fieldFrom, fieldTo);
+            // Informationen hinzufügen (geschmissen?)
+            move = additionalInformationForMove(colorOfPlayer, move);
+            
+            
+        } else if (fieldnumbers.size() == 4) {
+            // Rochade-Zug
+            
+            // Darf der Spieler noch eine Rochade spielen?
+            if ( (colorOfPlayer == ChessfigureConstants.WHITE && f.isCastlingWhitePossible()) ||
+                 (colorOfPlayer == ChessfigureConstants.BLACK && f.isCastlingBlackPossible())
+                ) {
+                // Spieler spielt Rochade
+                if (isKingSideCastling(colorOfPlayer, fieldnumbers)) {
+                    // Kurzen Rochade-Zug erstellen und der Liste hinzufuegen
+                    Move kscMove = new Move(colorOfPlayer, 1, 1); // Unwichtige Werte
+                    kscMove.setKingSideCastling(true);
+                    kscMove.setPlayerColor(colorOfPlayer);
+                    move = kscMove;
+                } else if (isQueenSideCastling(colorOfPlayer, fieldnumbers)) {
+                    // Langen Rochade-Zug erstellen und der Liste hinzufuegen
+                    Move qscMove = new Move(colorOfPlayer, 1, 1); // Unwichtige Werte
+                    qscMove.setQueenSideCastling(true);
+                    qscMove.setPlayerColor(colorOfPlayer);
+                    move = qscMove;
+                } else {
+                    System.out.println("Ungueltige Rochade angegeben");
+                }
+            } else {
+                System.out.println("Keine Rochade moeglich!");
+            }
+        } else {
+            System.out.println("Ungueltige Anzahl an uebergebenen Feldnummern");
+        }
+        
+        return move;
+    }
+    
+    /**
+     * Erweitert das Move-Objekt um Informationen, wie z.B. ob bei dem Zug geschmissen wird.
+     * @param colorOfPlayer
      * @param move
-     *            Der auszufuehrende Zug
-     * @param checkThisMove
-     *            Soll der Zug vor Ausfuehrung geprueft werden?
+     * @return
      */
-    public void sendAndExecuteMove(Move move, boolean checkThisMove) {
-        // Wenn Zug gueltig, ausfuehren
-        if (this.gameCoordinator.receiveMove(move, checkThisMove)) {
-            // Zug ausfuehren
-            this.gameCoordinator.execMove();
-        } else {
-            // FIXME funktioniert scheinbar noch nicht
-            this.execMultipleMoves(this.getMovesFromManualInputOrCamera(Checkerboard.getInstance().manualMove()));
+    public static Move additionalInformationForMove(byte colorOfPlayer, Move move)
+    {
+        Field f = Field.getInstance();
+        
+        // Wird geschmissen?
+        if (f.isFigureOnField(move.getFieldTo()) // Figur auf To-Feld vorhanden?
+           ) {
+            if (f.getFigureAt(move.getFieldTo()).getColor() != colorOfPlayer) // Gegner auf To-Feld?
+            {
+                // Neuen Zug erstellen und der Liste hinzufügen
+                move.setCaptured(true);
+            } else {
+                // Eigene Figur kann nicht geschmissen werden
+                System.out.println("Die eigene Figur kann nicht geschmissen werden!");
+            }
+            
         }
+        
+        // Pawn Promotion?
+        // Bauer-(Neue Figur)-Umwandlung, wenn:
+        //  - Bauer bewegt wird und
+        //  - Weisser Bauer die gegnerische erste Linie erreicht (57-64) oder
+        //  - Schwarzer Bauer die gegnerische erste Linie erreicht (1-8)
+        Figure movingFigure = f.getFigureAt(move.getFieldFrom());
+        if (movingFigure.getFigureType() == ChessfigureConstants.PAWN &&
+                (
+                    ( colorOfPlayer == ChessfigureConstants.WHITE &&
+                      move.getFieldTo() >= 57 &&
+                      move.getFieldTo() <= 64) ||
+                    ( colorOfPlayer == ChessfigureConstants.BLACK &&
+                      move.getFieldTo() >= 1 &&
+                      move.getFieldTo() <= 8)
+                 )
+            ) {
+            System.out.println("HIER: " + movingFigure.getFigureType() + " - " + ChessfigureConstants.PAWN);
+            move.setPawnPromotion(true);
+        }
+        
+        return move;
+    }
+    
+    /**
+     * Prueft die uebergebenen Feldnummern und die Farbe, ob es eine gueltige kurze Rochade ist.
+     * @param colorOfPlayer Schwarz/Weiss
+     * @param fieldnumbers Die vier Feldnummern der Rochade
+     * @return
+     */
+    public static boolean isKingSideCastling(byte colorOfPlayer, List<Integer> fieldnumbers)
+    {
+        if (fieldnumbers.size() == 4) {
+            // Weiss
+            if (colorOfPlayer == ChessfigureConstants.WHITE) {
+                // Pruefe ob benoetige Felder uebergeben sind
+                if (!(    fieldnumbers.contains(Field.getFieldNumber("e1")) &&
+                          fieldnumbers.contains(Field.getFieldNumber("g1")) &&
+                          fieldnumbers.contains(Field.getFieldNumber("h1")) &&
+                          fieldnumbers.contains(Field.getFieldNumber("f1"))
+                )) {
+                    return false;
+                }
+                
+            } else
+            // Schwarz
+            if (colorOfPlayer == ChessfigureConstants.BLACK) {
+                // Pruefe ob benoetige Felder uebergeben sind
+                if (!(    fieldnumbers.contains(Field.getFieldNumber("e8")) &&
+                          fieldnumbers.contains(Field.getFieldNumber("g8")) &&
+                          fieldnumbers.contains(Field.getFieldNumber("h8")) &&
+                          fieldnumbers.contains(Field.getFieldNumber("f8"))
+                )) {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        } else {
+            System.out.println("Fehlerhafte Anzahl an uebergebenen Feldern");
+            return false;
+        }
+        
+        return true;
+    }
+    
+    /**
+     * Prueft die uebergebenen Feldnummern und die Farbe, ob es eine gueltige lange Rochade ist.
+     * @param colorOfPlayer Schwarz/Weiss
+     * @param fieldnumbers Die vier Feldnummern
+     * @return
+     */
+    public static boolean isQueenSideCastling(byte colorOfPlayer, List<Integer> fieldnumbers)
+    {
+        if (fieldnumbers.size() == 4) {
+            // Weiss
+            if (colorOfPlayer == ChessfigureConstants.WHITE) {
+                // Pruefe ob benoetige Felder uebergeben sind
+                if (!(    fieldnumbers.contains(Field.getFieldNumber("e1")) &&
+                          fieldnumbers.contains(Field.getFieldNumber("c1")) &&
+                          fieldnumbers.contains(Field.getFieldNumber("a1")) &&
+                          fieldnumbers.contains(Field.getFieldNumber("d1"))
+                )) {
+                    return false;
+                }
+                
+            } else
+            // Schwarz
+            if (colorOfPlayer == ChessfigureConstants.BLACK) {
+                // Pruefe ob benoetige Felder uebergeben sind
+                if (!(    fieldnumbers.contains(Field.getFieldNumber("e8")) &&
+                          fieldnumbers.contains(Field.getFieldNumber("c8")) &&
+                          fieldnumbers.contains(Field.getFieldNumber("a8")) &&
+                          fieldnumbers.contains(Field.getFieldNumber("d8"))
+                )) {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        } else {
+            System.out.println("Fehlerhafte Anzahl an uebergebenen Feldern");
+            return false;
+        }
+        
+        return true;
     }
 
     /**
-     * Ermittelt (hoffentlich) aus 2 oder 4 gegebenen Werten die Züge. Dazu muss
-     * die Reihenfolge angepasst werden (die Reihenfolge der Werte, die die
-     * Kamera ermittelt hat, ist durcheinander). 2 Werte: 1 Zug 4 Werte: Kurze
-     * oder Lange Rochade
-     * 
-     * @param listOfChangedPositions
-     * @return Liste der auszuführenden Züge (ohne Regelprüfung)
-     */
-    private List<Move> getMovesFromManualInputOrCamera(
-            List<Integer> listOfChangedPositions) {
-        List<Move> moves = null;
-
-        // Zuege einlesen
-        int cnt = 0, field1 = -1, field2 = -1, field3 = -1, field4 = -1;
-        boolean rochade = false;
-        for (Integer position : listOfChangedPositions) {
-            if (cnt == 0) {
-                // erster Wert (Feld "from" von Zug 1)
-                field1 = position;
-            } else if (cnt == 1) {
-                // zweiter Wert (Feld "to" von Zug 1)
-                field2 = position;
-            } else if (cnt == 2) {
-                // Rochade (Feld "from" von Rochade-Zug)
-                field3 = position;
-            } else if (cnt == 3) {
-                // Rochade (Feld "to" von Rochade-Zug)
-                field4 = position;
-                rochade = true;
-            }
-            cnt++;
-        }
-
-        // Wurde beim Zug ohne Rochade geschmissen?
-        boolean captured = false;
-
-        // Alle Werte eingelesen, nun zuordnen
-        int field1From = -1, field1To = -1, field2From = -1, field2To = -1;
-        Field field = Field.getInstance();
-        // Wurde der Koenig vom Spieler schon bewegt?
-        if (!rochade && field.isRochadeWhitePossible()) {
-            // ** Keine Rochade, also nur zwei Werte nutzen **
-
-            // field1 besetzt
-            boolean field1Taken = (!field.isFigureOnField(field1) && field
-                    .isFigureOnField(field2));
-            // field2 besetzt
-            boolean field2Taken = (field.isFigureOnField(field1) && !field
-                    .isFigureOnField(field2));
-            // Beide besetzt
-            boolean bothTaken = (field1Taken && field2Taken);
-
-            // Beide Felder besetzt (es wird geschmissen)
-            if (bothTaken) {
-                captured = true;
-                // Pruefen ob unterschiedliche Farben auf den Feldern
-                if (field.getFigureAt(field1).getColor() == ChessfigureConstants.WHITE
-                        && field.getFigureAt(field2).getColor() == ChessfigureConstants.BLACK) {
-                    // Eigene (weisse) Figur auf field1
-                    // Gegnerische (schwarze) Figur auf field2
-                    field1From = field1;
-                    field1To = field2;
-                } else if (field.getFigureAt(field2).getColor() == ChessfigureConstants.WHITE
-                        && field.getFigureAt(field1).getColor() == ChessfigureConstants.BLACK) {
-                    // Eigene (weisse) Figur auf field2
-                    // Gegnerische (schwarze) Figur auf field1
-                    field1From = field2;
-                    field1To = field1;
-                } else {
-                    System.out
-                            .println("FEHLER!\nKeine unterschiedlichen Farben auf den beiden Feldern!");
-                }
-            } else if (field1Taken || field2Taken) {
-                // Nicht geschmissen, ein Feld ist leer
-                if (field1Taken) {
-                    // Eigene Figur auf field1
-                    field1From = field1;
-                    field1To = field2;
-                } else if (field2Taken) {
-                    // Eigene Figur auf field2
-                    field1From = field2;
-                    field1To = field1;
-                }
-            } else {
-                System.out
-                        .println("FEHLER!\nKeins der beiden Felder war vor dem eingelesenen Zug besetzt!");
-            }
-        } else {
-            // ** Rochade! **
-
-            // Weisser Koenig auf Startposition
-            boolean kingOnStartposition = (field.getFigureAt(Field
-                    .getFieldNumber("e1")) != null
-                    && field.getFigureAt(Field.getFieldNumber("e1"))
-                            .getFigureLetter() == ChessfigureConstants.KING_LETTER && field
-                    .getFigureAt(Field.getFieldNumber("e1")).getColor() == ChessfigureConstants.WHITE);
-            // Weisser Turm1 auf Startposition TODO Koennte das Turm 2 sein?
-            boolean rook1OnStartposition = (field.getFigureAt(Field
-                    .getFieldNumber("a1")) != null
-                    && field.getFigureAt(Field.getFieldNumber("a1"))
-                            .getFigureLetter() == ChessfigureConstants.ROOK_LETTER && field
-                    .getFigureAt(Field.getFieldNumber("a1")).getColor() == ChessfigureConstants.WHITE);
-            // Weisser Turm2 auf Startposition
-            boolean rook2OnStartposition = (field.getFigureAt(Field
-                    .getFieldNumber("h1")) != null
-                    && field.getFigureAt(Field.getFieldNumber("h1"))
-                            .getFigureLetter() == ChessfigureConstants.ROOK_LETTER && field
-                    .getFigureAt(Field.getFieldNumber("h1")).getColor() == ChessfigureConstants.WHITE);
-
-            // Rochade ueberhaupt erlaubt (Koenig auf Startposition, Turm1/2 auf
-            // Startposition)?
-            if (!(kingOnStartposition && (rook1OnStartposition || rook2OnStartposition))) {
-                System.out
-                        .println("Keine Rochade erlaubt, wurde aber gesetzt!");
-            } else {
-                // Rochade erlaubt
-                // Kurze Rochade (Feldnummern addiert == 26); Lange Rochade
-                // (addiert == 13)
-                int sum = (field1 + field2 + field3 + field4);
-                if (sum == 26) {
-                    // Kurze Rochade
-
-                    // Koenig
-                    field1From = Field.getFieldNumber("e1");
-                    field1To = Field.getFieldNumber("g1");
-                    // Rechter Turm
-                    field2From = Field.getFieldNumber("h1");
-                    field2To = Field.getFieldNumber("f1");
-                } else if (sum == 13) {
-                    // Lange Rochade
-
-                    // Koenig
-                    field1From = Field.getFieldNumber("e1");
-                    field1To = Field.getFieldNumber("c1");
-                    // Linker Turm
-                    field2From = Field.getFieldNumber("a1");
-                    field2To = Field.getFieldNumber("d1");
-                } else {
-                    System.out.println("Ungueltige Rochade!");
-                }
-            }
-        }
-
-        // Move-Objekte erstellen
-        if (!rochade) {
-            // TODO muss hier noch ueberprueft werden, ob Schach(matt)?
-            Move newMove = new Move(field1From, field1To, captured, false,
-                    false);
-
-            this.sendAndExecuteMove(newMove, true);
-        } else {
-            // Bei Rochade muessen die Zuege nicht mehr geprueft werden.
-            Move moveRochadeKing = new Move(field1From, field1To);
-            Move moveRochadeRook = new Move(field2From, field2To);
-
-            this.sendAndExecuteMove(moveRochadeKing, false);
-            this.sendAndExecuteMove(moveRochadeRook, false);
-        }
-
-        return moves;
-    }
-
-    /**
-     * Sofern das Spiel beendet ist, wird das Ergebnis zurueckgegeben. TODO Wie
-     * wird ermittelt, wer gewonnen hat?
+     * Sofern das Spiel beendet ist, wird das Ergebnis zurueckgegeben.
+     * TODO Wie wird ermittelt, wer gewonnen hat?
      * 
      * @return
      */

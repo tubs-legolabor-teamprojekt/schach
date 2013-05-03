@@ -9,17 +9,32 @@ public class GameSettings
 {
 
     /**
+     * Mögliche Spielvarianten
+     */
+    public static enum GameType {
+        PlayerVsComputer, Simulated, ComputerVsComputer,PlayerVsSimulatedComputer, SimulatedWithRobot, PlayerWithoutCameraVsComputer
+    }
+    
+    /**
      * Sollen simulierte Zuege durchgefuehrt werden? Kann zu Testzwecken
      * temporär eingeschaltet werden, damit keine Fotos per Webcam geschossen
      * werden.
      */
-    public static final boolean simulateGame = true;
+    public static final GameType currentGameType = GameType.PlayerVsComputer;
+    
+    /**
+     * Dateiname zur Textdatei, die die Züge eines simulierten Spiels enthält
+     */
+    public static final String simulatedGameMoves = "TabeaSchach.txt";
+    
+    /**
+     * Zeit zwischen den simulierten Zügen
+     */
+    public static final long timeBetweenMoves = 100;
     
     /**
      * Sollen die einzelnen Züge auf Gültigkeit geprüft werden?
      */
     public static final boolean checkRules = true;
-    
-    public static final long timeBetweenMoves = 500;
 
 }

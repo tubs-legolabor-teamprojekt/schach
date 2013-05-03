@@ -1,5 +1,8 @@
 package game;
 
+import engineControl.MovementControl;
+import game.GameSettings.GameType;
+import gui.Checkerboard;
 import gui.Gui;
 
 import java.util.ArrayList;
@@ -10,6 +13,10 @@ import util.ChessfigureConstants;
 
 import components.Field;
 import components.Figure;
+import components.FigureBishop;
+import components.FigureKnight;
+import components.FigureQueen;
+import components.FigureRook;
 
 /**
  * Die "Hauptklasse" des Schachroboters, hier wird das Spiel gestartet.
@@ -48,6 +55,12 @@ public class GameCoordinator
      * Rules-Objekt
      */
     private Rules rules = new Rules();
+    
+    /**
+     * Roboter-Bewegung
+     */
+    private MovementControl movementControl = null;
+    private boolean usingRobot = false;
 
     /**
      * Ist der aktuelle Zug der letzte?
@@ -69,6 +82,13 @@ public class GameCoordinator
 
         // Logging?
         this.logging = logging;
+        
+        if (GameSettings.currentGameType == GameType.PlayerVsComputer ||
+                GameSettings.currentGameType == GameType.PlayerVsSimulatedComputer ||
+                GameSettings.currentGameType == GameType.SimulatedWithRobot) {
+            this.usingRobot = true;
+            this.movementControl = MovementControl.getInstance();
+        }
     }
 
     /**
@@ -79,83 +99,150 @@ public class GameCoordinator
     public boolean isEndOfGame() {
         return this.lastMove;
     }
+    
+    /**
+     * Spiel zuende?
+     */
+    public void setEndOfGame(boolean b)
+    {
+        this.lastMove = b;
+    }
 
     /**
      * Fuehrt einen Zug aus. Der Zug soll beim Aufruf gueltig sein!
      */
     public void execMove() {
-        // Zug ausgeben?
-        if (this.logging)
-            System.out.println(this.currentMove.getMoveAsText());
-
-        // Wurde geschmissen?
-        if (this.currentMove.isCaptured()) {
-            // Geschmissene Figur vom Feld entfernen
-            this.field.removeFigureAt(this.currentMove.getFieldTo());
-
-            // TODO Roboter soll Figur entfernen
-        }
-
-        // TODO Roboter soll Figur bewegen
-
-        // Gui soll Figur bewegen
-        // Gui muss zuerst den Zug grafisch ausfuehren, da sie auf die
-        // Informationen des Feldes (fieldFrom) zugreift.
-        // Wuerde Field zuerst aktualisiert werden, koennte die Gui nicht
-        // mehr auf die zu versetzende Figur zugreifen!
-        this.gui.getCheckerboard().setCheckerboardInformation(this.currentMove);
-
-        // Figur soll Zug durchfuehren
-        this.field.moveFigure(this.currentMove.getFieldFrom(),
-                this.currentMove.getFieldTo());
-
-        // War es der letzte Zug?
-        this.lastMove = this.currentMove.isCheckMate();
-
-        // TODO Wurde inzwischen die GUI beendet? => Spiel ist beendet
+        try {
+            // Zug ausgeben?
+            if (this.logging)
+                System.out.println(this.currentMove.getMoveAsText());
+            
+            if (this.currentMove.isKingSideCastling()) {
+                // Gui soll Figur bewegen
+                this.gui.getCheckerboard().setCheckerboardInformation(this.currentMove);
+                
+                if (this.currentMove.getPlayerColor() == ChessfigureConstants.WHITE) {
+                    // Kurze weisse Rochade
+                    
+                    // König versetzen
+                    this.field.moveFigure(Field.getFieldNumber("e1"), Field.getFieldNumber("g1"));
+                    // Turm versetzen
+                    this.field.moveFigure(Field.getFieldNumber("h1"), Field.getFieldNumber("f1"));
+                } else if (this.currentMove.getPlayerColor() == ChessfigureConstants.BLACK) {
+                    // Kurze schwarze Rochade
+                    
+                    // König versetzen
+                    this.field.moveFigure(Field.getFieldNumber("e8"), Field.getFieldNumber("g8"));
+                    // Turm versetzen
+                    this.field.moveFigure(Field.getFieldNumber("h8"), Field.getFieldNumber("f8"));
+                }
+            } else if (this.currentMove.isQueenSideCastling()) {
+                // Gui soll Figur bewegen
+                this.gui.getCheckerboard().setCheckerboardInformation(this.currentMove);
+                
+                if (this.currentMove.getPlayerColor() == ChessfigureConstants.WHITE) {
+                    // Lange weisse Rochade
+                    
+                    // König versetzen
+                    this.field.moveFigure(Field.getFieldNumber("e1"), Field.getFieldNumber("c1"));
+                    // Turm versetzen
+                    this.field.moveFigure(Field.getFieldNumber("a1"), Field.getFieldNumber("d1"));
+                } else if (this.currentMove.getPlayerColor() == ChessfigureConstants.BLACK) {
+                    // Lange schwarze Rochade
+                    
+                    // König versetzen
+                    this.field.moveFigure(Field.getFieldNumber("e8"), Field.getFieldNumber("c8"));
+                    // Turm versetzen
+                    this.field.moveFigure(Field.getFieldNumber("a8"), Field.getFieldNumber("d8"));
+                }
+            } else {
+                // Wurde geschmissen?
+                if (this.currentMove.isCaptured()) {
+                    // Geschmissene Figur vom Feld entfernen
+                    this.field.removeFigureAt(this.currentMove.getFieldTo());
+                }
         
+                if (this.usingRobot) {
+                    // Roboter soll Figur bewegen
+                    if (this.movementControl == null) {
+                        throw new Exception("Roboter-Instanz fehlt!");
+                    }
+                    
+                    if (this.currentMove.getPlayerColor() == ChessfigureConstants.BLACK) {
+                        this.movementControl.setMovefigure(this.currentMove);
+                        this.movementControl.moveRobot();
+                    }
+                }
+        
+                // Gui soll Figur bewegen
+                // Gui muss zuerst den Zug grafisch ausfuehren, da sie auf die
+                // Informationen des Feldes (fieldFrom) zugreift.
+                // Wuerde Field zuerst aktualisiert werden, koennte die Gui nicht
+                // mehr auf die zu versetzende Figur zugreifen!
+                this.gui.getCheckerboard().setCheckerboardInformation(this.currentMove);
+                
+                // Bauer umgewandelt in...
+                Figure newFigure = null;
+                if (this.currentMove.isPawnPromotion()) {
+                    if (this.currentMove.getPlayerColor() == ChessfigureConstants.WHITE) {
+                        while (Checkerboard.getInstance().getPawnPromotionInformation() == 'A') {
+                            try {
+                                Thread.sleep(500);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    
+                        this.currentMove.setPawnPromotedTo(Checkerboard.getInstance().getPawnPromotionInformation());
+                    }
+                    
+                    if (this.currentMove.getPawnPromotedTo() == ChessfigureConstants.BISHOP_LETTER) {
+                        newFigure = new FigureBishop(this.currentMove.getPlayerColor());
+                    } else if (this.currentMove.getPawnPromotedTo() == ChessfigureConstants.KNIGHT_LETTER) {
+                        newFigure = new FigureKnight(this.currentMove.getPlayerColor());
+                    } else if (this.currentMove.getPawnPromotedTo() == ChessfigureConstants.QUEEN_LETTER) {
+                        newFigure = new FigureQueen(this.currentMove.getPlayerColor());
+                    } else if (this.currentMove.getPawnPromotedTo() == ChessfigureConstants.ROOK_LETTER) {
+                        newFigure = new FigureRook(this.currentMove.getPlayerColor());
+                    }
+                    
+                }
+        
+                // Figur soll Zug durchfuehren
+                this.field.moveFigure(this.currentMove.getFieldFrom(),
+                        this.currentMove.getFieldTo());
+                
+                if (this.currentMove.isPawnPromotion()) {
+                    this.field.removeFigureAt(this.currentMove.getFieldTo());
+                    this.field.putFigureAt(this.currentMove.getFieldTo(), newFigure);
+                }
+                
+            }
+    
+            // War es der letzte Zug?
+            this.lastMove = this.currentMove.isCheckMate();
+        } catch (Exception e) {
+            System.out.println(e.getStackTrace()[0].getMethodName() + "(" + e.getStackTrace()[0].getClassName() + "): " + e.getMessage());
+        }
     }
 
     /**
      * Neuer Zug wird dem aktuellen Spielverlauf hinzugefuegt. Entweder ein vom
      * Spieler ausgefuerter Zug oder von der AI.
      * 
+     * @param newMove Der auszuführende Zug, er beinhaltet schon die Eigenschaften
+     *  ob geschmissen wurde, ob eine Rochade stattfindet etc.
+     * @param checkThisMove Soll der uebergebene Zug auf Regeln geprüft werden?
      * @return True: Gueltiger Zug wurde gespeichert; False: Ungueltiger Zug,
      *         Fehlermeldung anzeigen
      */
-    public boolean receiveMove(Move newMove, boolean checkThisMove) {
-        
-        
-        // Wurde geschmissen?
-        // FIXME FEHLER: wird auch bei Rochade ausgefuehrt!!!
-        if (Field.getInstance().isFigureOnField(newMove.getFieldTo())) {
-            Field f = Field.getInstance();
-            Figure figureFrom = f.getFigureAt(newMove.getFieldFrom());
-            Figure figureTo = f.getFigureAt(newMove.getFieldTo());
-            // Rochade pruefen
-            boolean bothFiguresSameColor = (
-                    (figureFrom.getColor() == ChessfigureConstants.WHITE && figureTo.getColor() == ChessfigureConstants.WHITE) ||
-                    (figureFrom.getColor() == ChessfigureConstants.BLACK && figureTo.getColor() == ChessfigureConstants.BLACK)
-                    );
-            
-            boolean kingAndRookSelected = (
-                    (figureFrom.getFigureType() == ChessfigureConstants.KING && figureTo.getFigureType() == ChessfigureConstants.ROOK) ||
-                    (figureFrom.getFigureType() == ChessfigureConstants.ROOK && figureTo.getFigureType() == ChessfigureConstants.KING)
-                    );
-            
-            boolean rochade = f.isRochadeWhitePossible() && bothFiguresSameColor && kingAndRookSelected;
-            
-            // Es wird keine Figur geschmissen
-            if (!rochade) {
-                newMove.setCaptured(true);
-            }
-        }
-        
+    public boolean receiveMove(Move newMove, boolean checkThisMove)
+    {
         if (checkThisMove) {
             if (!this.rules.checkMove(this.field, newMove)) {
-                System.out.println("Ungueltiger Zug laut Rules.checkMove().\nZug: " + newMove.toString());
+                System.out.println("Ungültiger Zug laut Rules.checkMove().\nUngueltiger Zug: " + newMove.toString());
                 // Fehlermeldung anzeigen (GUI)
-                this.gui.showWarning("Ungueltiger Zug!");
+                this.gui.showWarning("Ungültiger Zug!");
                 return false;
             }
         }

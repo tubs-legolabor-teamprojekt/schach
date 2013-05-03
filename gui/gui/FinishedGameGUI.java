@@ -2,7 +2,6 @@ package gui;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -76,7 +75,8 @@ public class FinishedGameGUI extends JFrame implements ActionListener
      */
     public void initWindow() {
         this.setIconImage(new ImageIcon("gui/gui/checkerboard.png").getImage());
-        this.setSize(400, 300);
+        //this.setSize(400, 300);
+        this.setSize(400,200);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         this.setVisible(true);
@@ -93,10 +93,10 @@ public class FinishedGameGUI extends JFrame implements ActionListener
         gbc.insets = new Insets(5, 5, 5, 5);
 
         this.makeTextLayout();
-        this.makeStartLayout();
+        //this.makeStartLayout();
         this.makeShowLayout();
         this.makeExportLayout();
-        this.makeUserLayout();
+        //this.makeUserLayout();
         this.makeEndLayout();
     }
 
@@ -259,7 +259,7 @@ public class FinishedGameGUI extends JFrame implements ActionListener
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand() == "startButton") {
-            // aktuelle Schachbrett wird auf das Ausgangsfeld zur�ckgesetzt
+            // aktuelle Schachbrett wird auf das Ausgangsfeld zurückgesetzt
             Field f = Field.getInstance();
             f.resetField();
             Gui.getInstance().getCheckerboard().resetMap();
@@ -272,6 +272,7 @@ public class FinishedGameGUI extends JFrame implements ActionListener
         if (e.getActionCommand() == "showButton") {
             // zeigt das aktuelle Spiel im PGN-Format ab
             ShowPGNFormat.getInstance();
+            ShowPGNFormat.getInstance().makeVisibile();
         }
         if (e.getActionCommand() == "exportButton") {
             this.counter++;

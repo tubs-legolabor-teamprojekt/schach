@@ -2,10 +2,8 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -79,13 +77,16 @@ public class PawnPromotionGUI extends JFrame implements ActionListener
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         this.setVisible(true);
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
     }
 
     /**
      * Methode, die das Layout des Fensters erstellt.
      */
     public void makeLayout() {
+        this.setAlwaysOnTop(true);
+        this.toFront();
+        
         this.setContentPane(new BackgroundPanel());
         this.setLayout(new BorderLayout());
 
@@ -109,7 +110,7 @@ public class PawnPromotionGUI extends JFrame implements ActionListener
         this.forOkButton.setOpaque(false);
         this.forOkButton.add(this.okButton);
 
-        this.okButton.setEnabled(false);
+//        this.okButton.setEnabled(false);
         this.okButton.addActionListener(this);
         this.okButton.setActionCommand("button_ok");
 
@@ -136,6 +137,7 @@ public class PawnPromotionGUI extends JFrame implements ActionListener
 
         // Dame-Radiobutton
         group.add(this.queen);
+        this.queen.setSelected(true);
         this.queen.addActionListener(this);
         this.queen.setActionCommand("radiobutton_queen");
 
@@ -195,8 +197,9 @@ public class PawnPromotionGUI extends JFrame implements ActionListener
 
         // wenn OK geklickt wird, werden die Informationen weitergegeben
         if (e.getActionCommand() == "button_ok") {
-            Gui.getInstance().pawnPromotionInformation(this.queen.isSelected(),
+            Checkerboard.getInstance().pawnPromotionInformation(this.queen.isSelected(),
                     this.bishop.isSelected(), this.knight.isSelected(),this.rook.isSelected());
+            Checkerboard.getInstance().setPPIsReady(true);
             // Fenster schließen
             this.setVisible(false);
             this.dispose();

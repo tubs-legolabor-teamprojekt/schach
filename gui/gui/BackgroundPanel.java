@@ -14,17 +14,18 @@ import javax.swing.JPanel;
  */
 public class BackgroundPanel extends JPanel
 {
-    private Image img;
+    //private Image img;
 
     /**
      * Konstruktor, der das Bild einf�gt.
      */
     public BackgroundPanel() {
         // Hintergrundbild
-        img = getToolkit().createImage("gui/gui/background.jpg");
+        //img = getToolkit().createImage("gui/gui/background.jpg");
 
         MediaTracker mt = new MediaTracker(this);
-        mt.addImage(img, 1);
+        //mt.addImage(img, 1);
+        mt.addImage(GuiImages.image, 1);
         try {
             mt.waitForAll();
         } catch (InterruptedException e) {
@@ -36,6 +37,6 @@ public class BackgroundPanel extends JPanel
      */
     @Override
     protected void paintComponent(Graphics g) {
-        g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
+        g.drawImage(GuiImages.image, 0, 0, getWidth(), getHeight(), this);
     }
 }

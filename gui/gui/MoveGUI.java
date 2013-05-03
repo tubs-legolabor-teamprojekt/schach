@@ -30,9 +30,6 @@ import javax.swing.plaf.InsetsUIResource;
  */
 public class MoveGUI extends JFrame implements ActionListener
 {
-
-    private static MoveGUI instance = null;
-
     private JPanel  forNormalMove = new JPanel(), 
                     forCastling = new JPanel(),
                     forText_NM = new JPanel(), 
@@ -56,27 +53,15 @@ public class MoveGUI extends JFrame implements ActionListener
                     okButton_C = new JButton("Fertig");
 
     private boolean isKingsideCastling = false, 
-                    normalButtonPressed = false;
-
+                    normalButtonPressed = false,
+                    castlingButtonPressed = false;
+    
     /**
-     * Privater Konstruktor, der den Titel setzt und alle weitern Einstellungen
-     * aufruft.
+     * Konstruktor, der den Titel setzt und ein neues Objekt erstellt. 
      */
-    private MoveGUI() {
+    public MoveGUI() 
+    {
         this.setTitle("Manuelle Zugeingabe");
-        this.startWindow();
-        this.makeLayout();
-    }
-
-    /**
-     * Gibt die MoveGUI-Instanz zurück.
-     * @return MoveGUI-Instanz
-     */
-    public static MoveGUI getInstance() {
-        if (instance == null) {
-            instance = new MoveGUI();
-        }
-        return instance;
     }
 
     /**
@@ -90,6 +75,7 @@ public class MoveGUI extends JFrame implements ActionListener
         this.setVisible(true);
         this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
+        this.makeLayout();
     }
 
     /**
@@ -186,7 +172,6 @@ public class MoveGUI extends JFrame implements ActionListener
         this.makeRadioButtons();
 
         this.forButton_C.add(this.okButton_C);
-        this.okButton_C.setEnabled(false);
         this.okButton_C.addActionListener(this);
         this.okButton_C.setActionCommand("button_ok_C");
 
@@ -204,6 +189,7 @@ public class MoveGUI extends JFrame implements ActionListener
         this.queensideCastling.setBackground(new Color(140, 95, 70));
 
         group.add(this.kingsideCastling);
+        this.kingsideCastling.setSelected(true);
         this.kingsideCastling.addActionListener(this);
         this.kingsideCastling.setActionCommand("radiobutton_short");
         this.kingsideCastling.setOpaque(false);
@@ -238,20 +224,13 @@ public class MoveGUI extends JFrame implements ActionListener
             this.normalButtonPressed = true;
         }
 
-        // man kann erst auf OK klicken, wenn man einen Radiobutton ausgewählt hat
-        if (this.kingsideCastling.isSelected()
-                || this.queensideCastling.isSelected()) {
-            this.okButton_C.setEnabled(true);
-        }
-
-        // wenn OK geflickt wird, wird die die Variable isKingsideCastling
-        // entweder auf true
-        // oder false gesetzt, je nach dem, ob der Radiobutton für die kurze
-        // Rochade ausgewählt
-        // wurde oder nicht
+        // wenn OK geklickt wird, wird die die Variable isKingsideCastling
+        // entweder auf true oder false gesetzt, je nach dem, ob der Radiobutton 
+        // für die kurze Rochade ausgewählt wurde oder nicht
         if (e.getActionCommand() == "button_ok_C") {
             this.isKingsideCastling = this.kingsideCastling.isSelected();
             Checkerboard.getInstance().setMmIsReady(true);
+            this.castlingButtonPressed = true;
             this.setVisible(false);
             this.dispose();
         }
@@ -266,9 +245,9 @@ public class MoveGUI extends JFrame implements ActionListener
     public boolean isNormalButtonPressed() {
         return this.normalButtonPressed;
     }
-
-    public static void main(String[] args) {
-        MoveGUI.getInstance();
+    
+    public boolean isCastlingButtonPressed() {
+        return this.castlingButtonPressed;
     }
 
 }

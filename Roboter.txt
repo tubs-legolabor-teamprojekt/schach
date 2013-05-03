@@ -1,0 +1,6 @@
+12. Comp: h6  - h1
+10. Comp: a6  - h6 
+8. Comp: a8  - a6
+6. Comp: a7  - a5
+4. Comp: c6  - b4
+2. Comp: b8  - c6

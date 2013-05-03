@@ -6,3 +6,5 @@ Thumbs.db
 .settings
 bin
 *.class
+*.nxj
+*.jpg

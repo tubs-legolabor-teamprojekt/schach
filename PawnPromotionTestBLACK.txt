@@ -1,0 +1,15 @@
+15. You: d3 - e3
+14. Comp: a1 - a3
+13. You: e3 - d3
+12. Comp: a2 - a1
+11. You:    d3  - e3
+10. Comp: a3  - a2
+9. You:    e3  - d3
+8. Comp: a4  - a3
+7. You:    d3  - e3
+6. Comp: b5  - a4
+5. You:    a3  - d3
+4. Comp: b7  - b5
+3. You:    a1  - a3
+2. Comp: a7  - a5
+1. You:    a2  - a4

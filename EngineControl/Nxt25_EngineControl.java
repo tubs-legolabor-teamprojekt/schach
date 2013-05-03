@@ -4,10 +4,10 @@ import lejos.robotics.navigation.TachoPilot;
 public class Nxt25_EngineControl {
 
     /*
-     * z1 ist die Strecke zwischen den Felder f�r das Vorw�rts und
-     * R�ckw�rtsbewegen z2 ist die Strecke f�r die Hoch/Runter bewegung z3 ist
-     * die Strecke zwischen den Feldern f�r die Links/rechts bewegung z4 ist die
-     * Rotation f�r das auf und zu greifen
+     * z1 ist die Strecke zwischen den Felder fuer das Vorwaerts und
+     * Rueckwaertsbewegen z2 ist die Strecke fuer die Hoch/Runter bewegung z3
+     * ist die Strecke zwischen den Feldern fuer die Links/rechts bewegung z4
+     * ist die Rotation fuer das auf und zu greifen
      */
 
     final private int ROTATE_FOR_Z1 = 10;
