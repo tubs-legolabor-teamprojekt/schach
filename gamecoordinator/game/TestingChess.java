@@ -40,12 +40,12 @@ public class TestingChess {
                 GameSettings.currentGameType == GameType.ComputerVsComputer ||
                 GameSettings.currentGameType == GameType.PlayerWithoutCameraVsComputer) {
             
-//            Chess game = new Chess();
-//            game.startGame();
+            //Chess game = new Chess();
+            //game.startGame();
             
             
             // Spiel ab vorgegebener Spielsituation
-            
+           
             HashMap<Integer, Byte> givenSituation = new HashMap<Integer, Byte>();
             
             // Situation, bei der der Gegner in einem Zug Schachmatt ist (Weisser Springer von g4 nach h6)
@@ -79,7 +79,6 @@ public class TestingChess {
             
             givenSituation.put(Field.getFieldNumber("h8"), ChessfigureConstants.makeFigureByte(ChessfigureConstants.BLACK, ChessfigureConstants.KING, true));
             */
-            
             
             /*
             Field field = Field.getInstance();
