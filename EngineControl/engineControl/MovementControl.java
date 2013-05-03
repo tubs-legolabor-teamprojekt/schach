@@ -282,8 +282,8 @@ public class MovementControl {
         columnTo = columnTo*10+1;
         
         try {
-            System.out.println("Warte 5 Sekunden vor dem Senden...");
-            Thread.sleep(5000);            
+            //System.out.println("Warte 1 Sekunden vor dem Senden...");
+            Thread.sleep(1000);            
         } catch (InterruptedException e) {
            System.out.println("Thread_Sleep wurde unterbrochen");
         }
